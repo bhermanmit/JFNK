@@ -3,6 +3,9 @@
 \begin_document
 \begin_header
 \textclass amsart
+\begin_preamble
+\usepackage{algorithmic}
+\end_preamble
 \use_default_options true
 \begin_modules
 theorems-ams
@@ -66,7 +69,7 @@ figs-within-sections
 \begin_body
 
 \begin_layout Title
-Jacobian-Free Newton Krylov Methods for Solving Coupled Physics
+Jacobian-Free Newton-Krylov Methods for Solving Coupled Physics
 \end_layout
 
 \begin_layout Author
@@ -77,74 +80,1602 @@ Bryan Herman
 Objective
 \end_layout
 
-\begin_layout Standard
-The objective of this project is to research JFNK methods and apply them
- to a simple system for solving coupled physics.
- 
-\end_layout
-
 \begin_layout Section
 Introduction
 \end_layout
 
+\begin_layout Section
+Krylov Methods
+\end_layout
+
 \begin_layout Standard
-A good review paper has been created by Idaho National Laboratory on using
- JFNK methods 
+In Krylov methods just like other direct and iterative numerical schemes,
+ the goal is to solve 
+\begin_inset Formula $\mathbf{A}x=b$
+\end_inset
+
+.
+ Krylov methods fall into the category of iterative projection methods.
+ In projection methods, an approximate solution to the vector 
+\begin_inset Formula $x$
+\end_inset
+
+, denoted as 
+\begin_inset Formula $\hat{x}$
+\end_inset
+
+ is determined from a projection of the system onto some subspace.
+ In Krylov methods, a Krylov subspace, 
+\begin_inset Formula $\mathcal{K}_{n}$
+\end_inset
+
+ , has the form
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathcal{K}_{n}\left(A,v\right)=\mathrm{span}\left\{ v,\mathbf{A}v,\mathbf{A}^{2}v,...,\mathbf{A}^{n-1}v\right\} ,
+\end{equation}
+
+\end_inset
+
+ where 
+\begin_inset Formula $n$
+\end_inset
+
+ is a dimension of the subspace which is 
+\begin_inset Formula $m\times n$
+\end_inset
+
+, 
+\begin_inset Formula $A$
+\end_inset
+
+ is an 
+\begin_inset Formula $m\times m$
+\end_inset
+
+ matrix and 
+\begin_inset Formula $v$
+\end_inset
+
+ is a vector of length 
+\begin_inset Formula $m$
+\end_inset
+
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "Knoll2004"
+key "Saad2003"
 
 \end_inset
 
 .
- This document introduces the fundamentals of the JFNK method including
- Newton methods, Krylov methods, Jacobian-free Newton Krylov methods.
- The JFNK method is unique because the Jacobian does not need to be formed
- since it is always in a matrix-vector product.
- This matrix-vector product is instead approximated.
+ Here, the vectors 
+\begin_inset Formula $v$
+\end_inset
+
+, 
+\begin_inset Formula $Av...$
+\end_inset
+
+ form a basis of 
+\begin_inset Formula $\mathcal{K}_{m}$
+\end_inset
+
+.
+ Arnoldi's method allows for a general non-Hermitian matrix to be orthogonally
+ projected onto 
+\begin_inset Formula $\mathcal{K}_{n}$
+\end_inset
+
+.
+ According to Saad, this procedure was introduced as a means of reducing
+ dense matrices into Hesssenberg form.
+ The power of the Arnoldi Iteration is that with a small number of steps
+ to create a Hessenberg matrix, the eigenvalues of this matrix approximate
+ the eigenvalues of the original matrix.
+ This is very important and powerful for large sparse linear systems of
+ equations.
+\end_layout
+
+\begin_layout Subsection
+Arnoldi Iteration
+\end_layout
+
+\begin_layout Standard
+The Arnoldi process is a way to transform a matrix to Hessenberg form.
+ Trefethen's notation will be used in defining the Arnold iteration 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Trefethen1997"
+
+\end_inset
+
+.
+ This can be represented as 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{AQ=QH}.\label{eq:Arnoldi1}
+\end{equation}
+
+\end_inset
+
+Here, 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ is the coefficient matrix, 
+\begin_inset Formula $\mathbf{Q}$
+\end_inset
+
+ is unitary and 
+\begin_inset Formula $\mathbf{H}$
+\end_inset
+
+ is a matrix in Hessenberg form.
+ A Hessenberg matrix that is 
+\begin_inset Formula $n\times n$
+\end_inset
+
+ has the form,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{H}=\left[\begin{array}{cccc}
+h_{11} &  & \cdots & h_{1n}\\
+h_{21} & h_{22}\\
+ & \ddots & \ddots & \vdots\\
+ &  & h_{n,n-1} & h_{n,n}
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+Since the matrix 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ may be very large and so a full reduction to Hessenberg may not be feasible.
+ Rather, the first 
+\begin_inset Formula $n$
+\end_inset
+
+ columns are considered so that 
+\begin_inset Formula $\mathbf{Q}_{n}$
+\end_inset
+
+ is a 
+\begin_inset Formula $m\times n$
+\end_inset
+
+ matrix which contains the first 
+\begin_inset Formula $n$
+\end_inset
+
+ columns of 
+\begin_inset Formula $\mathbf{Q}$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{Q}_{n}=\left[q_{1},q_{2}...,q_{n}\right].
+\end{equation}
+
+\end_inset
+
+To set up the iteration Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Arnoldi1"
+
+\end_inset
+
+ becomes 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{AQ}_{n}=\mathbf{Q}_{n+1}\mathbf{\widetilde{H}}_{n}.\label{eq:Arnoldi2}
+\end{equation}
+
+\end_inset
+
+ In Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Arnoldi2"
+
+\end_inset
+
+ 
+\begin_inset Formula $\mathbf{\widetilde{H}}_{n}$
+\end_inset
+
+ is a 
+\begin_inset Formula $\left(n+1\right)\times n$
+\end_inset
+
+ upper-left section of 
+\begin_inset Formula $\mathbf{H}$
+\end_inset
+
+ and also of Hessenberg form,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mathbf{\widetilde{H}}_{n}=\left[\begin{array}{cccc}
+h_{11} &  & \cdots & h_{1n}\\
+h_{21} & h_{22}\\
+ & \ddots & \ddots & \vdots\\
+ &  & h_{n,n-1} & h_{n,n}\\
+ &  &  & h_{n+1,n}
+\end{array}\right].
+\]
+
+\end_inset
+
+ If the 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+is applied to the 
+\begin_inset Formula $n$
+\end_inset
+
+-th column of 
+\begin_inset Formula $\mathbf{Q}_{n}$
+\end_inset
+
+ in Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Arnoldi2"
+
+\end_inset
+
+, the following formula can be derived:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{A}q_{n}=h_{1n}q_{1}+\cdots+h_{n,n}q_{n}+h_{n+1,n}q_{n+1}.
+\end{equation}
+
+\end_inset
+
+ Thus, the next column of 
+\begin_inset Formula $\mathbf{Q}$
+\end_inset
+
+ can be determined with 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+v=\mathbf{A}q_{n}-\left(h_{1n}q_{1}+\cdots+h_{n,n}q_{n}\right)\label{eq:Arnoldi3}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+q_{n+1}=v/h_{n+1,n},
+\end{equation}
+
+\end_inset
+
+ where 
+\begin_inset Formula $v$
+\end_inset
+
+ is just a temporary vector.
+ In order to ensure 
+\begin_inset Formula $q_{n+1}$
+\end_inset
+
+ is orthonormal, 
+\begin_inset Formula $h_{n+1,n}=\left\Vert v\right\Vert .$
+\end_inset
+
+ In this paper, 
+\begin_inset Formula $\left\Vert \cdot\right\Vert $
+\end_inset
+
+will indicate a 2-norm.
+ The Arnoldi iteration is presented in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Arnoldi"
+
+\end_inset
+
+.
+ Since the Arnoldi iteration is used for eigenvalue calculations as well,
+ 
+\begin_inset Formula $b$
+\end_inset
+
+ will be considered an arbitrary vector.
+\begin_inset Float algorithm
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Arnoldi Iteration 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Saad1986,Trefethen1997"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{algorithmic}[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $b = $arbitrary, $q_{1}=b/
+\backslash
+left
+\backslash
+Vert b 
+\backslash
+right
+\backslash
+Vert$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+FOR{$n=1,2,3,...$}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $v = 
+\backslash
+mathbf{A}q_{n}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+FOR{$j=1..n$}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE $h_{jn} = q^{*}_{j}v$
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE $v = v - h_{jn}q_{j}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $h_{n+1,n} = 
+\backslash
+left
+\backslash
+Vert v 
+\backslash
+right
+\backslash
+Vert$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $q_{n+1} = v/h_{n+1,n}$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{algorithmic}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Arnoldi"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+Lines 5 and 6 of Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Arnoldi"
+
+\end_inset
+
+ perform the operations in Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Arnoldi3"
+
+\end_inset
+
+.
+ Also in the algorithm on line 2, the loop can go for an arbitrary number
+ of iterations.
+ This parameter is specified by the user and is problem specific.
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Do we want to include an example?
+\end_layout
+
+\end_inset
+
+ Therefore, with each Arnoldi iteration a projections are made onto successive
+ Krylov subspaces.
+\end_layout
+
+\begin_layout Subsection
+Generalized Minimal RESidual method (GMRES) 
+\end_layout
+
+\begin_layout Standard
+The Arnoldi iteration that was presented in the previous section is used
+ to find the eigenvalues of a system.
+ GMRES on the other hand can be used to solve 
+\begin_inset Formula $\mathbf{A}x=b.$
+\end_inset
+
+ According to Trefethen the idea behind GMRES is that at iteration step
+ 
+\begin_inset Formula $n$
+\end_inset
+
+, 
+\begin_inset Formula $x$
+\end_inset
+
+ is approximated with 
+\begin_inset Formula $x_{n}\in\mathcal{K}_{n}$
+\end_inset
+
+ that minimizes the norm of residual 
+\begin_inset Formula $r_{n}=b-\mathbf{A}x_{n}$
+\end_inset
+
+.
+ Therefore, 
+\begin_inset Formula $x_{n}$
+\end_inset
+
+ is determined by solving a least squares problem.
+ To solve this the following Krylov matrix is constructed 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{A}\mathbf{K}_{n}=\left[\begin{array}{c|c|c|c}
+ &  & \\
+\mathbf{A}b & \mathbf{A}^{2}b & \cdots & \mathbf{A}^{n}b\\
+ &  & \\
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ The least squares problem then becomes 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left\Vert \mathbf{A}\mathbf{K}_{n}c-b\right\Vert =\mathrm{minimum},\label{eq:GMRES1}
+\end{equation}
+
+\end_inset
+
+ where 
+\begin_inset Formula $c$
+\end_inset
+
+ is determined such that the 2-norm of the residual is minimized.
+ It can be seen that 
+\begin_inset Formula $x_{n}=\mathbf{K}_{n}c$
+\end_inset
+
+.
+ Solving the least squares problem is discussed in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:LeastSq"
+
+\end_inset
+
+.
+ One method to solve this problem is to use QR factorization of 
+\begin_inset Formula $\mathbf{A}\mathbf{K}_{n}$
+\end_inset
+
+.
+ According to Trefethen, this approach is numerically unstable and also
+ generates a matrix 
+\begin_inset Formula $\mathbf{R}$
+\end_inset
+
+ which is not utilized.
+ Instead, the Arnoldi iteration from Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Arnoldi"
+
+\end_inset
+
+ is used to generate a sequence of Krylov matrices denoted by 
+\begin_inset Formula $\mathbf{Q}_{n}$
+\end_inset
+
+ whose columns span the Krylov subspace 
+\begin_inset Formula $\mathcal{K}_{n}$
+\end_inset
+
+.
+ Therefore, Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:GMRES1"
+
+\end_inset
+
+ can be rewritten as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left\Vert \mathbf{A}\mathbf{Q}_{n}y-b\right\Vert =\mathrm{minimum},\label{eq:GMRES2}
+\end{equation}
+
+\end_inset
+
+ so that 
+\begin_inset Formula $x_{n}=\mathbf{Q}_{n}y.$
+\end_inset
+
+ Equation 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Arnoldi2"
+
+\end_inset
+
+ can be used to rewrite Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:GMRES2"
+
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left\Vert \mathbf{Q}_{n+1}\mathbf{\widetilde{H}}_{n}y-b\right\Vert =\mathrm{minimum}.\label{eq:GMRES3}
+\end{equation}
+
+\end_inset
+
+ Since 
+\begin_inset Formula $\mathbf{Q}_{n+1}$
+\end_inset
+
+ is unitary and the vectors inside the norm are in the column space of this
+ matrix, Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:GMRES3"
+
+\end_inset
+
+ can be written equivalently as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left\Vert \mathbf{\widetilde{H}}_{n}y-\mathbf{Q}_{n+1}^{*}b\right\Vert =\mathrm{minimum}.
+\end{equation}
+
+\end_inset
+
+ where 
+\begin_inset Formula $\mathbf{Q}_{n+1}^{*}$
+\end_inset
+
+ is the conjugate transpose of 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\mathbf{Q}_{n+1}$
+\end_inset
+
+.
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ Another property of this expression is that 
+\begin_inset Formula $\mathbf{Q}_{n+1}^{*}b=\left\Vert b\right\Vert e_{1}$
+\end_inset
+
+ where 
+\begin_inset Formula $e_{1}=\left\langle 1,0,0...\right\rangle ^{*}.$
+\end_inset
+
+ Finally, the GMRES problem can be cast as 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left\Vert \mathbf{\widetilde{H}}_{n}y-\left\Vert b\right\Vert e_{1}\right\Vert =\mathrm{minimum}.
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+GMRES Algorithm
+\end_layout
+
+\begin_layout Standard
+The basic GMRES algorithm using the Arnoldi method is listed in Algorithm
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:GMRESbasic"
+
+\end_inset
+
+, where the least squares problem is listed as a high level command.
+ This algorithm has a slightly different form as it is casted is Saad's
+ notation rather than Trefethen's described above.
+ 
+\begin_inset Float algorithm
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Basic GMRES 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Saad1986"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{algorithmic}[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $r_{1} = b - 
+\backslash
+mathbf{A}x_{1}$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $q_{1}=r_{1}/
+\backslash
+left
+\backslash
+Vert r_{1} 
+\backslash
+right
+\backslash
+Vert$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+FOR{$n=1,2,3,...$}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $v = 
+\backslash
+mathbf{A}q_{n}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+FOR{$j=1..n$}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE $h_{jn} = q^{*}_{j}v$
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE $v = v - h_{jn}q_{j}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $h_{n+1,n} = 
+\backslash
+left
+\backslash
+Vert v 
+\backslash
+right
+\backslash
+Vert$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $q_{n+1} = v/h_{n+1,n}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE Find $y$ to minimize $
+\backslash
+left
+\backslash
+Vert 
+\backslash
+mathbf{
+\backslash
+widetilde{H}}_{n}y-
+\backslash
+beta e_{1}
+\backslash
+right
+\backslash
+Vert$ 
+\backslash
+COMMENT{where $
+\backslash
+beta = 
+\backslash
+left
+\backslash
+Vert r_{1} 
+\backslash
+right
+\backslash
+Vert$}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $x_{n}=
+\backslash
+mathbf{Q{_n}}y$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{algorithmic}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:GMRESbasic"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ The main difference is the form of the least squares problem to solve.
+ Saad defines the approximate solution of 
+\begin_inset Formula $x$
+\end_inset
+
+ with 
+\begin_inset Formula $x_{1}+z$
+\end_inset
+
+, where 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+ is some guess of the solution input to the algorithm.
+ The least squares problem is then cast into the form
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\min\left\Vert b-\mathbf{A}\left[x_{1}+z\right]\right\Vert =\min\left\Vert r_{1}-\mathbf{A}z\right\Vert 
+\end{equation}
+
+\end_inset
+
+ so that 
+\begin_inset Formula $z=\mathbf{Q}_{n}y$
+\end_inset
+
+.
+ Following the same procedure listed above for Trefethen's notation, the
+ least squares problem can be cast in the form,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\min\left\Vert \beta e_{1}-\mathbf{\widetilde{H}}_{n}y\right\Vert ,
+\end{equation}
+
+\end_inset
+
+ where 
+\begin_inset Formula $\beta=\left\Vert r_{1}\right\Vert .$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:LeastSq"
+
+\end_inset
+
+Solving the Least Squares Problem
+\end_layout
+
+\begin_layout Standard
+In linear algebra, a least squares problem must be solved if 
+\begin_inset Formula $\mathbf{A}x=b$
+\end_inset
+
+ is overdetermined 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Trefethen1997"
+
+\end_inset
+
+.
+ One of the methods to solve a least squares problem is QR factorization.
+ This QR factorization is performed using Gram-Schmidt or Householder triangular
+ization such that 
+\begin_inset Formula $\mathbf{A}=\mathbf{QR}$
+\end_inset
+
+.
+ To do this, the orthogonal projector 
+\begin_inset Formula $\mathbf{P}=\mathbf{Q}\mathbf{Q}^{*}$
+\end_inset
+
+is applied to 
+\begin_inset Formula $b$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+y=\mathbf{P}b=\mathbf{Q}\mathbf{Q^{*}}b.
+\end{equation}
+
+\end_inset
+
+ The system
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{A}x=y
+\end{equation}
+
+\end_inset
+
+ has an exact solution.
+ Substituting the QR factorization, 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{QR}x=\mathbf{QQ}^{*}b.
+\end{equation}
+
+\end_inset
+
+ Since 
+\begin_inset Formula $\mathbf{Q}^{*}A=R$
+\end_inset
+
+, left multiplication of 
+\begin_inset Formula $\mathbf{Q}^{*}$
+\end_inset
+
+ gives
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{R}x=\mathbf{Q}^{*}b.\label{eq:Least1}
+\end{equation}
+
+\end_inset
+
+ The left hand side is now an upper triangular matrix and can be solved
+ via back substitution.
+ As one can see, since the matrix 
+\begin_inset Formula $\mathbf{Q}$
+\end_inset
+
+ is obtained from the Arnoldi iteration, an extra matrix 
+\begin_inset Formula $\mathbf{R}$
+\end_inset
+
+ is also needed for this method of solving the least squares problem.
+ In the GMRES problem, 
+\begin_inset Formula $\mathbf{\widetilde{H}}_{n}$
+\end_inset
+
+ is actually the coefficient matrix 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ shown above with 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\beta e_{1}$
+\end_inset
+
+ as 
+\begin_inset Formula $b$
+\end_inset
+
+.
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ A practical implementation of solving the least squares problem is to factor
+ 
+\begin_inset Formula $\mathbf{\widetilde{H}}_{n}$
+\end_inset
+
+ into 
+\begin_inset Formula $\mathbf{Q}_{n}\mathbf{R}_{n}$
+\end_inset
+
+ using plane rotations (Givens rotation) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Saad1986"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Introduction to Givens Rotation
+\end_layout
+
+\begin_layout Standard
+It is desirable to not have to perform QR factorization at every iteration
+ of GMRES.
+ Because of the special structure of 
+\begin_inset Formula $\mathbf{\widetilde{H}}_{n}$
+\end_inset
+
+, it can be progressively updated at each iteration.
+ Before discussing how to formulate the GMRES algorithm with Givens rotation
+ to perform this task, a general discussion about this method will be discussed.
  
 \end_layout
 
 \begin_layout Standard
-The neutronics equations to be solved are 
+In general, QR factorizations can be computed with successive Givens rotations.
+ With each rotation an element of a matrix that is subdiagonal is zeroed
+ out.
+ The final matrix is the upper triangular matrix 
+\begin_inset Formula $\mathbf{R}$
+\end_inset
+
+ while the matrix 
+\begin_inset Formula $\mathbf{Q}$
+\end_inset
+
+ is given by multiplying all of the rotation matrices together.
+ In general a rotation matrix is given by 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{G}=\left[\begin{array}{ccccccc}
+1 & \cdots & 0 & \cdots & 0 & \cdots & 0\\
+\vdots & \ddots & \vdots &  & \vdots & \iddots & \vdots\\
+0 & \cdots & c & \cdots & -s & \cdots & 0\\
+\vdots &  & \vdots & \ddots & \vdots &  & \vdots\\
+0 & \vdots & s & \cdots & c & \cdots & 0\\
+\vdots & \iddots & \vdots &  & \vdots & \ddots & \vdots\\
+0 & \cdots & 0 & \cdots & 0 & \cdots & 1
+\end{array}\right],
+\end{equation}
+
+\end_inset
+
+ where 
+\begin_inset Formula $c=\cos\left(\theta\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $s=\sin\left(\theta\right)$
+\end_inset
+
+.
+ For example, consider the following coefficient matrix
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{A}=\left[\begin{array}{ccc}
+6 & 5 & 0\\
+5 & 1 & 4\\
+0 & 4 & 3
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ Using MATLAB, 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ has the following QR factorization,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{Q}=\left[\begin{array}{ccc}
+-0.7682 & 0.03327 & -0.5470\\
+-0.6402 & -0.3992 & 0.6564\\
+0 & 0.8544 & 0.5196
+\end{array}\right]
+\end{equation}
+
+\end_inset
+
+ and
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{R}=\left[\begin{array}{ccc}
+-7.8102 & -4.4813 & -2.5607\\
+0 & 4.6817 & 0.9664\\
+0 & 0 & 4.1843
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ Looking at the matrix 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ in order to triangularize it, the element (2,1) and (3,2) must be eliminated.
+ Taking element (2,1) to be rotated first, the following rotation matrix
+ is constructed 
+\end_layout
+
+\begin_layout Standard
+,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{G}=\left[\begin{array}{ccc}
+c & -s & 0\\
+s & c & 0\\
+0 & 0 & 1
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+Therefore, in order to compute the appropriate 
+\begin_inset Formula $c$
+\end_inset
+
+ and 
+\begin_inset Formula $s$
+\end_inset
+
+ values, the following system of equations is solved
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left[\begin{array}{cc}
+c & -s\\
+s & c
+\end{array}\right]\left[\begin{array}{c}
+a_{11}\\
+a_{21}
+\end{array}\right]=\left[\begin{array}{c}
+r\\
+0
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ In this problem, it is known that a zero needs to be replaced in the target
+ element.
+ Here it is element 
+\begin_inset Formula $a_{21}=5.$
+\end_inset
+
+ In addition to the above equation it is also known that 
+\begin_inset Formula $c^{2}+s^{2}=1$
+\end_inset
+
+ as explained above in the definition of the rotation matrix.
+ Combining the following formulas:
+\begin_inset Formula 
+\begin{equation}
+ca_{11}-sa_{21}=r,
+\end{equation}
+
+\end_inset
+
+ 
+\begin_inset Formula 
+\begin{equation}
+sa_{11}+ca_{21}=0
+\end{equation}
+
+\end_inset
+
+ and 
+\begin_inset Formula 
+\begin{equation}
+c^{2}+s^{2}=1,
+\end{equation}
+
+\end_inset
+
+ gives us and expression for 
+\begin_inset Formula $r$
+\end_inset
+
+, 
+\begin_inset Formula $c$
+\end_inset
+
+ and 
+\begin_inset Formula $s$
+\end_inset
+
+ in terms of 
+\begin_inset Formula $a_{11}$
+\end_inset
+
+ and 
+\begin_inset Formula $a_{21}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+r^{2}=a_{11}^{2}+a_{21}^{2},
+\end{equation}
+
+\end_inset
+
+ 
+\begin_inset Formula 
+\begin{equation}
+c=\frac{a_{11}}{\sqrt{a_{11}^{2}+a_{21}^{2}}},
+\end{equation}
+
+\end_inset
+
+ and 
+\begin_inset Formula 
+\begin{equation}
+s=-\frac{a_{21}}{\sqrt{a_{11}^{2}+a_{21}^{2}}}.
+\end{equation}
+
+\end_inset
+
+ The parameters 
+\begin_inset Formula $r$
+\end_inset
+
+, 
+\begin_inset Formula $c$
+\end_inset
+
+ and 
+\begin_inset Formula $s$
+\end_inset
+
+ are computed for this example as 
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\frac{1}{\upsilon}\frac{\partial\phi}{\partial t}-D\left(x\right)\frac{\partial^{2}\phi}{\partial x^{2}}+\Sigma_{a}\left(x,t\right)\phi\left(x,t\right)=\left(1-\beta\right)\nu\Sigma_{f}\left(x,t\right)\phi\left(x,t\right)+\lambda C\left(x,t\right)
+r=7.8102,
 \]
 
 \end_inset
 
+ 
+\begin_inset Formula 
+\[
+c=0.7682,
+\]
 
+\end_inset
+
+ and 
+\begin_inset Formula 
+\[
+s=-0.6402.
+\]
+
+\end_inset
+
+ Apply the rotation matrix 
+\begin_inset Formula $\mathbf{G}$
+\end_inset
+
+, with 
+\begin_inset Formula $c$
+\end_inset
+
+ and 
+\begin_inset Formula $s$
+\end_inset
+
+ now computed, to the coefficient matrix 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+, it becomes
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
-\[
-\frac{\partial C}{\partial t}=-\lambda C\left(x,t\right)+\beta\nu\Sigma_{f}\left(x,t\right)\phi\left(x,t\right).
-\]
+\begin{equation}
+\mathbf{A}^{\prime}=\mathbf{GA}=\left[\begin{array}{ccc}
+7.8102 & 4.4813 & 2.5607\\
+0 & -2.4327 & 3.0729\\
+0 & 4 & 3
+\end{array}\right].
+\end{equation}
 
 \end_inset
 
-
+A few observations can be made.
+ First the rotation matrix affects only the two rows it is applied to and
+ it affects all columns in those row.
+ The third row in this case was untouched.
+ The next rotation matrix will be used to eliminate element (3,2).
+ Therefore using that element and element (2,2), the rotation matrix will
+ be of the form
 \end_layout
 
 \begin_layout Standard
-Explain equations
+\begin_inset Formula 
+\begin{equation}
+\mathbf{G}^{\prime}=\left[\begin{array}{ccc}
+1 & 0 & 0\\
+0 & c & -s\\
+0 & s & c
+\end{array}\right]
+\end{equation}
+
+\end_inset
+
+ where 
+\begin_inset Formula $r=4.6817$
+\end_inset
+
+, 
+\begin_inset Formula $c=-0.5196$
+\end_inset
+
+ and 
+\begin_inset Formula $s=-0.8544$
+\end_inset
+
+.
+ Applying the rotation matrix to 
+\begin_inset Formula $\mathbf{A}^{\prime}$
+\end_inset
+
+ it becomes
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{A}^{\prime\prime}=\mathbf{G}^{\prime}\mathbf{A}^{\prime}=\left[\begin{array}{ccc}
+7.8102 & 4.4813 & 2.5607\\
+0 & 4.6817 & 0.9664\\
+0 & 0 & -4.1843
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ At this point the QR factorization is complete where 
+\begin_inset Formula $\mathbf{R}=\mathbf{A}^{\prime\prime}$
+\end_inset
+
+ and 
+\begin_inset Formula 
+\begin{equation}
+\mathbf{Q}=\mathbf{G}^{*}\mathbf{G}^{\prime*}=\left[\begin{array}{ccc}
+0.7682 & 0.3327 & 0.5470\\
+0.6402 & -0.3992 & -0.6564\\
+0 & 0.8544 & -0.5196
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ As can be observed, the matrices yield the same results (except for negatives)
+ as using the QR factorization routine in MATLAB directly.
+ Thus, successful QR factorization has been shown using a series of Givens
+ rotation matrices.
+ Note that in the least squares problem explained in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:LeastSq"
+
+\end_inset
+
+, the conjugate transpose of 
+\begin_inset Formula $\mathbf{Q}$
+\end_inset
+
+ must be applied to the right hand side vector (see Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Least1"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Subsubsection
+Implementation of Givens Rotation in GMRES
+\end_layout
+
+\begin_layout Subsubsection
+Preconditioned GMRES
 \end_layout
 
 \begin_layout Section
-Newton Methods
-\end_layout
-
-\begin_layout Section
-GMRES Krylov Solver
-\end_layout
-
-\begin_layout Section
-Jacobian-free Approximation
+The Jacobian-Free Approximation
 \end_layout
 
 \begin_layout Section
@@ -158,7 +1689,7 @@ Globalization
 \begin_layout Standard
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
-bibfiles "D:/Documents/Fall2011/2.29/Project/Prospectus/prospectus"
+bibfiles "refs"
 options "plain"
 
 \end_inset
