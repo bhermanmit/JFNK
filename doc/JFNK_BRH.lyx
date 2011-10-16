@@ -1607,6 +1607,13 @@ In general, QR factorizations can be computed with successive Givens rotations.
 \begin_inset Formula $s=\sin\left(\theta\right)$
 \end_inset
 
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Planet2011"
+
+\end_inset
+
 .
  For example, consider the following coefficient matrix
 \end_layout
