@@ -829,7 +829,23 @@ reference "eq:GMRES3"
 
 \end_inset
 
+ After the residual norm is below a certain value, the solution can be found
+ with 
+\end_layout
 
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+x=x_{0}+\mathbf{Q}_{n}y
+\end{equation}
+
+\end_inset
+
+ where here 
+\begin_inset Formula $\mathbf{Q}_{n}$
+\end_inset
+
+ is the Krylov matrix determined from the Arnoldi iteration.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1084,13 +1100,280 @@ name "alg:GMRESbasic"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\min\left\Vert \beta e_{1}-\mathbf{\widetilde{H}}_{n}y\right\Vert ,
+\min\left\Vert \beta e_{1}-\mathbf{\widetilde{H}}_{n}y\right\Vert ,\label{eq:Least2}
 \end{equation}
 
 \end_inset
 
  where 
 \begin_inset Formula $\beta=\left\Vert r_{1}\right\Vert .$
+\end_inset
+
+ The basic GMRES algorithm has also been extended to incorporate a restart
+ feature.
+ This feature is straightforward and presented in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:GMRESrestart"
+
+\end_inset
+
+.
+ 
+\begin_inset Float algorithm
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+GMRES w/ Restart 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Saad1986"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{algorithmic}[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+FOR{$k=1..max$}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $r = b - 
+\backslash
+mathbf{A}x$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $
+\backslash
+beta = 
+\backslash
+left
+\backslash
+Vert r 
+\backslash
+right
+\backslash
+Vert$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+IF{$
+\backslash
+beta < tol$}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE leave loop
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+ENDIF
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $q=r/
+\backslash
+beta$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+FOR{$n=1...res$}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE $v = 
+\backslash
+mathbf{A}q_{n}$
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+FOR{$j=1..n$}
+\end_layout
+
+\begin_layout Plain Layout
+
+			
+\backslash
+STATE $h_{jn} = q^{*}_{j}v$
+\end_layout
+
+\begin_layout Plain Layout
+
+			
+\backslash
+STATE $v = v - h_{jn}q_{j}$
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE $h_{n+1,n} = 
+\backslash
+left
+\backslash
+Vert v 
+\backslash
+right
+\backslash
+Vert$
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE $q_{n+1} = v/h_{n+1,n}$
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE Find $y$ to minimize $
+\backslash
+left
+\backslash
+Vert 
+\backslash
+mathbf{
+\backslash
+widetilde{H}}_{n}y-
+\backslash
+beta e_{1}
+\backslash
+right
+\backslash
+Vert$ 
+\backslash
+COMMENT{where $
+\backslash
+beta = 
+\backslash
+left
+\backslash
+Vert r_{1} 
+\backslash
+right
+\backslash
+Vert$}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $x_{n}=
+\backslash
+mathbf{Q{_n}}y$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{algorithmic}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:GMRESrestart"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+talk about restart tradeoffs
+\end_layout
+
 \end_inset
 
 
@@ -1126,6 +1409,15 @@ ization such that
 \end_inset
 
 .
+ Note that this 
+\begin_inset Formula $\mathbf{Q}$
+\end_inset
+
+ is not the same as the matrix 
+\begin_inset Formula $\mathbf{Q}$
+\end_inset
+
+ from the Arnoldi iteration that is in some Krylov subspace.
  To do this, the orthogonal projector 
 \begin_inset Formula $\mathbf{P}=\mathbf{Q}\mathbf{Q}^{*}$
 \end_inset
@@ -1635,7 +1927,7 @@ A few observations can be made.
 0.7682 & 0.3327 & 0.5470\\
 0.6402 & -0.3992 & -0.6564\\
 0 & 0.8544 & -0.5196
-\end{array}\right].
+\end{array}\right].\label{eq:Givens1}
 \end{equation}
 
 \end_inset
@@ -1664,10 +1956,1193 @@ reference "eq:Least1"
 \end_inset
 
 ).
+ Therefore, only product of the rotation matrices are needed and not the
+ product of their conjugate tranposes.
 \end_layout
 
 \begin_layout Subsubsection
 Implementation of Givens Rotation in GMRES
+\end_layout
+
+\begin_layout Standard
+Recall the least squares problem from Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "sub:LeastSq"
+
+\end_inset
+
+.
+ A matrix 
+\begin_inset Formula $\mathbf{Q}_{n}$
+\end_inset
+
+ with dimensions 
+\begin_inset Formula $\left(n+1\right)\times\left(n+1\right)$
+\end_inset
+
+ can be defined such that it is the accumulated product of rotation matrices
+ 
+\begin_inset Formula $\left(\mathbf{Q}_{2}=\mathbf{G}_{2}\mathbf{G}_{1}\right)$
+\end_inset
+
+.
+ Since this matrix is unitary, 
+\begin_inset Formula 
+\begin{equation}
+\min\left\Vert \beta e_{1}-\mathbf{\widetilde{H}}_{n}y\right\Vert =\min\left\Vert \mathbf{Q}_{n}\left[\beta e_{1}-\mathbf{\widetilde{H}}_{n}y\right]\right\Vert =\min\left\Vert g_{n}-\mathbf{R}_{n}y\right\Vert \label{eq:GMRESgiven1}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $g_{n}\equiv\mathbf{Q}_{n}\beta e_{1}$
+\end_inset
+
+.
+ The QR factorization is for the Hessenberg matrix 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\mathbf{\widetilde{H}}_{n}\in\mathbb{C}^{\left(n+1\right)\times n}$
+\end_inset
+
+ is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{\widetilde{H}}_{n}=\mathbf{Q}_{n}^{\prime}\mathbf{R}_{n}.\label{eq:GMRESgiven2}
+\end{equation}
+
+\end_inset
+
+A prime is used to not confuse with the definition of 
+\begin_inset Formula $\mathbf{Q}_{n}$
+\end_inset
+
+ listed above.
+ Left multiplying by the conjugate transpose of 
+\begin_inset Formula $\mathbf{Q}_{n}^{\prime}$
+\end_inset
+
+ this equation becomes,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{Q}_{n}^{\prime*}\mathbf{\widetilde{H}}_{n}=\mathbf{R}_{n}.
+\end{equation}
+
+\end_inset
+
+ As explained after Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Givens1"
+
+\end_inset
+
+, the conjugate transpose of 
+\begin_inset Formula $\mathbf{Q}_{n}^{\prime}$
+\end_inset
+
+ in the QR factorization is the accumulated product of rotation matrices,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{Q}_{n}^{\prime*}=\mathbf{G}_{1}\times\mathbf{G}_{2}\times...
+\end{equation}
+
+\end_inset
+
+ Thus,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{Q}_{n}=\mathbf{Q}_{n}^{\prime*}.
+\end{equation}
+
+\end_inset
+
+ Therefore, Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:GMRESgiven2"
+
+\end_inset
+
+ can be applied to Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:GMRESgiven1"
+
+\end_inset
+
+ so that 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\mathbf{R}_{n}=\mathbf{Q}_{n}\mathbf{\widetilde{H}}_{n}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+To summarize the above explanation, the least squares problem that is being
+ solved is 
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\begin{equation}
+\min\left\Vert g_{n}-\mathbf{R}_{n}y\right\Vert ,
+\end{equation}
+
+\end_inset
+
+ where 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+
+\begin_inset Formula $g_{n}=\mathbf{Q}_{n}\beta e_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{R}_{n}=\mathbf{Q}_{n}\mathbf{\widetilde{H}}_{n}$
+\end_inset
+
+.
+ It can be seen that the accumulated product of Givens rotation matrices
+ must be applied at each step to 
+\begin_inset Formula $\beta e_{1}$
+\end_inset
+
+ and the Hessenberg matrix 
+\begin_inset Formula $\mathbf{\widetilde{H}}_{n}$
+\end_inset
+
+.
+ It would seem then at every step 
+\begin_inset Formula $n$
+\end_inset
+
+, one would need to compute a new Givens rotation matrix, apply it the accumulat
+ed 
+\begin_inset Formula $\mathbf{Q}_{n}$
+\end_inset
+
+ matrix and apply that new matrix to 
+\begin_inset Formula $\beta e_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{\widetilde{H}}_{n}$
+\end_inset
+
+ to compute 
+\begin_inset Formula $g_{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{R}_{n}$
+\end_inset
+
+.
+ Due to the structure of 
+\begin_inset Formula $\beta e_{1}$
+\end_inset
+
+, 
+\begin_inset Formula $\mathbf{\widetilde{H}}_{n}$
+\end_inset
+
+ and the Givens rotation matrix, this process can be simplified.
+ After the first Arnoldi step in the GMRES algorithm, 
+\begin_inset Formula $\beta e_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{\widetilde{H}}_{n}$
+\end_inset
+
+ are 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\beta e_{1}=\left[\begin{array}{c}
+\beta\\
+0
+\end{array}\right]\qquad\mathbf{\widetilde{H}}_{1}=\left[\begin{array}{c}
+h_{11}\\
+h_{21}
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ After a Givens rotation,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{G}_{1}=\left[\begin{array}{cc}
+c_{1} & -s_{1}\\
+s_{2} & c_{2}
+\end{array}\right],
+\end{equation}
+
+\end_inset
+
+ 
+\begin_inset Formula $g$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{R}_{n}$
+\end_inset
+
+ are
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+g^{\left(1\right)}=\left[\begin{array}{c}
+g_{1}\\
+g_{2}
+\end{array}\right]\qquad\mathbf{R}_{n}=\left[\begin{array}{c}
+r_{11}\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ On the next iteration, 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\beta e_{1}=\left[\begin{array}{c}
+\beta\\
+0\\
+0
+\end{array}\right]\qquad\mathbf{\widetilde{H}}_{2}=\left[\begin{array}{cc}
+h_{11} & h_{12}\\
+h_{21} & h_{22}\\
+ & h_{23}
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ After two Givens, the first with 
+\begin_inset Formula 
+\begin{equation}
+\mathbf{G}_{1}=\left[\begin{array}{ccc}
+c_{1} & -s_{1} & 0\\
+s_{1} & c_{1} & 0\\
+0 & 0 & 1
+\end{array}\right]
+\end{equation}
+
+\end_inset
+
+ and the second
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{G}_{2}=\left[\begin{array}{ccc}
+1 & 0 & 0\\
+0 & c_{1} & -s_{1}\\
+0 & s_{1} & c_{1}
+\end{array}\right],
+\end{equation}
+
+\end_inset
+
+ 
+\begin_inset Formula $g$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{R}_{n}$
+\end_inset
+
+ are 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+g^{\left(2\right)}=\left[\begin{array}{c}
+g_{1}\\
+g_{2}^{\prime}\\
+g_{3}
+\end{array}\right]\qquad\mathbf{R}_{n}=\left[\begin{array}{cc}
+r_{11} & r_{12}\\
+0 & r_{22}
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ What is interesting to observe is that by doing this, the Given rotation
+ applied in the previous iteration is performed again such that 
+\begin_inset Formula $g_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $r_{11}$
+\end_inset
+
+ are the same as before.
+ This is because the Hessenberg matrix is all zeros below the first subdiagonal
+ such that future Givens rotations will not affect that column.
+ The same answer could have been calculated with 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+g^{\left(2\right)}=\mathbf{G}_{2}g^{\left(1\right)}=\left[\begin{array}{ccc}
+1 & 0 & 0\\
+0 & c_{1} & -s_{1}\\
+0 & s_{1} & c_{1}
+\end{array}\right]\left[\begin{array}{c}
+g_{1}\\
+g_{2}\\
+0
+\end{array}\right]
+\end{equation}
+
+\end_inset
+
+ and 
+\begin_inset Formula 
+\begin{equation}
+\mathbf{R}_{2}^{\left\langle 2\right\rangle }=\mathbf{G}_{2}\mathbf{G}_{1}\mathbf{\widetilde{H}}_{2}^{\left\langle 2\right\rangle }.
+\end{equation}
+
+\end_inset
+
+ where 
+\begin_inset Formula $\left\langle \cdot\right\rangle $
+\end_inset
+
+ denotes a column.
+ Thus a recursive relationship can be found for an arbitrary step 
+\begin_inset Formula $n$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+g^{\left(n\right)}=\mathbf{G}_{n}g^{\left(n-1\right)}
+\end{equation}
+
+\end_inset
+
+ and
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{R}_{n}^{\left\langle n\right\rangle }=\prod_{i=1}^{n}\mathbf{G}_{n}\mathbf{\widetilde{H}}_{n}^{\left\langle n\right\rangle }.\label{eq:GMRESgivens3}
+\end{equation}
+
+\end_inset
+
+ This recursive procedure simplifies computations from 
+\begin_inset Formula $O\left(n^{2}\right)$
+\end_inset
+
+ to 
+\begin_inset Formula $O\left(n\right)$
+\end_inset
+
+ since the rotations do not have to be applied to the whole matrix again.
+ Since only two operations need to performed when a Givens rotation is applied,
+ simple computations are performed on individual elements instead of the
+ entire matrix.
+ To save on memory, it can be seen from Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:GMRESgivens3"
+
+\end_inset
+
+ that the matrix 
+\begin_inset Formula $\mathbf{R}_{n}$
+\end_inset
+
+ only depends on column 
+\begin_inset Formula $n$
+\end_inset
+
+ of the Hessenberg matrix.
+ Looking at Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:GMRESbasic"
+
+\end_inset
+
+, column 
+\begin_inset Formula $n$
+\end_inset
+
+ of the Hessenberg matrix does not depend directly on any elements from
+ the previous column.
+ Therefore, the new column of the matrix 
+\begin_inset Formula $\mathbf{R}_{n}$
+\end_inset
+
+ computed from Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:GMRESgivens3"
+
+\end_inset
+
+ can be stored back into the 
+\begin_inset Formula $n$
+\end_inset
+
+-th column of 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\mathbf{\widetilde{H}}_{n}$
+\end_inset
+
+.
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ Therefore the expression can be rewritten as 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{\widetilde{H}}_{n}^{\left\langle n\right\rangle }=\prod_{i=1}^{n}\mathbf{G}_{n}\mathbf{\widetilde{H}}_{n}^{\left\langle n\right\rangle }.\label{eq:GMRESgivens4}
+\end{equation}
+
+\end_inset
+
+This algorithm is presented in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Givens"
+
+\end_inset
+
+.
+ 
+\begin_inset Float algorithm
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Givens Rotation 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Saad1986"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{algorithmic}[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+REQUIRE For step $n$:: $c
+\backslash
+left (1:n-1 
+\backslash
+right )$, $s
+\backslash
+left (1:n-1 
+\backslash
+right )$, $
+\backslash
+mathbf{
+\backslash
+widetilde{H}}_{n}$, and $g 
+\backslash
+left ( 1:n-1 
+\backslash
+right )$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+FOR{$i = 1..n-1$} 
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $a = c_{i}h_{in} - s_{i}h_{i+1,n}$  
+\backslash
+COMMENT {apply previous Givens rotations}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $b = s_{i}h_{in} + c_{i}h_{i+1,n}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $h_{in} 
+\backslash
+leftarrow a$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $h_{i+1,n} 
+\backslash
+leftarrow b$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $c_{n} = 
+\backslash
+frac{h_{nn}}{
+\backslash
+sqrt{h_{nn}^2 + h_{n+1,n}^2}}$ 
+\backslash
+COMMENT {calculate new rotation parameters}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $s_{n} = 
+\backslash
+frac{-h_{n+1,n}}{
+\backslash
+sqrt{h_{nn}^2 + h_{n+1,n}^2}}$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $a = c_{n}h_{nn} - s_{n}h_{n+1,n}$  
+\backslash
+COMMENT {apply current Givens rotations}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $b = s_{n}h_{nn} + c_{n}h_{n+1,n}$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $h_{nn} 
+\backslash
+leftarrow a$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $h_{n+1,n} 
+\backslash
+leftarrow b$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $a = c_{n}g_{n} - s_{n}g_{n+1}$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $b = s_{n}g_{n} + c_{n}g_{n+1}$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $g_{n} 
+\backslash
+leftarrow a$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $g_{n+1} 
+\backslash
+leftarrow b$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+RETURN $c
+\backslash
+left (1:n 
+\backslash
+right )$, $s
+\backslash
+left (1:n 
+\backslash
+right )$, $
+\backslash
+mathbf{
+\backslash
+widetilde{H}}_{n}$, and $g 
+\backslash
+left ( 1:n 
+\backslash
+right )$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{algorithmic}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Givens"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ For the 
+\begin_inset Formula $n$
+\end_inset
+
+-th of the Hessenberg matrix computed from the Arnoldi iteration, all of
+ the previous Givens rotation parameters are applied.
+ Then, new rotation parameters are calculated and applied to the last two
+ rows of the 
+\begin_inset Formula $n$
+\end_inset
+
+ -th column of the Hessenberg matrix and the vector 
+\begin_inset Formula $g$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+The last question that has not answered is when to stop the GMRES iteration.
+ After iteration 
+\begin_inset Formula $n$
+\end_inset
+
+, the residual norm is given by 
+\begin_inset Formula 
+\begin{equation}
+\left\Vert r_{n}\right\Vert =\left\Vert g_{n}-\mathbf{R}_{n}y\right\Vert .
+\end{equation}
+
+\end_inset
+
+ Due to the structure of 
+\begin_inset Formula $\mathbf{R}_{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $y$
+\end_inset
+
+, this norm is equivalent to the absolute value of the 
+\begin_inset Formula $n$
+\end_inset
+
+-th row in 
+\begin_inset Formula $g$
+\end_inset
+
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+prove this
+\end_layout
+
+\end_inset
+
+.
+ After this convergence criteria is met, the vector 
+\begin_inset Formula $y$
+\end_inset
+
+ can be computed via back substitution with 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+g_{n}=\mathbf{R}_{n}y.
+\end{equation}
+
+\end_inset
+
+ Finally, the solution vector can be computed with
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+x=x_{0}+\mathbf{Q}_{n}y,
+\end{equation}
+
+\end_inset
+
+ where 
+\begin_inset Formula $\mathbf{Q}_{n}$
+\end_inset
+
+ is the Krylov matrix from the Arnoldi iteration.
+ The GMRES algorithm from Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:GMRESbasic"
+
+\end_inset
+
+ can now be extended for Givens rotations, presented in Algorithm
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:GMRESgivens"
+
+\end_inset
+
+.
+ 
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+GMRES w/Givens Rotations 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Saad1986"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{algorithmic}[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+FOR{$k=1..max$}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $r = b - 
+\backslash
+mathbf{A}x$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $
+\backslash
+beta = 
+\backslash
+left
+\backslash
+Vert r 
+\backslash
+right
+\backslash
+Vert$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+IF{$
+\backslash
+beta < tol$}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE leave loop
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+ENDIF
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $g = 
+\backslash
+beta e_{1}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $q=r/
+\backslash
+beta$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+FOR{$n=1...res$}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE $v = 
+\backslash
+mathbf{A}q_{n}$
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+FOR{$j=1..n$}
+\end_layout
+
+\begin_layout Plain Layout
+
+			
+\backslash
+STATE $h_{jn} = q^{*}_{j}v$
+\end_layout
+
+\begin_layout Plain Layout
+
+			
+\backslash
+STATE $v = v - h_{jn}q_{j}$
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE $h_{n+1,n} = 
+\backslash
+left
+\backslash
+Vert v 
+\backslash
+right
+\backslash
+Vert$
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE $q_{n+1} = v/h_{n+1,n}$
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE perform Givens rotation (see Alg.
+ 
+\backslash
+ref{alg:Givens})
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+IF{$
+\backslash
+left 
+\backslash
+vert g_{n} 
+\backslash
+right 
+\backslash
+vert < tol$}
+\end_layout
+
+\begin_layout Plain Layout
+
+			
+\backslash
+STATE leave loop
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+ENDIF
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE solve for y, $g_{n} = 
+\backslash
+mathbf{
+\backslash
+widetilde{H}}_{n} y$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $x_{n}=
+\backslash
+mathbf{Q{_n}}y$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{algorithmic}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:GMRESgivens"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
