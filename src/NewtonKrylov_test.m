@@ -1,4 +1,4 @@
-function [x,res,i] = NewtonKrylov(Ffun,Jfun,x,maxiters)
+function [x,res,i] = NewtonKrylov_test(Ffun,Jfun,x,maxiters)
 
 % guess initial dx
 dx = ones(length(x),1);
