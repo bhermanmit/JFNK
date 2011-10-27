@@ -1,4 +1,4 @@
-function idx = get_mat_indx(g,i,nxmesh)
+function idx = get_mat_indx(g,i,ng)
 
 % Explain function
 
@@ -6,6 +6,6 @@ function idx = get_mat_indx(g,i,nxmesh)
 % --------     -------
 
 % compute index
-idx = g + nxmesh*(i-1);
+idx = g + ng*(i-1);
 
 end
