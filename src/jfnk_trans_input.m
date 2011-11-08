@@ -5,7 +5,7 @@
 %% Control Information
 
 % maximum time
-info.time = 100;
+info.time = 1000;
 
 % time step
 info.dt = 0.1;
@@ -27,7 +27,7 @@ geom.dx = 200;
 %% neutronic object
 
 % set boundary conditions
-neut.alb = [1,1];
+neut.alb = [0,0];
 
 % set fraction of delayed neutrons
 neut.beta = 0.0065;
@@ -36,6 +36,8 @@ neut.beta = 0.0065;
 neut.lamb = 0.0347;
  
 % set materials' neutronic properties
+neut.mat(1).totxs = 1.0;
+neut.mat(1).scatt = 0.5;
 neut.mat(1).absxs = 0.5;
 neut.mat(1).diff = 0.3;
 neut.mat(1).nfiss = 0.48;

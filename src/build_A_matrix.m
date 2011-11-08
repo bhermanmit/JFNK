@@ -1,4 +1,4 @@
-function A = build_A_matrix(info,geom,neut)
+function A = build_A_matrix(info,geom,neut,keig)
 
 % Explain function
 
@@ -119,7 +119,7 @@ for i = 1:nxmesh
     % set diagonal term
     rowvec(kount) = row_idx;
     colvec(kount) = row_idx;
-    valvec(kount) = 1/(vel*dt) + (diff_R + diff_L)/dx + absxs - (1-beta)*nfiss;
+    valvec(kount) = 1/(vel*dt) + (diff_R + diff_L)/dx + absxs - (1-beta)*nfiss/keig;
     kount = kount + 1;
     
     % place precursor information in matrix
@@ -145,7 +145,7 @@ for i = 1:nxmesh
     % store flux coefficient
     rowvec(kount) = i + nxmesh;
     colvec(kount) = i;
-    valvec(kount) = -beta*nfiss;
+    valvec(kount) = -beta*nfiss/keig;
     kount = kount + 1;
     
     % store precursor coefficient

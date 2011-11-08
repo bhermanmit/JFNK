@@ -1,4 +1,4 @@
-function F = build_prod_matrix(neut)
+function F = build_prod_matrix(geom,neut)
 
 % Explain function
 
@@ -6,8 +6,8 @@ function F = build_prod_matrix(neut)
 % --------     -------
 
 % get dimensions from object
-ng = neut.ng;
-xgrid = neut.xgrid;
+ng = 1;
+xgrid = geom.xgrid;
 
 % energy transfer function
 energy_trans = @(h,g) g + ng*(h - 1);
@@ -47,7 +47,7 @@ for i = 1:nxmesh
             map_idx = find(i<=xgrid,1,'first');
             
             % get material id
-            mat_idx = neut.map(map_idx);
+            mat_idx = geom.map(map_idx);
             
             % compute energy transfer index
             ene_idx = energy_trans(h,g);
