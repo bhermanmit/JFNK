@@ -1,9 +1,9 @@
-function [keignew,phinew] = power_iter(M,F,neut)
+function [keignew,phinew] = power_iter(M,F,geom)
 
 
 % get dimensions from object
-ng = neut.ng;
-xgrid = neut.xgrid;
+ng = 1;
+xgrid = geom.xgrid;
 
 % compute total number of x meshes
 nxmesh = sum(xgrid);

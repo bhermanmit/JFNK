@@ -1,4 +1,4 @@
-function M = build_loss_matrix(neut)
+function M = build_loss_matrix(geom,neut)
 
 % Explain function
 
@@ -6,8 +6,8 @@ function M = build_loss_matrix(neut)
 % --------     -------
 
 % get dimensions from object
-ng = neut.ng;
-xgrid = neut.xgrid;
+ng = 1;
+xgrid = geom.xgrid;
 
 % get boundary conditions
 alb = neut.alb;
@@ -44,7 +44,7 @@ for i = 1:nxmesh
         map_idx = find(i<=xgrid,1,'first');
         
         % get material id
-        mat_idx = neut.map(map_idx);
+        mat_idx = geom.map(map_idx);
         
         % retrieve energy transfer index
         ene_idx = energy_trans(g,g);
@@ -53,7 +53,7 @@ for i = 1:nxmesh
         totxs = neut.mat(mat_idx).totxs(g);
         scattgg = neut.mat(mat_idx).scatt(ene_idx);
         diff = neut.mat(mat_idx).diff(g);
-        dx = neut.dx(map_idx)/neut.xgrid(map_idx); % fine mesh dx not coarse
+        dx = geom.dx(map_idx)/geom.xgrid(map_idx); % fine mesh dx not coarse
         
         % Do cell to the left (check for boundary)      
         if i == 1
@@ -70,11 +70,11 @@ for i = 1:nxmesh
             map_idx = find(i-1<=xgrid,1,'first');
             
             % get material id
-            mat_idx = neut.map(map_idx);
+            mat_idx = geom.map(map_idx);
             
             % get diff coeff and dimension (watch fine mesh dx)
             diff_n = neut.mat(mat_idx).diff(g);
-            dx_n = neut.dx(map_idx)/neut.xgrid(map_idx);
+            dx_n = geom.dx(map_idx)/geom.xgrid(map_idx);
             
             % compute effective diffusion coefficient to neighbor
             diff_L = (2*diff*diff_n)/(dx_n*diff + dx*diff_n);
@@ -102,11 +102,11 @@ for i = 1:nxmesh
             map_idx = find(i+1<=xgrid,1,'first');
             
             % get material id
-            mat_idx = neut.map(map_idx);
+            mat_idx = geom.map(map_idx);
             
             % get diff coeff and dimension
             diff_n = neut.mat(mat_idx).diff(g);
-            dx_n = neut.dx(map_idx)/neut.xgrid(map_idx);
+            dx_n = geom.dx(map_idx)/geom.xgrid(map_idx);
             
             % compute effective diffusion coefficient to neighbor
             diff_R = (2*diff*diff_n)/(dx_n*diff + dx*diff_n);  
@@ -141,7 +141,7 @@ for i = 1:nxmesh
             map_idx = find(i<=xgrid,1,'first');
             
             % get material id
-            mat_idx = neut.map(map_idx);
+            mat_idx = geom.map(map_idx);
             
             % compute energy transfer index
             ene_idx = energy_trans(h,g);
