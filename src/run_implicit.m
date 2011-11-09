@@ -2,6 +2,10 @@
 % Implicit Time stepping script
 close all; clear all;
 
+% transient function
+f1 = @(tt) -0.000012346*tt.^2 + 0.002469136*tt + 0.976543210;
+f5 = @(tt) -0.000493827*tt.^2 + 0.098765432*tt + 0.061728395;
+
 % run input file
 jfnk_trans_input
 
@@ -24,6 +28,10 @@ x = zeros(2*nxmesh,Nt);
 x(1:nxmesh,1) = phi;
 x(nxmesh+1:2*nxmesh) = prec;
 
+% unrodded xs
+urodxs2 = neut.mat(2).absxs;
+urodxs3 = neut.mat(3).absxs;
+
 % begin loop
 for i = 2:Nt
     
@@ -33,24 +41,29 @@ for i = 2:Nt
     % build b vector
     b = build_b_vector(info,geom,neut,x(:,i-1));
     
+    % compute preconditioner
+    P = lu(A);
+    
+    % GMRES solution
+    [dx,err] = gmres_restart_givens_prec(P,A,x(:,i-1),b,100,1,1e-7);
+    
     % solve system
     x(:,i) = A\b;
     
     % plot solution
     figure(1)
     plot(linspace(0,1,nxmesh),x(1:nxmesh,i-1),'b',linspace(0,1,nxmesh),x(1:nxmesh,1),'r')
-    figure(2)
-    plot(linspace(0,1,nxmesh),x(nxmesh+1:2*nxmesh,i-1),'b',linspace(0,1,nxmesh),x(nxmesh+1:2*nxmesh,1),'r')
+    % plot(linspace(0,1,nxmesh),x(1:nxmesh,i-1))
     drawnow;
-    pause(0.01);
-
-    if i == 100
-        neut.mat(2).absxs = neut.mat(2).absxs*1.1;
-    end
-
-    if i == 200
-        neut.mat(2).absxs = neut.mat(2).absxs/1.1;
-    end
-
+    pause(0.06);
     
+    % adjust cross section
+    if (i >= 9) && (i <= 189)
+        neut.mat(2).absxs = urodxs2*f1(i+1);
+        neut.mat(3).absxs = urodxs3*f5(i+1);
+    else
+        neut.mat(2).absxs = urodxs2;
+        neut.mat(3).absxs = urodxs3;
+    end
+
 end
