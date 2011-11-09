@@ -24,8 +24,6 @@ for iter = 1:10000
     ferr = (norm(F*phinew)-norm(F*phi))/norm(F*phinew);
     kerr = abs(keignew-keig)/keignew;
     
-    fprintf('Iteration: %d   k-error: %d  flux-error: %d\n',iter,kerr,ferr);
-    
     % Check Convergence
     if ferr < 1.0e-8 && kerr < 1.0e-8
         disp('Converged')
