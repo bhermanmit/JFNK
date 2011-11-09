@@ -1,26 +1,28 @@
-function b = build_b_vector(info,geom,neut,rhs)
+function prec = init_prec(geom,neut,phi,keig)
 
 % Explain function
 
 % variable     meaning
 % --------     -------
 
-% get time step
-dt = info.dt;
 
 % get dimensions from object
 xgrid = geom.xgrid;
+
+% get global neutronic information
+beta = neut.beta;
+lamb = neut.lamb;
 
 % compute total number of x meshes
 nxmesh = sum(xgrid);
 
 % compute number of nonzeros
-nonzeros = 2*nxmesh;
+nonzeros = nxmesh;
 
-% preallocate vectors for sparse storage
-b = zeros(nonzeros,1);
+% allocate precursor
+prec = zeros(nonzeros,1);
 
-% cumulative sum
+% cumulative sum of nxmesh
 xgrid = cumsum(xgrid);
 
 % begin loop over spatial and energy group indices
@@ -33,18 +35,10 @@ for i = 1:nxmesh
     mat_idx = geom.map(map_idx);
     
     % retrieve cell data
-    vel = neut.mat(mat_idx).vel;
+    nfiss = neut.mat(mat_idx).nfiss;
 
-    % store in vector
-    b(i) = rhs(i)/(vel*dt);
-        
-end
-
-% loop for precursor concentration
-for i = 1:nxmesh
-    
-    % store rhs
-    b(i+nxmesh) = rhs(i+nxmesh)/dt;
+    % compute precursor concentration
+    prec(i) = (beta*nfiss*phi(i))/(keig*lamb);
     
 end
 

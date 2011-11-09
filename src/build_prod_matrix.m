@@ -18,6 +18,9 @@ get_mat_indx = @(g,i) g + ng*(i-1);
 % compute total number of x meshes
 nxmesh = sum(xgrid);
 
+% perform cumulative sum
+xgrid = cumsum(xgrid);
+
 % compute number of nonzeros
 nonzeros = ng*nxmesh;
 

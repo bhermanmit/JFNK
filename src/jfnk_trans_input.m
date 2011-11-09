@@ -13,16 +13,16 @@ info.dt = 0.1;
 %% geometry object
 
 % number of different coarse regions
-geom.nx = 1;
+geom.nx = 3;
 
 % map of coarse mesh regions
-geom.map = 1;
+geom.map = [1,2,1];
 
 % number of fine meshes for each coarse region
-geom.xgrid = 10;
+geom.xgrid = [45 10 45];
 
 % dimensions of each coarse mesh
-geom.dx = 200;
+geom.dx = [9 2 9];
 
 %% neutronic object
 
@@ -42,3 +42,10 @@ neut.mat(1).absxs = 0.5;
 neut.mat(1).diff = 0.3;
 neut.mat(1).nfiss = 0.48;
 neut.mat(1).vel = 6*10^6;
+
+neut.mat(2).totxs = 1.0;
+neut.mat(2).scatt = 0.5;
+neut.mat(2).absxs = 0.5;
+neut.mat(2).diff = 0.3;
+neut.mat(2).nfiss = 0.48;
+neut.mat(2).vel = 6*10^6;

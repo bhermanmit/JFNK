@@ -32,6 +32,9 @@ valvec = zeros(nonzeros,1);
 % set counter
 kount = 1;
 
+% perform cumulative sum
+xgrid = cumsum(xgrid);
+
 % begin loop over spatial and energy group indices
 for i = 1:nxmesh
     

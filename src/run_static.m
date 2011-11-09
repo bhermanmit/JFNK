@@ -9,4 +9,7 @@ F = build_prod_matrix(geom,neut);
 % run power iteration
 [keig,phi] = power_iter(M,F,geom);
 
+% normalize phi
+phi = phi/trapz(phi);
+
 end

@@ -21,6 +21,9 @@ get_mat_indx = @(g,i) g + ng*(i-1);
 % compute total number of x meshes
 nxmesh = sum(xgrid);
 
+% change xgrid to cumulative 
+xgrid = cumsum(xgrid);
+
 % compute number of nonzeros
 nonzeros = ng*(nxmesh+2*(nxmesh-1))+(ng^2-ng)*nxmesh;
 
@@ -104,7 +107,7 @@ for i = 1:nxmesh
             % get material id
             mat_idx = geom.map(map_idx);
             
-            % get diff coeff and dimension
+            i
             diff_n = neut.mat(mat_idx).diff(g);
             dx_n = geom.dx(map_idx)/geom.xgrid(map_idx);
             
