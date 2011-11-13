@@ -107,7 +107,6 @@ for i = 1:nxmesh
             % get material id
             mat_idx = geom.map(map_idx);
             
-            i
             diff_n = neut.mat(mat_idx).diff(g);
             dx_n = geom.dx(map_idx)/geom.xgrid(map_idx);
             

@@ -1,6 +1,7 @@
 % Bryan Herman
 % Implicit Time stepping script
-close all; clear all;
+% close all; clear all;
+global M F
 
 % transient function
 f1 = @(tt) -0.000012346*tt.^2 + 0.002469136*tt + 0.976543210;
@@ -9,11 +10,22 @@ f5 = @(tt) -0.000493827*tt.^2 + 0.098765432*tt + 0.061728395;
 % run input file
 jfnk_trans_input
 
-% run static problem
-[keig,phi] = run_static(geom,neut);
+% build loss matrix
+M = build_loss_matrix(geom,neut);
+
+% build production matrix
+F = build_prod_matrix(geom,neut);
+
+% run jfnk for static calculation
+phi = ones(size(M,1),1);
+keff = 1;
+[keff,phi] = run_jfnk(phi,keff);
+
+% normalize phi
+phi = phi/trapz(phi);
 
 % initialize precursors
-prec = init_prec(geom,neut,phi,keig);
+prec = init_prec(geom,neut,phi,keff);
 
 % calculate number of time steps
 Nt = info.time/info.dt;
@@ -36,7 +48,7 @@ urodxs3 = neut.mat(3).absxs;
 for i = 2:Nt
     
     % build A matrix
-    A = build_A_matrix(info,geom,neut,keig);
+    A = build_A_matrix(info,geom,neut,keff);
     
     % build b vector
     b = build_b_vector(info,geom,neut,x(:,i-1));

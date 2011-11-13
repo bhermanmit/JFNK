@@ -2,24 +2,40 @@
 % JFNK input file
 % 2.29 Numerical Fluid Mechanics
 
-% neutronic object
+%% geometry object
 
-% set coarse dimensions
-neut.nx = 1;
-neut.ng = 1;
+% number of different coarse regions
+geom.nx = 1;
 
-% set core layout
-neut.map = [1];
-          
-% set up fine mesh and dimensions
-neut.xgrid = [10];
-neut.dx = [200];
+% map of coarse mesh regions
+geom.map = 1;
+
+% number of fine meshes for each coarse region
+geom.xgrid = 10000;
+
+% dimensions of each coarse mesh
+geom.dx = 20;
+
+%% neutronic object
 
 % set boundary conditions
 neut.alb = [0,0];
  
-% set materials
+% set materials' neutronic properties
 neut.mat(1).totxs = 1.0;
-neut.mat(1).diff = 0.3;
 neut.mat(1).scatt = 0.5;
+neut.mat(1).absxs = 0.5;
+neut.mat(1).diff = 0.01;
 neut.mat(1).nfiss = 0.48;
+
+neut.mat(2).totxs = 1.0;
+neut.mat(2).scatt = 0.5;
+neut.mat(2).absxs = 0.5;
+neut.mat(2).diff = 0.01;
+neut.mat(2).nfiss = 0.48;
+
+neut.mat(3).totxs = 1.0;
+neut.mat(3).scatt = 0.5;
+neut.mat(3).absxs = 0.5;
+neut.mat(3).diff = 0.01;
+neut.mat(3).nfiss = 0.48;

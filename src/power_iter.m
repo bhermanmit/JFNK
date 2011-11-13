@@ -1,5 +1,4 @@
-function [keignew,phinew] = power_iter(M,F,geom)
-
+function [keignew,phinew] = power_iter(M,F,geom,phi,keig)
 
 % get dimensions from object
 ng = 1;
@@ -7,10 +6,6 @@ xgrid = geom.xgrid;
 
 % compute total number of x meshes
 nxmesh = sum(xgrid);
-
-% guess parameters
-phi = ones(ng*nxmesh,1);
-keig = 1;
 
 for iter = 1:10000
     
@@ -24,9 +19,11 @@ for iter = 1:10000
     ferr = (norm(F*phinew)-norm(F*phi))/norm(F*phinew);
     kerr = abs(keignew-keig)/keignew;
     
+    % Display output
+    fprintf('Iter: %d     Err: %d\n',iter,ferr);
+    
     % Check Convergence
-    if ferr < 1.0e-8 && kerr < 1.0e-8
-        disp('Converged')
+    if ferr < 1.0e-6 && kerr < 1.0e-8
         break
     else
         phi = phinew;
