@@ -1,11 +1,7 @@
-function [keignew,phinew] = power_iter(M,F,geom,phi,keig)
+function [keignew,phinew] = power_iter(M,F,phi,keig)
 
 % get dimensions from object
 ng = 1;
-xgrid = geom.xgrid;
-
-% compute total number of x meshes
-nxmesh = sum(xgrid);
 
 for iter = 1:10000
     

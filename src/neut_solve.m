@@ -20,7 +20,7 @@ phi = phi/norm(phi);
 % solve for eigenvalue and eigenvector by power iteration
 disp('Power Iteration')
 tic
-[keff_pow,phi_pow] = power_iter(M,F,geom,phi,keff);
+[keff_pow,phi_pow] = power_iter(M,F,phi,keff);
 toc
 
 % solve for eigenvalue and eigenvector by Newton-GMRES
