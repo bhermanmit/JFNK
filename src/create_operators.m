@@ -209,16 +209,11 @@ switch oper
         
         % create sparse matrix for output
         out_mat = sparse(rowvec,colvec,valvec);
+        
+    case default
+        
+        error('Operator does not exist!');
                
 end
-
-
-
-
-
-
-
-
-
 
 end

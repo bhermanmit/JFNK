@@ -23,7 +23,7 @@ for i = 1:10000
     
     % construct matrix vector multiply @ x
     mymatvecmult_x = @(y) mymatvecmult(x,y);
-    
+
     % GMRES solution
     [dx,err] = gmres_jfnk(P,-F,dx,mymatvecmult_x,100,1,1e-7);
     
