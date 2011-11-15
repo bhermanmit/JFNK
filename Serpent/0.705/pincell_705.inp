@@ -1,0 +1,76 @@
+################################################################################
+#
+# Bryan Herman
+# 2.29 Numerical Fluid Mechanics
+# Term Project
+# Pin-cell Calculation -- Density 0.705 g/cc
+#
+################################################################################
+
+
+# Define surfaces
+
+surf 1 sqc 0.0 0.0 0.63
+surf 2 cyl 0.0 0.0 0.4096
+surf 3 cyl 0.0 0.0 0.4178
+surf 4 cyl 0.0 0.0 0.4750
+
+
+# Define cells
+
+cell fuel 0 mat_fuel -2
+cell gap  0 mat_gap  -3 2
+cell clad 0 mat_clad -4 3
+cell cool 0 mat_cool -1 4
+cell out  0 outside   1
+
+
+# Define materials
+
+mat mat_fuel -10.4
+92235.09c   -0.0396676
+92234.09c   -0.000317341
+92238.09c   -0.841517
+8016.09c    -0.118498
+
+mat mat_gap 0.001
+2004.06c    1.00
+
+mat mat_clad -6.55
+40000.06c  -0.99
+41093.06c  -0.01
+
+mat mat_cool -0.705 moder lwtr 1001
+1001.06c  2.0
+8016.06c  1.0
+
+
+# Thermal Scattering Library
+
+therm lwtr lwe7.12t
+
+
+# Cross Section Library
+
+set acelib "/opt/serpent/xs/endfb7/sss_endfb7u.xsdata"
+
+
+# Set boundary conditions
+
+set bc 3
+
+
+# Set Cross Section Generation Universe
+
+set gcu 0
+
+
+# Set Neutron Population
+
+set pop 10000 1000 20
+
+
+# Set plots
+
+plot 3 500 500
+mesh 3 500 500
