@@ -55,7 +55,7 @@ switch oper
         % create superdiagonal +1
         rowvec(2*n:3*n-2) = 1:n-1;
         colvec(2*n:3*n-2) = 2:n;
-        valvec(2*n:3*n-2) = -2/dx^2*((D(1:n-1).*Dp1(1:n-1))./(D(1:n-1).*(Dp1(1:n-1))));
+        valvec(2*n:3*n-2) = -2/dx^2*((D(1:n-1).*Dp1(1:n-1))./(D(1:n-1) +Dp1(1:n-1)));
         
         % create sparse matrix for output
         out_mat = sparse(rowvec,colvec,valvec);

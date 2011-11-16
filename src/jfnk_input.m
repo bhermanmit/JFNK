@@ -2,13 +2,15 @@
 % JFNK input file
 % 2.29 Numerical Fluid Mechanics
 
+global geom th neut
+
 %% geometry object
 
 % number of mesh cells
 geom.n = 10;
 
 % dimension of mesh [cm]
-geom.dx = 1;
+geom.dx = 10;
 
 
 %% thermal hydraulic object
@@ -22,11 +24,17 @@ th.w = 0.335;
 % Average power per subchannel [W]
 th.Qr = 3411e6/(193*264);
 
-% Reference coolant density [g/cc] @ 155 bar and 310 C
-th.rhoREF = 0.705;
+% Average temperature [C]
+th.aveT = 310; 
 
 % System pressure [bar]
 th.P = 155;
+
+% Reference coolant density [g/cc] @ 155 bar and 310 C
+th.rhoREF = XSteam('rho_pT',th.P,th.aveT)/1000;
+
+% Specific heat
+th.cp = XSteam('cp_pT',th.P,th.aveT)*1000;
 
 %% neutronic object
 
