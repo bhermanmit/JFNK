@@ -9,3 +9,5 @@ jfnk_input
 
 % get initial guess
 x = get_initial_guess();
+
+% build preconditioner
