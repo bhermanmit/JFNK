@@ -7,11 +7,10 @@ global geom th neut
 %% geometry object
 
 % number of mesh cells
-geom.n = 10;
+geom.n = 100;
 
 % dimension of mesh [cm]
-geom.dx = 10;
-
+geom.dx = 1;
 
 %% thermal hydraulic object
 
@@ -45,7 +44,9 @@ neut.alb = [0,0];
 neut.absxsREF = 2.27516E-02;
 neut.nfissREF = 3.13791E-02;
 neut.diffREF = 8.85342E-01;
-neut.kfissREF = 4.13494E-13;
+neut.kfissconst = 1e12;
+neut.kfissREF = 4.13494E-13*neut.kfissconst;
+
 
 % dependence of neutronic parameters on density
 neut.DabsxsDrho = 0.020796;

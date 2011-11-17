@@ -37,6 +37,11 @@ F = create_operators('F',x);
 [keff,x(1:n)] = power_iter(M,F,x(1:n),1/x(8*n+2));
 x(8*n+2) = 1/keff;
 
+% run eigenvalue solver
+%[x(1:n),keff] = eigs(F,M,1);
+%x(1:n) = x(1:n)*sign(x(1));
+%x(8*n+2) = 1/keff;
+
 % renormalize phi
 x(1:n) = x(1:n)/norm(x(1:n));
 
@@ -62,9 +67,9 @@ for i = 1:n
 end
 
 % compute new cross sections
-x(4*n+2:5*n+1) = absxsREF + DabsxsDrho*(x(3*n+2:4*n+1) - rhoREF);
-x(5*n+2:6*n+1) = nfissREF + DnfissDrho*(x(3*n+2:4*n+1) - rhoREF);
-x(6*n+2:7*n+1) = diffREF + DdiffDrho*(x(3*n+2:4*n+1) - rhoREF);
-x(7*n+2:8*n+1) = kfissREF + DkfissDrho*(x(3*n+2:4*n+1) - rhoREF);
+x(4*n+2:5*n+1) = absxsREF;% + DabsxsDrho*(x(3*n+2:4*n+1) - rhoREF);
+x(5*n+2:6*n+1) = nfissREF;% + DnfissDrho*(x(3*n+2:4*n+1) - rhoREF);
+x(6*n+2:7*n+1) = diffREF;% + DdiffDrho*(x(3*n+2:4*n+1) - rhoREF);
+x(7*n+2:8*n+1) = kfissREF;% + DkfissDrho*(x(3*n+2:4*n+1) - rhoREF);
 
 end

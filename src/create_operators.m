@@ -1,6 +1,6 @@
 function out_mat = create_operators(oper,x)
 
-global geom neut
+global geom neut th
 
 % extract problem size
 n = geom.n;
@@ -146,12 +146,12 @@ switch oper
         % calculate diagonal
         rowvec(1:n) = 1:n;
         colvec(1:n) = 1:n;
-        valvec(1:n) = -1/(2*w*cp);
+        valvec(1:n) = 1/(2*w*cp);
         
         % calculate subdiagonal -1
         rowvec(n+1:2*n-1) = 2:n;
         colvec(n+1:2*n-1) = 1:n-1;
-        valvec(n+1:2*n-1) = -1/(2*w*cp);        
+        valvec(n+1:2*n-1) = 1/(2*w*cp);        
         
         % create sparse matrix for output
         out_mat = sparse(rowvec,colvec,valvec);
@@ -205,7 +205,7 @@ switch oper
         % create superdiagonal +1
         rowvec(2*n:3*n-2) = 1:n-1;
         colvec(2*n:3*n-2) = 2:n;
-        valvec(2*n:3*n-2) = -2/dx^2*(Dp1(1:n-1).^2/(D(1:n-1) + Dp1(1:n-1)).^2).*phip1(1:n-1);
+        valvec(2*n:3*n-2) = -2/dx^2*(Dp1(1:n-1).^2./(D(1:n-1) + Dp1(1:n-1)).^2).*phip1(1:n-1);
         
         % create sparse matrix for output
         out_mat = sparse(rowvec,colvec,valvec);

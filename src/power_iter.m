@@ -3,7 +3,7 @@ function [keignew,phinew] = power_iter(M,F,phi,keig)
 % get dimensions from object
 ng = 1;
 
-for iter = 1:10000
+for iter = 1:2
     
     % Update Flux
     phinew = M\(1/keig*F*phi);
@@ -12,14 +12,14 @@ for iter = 1:10000
     keignew = keig*sum((F*phinew).*(F*phinew))/sum((F*phi).*(F*phinew));
     
     % Calculate Difference
-    ferr = (norm(F*phinew)-norm(F*phi))/norm(F*phinew);
+    ferr = (norm(phinew-phi));
     kerr = abs(keignew-keig)/keignew;
     
     % Display output
     fprintf('Iter: %d     Err: %d\n',iter,ferr);
     
     % Check Convergence
-    if ferr < 1.0e-6 && kerr < 1.0e-8
+    if ferr < 1.0e-10 && kerr < 1.0e-10
         break
     else
         phi = phinew;

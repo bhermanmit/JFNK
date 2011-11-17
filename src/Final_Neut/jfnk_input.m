@@ -11,7 +11,7 @@ geom.nx = 1;
 geom.map = 1;
 
 % number of fine meshes for each coarse region
-geom.xgrid = 10000;
+geom.xgrid = 10;
 
 % dimensions of each coarse mesh
 geom.dx = 20;
