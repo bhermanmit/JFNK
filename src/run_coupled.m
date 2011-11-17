@@ -8,8 +8,8 @@ global geom
 myfun = @jfnk_steady_state_fun;
 
 % function jacobian vector approximation
-%mymatvecmult = @(x,y) matvecmult(myfun,x,y);
-mymatvecmult = @JacobianVectMult;
+mymatvecmult = @(x,y) matvecmult(myfun,x,y);
+%mymatvecmult = @JacobianVectMult;
 
 % run input file
 jfnk_input
