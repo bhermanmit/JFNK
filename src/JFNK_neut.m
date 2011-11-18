@@ -1,4 +1,4 @@
-function x = JFNK_neut(myfun,mymatvecmult,xo,P)
+function x = JFNK_neut(myfun,mymatvecmult,xo,L,U)
 
 global geom
 
@@ -7,13 +7,8 @@ n = geom.n;
 
 % set guess to x vector
 x = xo;
-dx = 0.00001*ones(8*n+2,1);
+dx = 0.01*ones(8*n+2,1);
 
-% % Restructure x
-% xx(1:8*n+1,1) = x(1:8*n+1);
-% xx(8*n+2,1) = x(8*n+2);
-% x = xx;
-phi1 = x(1:n);
 % begin Newton iteration
 for i = 1:10000
     
@@ -33,12 +28,9 @@ for i = 1:10000
     
     % construct matrix vector multiply @ x
     mymatvecmult_x = @(y) mymatvecmult(x,y);
-    
-    % force preconditioner
-    P = eye(8*n+2);
-    
+       
     % GMRES solution
-    [dx,err] = gmres_jfnk(P,-F,dx,mymatvecmult_x,1000,5,1e-8);
+    [dx,err] = gmres_jfnk(L,U,-F,dx,mymatvecmult_x,1000,5,1e-8);
 
     % check GMRES convergence
     if find(err,1,'last') == length(err)
@@ -47,7 +39,7 @@ for i = 1:10000
     
     % print iteration number
     fprintf('  GMRES iters: %d  GMRES res: %d\n',find(err,1,'last'),err(find(err,1,'last')));
-
+ 
     % solve directly
     %J = create_Jacobian(x);
     %dx = -J\F;

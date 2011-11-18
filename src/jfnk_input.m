@@ -49,10 +49,10 @@ neut.kfissREF = 4.13494E-13*neut.kfissconst;
 
 
 % dependence of neutronic parameters on density
-neut.DabsxsDrho = 0.020796;
-neut.DnfissDrho   = 0.035471;
-neut.DdiffDrho  = -0.95551;
-neut.DkfissDrho   = 4.7055E-13;
+neut.DabsxsDrho = 0.020796*5;
+neut.DnfissDrho = 0.035471*5;
+neut.DdiffDrho  = -0.95551*5;
+neut.DkfissDrho = 4.7055E-13*5*neut.kfissconst;
 
 % set evaluation of neutronic parameters as a function of density
 neut.absxs = @(rho) neut.absxsREF + neut.DabsxsDrho*(rho - th.rhoREF);

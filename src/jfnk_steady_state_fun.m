@@ -72,7 +72,7 @@ Fun(5*n+2:6*n+1) = (nfiss - nfissREF) - DnfissDrho*(rho - rhoREF);
 Fun(6*n+2:7*n+1) = (diff - diffREF) - DdiffDrho*(rho - rhoREF);
 
 % kappa-fission cross section
-Fun(7*n+2:8*n+1) = (kfiss - kfissREF) - DkfissDrho*(rho - rhoREF)*kfissconst;
+Fun(7*n+2:8*n+1) = (kfiss - kfissREF) - DkfissDrho*(rho - rhoREF);%*kfissconst;
 
 % eigenvalue
 Fun(8*n+2) = -1/2*(phi')*phi + 1/2;

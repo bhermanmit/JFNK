@@ -2,7 +2,6 @@
 % 2.29 Numerical Fluid Mechanics
 % Steady State couple physics
 clear; close all; clear -global
-global geom
 
 % function for residual evaluation
 myfun = @jfnk_steady_state_fun;
@@ -18,7 +17,7 @@ jfnk_input
 x = get_initial_guess();
 
 % build preconditioner
-P = eye(length(geom.n));
+[L,U] = create_precond(x);
 
 % run no feedback system
-x = JFNK_neut(myfun,mymatvecmult,x,P);
+x = JFNK_neut(myfun,mymatvecmult,x,L,U);

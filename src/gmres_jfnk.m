@@ -1,4 +1,4 @@
-function [x,err] = gmres_jfnk(P,b,x,matvec,res,maxiter,tol)
+function [x,err] = gmres_jfnk(L,U,b,x,matvec,res,maxiter,tol)
 
 % get size of b
 m = length(b);
@@ -10,6 +10,10 @@ err = zeros(maxiter*res,1);
 c = zeros(res+1,1);
 s = zeros(res+1,1);
 
+% re-set tolerance
+scale = norm(U\(L\b));
+tol = tol*scale;
+
 % begin while loop
 for k = 1:maxiter
     
@@ -17,7 +21,7 @@ for k = 1:maxiter
     Ax = matvec(x);
     
     % compute initial residual
-    r = P\(b - Ax);
+    r = U\(L\(b - Ax));
     beta = norm(r);
     
     % set up g vector
@@ -38,7 +42,8 @@ for k = 1:maxiter
         % compute vector v
         y = Q(:,n);
         Ay = matvec(y);
-        v = P\(Ay);
+        v = U\(L\(Ay));
+        normv1 = norm(v);
         
         % loop around all previous vectors
         for j = 1:n
@@ -54,6 +59,17 @@ for k = 1:maxiter
         
         % compute new h
         H(n+1,n) = norm(v);
+        normv2 = H(n+1,n);
+        
+        % Reorthogonalize
+        if (normv1 + 0.001*normv2 == normv1)
+            for j = 1:n
+                htmp = v(:,j)'*v;
+                H(j,n) = H(j,n) + htmp;
+                v = v - htmp*Q(:,j);
+            end
+            H(n+1,n) = norm(v);
+        end
         
         % solve for next column
         Q(:,n+1) = v/H(n+1,n);
@@ -79,7 +95,9 @@ for k = 1:maxiter
     
     % check convergence
     if err(k*n) < tol
+        err = err/scale;
         break
+        
     end
     
 end

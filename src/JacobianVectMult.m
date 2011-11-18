@@ -27,12 +27,8 @@ DkfissDrho = neut.DkfissDrho;
 % extract vectors from x
 phi = x(1:n);                   % fluxes
 c_tilde = x(n+1);               % normalization constant
-Q = x(n+2:2*n+1);               % power in cell
 T = x(2*n+2:3*n+1);             % cell average temperature
 rho = x(3*n+2:4*n+1);           % cell average density
-absxs = x(4*n+2:5*n+1);         % absorption macro xs
-nfiss = x(5*n+2:6*n+1);         % nu-fission macro xs
-diff = x(6*n+2:7*n+1);          % diffusion coefficient
 kfiss = x(7*n+2:8*n+1);         % kappa-fission macro xs
 lamb = x(8*n+2);                % eigenvalue
 % kfissREF = neut.kfissREF*ones(n,1);
@@ -48,13 +44,13 @@ Jy(1:n) = (M - lamb*F)*y(1:n) + ...
 
 % flux-power normalization
 Jy(n+1) = -c_tilde*dx*(kfiss')*y(1:n) + ...
-    (-dx*(kfiss')*phi)*y(n+1); %   + ...
+    (-dx*(kfiss')*phi)*y(n+1)  + ...
     (-c_tilde*dx)*(phi')*y(7*n+2:8*n+1);
 
 % energy deposition
 Jy(n+2:2*n+1) = -E*c_tilde*dx*y(1:n)    + ...
     (-E*dx*phi)*y(n+1)     + ...
-    eye(n)*y(n+2:2*n+1); % + ...
+    eye(n)*y(n+2:2*n+1)  + ...
     (-c_tilde*dx)*diag(phi)*y(7*n+2:8*n+1);
 
 % temperature distribution
