@@ -1,9 +1,5 @@
 function Ay = matvecmult(myfun,x,y)
 
-% get perturbation parameter
-%epsilon = sqrt(eps);
-%epsilon=1e-2;
-
 % set parameters
 b = 1e-8;
 N = length(y);
