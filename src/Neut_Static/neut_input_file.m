@@ -7,10 +7,10 @@ global geom neut
 %% geometry object
 
 % number of mesh cells
-geom.n = 300;
+geom.n = 370;
 
 % dimension of mesh [cm]
-geom.dx = 2;
+geom.dx = 1;
 
 %% neutronic object
 

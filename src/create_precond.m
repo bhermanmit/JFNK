@@ -108,6 +108,7 @@ J(8*n+2,1:n) = -(phi');
 J(8*n+2,8*n+2) = 1;
 
 % form constant preconditioner
-[L,U] = ilu(J);
+setup.type='nofill';
+[L,U] = ilu(J,setup);
 
 end

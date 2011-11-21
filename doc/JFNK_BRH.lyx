@@ -6741,6 +6741,20 @@ list in Appendix B
 \end_inset
 
 .
+ The first case is for a reactor of 600 cm that has a high dominance ratio
+ of 0.997.
+ Note the dominance ratio is the ratio of two largest eigenvalues of the
+ system 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+check this
+\end_layout
+
+\end_inset
+
+.
  The flux eigenvectors were compared for each of the three cases and is
  shown if Fig.
  
@@ -6760,8 +6774,8 @@ status collapsed
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename pics/FundMode.png
-	scale 70
+	filename pics/FundMode_600.png
+	scale 50
 
 \end_inset
 
@@ -6772,7 +6786,7 @@ status collapsed
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Flux Eigenvector Comparison
+Flux Eigenvector Comparison, 600 cm
 \end_layout
 
 \end_inset
@@ -6805,11 +6819,18 @@ name "fig:fluxmode"
  To ensure that the Newton-based methods converge to the fundamental mode,
  two power iterations were computed to get the flux shape in the correct
  direction.
- After applying this, the results look better and are shown in Fig.
+ After applying this, the results look better and are shown in Figs.
  
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:fluxdiffneut"
+reference "fig:flux600"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:fluxdiff600"
 
 \end_inset
 
@@ -6822,16 +6843,9 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\align center
 \begin_inset Graphics
-	filename pics/Flux.png
-	scale 35
+	filename pics/Flux_600.png
+	scale 50
 
 \end_inset
 
@@ -6842,59 +6856,7 @@ status collapsed
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Flux Comparison
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename pics/diff_flux.png
-	scale 35
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Difference with respect to Power Iteration
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Comparison of Flux with Initial Power Iteration
+Comparison of Flux with Initial Power Iteration, 600 cm
 \end_layout
 
 \end_inset
@@ -6905,7 +6867,7 @@ Comparison of Flux with Initial Power Iteration
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:fluxdiffneut"
+name "fig:flux600"
 
 \end_inset
 
@@ -6915,17 +6877,48 @@ name "fig:fluxdiffneut"
 \end_inset
 
  
-\begin_inset Note Note
-status open
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
 
 \begin_layout Plain Layout
-split into two figs
+\align center
+\begin_inset Graphics
+	filename pics/diff_flux_600.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Difference of Flux with Initial Power Iteration, 600 cm
 \end_layout
 
 \end_inset
 
-The differences in the plot with respect to power iteration are within the
- converged nonlinear iteration tolerance of 
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:fluxdiff600"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ The differences in the plot with respect to power iteration are within
+ the converged nonlinear iteration tolerance of 
 \begin_inset Formula $10^{-6}$
 \end_inset
 
@@ -6935,7 +6928,7 @@ The differences in the plot with respect to power iteration are within the
  These results are listed in Table 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "tab:eigcomp"
+reference "tab:eigcomp_600"
 
 \end_inset
 
@@ -6947,14 +6940,10 @@ sideways false
 status collapsed
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Comparison of Methods to Solve Neutronic Eigenvalue Problem
+Comparison of Methods to Solve Neutronic Eigenvalue Problem, 600 cm
 \end_layout
 
 \end_inset
@@ -7142,7 +7131,7 @@ Finite Difference JFNK
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "tab:eigcomp"
+name "tab:eigcomp_600"
 
 \end_inset
 
@@ -7152,9 +7141,10 @@ name "tab:eigcomp"
 \end_inset
 
  From the results, the power iteration takes almost 1000 iterations.
- This is because the dominance ratio, which is defined as the ratio of the
- two largest eigenvalues, is very close to unity.
- In this problem the dominance ratio is 0.9969.
+ This is because the rate of convergence of power iteration is inversely
+ proportional to the dominance ratio.
+ The closer the dominance ratio is to unity, the more iterations it will
+ take to converge.
  The analytic Jacobian-free method performs the best with respect to computation
 al time.
  The finite difference version of JFNK does not do as well as the analytic
@@ -7162,6 +7152,300 @@ al time.
  However, the time it takes to do this is very comparable to power iteration.
  Both method (2) and method (3) will be compared again in the coupled neutrons/t
 hermal hydraulics problem.
+\end_layout
+
+\begin_layout Standard
+The slab width was then decreased to 370 cm which is about the length of
+ the active fuel rod length producing power in a standard pressurized water
+ reactor.
+ The dominance ratio of this system is 0.992.
+ The difference in the the flux eigenvectors is shown in Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:fluxcmp_300"
+
+\end_inset
+
+.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pics/diff_flux_300.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Flux Eigenvector Comparison, 300 cm
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:fluxcmp_300"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ A comparison of the number of iterations, final residual and computation
+ time is presented in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:eigcomp_300"
+
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+do on linux
+\end_layout
+
+\end_inset
+
+.
+\begin_inset Float table
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Comparison of Methods to Solve Neutronic Eigenvalue Problem, 300 cm
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="4">
+<features booktabs="true" tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0pt">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Iterations
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Final Residual
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Time [s]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Power Iteration
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+424
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $9.9881\times10^{-7}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Analytic JFNK
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $5.024\times10^{-7}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Finite Difference JFNK
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $4.2829\times10^{-7}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:eigcomp_300"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Finish conclusions and compare to high dominance ratio, time and iters of
+ power and newtons iterations and time.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section

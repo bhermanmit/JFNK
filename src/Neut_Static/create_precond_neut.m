@@ -18,6 +18,7 @@ J(n+1,1:n) = -phi';
 J(n+1,n+1) = 1;
 
 % ilu-0 preconditioner
-[L,U] = ilu(J);
+setup.type = 'nofill';
+[L,U] = ilu(J,setup);
 
 end
