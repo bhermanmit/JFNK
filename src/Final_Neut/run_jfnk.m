@@ -30,8 +30,9 @@ J(m+1,1:m) = -phi.';
 setup.type = 'crout';
 setup.milu = 'row';
 setup.droptol = 0.1;
-[L,U] = ilu(J,setup);
-P = L*U;
+%[L,U] = ilu(J,setup);
+%P = L*U;
+P = eye(m+1);
 
 % construct guess
 m = size(M,1);

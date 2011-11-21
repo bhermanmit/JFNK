@@ -5,6 +5,7 @@
 \textclass amsart
 \begin_preamble
 \usepackage{algorithmic}
+\usepackage{flafter}
 \end_preamble
 \use_default_options true
 \begin_modules
@@ -1730,6 +1731,16 @@ Neutronics
 \end_layout
 
 \begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:SteadyNeut"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 We can integrate each term in Eq.
  
 \begin_inset CommandInset ref
@@ -2198,7 +2209,28 @@ reference "eq:RightNeut"
 The neutron destruction operator has a tridiagonal form while the production
  operator is a diagonal of fission neutron production macroscopic cross
  sections.
+ Since this eigenvalue problem will be formulated in a nonlinear sense,
+ another equation is needed to constrain the eigenvector.
+ The common approach is to make the L2-norm of the eigenvector be unity
  
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Gill2009"
+
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left\Vert \bar{\mathbf{\Phi}}\right\Vert _{2}=1.
+\end{equation}
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -2440,16 +2472,44 @@ Transient Equations
 \end_layout
 
 \begin_layout Section
-Newton Methods 
+Newton's Method 
 \end_layout
 
 \begin_layout Standard
+To solve the coupled neutronic/thermal hydrualic problem, a nonlinear method
+ must be used.
+ A common approach to solve nonlinear equations is to employ Newton's method
 \begin_inset Note Note
 status open
 
 \begin_layout Plain Layout
-use C.T.
- Kellys Book online 
+ref CT 
+\end_layout
+
+\end_inset
+
+.
+ The algorithm for Newton's methods is quite straightforward and is presented
+ in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:NewtonEasy"
+
+\end_inset
+
+.
+ 
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Newton's Method
 \end_layout
 
 \end_inset
@@ -2457,8 +2517,205 @@ use C.T.
 
 \end_layout
 
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{algorithmic}[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+FOR{$n=1,2,3,...$}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE evaluate residual, $
+\backslash
+mathbf{F}(
+\backslash
+mathbf{x}_{n})$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE test for convergence
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE evaluate Jacobian, $
+\backslash
+mathbb{J}(
+\backslash
+mathbf{x}_{n})$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE solve $d
+\backslash
+mathbf{x} = 
+\backslash
+mathbb{J}(
+\backslash
+mathbf{x}_{n})^{-1}
+\backslash
+mathbf{F}(
+\backslash
+mathbf{x}_{n})$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE compute next guess, $
+\backslash
+mathbf{x}_{n+1} = 
+\backslash
+mathbf{x}_{n} + d
+\backslash
+mathbf{x}$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{algorithmic}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:NewtonEasy"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ Therefore a set of residual equations must be formulated such that 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{F}\left(\mathbf{x}\right)=0.
+\end{equation}
+
+\end_inset
+
+ From these residual equations, a Jacobian matrix can be constructed by
+ taking the partial derivative of each residual equation by the variables
+ in the unknown vector.
+ To test for convergence, the norm of the residual is usually compared to
+ some tolerance.
+ This termination criteria is shown as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left\Vert \mathbf{F}\left(\mathbf{x}\right)\right\Vert _{2}<tol.
+\end{equation}
+
+\end_inset
+
+ This nonlinear tolerance is user defined and is arbitrary.
+ We only note that this value be compared to the tolerance used when solving
+ the linear system equation with an iterative method(see step 5 in Algorithm
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:NewtonEasy"
+
+\end_inset
+
+).
+ 
+\end_layout
+
+\begin_layout Standard
+In the coupled system of neutronic and thermal hydraulic equations, an analytic
+ Jacobian cannot be determined since the state equation for water is a lookup
+ table.
+ One could fit an analytic curve to the state equation to describe the dependenc
+e of density on temperature.
+ However in this application, the Jacobian will be approximated.
+ This process is discussed in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:JFNK"
+
+\end_inset
+
+.
+ Therefore, direct methods cannot be utilized with solving this linear system
+ of equations in Newton's method.
+ Instead, an iterative GMRES Krylov subspace method is used and is described
+ in detail in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Krylov"
+
+\end_inset
+
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+list in Appendix A
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
 \begin_layout Section
-Krylov Methods
+Krylov Subspace Methods
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Krylov"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -2488,7 +2745,7 @@ In Krylov methods just like other direct and iterative numerical schemes,
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathcal{K}_{n}\left(A,v\right)=\mathrm{span}\left\{ v,\mathbf{A}v,\mathbf{A}^{2}v,...,\mathbf{A}^{n-1}v\right\} ,
+\mathcal{K}_{n}\left(A,v\right)=\mathrm{span}\left\{ v,\mathbf{A}v,\mathbf{A}^{2}v,...,\mathbf{A}^{n-1}v\right\} ,\label{eq:KrySub}
 \end{equation}
 
 \end_inset
@@ -5204,6 +5461,16 @@ prove this
 \end_inset
 
 .
+ The convergence criteria is shown as
+\begin_inset Formula 
+\[
+\left|g_{n}\right|<tol.
+\]
+
+\end_inset
+
+ This linear tolerance is user defined and should be compared to the nonlinear
+ tolerance in the Newton iteration.
  After this convergence criteria is met, the vector 
 \begin_inset Formula $y$
 \end_inset
@@ -5225,7 +5492,7 @@ g_{n}=\mathbf{R}_{n}y.
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-x=x_{0}+\mathbf{Q}_{n}y,
+x=x_{0}+\mathbf{Q}_{n}y,\label{eq:KrySol}
 \end{equation}
 
 \end_inset
@@ -5527,7 +5794,223 @@ name "alg:GMRESgivens"
 \end_layout
 
 \begin_layout Section
-The Jacobian-Free Approximation
+Inexact Newton's Method and Jacobian-Free Approximation
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:JFNK"
+
+\end_inset
+
+ The previous two sections discussed how to solve nonlinear equations, Newton's
+ method, and how to solve a linear system of equations with GMRES.
+ The combination of these two methods, using Newton's method for the nonlinear
+ equations and using a Krylov method for the linear step in Newton's method
+ is called Newton-Krylov.
+ Since each linear system solve in Newton's iteration is not solved exactly
+ with a direct method, the result from the iterative solve is not exact.
+ This idea is known as Inexact Newton's method and can be taken advantage
+ of.
+ 
+\end_layout
+
+\begin_layout Subsection
+Inexact Newton's Method
+\end_layout
+
+\begin_layout Standard
+Since there are two tolerances the user can set, the nonlinear tolerance
+ in the Newton iteration and the linear tolerance in the GMRES solver, these
+ can be somewhat optimized to each other.
+ Since at the beginning of Newton's iteration, the nonlinear residual is
+ quite large, the linear system does not need to be converged very tightly
+ to get a good approximation of the next nonlinear step 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+ref Mousseau
+\end_layout
+
+\end_inset
+
+.
+ This idea is formalized by making the convergence of the linear residual
+ proportional to the nonlinear residual,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left\Vert \mathbb{J}\left(\mathbf{x}^{n}\right)d\mathbf{x}_{m}^{n}+\mathbf{F}\left(\mathbf{x}^{n}\right)\right\Vert _{2}<\eta\left\Vert \mathbf{F}\left(\mathbf{x}^{n}\right)\right\Vert _{2}.
+\end{equation}
+
+\end_inset
+
+ Here, 
+\begin_inset Formula $n$
+\end_inset
+
+ is the nonlinear Newton iteration number, 
+\begin_inset Formula $m$
+\end_inset
+
+ is the linear iteration number of the Krylov solver and 
+\begin_inset Formula $\eta$
+\end_inset
+
+ is the relative residual tolerance.
+ To use this appropriately, the user should specify the relative residual
+ tolerance parameter.
+ In the Krylov solver, the nonlinear residual is just the right hand side
+ of 
+\begin_inset Formula $\mathbb{A}\mathbf{x}=\mathbf{b}$
+\end_inset
+
+ and must be given to the Krylov solver.
+ Thus the linear tolerance in the Krylov solver is just 
+\begin_inset Formula $\eta\left\Vert \mathbf{b}\right\Vert _{2}$
+\end_inset
+
+.
+ When the norm of 
+\begin_inset Formula $\mathbf{b}$
+\end_inset
+
+ is large, at initial Newton step, the linear tolerance is not that tight.
+ However, at later Newton steps when the norm of 
+\begin_inset Formula $\mathbf{b}$
+\end_inset
+
+ is small, the linear tolerance is much tighter to help converge the system.
+ Therefore iterations in the Krylov solver are not wasted when the nonlinear
+ residual is large.
+ This 
+\begin_inset Formula $\eta$
+\end_inset
+
+ parameter is problem dependent and can be optimized for each problem.
+\end_layout
+
+\begin_layout Subsection
+Jacobian-Free Newton-Krylov Method
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:JFNK"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+At each Newton step the linear system, 
+\begin_inset Formula $\mathbb{J}d\mathbf{x}=-\mathbf{F}$
+\end_inset
+
+, is solved.
+ From equation 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:KrySub"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:KrySol"
+
+\end_inset
+
+, at the 
+\begin_inset Formula $m$
+\end_inset
+
+-th Krylov step the solution of the linear system is 
+\begin_inset Formula 
+\begin{equation}
+d\mathbf{x}_{m}=d\mathbf{x}_{0}+a_{0}\mathbf{r}_{0}+a_{1}\mathbb{J}\mathbf{r}_{0}+a_{2}\mathbb{J}^{2}\mathbf{r}_{0}+...+a_{m}\mathbb{J}^{m}\mathbf{r}_{0},
+\end{equation}
+
+\end_inset
+
+ where 
+\begin_inset Formula $\mathbf{r}_{0}$
+\end_inset
+
+ is the initial linear residual.
+ What is seen from the building of the Krylov subspace is that the Jacobian
+ is always acting on a vector.
+ Even if the Jacobian can be formulated analytically, why use the memory
+ and form the matrix instead of writing a separate routine to perform this
+ multiplication manually.
+ If the Jacobian cannot be formulated analytically, the Jacobian-vector
+ product can be approximated with a finite difference,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{J}\mathbf{v}\approx\frac{\mathbf{F}\left(\mathbf{x}+\epsilon\mathbf{v}\right)-\mathbf{F}\left(\mathbf{x}\right)}{\epsilon},
+\end{equation}
+
+\end_inset
+
+ where 
+\begin_inset Formula $\mathbf{v}$
+\end_inset
+
+ is an arbitrary vector, 
+\begin_inset Formula $\mathbf{x}$
+\end_inset
+
+ is the current estimate of the nonlinear solution from Newton's iteration
+ and 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ is the perturbation parameter.
+ The choice of the perturbation parameter is arbitrary, but will have an
+ effect on the number of iterations of the problem.
+ In the JFNK overview paper there are suggestions for choosing this perturbation
+ parameter 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Knoll2004"
+
+\end_inset
+
+.
+ Mousseau recommends using 
+\begin_inset Formula 
+\begin{equation}
+\epsilon=\frac{\sum_{i=1}^{N}bx_{i}}{N\left\Vert \mathbf{v}\right\Vert _{2}}.
+\end{equation}
+
+\end_inset
+
+ This is definition of the perturbation parameter used in this work to approxima
+te the Jacobian.
+ Even if the Jacobian-vector product can be evaluated analytically, it can
+ also be approximated with a finite difference.
+ In the system of equations solved in this work, all of the Jacobian-vector
+ products can be evaluated analytically except for the density evaluation
+ from the state equation, it must be calculated with a finite difference
+ approximation.
+ The idea of forming the Jacobian-vector products analytically or approximating
+ it all with a finite difference is investigated in this work.
+ If the finite difference approximation of the whole system can be performed
+ quicker, then this extra routine to perform the Jacobian-vector product
+ is not needed.
+ This would be fortunate since these routines can become complicated to
+ write.
+ 
 \end_layout
 
 \begin_layout Section
@@ -5535,12 +6018,351 @@ Preconditioning
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Note
+It is important to keep the number of iterations in the GMRES solver to
+ a minimum.
+ The first reason is that with fewer iterations, each linear step solve
+ will go very quickly.
+ Another important reason is that in GMRES all previous iterations' Krylov
+ vectors are stored in memory.
+ The term preconditioner means to multiply the coefficient matrix 
+\begin_inset Formula $\mathbb{A}$
+\end_inset
+
+ by a preconditioner 
+\begin_inset Formula $\mathbb{M}^{-1}$
+\end_inset
+
+.
+ This preconditioner can be multiplied on the left, right or on both sides
+ of 
+\begin_inset Formula $\mathbb{A}$
+\end_inset
+
+.
+ The idea is that the action of the preconditioner on the coefficient matrix
+ will result in an easier linear system solve.
+ In this work only left preconditioning is used where
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{M}^{-1}\mathbb{A}\mathbf{x}=\mathbb{M}^{-1}\mathbf{b}.
+\end{equation}
+
+\end_inset
+
+ There are many methods to compute a preconditioner for a linear system.
+ Such preconditioners are Jacobi, Incomplete LU factorization (ILU), block
+ preconditioners, multigrid, physics-based etc.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Saad2003,Knoll2004"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+In this work ILU preconditioning is used as it is relatively easier to form.
+ An ILU process computes sparse lower and upper triangular matrices (
+\begin_inset Formula $\mathbb{L}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbb{U}$
+\end_inset
+
+) such that a residual matrix defined as 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{R}=\mathbb{L}\mathbb{U}-\mathbb{A},
+\end{equation}
+
+\end_inset
+
+ is constrained to certain conditions.
+ The simplest constraint is the the product of 
+\begin_inset Formula $\mathbb{LU}$
+\end_inset
+
+ has the same number and locations of nonzeros, known as Zero Fill-in ILU.
+ This is the default in MATLAB when the function 
+\begin_inset Formula $\mathtt{ilu}$
+\end_inset
+
+ is used.
+ We therefore have that
+\begin_inset Formula 
+\begin{equation}
+\mathbb{M}=\mathbb{LU}
+\end{equation}
+
+\end_inset
+
+ and therefore
+\begin_inset Formula 
+\begin{equation}
+\mathbb{U}^{-1}\mathbb{L}^{-1}\mathbb{A}\mathbf{x}=\mathbb{U}^{-1}\mathbb{L}^{-1}\mathbf{b}.
+\end{equation}
+
+\end_inset
+
+ This can easily be added to the basic GMRES algorithm now modified in Algorithm
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:GMRESbasicPrec"
+
+\end_inset
+
+.
+\begin_inset Float algorithm
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Basic GMRES w/Preconditioning 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Saad1986"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
 status open
 
 \begin_layout Plain Layout
-Use C.T.
- Kelly's book
+
+
+\backslash
+begin{algorithmic}[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $
+\backslash
+mathbf{r}_{1} = 
+\backslash
+mathbb{U}^{-1}
+\backslash
+mathbb{L}^{-1}
+\backslash
+mathbf{b} - 
+\backslash
+mathbb{U}^{-1}
+\backslash
+mathbb{L}^{-1}
+\backslash
+mathbb{A}
+\backslash
+mathbf{x}_{1}$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $
+\backslash
+mathbf{q}_{1}=
+\backslash
+mathbf{r}_{1}/
+\backslash
+left
+\backslash
+Vert 
+\backslash
+mathbf{r}_{1} 
+\backslash
+right
+\backslash
+Vert$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+FOR{$n=1,2,3,...$}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $
+\backslash
+mathbf{v} = 
+\backslash
+mathbb{U}^{-1}
+\backslash
+mathbb{L}^{-1}
+\backslash
+mathbb{A}
+\backslash
+mathbf{q}_{n}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+FOR{$j=1..n$}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE $h_{jn} = q^{*}_{j}v$
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE $v = v - h_{jn}q_{j}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $h_{n+1,n} = 
+\backslash
+left
+\backslash
+Vert 
+\backslash
+mathbf{v} 
+\backslash
+right
+\backslash
+Vert$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $
+\backslash
+mathbf{q}_{n+1} = 
+\backslash
+mathbf{v}/h_{n+1,n}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE Find $
+\backslash
+mathbf{y}$ to minimize $
+\backslash
+left
+\backslash
+Vert 
+\backslash
+widetilde{
+\backslash
+mathbb{H}}_{n}
+\backslash
+mathbf{y}-
+\backslash
+beta 
+\backslash
+mathbf{e}_{1}
+\backslash
+right
+\backslash
+Vert$ 
+\backslash
+COMMENT{where $
+\backslash
+beta = 
+\backslash
+left
+\backslash
+Vert 
+\backslash
+mathbf{r}_{1} 
+\backslash
+right
+\backslash
+Vert$}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $
+\backslash
+mathbf{x}_{n}=
+\backslash
+mathbb{Q}_{n}
+\backslash
+mathbf{y}$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{algorithmic}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:GMRESbasicPrec"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -5550,6 +6372,796 @@ Use C.T.
 
 \begin_layout Section
 Solving the Steady-State Neutron Diffusion Equation
+\end_layout
+
+\begin_layout Standard
+As an introduction to solving this coupled set of nonlinear neutronics and
+ thermal hydraulics equations, a simpler problem of just neutronics was
+ solved first.
+ The steady steady neutron diffusion equation to be solved is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{M}\bar{\mathbf{\Phi}}=\lambda\mathbb{F}\bar{\mathbf{\Phi}},
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\lambda=1/k_{eff}$
+\end_inset
+
+.
+ This equation was derived in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:SteadyNeut"
+
+\end_inset
+
+.
+ This linear system of equations is an eigenvalue problem.
+ One straight forward approach to solve linear eigenvalue problems is to
+ use power iteration.
+ The power iteration method is outlined in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:power"
+
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+refDH
+\end_layout
+
+\end_inset
+
+.
+ 
+\begin_inset Float algorithm
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Power Iteration Method 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{algorithmic}[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $
+\backslash
+mathbf{
+\backslash
+Phi}^{
+\backslash
+left ( 0 
+\backslash
+right )} = $ arbitrary nonzero vector
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $k_{eff}^{
+\backslash
+left  ( 0 
+\backslash
+right )} = $ arbitrary nonzero constant
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+FOR {$n=1,2,3,...$}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $
+\backslash
+mathbf{b} = 1/k_{eff}^{
+\backslash
+left ( n-1 
+\backslash
+right )} 
+\backslash
+mathbb{F} 
+\backslash
+mathbf{
+\backslash
+Phi}^{
+\backslash
+left ( n-1 
+\backslash
+right )}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $
+\backslash
+mathbf{
+\backslash
+Phi}^{
+\backslash
+left ( n+1 
+\backslash
+right )} = 
+\backslash
+mathbb{M}^{-1}
+\backslash
+mathbf{b}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $k_{eff}^{
+\backslash
+left ( n 
+\backslash
+right )} = k_{eff}^{
+\backslash
+left ( n-1 
+\backslash
+right )} 
+\backslash
+frac{
+\backslash
+left ( 
+\backslash
+mathbb{F}
+\backslash
+mathbf{
+\backslash
+Phi}^{
+\backslash
+left ( n+1 
+\backslash
+right )},
+\backslash
+mathbb{F}
+\backslash
+mathbf{
+\backslash
+Phi}^{
+\backslash
+left ( n+1 
+\backslash
+right )} 
+\backslash
+right )}{
+\backslash
+left ( 
+\backslash
+mathbb{F}
+\backslash
+mathbf{
+\backslash
+Phi}^{
+\backslash
+left ( n 
+\backslash
+right )},
+\backslash
+mathbb{F}
+\backslash
+mathbf{
+\backslash
+Phi}^{
+\backslash
+left ( n+1 
+\backslash
+right ) } 
+\backslash
+right )}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE check convergence of eigenvalue and eigenvector
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{algorithmic}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:power"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ The eigenvalue is updated in each iteration with a scalar product of the
+ new fission source with itself divided by the new fission source with the
+ old fission source.
+ This method is widely used and will be used as the 
+\begin_inset Quotes eld
+\end_inset
+
+right
+\begin_inset Quotes erd
+\end_inset
+
+ answer when we compare it against a Newton's method.
+ Another important feature of power iteration is that it will always converge
+ on the fundamental solution of the equation whereas, any mode can be obtained
+ when using Newton's method.
+\end_layout
+
+\begin_layout Standard
+In the power iteration, the flux vector is the only unknown and hence the
+ system of equations is linear.
+ However, if the eigenvalue is also considered as an unknown, the system
+ of equations becomes nonlinear.
+ Therefore Newton's method is used to solve for these unknowns.
+ The residual equations are 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{F}=\left[\begin{array}{c}
+\mathbb{M}\bar{\mathbf{\Phi}}-\lambda\mathbb{F}\bar{\mathbf{\Phi}}\\
+-\frac{1}{2}\bar{\mathbf{\Phi}}^{\top}\bar{\mathbf{\Phi}}+\frac{1}{2}
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ The last equation represents the constraint unity L2-norm constraint on
+ the eigenvector.
+ The unknown vector is setup as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{x}=\left[\begin{array}{c}
+\bar{\mathbf{\Phi}}\\
+\lambda
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ Using these equations, the Jacobian can be constructed as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{J}=\left[\begin{array}{cc}
+\mathbb{M}-\lambda\mathbb{F} & -\mathbb{F}\bar{\mathbf{\Phi}}\\
+-\bar{\mathbf{\Phi}}^{\top} & 0
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+These set of equations can be solved 3 ways: (1) power iteration, (2) construct
+ analytic Jacobian-vector product, (3) approximate Jacobian vector product
+ with finite difference.
+ In method (2), the analytic Jacobian-vector product can be formulated as
+\begin_inset Formula 
+\begin{equation}
+\mathbb{J}\mathbf{y}=\left[\begin{array}{cc}
+\mathbb{M}-\lambda\mathbb{F} & -\mathbb{F}\bar{\mathbf{\Phi}}\\
+-\bar{\mathbf{\Phi}}^{\top} & 0
+\end{array}\right]\left[\begin{array}{c}
+y_{\phi}\\
+y_{\lambda}
+\end{array}\right]=\left[\begin{array}{c}
+\left(\mathbb{M}-\lambda\mathbb{F}\right)y_{\phi}-\mathbb{F}\bar{\mathbf{\Phi}}y_{\lambda}\\
+-\bar{\mathbf{\Phi}}^{\top}y_{\phi}
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ The finite difference approach to the Jacobian-vector product is described
+ in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:JFNK"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Each of these methods were implemented in a MATLAB code which is presented
+ in Appendix ___
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+list in Appendix B
+\end_layout
+
+\end_inset
+
+.
+ The flux eigenvectors were compared for each of the three cases and is
+ shown if Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:fluxmode"
+
+\end_inset
+
+.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pics/FundMode.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Flux Eigenvector Comparison
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:fluxmode"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ The results show that Newton-based methods do not agree with the power
+ iteration even though the residual criteria is met.
+ This is because any eigenvalue/eigenvector pair satisfies the residual
+ equations.
+ To verify, the 
+\begin_inset Formula $\mathtt{eigs}$
+\end_inset
+
+ command in MATLAB was used to get an array of eigenvalues of the system.
+ Sure enough, the converged eigenvalue was listed.
+ To ensure that the Newton-based methods converge to the fundamental mode,
+ two power iterations were computed to get the flux shape in the correct
+ direction.
+ After applying this, the results look better and are shown in Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:fluxdiffneut"
+
+\end_inset
+
+.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pics/Flux.png
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Flux Comparison
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pics/diff_flux.png
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Difference with respect to Power Iteration
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Comparison of Flux with Initial Power Iteration
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:fluxdiffneut"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+split into two figs
+\end_layout
+
+\end_inset
+
+The differences in the plot with respect to power iteration are within the
+ converged nonlinear iteration tolerance of 
+\begin_inset Formula $10^{-6}$
+\end_inset
+
+.
+ What is more interesting to compare is number of iterations, final residual
+ and computation time.
+ These results are listed in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:eigcomp"
+
+\end_inset
+
+.
+ 
+\begin_inset Float table
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Comparison of Methods to Solve Neutronic Eigenvalue Problem
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="4">
+<features booktabs="true" tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0pt">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Iterations
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Final Residual
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Time [s]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Power Iteration
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+984
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $9.9997\times10^{-7}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.121
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Analytic JFNK
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $5.024\times10^{-7}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.060
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Finite Difference JFNK
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $4.2829\times10^{-7}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.123
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:eigcomp"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ From the results, the power iteration takes almost 1000 iterations.
+ This is because the dominance ratio, which is defined as the ratio of the
+ two largest eigenvalues, is very close to unity.
+ In this problem the dominance ratio is 0.9969.
+ The analytic Jacobian-free method performs the best with respect to computation
+al time.
+ The finite difference version of JFNK does not do as well as the analytic
+ multiplication.
+ However, the time it takes to do this is very comparable to power iteration.
+ Both method (2) and method (3) will be compared again in the coupled neutrons/t
+hermal hydraulics problem.
 \end_layout
 
 \begin_layout Section

@@ -38,12 +38,12 @@ for i = 1:10000
     J(m+1,1:m) = -phi.';
     
     % compute preconditioner
-    setup.type = 'crout';
-    setup.milu = 'row';
-    setup.droptol = 0.1;
-    [L,U] = ilu(J,setup);
-    P = L*U;
-    % P = eye(length(dx));
+  %  setup.type = 'crout';
+  %  setup.milu = 'row';
+  %  setup.droptol = 0.1;
+  %  [L,U] = ilu(J,setup);
+  %  P = L*U;
+   P = eye(length(dx));
     
     % GMRES solution
     [dx,err] = gmres_restart_givens_prec(P,J,dx,-G,100,1,1e-7);

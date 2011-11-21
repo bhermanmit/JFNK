@@ -3,6 +3,8 @@
 % Steady State couple physics
 clear; close all; clear -global
 
+tic
+
 % function for residual evaluation
 myfun = @jfnk_steady_state_fun;
 
@@ -21,3 +23,5 @@ x = get_initial_guess();
 
 % run no feedback system
 x = JFNK_neut(myfun,mymatvecmult,x,L,U);
+
+toc

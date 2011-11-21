@@ -95,7 +95,7 @@ for k = 1:maxiter
     
     % check convergence
     if err(k*n) < tol
-        err = err/scale;
+        %err = err/scale;
         break
         
     end
