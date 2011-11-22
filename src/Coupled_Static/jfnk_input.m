@@ -7,7 +7,7 @@ global geom th neut
 %% geometry object
 
 % number of mesh cells
-geom.n = 100;
+geom.n = 370;
 
 % dimension of mesh [cm]
 geom.dx = 1;
@@ -49,10 +49,11 @@ neut.kfissREF = 4.13494E-13*neut.kfissconst;
 
 
 % dependence of neutronic parameters on density
-neut.DabsxsDrho = 0.020796*5;
-neut.DnfissDrho = 0.035471*5;
-neut.DdiffDrho  = -0.95551*5;
-neut.DkfissDrho = 4.7055E-13*5*neut.kfissconst;
+neut.skew = 1;
+neut.DabsxsDrho = 0.020796*neut.skew;
+neut.DnfissDrho = 0.035471*neut.skew;
+neut.DdiffDrho  = -0.95551*neut.skew;
+neut.DkfissDrho = 4.7055E-13*neut.kfissconst*neut.skew;
 
 % set evaluation of neutronic parameters as a function of density
 neut.absxs = @(rho) neut.absxsREF + neut.DabsxsDrho*(rho - th.rhoREF);

@@ -13,7 +13,7 @@ info.dt = 0.1;
 %% geometry object
 
 % number of different coarse regions
-geom.nx = 3;
+geom.nx = 5;
 
 % map of coarse mesh regions
 geom.map = [1,2,1,3,1];

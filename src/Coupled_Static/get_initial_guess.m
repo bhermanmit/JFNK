@@ -34,7 +34,7 @@ M = create_operators('M',x);
 F = create_operators('F',x);
 
 % perform one power iteration
-[keff,x(1:n)] = power_iter(M,F,x(1:n),1/x(8*n+2));
+[keff,x(1:n)] = power_iter(M,F,x(1:n),1/x(8*n+2),20);
 x(8*n+2) = 1/keff;
 
 % run eigenvalue solver
@@ -67,9 +67,9 @@ for i = 1:n
 end
 
 % compute new cross sections
-x(4*n+2:5*n+1) = absxsREF;% + DabsxsDrho*(x(3*n+2:4*n+1) - rhoREF);
-x(5*n+2:6*n+1) = nfissREF;% + DnfissDrho*(x(3*n+2:4*n+1) - rhoREF);
-x(6*n+2:7*n+1) = diffREF;% + DdiffDrho*(x(3*n+2:4*n+1) - rhoREF);
-x(7*n+2:8*n+1) = kfissREF;% + DkfissDrho*(x(3*n+2:4*n+1) - rhoREF);
+x(4*n+2:5*n+1) = absxsREF + DabsxsDrho*(x(3*n+2:4*n+1) - rhoREF);
+x(5*n+2:6*n+1) = nfissREF + DnfissDrho*(x(3*n+2:4*n+1) - rhoREF);
+x(6*n+2:7*n+1) = diffREF + DdiffDrho*(x(3*n+2:4*n+1) - rhoREF);
+x(7*n+2:8*n+1) = kfissREF + DkfissDrho*(x(3*n+2:4*n+1) - rhoREF);
 
 end

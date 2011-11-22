@@ -20,7 +20,6 @@ Tin = th.Tin; % inlet temperature
 absxsREF = neut.absxsREF;
 nfissREF = neut.nfissREF;
 diffREF = neut.diffREF;
-kfissconst = neut.kfissconst;
 kfissREF = neut.kfissREF;
 DabsxsDrho = neut.DabsxsDrho;
 DnfissDrho = neut.DnfissDrho;

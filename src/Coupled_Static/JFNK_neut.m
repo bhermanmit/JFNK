@@ -42,7 +42,7 @@ for i = 1:10000
  
     % solve directly
     %J = create_Jacobian(x);
-    %dx = -J\F;
+    %dx = -J\F;  
     
     % update guess
     x = x + dx;

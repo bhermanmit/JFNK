@@ -2225,7 +2225,7 @@ key "Gill2009"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\left\Vert \bar{\mathbf{\Phi}}\right\Vert _{2}=1.
+\left\Vert \bar{\mathbf{\Phi}}\right\Vert _{2}=1.\label{eq:norm}
 \end{equation}
 
 \end_inset
@@ -2252,13 +2252,13 @@ reference "eq:fluxpownorm"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-Q_{R}=\tilde{c}\int_{0}^{L}dx\kappa\Sigma_{f}\left(x\right)\phi\left(x\right)=\tilde{c}\sum_{i}\kappa\Sigma_{f,i}\bar{\phi}_{i}\Delta x.\label{eq:normfluxdiscrete}
+Q_{R}=\tilde{c}\int_{0}^{L}dx\kappa\Sigma_{f}\left(x\right)\phi\left(x\right)=\tilde{c}\sum_{i}\kappa\Sigma_{f,i}\bar{\phi}_{i}\Delta x=\tilde{c}\kappa\mathbf{\Sigma}_{f}^{\top}\bar{\mathbf{\Phi}}\Delta x.\label{eq:normfluxdiscrete}
 \end{equation}
 
 \end_inset
 
- Once the normalization constant is determined the power in each volume
- can be determined by integrating the power density,Eq.
+Once the normalization constant is determined the power in each volume can
+ be determined by integrating the power density,Eq.
  
 \begin_inset CommandInset ref
 LatexCommand eqref
@@ -2284,7 +2284,7 @@ Q_{i}=\int_{x_{i-1/2}}^{x_{i+1/2}}\tilde{c}\kappa\Sigma_{f}\phi\left(x\right)=\t
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{Q}=\tilde{c}\mathbb{E}\bar{\mathbf{\Phi}},\label{eq:energyoper}
+\mathbf{Q}=\tilde{c}\mathbb{E}\bar{\mathbf{\Phi}}\Delta x,\label{eq:energyoper}
 \end{equation}
 
 \end_inset
@@ -2293,7 +2293,7 @@ Q_{i}=\int_{x_{i-1/2}}^{x_{i+1/2}}\tilde{c}\kappa\Sigma_{f}\phi\left(x\right)=\t
 \begin_inset Formula $\mathbb{E}$
 \end_inset
 
- is a diagonal matrix.
+ is a diagonal matrix of the energy deposition cross section.
 \end_layout
 
 \begin_layout Subsubsection
@@ -2385,7 +2385,7 @@ reference "eq:FVEnergy"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbb{S}\mathbf{\bar{T}}=\mathbb{R}\bar{\mathbf{Q}},\label{eq:TempOper}
+\mathbb{S}\mathbf{\bar{T}}=\mathbb{R}\mathbf{Q},\label{eq:TempOper}
 \end{equation}
 
 \end_inset
@@ -2420,7 +2420,18 @@ These coupling equations can very simply be converted for a whole cell.
 
 \end_inset
 
- The neutronic parameters can be related to this cell average density as
+ In vector form this is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathcal{P}=\rho\left(\bar{\mathbf{T}},p\right).\label{eq:DensityTempVec}
+\end{equation}
+
+\end_inset
+
+The neutronic parameters can be related to this cell average density as
 \end_layout
 
 \begin_layout Standard
@@ -2460,6 +2471,47 @@ D_{i}=D^{ref}+\frac{\partial D}{\partial\rho}\left[\rho_{i}-\rho^{ref}\right],\l
 \begin_inset Formula 
 \begin{equation}
 \kappa\Sigma_{f,i}=\kappa\Sigma_{f}^{ref}+\frac{\partial\kappa\Sigma_{f}}{\partial\rho}\left[\rho_{i}-\rho^{ref}\right].\label{eq:KfissRHOCell}
+\end{equation}
+
+\end_inset
+
+ In vector for these are written as
+\begin_inset Formula 
+\begin{equation}
+\mathbf{\Sigma}_{a}=\Sigma_{a}^{ref}+\frac{\partial\Sigma_{a}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right],\label{eq:AbsRHOCellVec}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\nu\mathbf{\Sigma}_{f}=\nu\Sigma_{f}^{ref}+\frac{\partial\nu\Sigma_{f}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right],\label{eq:NfissRHOCellVec}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{D}=D^{ref}+\frac{\partial D}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right],\label{eq:DiffRHOCellVec}
+\end{equation}
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\kappa\mathbf{\Sigma}_{f,i}=\kappa\Sigma_{f}^{ref}+\frac{\partial\kappa\Sigma_{f}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right].\label{eq:KfissRHOCellVec}
 \end{equation}
 
 \end_inset
@@ -6375,6 +6427,16 @@ Solving the Steady-State Neutron Diffusion Equation
 \end_layout
 
 \begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:steadyneut"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 As an introduction to solving this coupled set of nonlinear neutronics and
  thermal hydraulics equations, a simpler problem of just neutronics was
  solved first.
@@ -7033,7 +7095,7 @@ Power Iteration
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.121
+0.116
 \end_layout
 
 \end_inset
@@ -7074,7 +7136,7 @@ Analytic JFNK
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.060
+0.075
 \end_layout
 
 \end_inset
@@ -7115,7 +7177,7 @@ Finite Difference JFNK
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.123
+0.147
 \end_layout
 
 \end_inset
@@ -7214,16 +7276,6 @@ name "fig:fluxcmp_300"
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:eigcomp_300"
-
-\end_inset
-
-
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-do on linux
-\end_layout
 
 \end_inset
 
@@ -7327,7 +7379,7 @@ Power Iteration
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.07037
 \end_layout
 
 \end_inset
@@ -7347,7 +7399,7 @@ Analytic JFNK
 \begin_inset Text
 
 \begin_layout Plain Layout
-6
+5
 \end_layout
 
 \end_inset
@@ -7368,7 +7420,7 @@ Analytic JFNK
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.05714
 \end_layout
 
 \end_inset
@@ -7388,7 +7440,7 @@ Finite Difference JFNK
 \begin_inset Text
 
 \begin_layout Plain Layout
-6
+5
 \end_layout
 
 \end_inset
@@ -7409,7 +7461,7 @@ Finite Difference JFNK
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.08562
 \end_layout
 
 \end_inset
@@ -7434,13 +7486,382 @@ name "tab:eigcomp_300"
 
 \end_inset
 
+ From the results, the time to perform the power iteration method takes
+ fewer iterations than in the high dominance ratio case.
+ Therefore, it is observed that the dominance ratio of the system has a
+ direct effect on how long the power iteration takes.
+ Both JFNK methods took the same amount of iterations, with the finite differenc
+e approach taking slightly longer to solve.
+ This is due to the number of GMRES inner iterations needed to converge
+ the system.
+\end_layout
+
+\begin_layout Section
+Steady-State Coupled Physics Solution
+\end_layout
+
+\begin_layout Standard
+In this section the determination of the steady-state spatial distribution
+ of flux, power temperature and density will be determined.
+ Equations 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:NeutronOper"
+
+\end_inset
+
+, 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:norm"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:normfluxdiscrete"
+
+\end_inset
+
+, 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:energyoper"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:TempOper"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:DensityTempVec"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:AbsRHOCellVec"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:NfissRHOCellVec"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:DiffRHOCellVec"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:KfissRHOCellVec"
+
+\end_inset
+
+ comprise the set of equations needed to solve for the steady distributions.
+ The residual equations can be formulated as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{F}=\left[\begin{array}{c}
+\mathbb{M}\mathbf{\Phi}-\lambda\mathbb{F}\mathbf{\Phi}\\
+Q_{R}-\tilde{c}\kappa\mathbf{\Sigma}_{f}^{\mathrm{T}}\mathbf{\Phi}\Delta x.\\
+\mathbf{Q}-\tilde{c}\mathbb{E}\mathbf{\Phi}\Delta x\\
+\mathbb{S}\mathbf{T}-\mathbb{R}\mathbf{Q}\\
+\mathcal{P}-\rho\left(\mathbf{T},p\right)\\
+\mathbf{\Sigma}_{a}-\Sigma_{a}^{ref}-\frac{\partial\Sigma_{a}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right]\\
+\nu\mathbf{\Sigma}_{f}-\nu\Sigma_{f}^{ref}-\frac{\partial\nu\Sigma_{f}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right]\\
+\mathbf{D}-D^{ref}-\frac{\partial D}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right],\\
+\kappa\mathbf{\Sigma}_{f}-\kappa\Sigma_{f}^{ref}-\frac{\partial\kappa\Sigma_{f}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right]\\
+-\frac{1}{2}\mathbf{\Phi}^{\mathrm{T}}\mathbf{\Phi}+\frac{1}{2}
+\end{array}\right].\label{eq:residualStatic}
+\end{equation}
+
+\end_inset
+
+Note that in the nonlinear equations, the operators 
+\begin_inset Formula $\mathbb{M}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbb{F}$
+\end_inset
+
+ have to updated since they depend on neutronic parameters.
+ These residual equations are written in a function in MATLAB and can be
+ called during the Newton iteration.
+ The unknown vector is then constructed as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{x}=\left[\begin{array}{c}
+\mathbf{\Phi}\\
+\tilde{c}\\
+\mathbf{Q}\\
+\mathbf{T}\\
+\mathcal{P}\\
+\mathbf{\Sigma}_{a}\\
+\nu\mathbf{\Sigma}_{f}\\
+\mathbf{D}\\
+\kappa\mathbf{\Sigma}_{f}\\
+\lambda
+\end{array}\right].\label{eq:unknownStatic}
+\end{equation}
+
+\end_inset
+
+ From the residual equation and unknown vector, the analytic Jacobian vector
+ product can be constructed in matrix notation as
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Formula 
+\begin{equation}
+\mathbb{J}\mathbf{y}=\left[\begin{array}{c|c|c|c|c|c|c|c|c|c}
+\mathbb{M}-\lambda\mathbb{F} & 0 & 0 & 0 & 0 & \mathrm{diag\left\{ \mathbf{\Phi}\right\} } & -\lambda\mathrm{diag\left\{ \mathbf{\Phi}\right\} } & \mathbb{MD} & 0 & -\mathbb{F}\mathbf{\Phi}\\
+\hline -\tilde{c}\kappa\mathbf{\Sigma}_{f}^{\mathrm{T}}\Delta x & -\kappa\mathbf{\Sigma}_{f}^{\mathrm{T}}\mathbf{\Phi}\Delta x & 0 & 0 & 0 & 0 & 0 & 0 & -\tilde{c}\mathbf{\Phi}^{\mathrm{T}}\Delta x & 0\\
+\hline -\mathbb{E}\tilde{c}\Delta x & -\mathbb{E}\mathbf{\Phi}\Delta x & \mathbb{I} & 0 & 0 & 0 & 0 & 0 & -\tilde{c}\Delta x\mathrm{diag}\left\{ \mathbf{\Phi}\right\}  & 0\\
+\hline 0 & 0 & -\mathbb{R} & \mathbb{S} & 0 & 0 & 0 & 0 & 0 & 0\\
+\hline 0 & 0 & 0 & -\rho\left(T\right)* & \mathbb{I} & 0 & 0 & 0 & 0 & 0\\
+\hline 0 & 0 & 0 & 0 & -\frac{\partial\Sigma_{a}}{\partial\rho}\mathbb{I} & \mathbb{I} & 0 & 0 & 0 & 0\\
+\hline 0 & 0 & 0 & 0 & -\frac{\partial\nu\Sigma_{f}}{\partial\rho}\mathbb{I} & 0 & \mathbb{I} & 0 & 0 & 0\\
+\hline 0 & 0 & 0 & 0 & -\frac{\partial D}{\partial\rho}\mathbb{I} & 0 & 0 & \mathbb{I} & 0 & 0\\
+\hline 0 & 0 & 0 & 0 & -\frac{\partial\Sigma_{a}}{\partial\rho}\mathbb{I} & 0 & 0 & 0 & \mathbb{I} & 0\\
+\hline -\mathbf{\Phi}^{\mathrm{T}} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+\end{array}\right]\left[\begin{array}{c}
+y_{\phi}\\
+y_{\tilde{c}}\\
+y_{Q}\\
+y_{T}\\
+y_{\rho}\\
+y_{\Sigma_{a}}\\
+y_{\nu\Sigma_{f}}\\
+y_{D}\\
+y_{\kappa\Sigma_{f}}\\
+y_{\lambda}
+\end{array}\right]\label{eq:JacobianStatic}
+\end{equation}
+
+\end_inset
+
  
-\begin_inset Note Note
-status open
+\size default
+Performing the Jacobian-vector product analytically, the set of equations
+ is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{J}\mathbf{y}=\left[\begin{array}{c}
+\left(\mathbb{M}-\lambda\mathbb{F}\right)y_{\phi}+\left(\mathrm{diag\left\{ \mathbf{\Phi}\right\} }\right)y_{\Sigma_{a}}+\left(-\lambda\mathrm{diag\left\{ \mathbf{\Phi}\right\} }\right)y_{\nu\Sigma_{f}}+\left(\mathbb{MD}\right)y_{D}+\left(-\mathbb{F}\mathbf{\Phi}\right)y_{\lambda}\\
+\left(-\tilde{c}\kappa\mathbf{\Sigma}_{f}^{\mathrm{T}}\Delta x\right)y_{\phi}+\left(-\kappa\mathbf{\Sigma}_{f}^{\mathrm{T}}\mathbf{\Phi}\Delta x\right)y_{\tilde{c}}+\left(-\tilde{c}\mathbf{\Phi}^{\mathrm{T}}\Delta x\right)y_{\kappa\Sigma_{f}}\\
+\left(-\mathbb{E}\tilde{c}\Delta x\right)y_{\phi}+\left(-\mathbb{E}\mathbf{\Phi}\Delta x\right)y_{\tilde{c}}+\left(\mathbb{I}\right)y_{Q}+\left(-\tilde{c}\Delta x\mathrm{diag}\left\{ \mathbf{\Phi}\right\} \right)y_{\kappa\Sigma_{f}}\\
+\left(-\mathbb{R}\right)y_{Q}+\left(\mathbb{S}\right)y_{T}\\
+\left[-\rho\left(T\right)*\right]y_{T}+\left(\mathbb{I}\right)y_{\rho}\\
+\left(-\frac{\partial\Sigma_{a}}{\partial\rho}\mathbb{I}\right)y_{\rho}+\left(\mathbb{I}\right)y_{\Sigma_{a}}\\
+\left(-\frac{\partial\nu\Sigma_{f}}{\partial\rho}\mathbb{I}\right)y_{\rho}+\left(\mathbb{I}\right)y_{\nu\Sigma_{f}}\\
+\left(-\frac{\partial D}{\partial\rho}\mathbb{I}\right)y_{\rho}+\left(\mathbb{I}\right)y_{D}\\
+\left(-\frac{\partial\kappa\Sigma_{f}}{\partial\rho}\mathbb{I}\right)y_{\rho}+\left(\mathbb{I}\right)y_{\kappa\Sigma_{f}}\\
+\left(-\mathbf{\Phi}^{\mathrm{T}}\right)y_{\phi}
+\end{array}\right]\label{eq:JacobianVectStatic}
+\end{equation}
+
+\end_inset
+
+ This Jacobian-vector operation is perform in a MATLAB function that can
+ be called upon by the GMRES solver.
+ In Eqs.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:JacobianStatic"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:JacobianVectStatic"
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\mathrm{diag}\{\}$
+\end_inset
+
+ is the diagonal operator that places a vector along the diagonal of a matrix,
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\mathbb{MD}$
+\end_inset
+
+ is the partial derivative of the operator 
+\begin_inset Formula $\mathbb{M}$
+\end_inset
+
+ with respect to the diffusion coefficient,
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\mathbb{I}$
+\end_inset
+
+ is the identity matrix,
+\end_layout
+
+\begin_layout Itemize
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\left[-\rho\left(T\right)*\right]y_{T}$
+\end_inset
+
+ is the partial derivative of the state equation with respect to temperature
+ and must be handled with a finite difference.
+\end_layout
+
+\begin_layout Standard
+The 
+\begin_inset Formula $\mathbb{MD}$
+\end_inset
+
+ operator has the following form for the boundaries and interior cells:
+\end_layout
+
+\begin_layout Itemize
+Left boundary
+\begin_inset Formula 
+\begin{equation}
+\left(\frac{2}{\Delta x^{2}}\frac{D_{2}^{2}}{\left(D_{2}+D_{1}\right)^{2}}+2\frac{\left(1-\beta\right)^{2}}{\left[4D_{1}\left(1+\beta\right)+\Delta x\left(1-\beta\right)\right]^{2}}\right)\bar{\phi}_{1}-\frac{2}{\Delta x^{2}}\frac{D_{2}^{2}}{\left(D_{2}+D_{1}\right)^{2}}\bar{\phi}_{2},
+\end{equation}
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+Interior
+\begin_inset Formula 
+\begin{equation}
+-\frac{2}{\Delta x^{2}}\frac{D_{i-1}^{2}}{\left(D_{i}+D_{i-1}\right)^{2}}\bar{\phi}_{i-1}+\left(\frac{2}{\Delta x^{2}}\frac{D_{i+1}^{2}}{\left(D_{i+1}+D_{i}\right)^{2}}+\frac{2}{\Delta x^{2}}\frac{D_{i-1}^{2}}{\left(D_{i}+D_{i-1}\right)^{2}}\right)\bar{\phi}_{i}-\frac{2}{\Delta x^{2}}\frac{D_{i+1}^{2}}{\left(D_{i+1}+D_{i}\right)^{2}}\bar{\phi}_{i+1},
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Right boundary
+\begin_inset Formula 
+\begin{equation}
+-\frac{2}{\Delta x^{2}}\frac{D_{I-1}^{2}}{\left(D_{I}+D_{I-1}\right)^{2}}\bar{\phi}_{I-1}+\left(2\frac{\left(1-\beta\right)^{2}}{\left[4D_{I}\left(1+\beta\right)+\Delta x\left(1-\beta\right)\right]^{2}}+\frac{2}{\Delta x^{2}}\frac{D_{I-1}^{2}}{\left(D_{I}+D_{I-1}\right)^{2}}\right)\bar{\phi}_{I}.
+\end{equation}
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Each of these equations will be placed on the diagonal of the 
+\begin_inset Formula $\mathbb{MD}$
+\end_inset
+
+ matrix.
+ The last tricky part is that the partial derivative of the state equation
+ is not known.
+ Therefore, this section will have to be evaluated with a finite difference.
+ It has the form,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left[-\rho\left(T\right)*\right]y_{T}=\frac{\left[\mathcal{P}-\rho\left(\mathbf{T}+\epsilon y_{T},p\right)\right]-\left[\mathcal{P}-\rho\left(\mathbf{T},p\right)\right]}{\epsilon}.
+\end{equation}
+
+\end_inset
+
+ The overall algorithm to solve this problem is presented in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:steadycoupled"
+
+\end_inset
+
+.
+ 
+\begin_inset Float algorithm
+wide false
+sideways false
+status collapsed
 
 \begin_layout Plain Layout
-Finish conclusions and compare to high dominance ratio, time and iters of
- power and newtons iterations and time.
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Steady State Coupled Solution 
 \end_layout
 
 \end_inset
@@ -7448,8 +7869,302 @@ Finish conclusions and compare to high dominance ratio, time and iters of
 
 \end_layout
 
-\begin_layout Section
-Steady-State Coupled Physics Solution
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{algorithmic}[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE read input
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE perform small number of power iterations to estimate flux shape
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE compute thermal hydraluics based off flux shape
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE form approximate Jacobian and perform ILU to get preconditioner
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE perform Newton Iterations
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{algorithmic}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:steadycoupled"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ Once the user-defined input file is set, the code runs a few power iterations
+ to get the gross shape of the flux correct without feedback for an initial
+ guess to the Newton solver.
+ An initial guess of the thermal hydraulics is also computed based on this
+ guessed flux shape.
+ In order to minimize the number of inner iterations in the GMRES solver,
+ a preconditioner must be determined.
+ Since the Jacobian is never formed in the Newton iteration loop, this precondit
+ioner cannot be computed on-the-fly.
+ Also, it would be expensive to recompute a preconditioner at every Newton
+ step.
+ Therefore, the preconditioner is only formed once using the initial guess
+ values.
+ Here, the approximate Jacobian is fully constructed and ILU factorization
+ is performed.
+ This constant preconditioner is then used in the GMRES solver at every
+ Newton iteration.
+ 
+\end_layout
+
+\begin_layout Standard
+The solution of this steady state problem took about 7.06 seconds to complete,
+ with 8 total Newton iterations and about 21 inner GMRES iterations on average.
+ The results of this calculation are presented in Figs.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:coupledSteady1"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:coupledSteady2"
+
+\end_inset
+
+.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pics/SteadyCoupledb.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Results from Steady State Calculation Part 1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:coupledSteady1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pics/SteadyCoupleda.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Results from Steady State Calculation Part 2
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:coupledSteady2"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ The results prove that the feedback is working correctly.
+ Instead of getting a cosine shape as with the case of no feedback (see
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:steadyneut"
+
+\end_inset
+
+), the cosine shape is now skewed to the left.
+ This is due to the density feedback, where the density of water is higher
+ in the left part of the slab than in the right.
+ Therefore, more fissions will occur to the left and more power is produced.
+ 
+\end_layout
+
+\begin_layout Standard
+The solution of this problem was not easy.
+ If the above equations are implemented as is, the MATLAB will not converge
+ on a solution.
+ This is primarily due to the fact that the kappa-fission cross section
+ is so small.
+ It is on the order of 
+\begin_inset Formula $10^{-13}$
+\end_inset
+
+ which is much smaller than other quantities in the problem.
+ Therefore, the normalization constant is very large to scale the flux eigenvect
+or.
+ This makes the problem very ill-conditioned even though a preconditioner
+ is used.
+ Since the normalization constant is always multiplied by the kappa-fission
+ cross section in the residual equations, another constant of 
+\begin_inset Formula $10^{12}$
+\end_inset
+
+ is applied in the input file.
+ Therefore, the span of the magnitudes of the flux-to-power normalization
+ constant will be smaller.
+ This proved to be effective for this situation and was used to compute
+ the results presented in this section.
+ 
+\end_layout
+
+\begin_layout Standard
+Finally, it is interesting to look at the distribution of how time was spent
+ in the code.
+ To do this, MATLAB's built in profiler was used.
+ The results of the profiler are shown in Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:profileSteady"
+
+\end_inset
+
+.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pics/Profile_Steady.png
+	scale 20
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Profiler Results for Steady-State Case
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:profileSteady"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ From the results, it is interesting to see that approximately 88% of the
+ time was spent in the lookup XSteam tables to relate density to temperature.
+ Unfortunately, nothing can be done about this if the lookup tables are
+ going to be used.
+ An improvement on this would be to fit the density vs.
+ temperature data with a polynomial in the range of interest and use that
+ in the residual equations and Jacobian-vector product routines.
 \end_layout
 
 \begin_layout Section

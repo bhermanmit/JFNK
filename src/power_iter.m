@@ -1,9 +1,7 @@
-function [keignew,phinew] = power_iter(M,F,phi,keig)
+function [keignew,phinew] = power_iter(M,F,phi,keig,iters)
 
-% get dimensions from object
-ng = 1;
-
-for iter = 1:20
+% begin power iteration loop
+for iter = 1:iters
     
     % Update Flux
     phinew = M\(1/keig*F*phi);
