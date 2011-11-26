@@ -1,0 +1,107 @@
+%\RequirePackage{latexsym}
+%\RequirePackage{amsmath}
+
+\RequirePackage{latexsym,amsmath,xspace}
+
+% \newcommand\hmmax{0}%
+% \newcommand\bmmax{0}%
+% \usepackage{bm}
+% \DeclareMathAlphabet\mathbfcal{OMS}{cmsy}{b}{n}
+
+%
+%	Note to self: Consider using \ensuremath command so that commands work in both
+%		text and math environments
+%
+%	Note to self: Consider using commands with optional arguments
+%
+%
+
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
+%	Common phrases
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
+
+\newcommand{\eg}{e.g.,\xspace}
+\newcommand{\ie}{i.e.,\xspace}
+\newcommand{\etc}{etc.\@\xspace}
+\newcommand{\wrt}{w.r.t.\@\xspace}
+
+\newcommand{\second}{\ensuremath{2^{\text{nd}}}}
+
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
+%	Notational Commands  
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
+
+\newcommand{\field}[1]{\ensuremath{\mathbb{#1}}} 		% Fields  (e.g., real numbers)
+
+\newcommand{\vect}[1]{\ensuremath{\mathbf{#1}}}			% Vectors 
+
+%\newcommand{\oper}[1]{\ensuremath{\mathcal{#1}}}		% Differential Operators
+\newcommand{\oper}[1]{\ensuremath{\mathbfcal{#1}}}		% Differential Operators
+
+\newcommand{\gvect}[1]{\textstyle{\boldsymbol{#1}}}		% Greek Vectors
+
+\newcommand{\any}{\,\cdot\,}							% Notation for arbitrary input
+\newcommand{\fimply}{\Rightarrow}
+\newcommand{\bimply}{\Leftarrow}
+
+
+% Partial Derivatives
+\def\D#1/D#2{\frac{\partial #1}{\partial #2}}
+\def\DD#1/DD#2{\frac{\partial^2 #1}{\partial {#2}^2}}
+
+% Derivatives
+\def\d#1/d#2{\frac{\mathrm{d} #1}{\mathrm{d} #2}}
+\def\dd#1/dd#2{\frac{\mathrm{d}^2 #1}{\mathrm{d} {#2}^2}}
+
+% Index sets (for i = 1 ... n , from i = 1)
+\def\for#1=#2to#3{\ensuremath{#1 = #2,\,\dots,\, #3}}
+\def\from#1=#2{\ensuremath{#1 = #2, \,\dots,\, \infty}}
+
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
+%	Vector Operators
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
+\newcommand{\divg}[1]{\ensuremath{\nabla\cdot\vect{#1}}}
+\newcommand{\curl}[1]{\ensuremath{\nabla\times\vect{#1}}}
+
+\newcommand{\sadvect}[2]{\ensuremath{(\vect{#1}\cdot\nabla){#2}}}
+\newcommand{\vadvect}[2]{\ensuremath{(\vect{#1}\cdot\nabla)\vect{#2}}}
+
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
+%	Finite-Difference Operators
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
+\newcommand{\FDddtv}[3]{\frac{\vect{#1}^{#2}-\vect{#1}^{#3}}{\Delta t}}
+
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
+%	Norms and Inner Products
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
+
+%\newcommand{\lDprod}[2]{ ( {#1},{#2} )_{D}}
+%\newcommand{\lDnorm}[1]{\| {#1} \|_{D}}
+
+\newcommand{\LPprod}[3][2]{ ( {#2},{#3} )_{L^{#1}\,(D)} }
+\newcommand{\LPnorm}[2][2]{\|   {#2}   \|_{L^{#1}\,(D)} }
+
+\def\norm|#1|{ \| #1 \| }
+
+
+\newcommand{\dualset}[2]{\left\{\,#1\ \ \vline\ \ #2\,\right\} }
+
+
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
+%	Commands for Probability
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
+\newcommand{\expval}[1]{\langle\,{#1}\,\rangle_{\Omega}}
+
+\def\mean<#1>{\langle\,#1\,\rangle_{\Omega}}
+
+
+%\newcommand{\gausspdf}[1]{\frac{1}{\sqrt{2\pi}}\exp\left(-\frac{{#1}^2}{2}\right)}
+
+\newcommand{\gausspdf}[1][x]{
+	\frac{1}{\sqrt{2\pi}}
+	\exp\left( -\frac{{#1}^2}{2} \right)
+}
+
+
+
+

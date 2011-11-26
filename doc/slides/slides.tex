@@ -1,0 +1,1317 @@
+% beamer shouldn't load amssymb given mathdesign
+\expandafter\let\csname ver@amssymb.sty\endcsname\empty
+\documentclass{beamer}
+% \documentclass[handout,t]{beamer}
+\expandafter\let\csname ver@amssymb.sty\endcsname\relax
+\let\Tiny=\tiny
+
+
+\usefonttheme[onlymath]{serif}
+
+\usepackage[charter,cal=cmcal]{mathdesign}
+
+
+% \batchmode
+
+\usepackage{pgfpages}
+% \pgfpagesuselayout{4 on 1}[letterpaper,landscape,border shrink=5mm]
+% \pgfpagesuselayout{2 on 1}[letterpaper, portrait, border shrink=5mm]
+
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{latexsym}
+\usepackage{enumerate}
+\usepackage{epsfig}
+\usepackage{calc}
+\usepackage{color}
+\usepackage{ifthen}
+\usepackage{capt-of}
+\usepackage{array,colortbl,booktabs}
+\usepackage{tikz,pgfplots}
+\usepackage{exscale,relsize}
+\usepackage{mycommands}
+
+\pgfplotsset{compat=1.3}
+
+% \usetikzlibrary{plotmarks,pgfplots.groupplots,shapes,arrows,positioning}
+\usetikzlibrary{plotmarks,shapes,arrows,positioning}
+
+
+\usetheme{Berlin}
+\usecolortheme{mit}
+
+% Colors defined in mit-beamer.sty:
+% mitred  
+% mitgray 
+% darkgray
+
+%% Customizations:
+% ------------------------------------------------------------------------------------------------------------ %
+% Add Logo:
+\pgfdeclareimage[height=0.5cm]{mit-logo}{mit-logo.pdf}
+\logo{\vspace{-0.25cm}\pgfuseimage{mit-logo}\hspace*{0.025cm}}
+
+% Show outline at beginning of each section
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{Outline}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+
+% \setbeamertemplate{blocks}[rounded]
+\setbeamertemplate{blocks}[rounded][shadow=true]
+
+% \setbeamertemplate{headline}[default]
+
+\setbeamertemplate{navigation symbols}{}
+
+
+% \beamerdefaultoverlayspecification{<+->}
+
+% Set color for 'alert' text
+\setbeamercolor{alerted text}{fg=blue}
+
+% Modify some default font sizes
+\setbeamerfont{itemize/enumerate body}{size=\normalfont}
+\setbeamerfont{itemize/enumerate subbody}{size=\smaller, shape=\upshape}
+\setbeamerfont{frametitle}{size=\large, series=\bfseries}
+
+
+% \setbeamertemplate{bibliography entry title}{}
+% \setbeamertemplate{bibliography entry location}{}
+% \setbeamertemplate{bibliography entry note}{}
+\setbeamertemplate{bibliography item}[text] 
+
+% \setbeamertemplate{items}[ball]
+% \setbeamertemplate{itemize subitem}[circle-symbol]
+% \setbeamertemplate{background canvas}[vertical shading][bottom=mitgray!25,top=white]
+
+% Use the shrink option to squeeze lots of text on a slide
+% \frame[shrink]{
+% …
+% }
+
+\colorlet{dark green}{green!50!black}
+
+\graphicspath{{./Figures/FlowCase/}{./Figures/DiffusionCase}}
+
+\newcommand{\packin}{\setlength\abovedisplayskip{2pt}\setlength\belowdisplayskip{2pt}}
+
+\tikzstyle{refbox} = [shape = rectangle, fill = mitred, inner sep = 2pt, text=white, font=\footnotesize]
+
+\newcommand{\numberInBox}[2][0.9]%
+	{\scalebox{#1}{{\tikz \draw (0,0) node[refbox] {\makebox[\totalheight]{#2}};}}}
+
+\newcommand{\enumref}[2][0.9] {\numberInBox[#1]{\ref{#2}}}
+
+% Small arrow pointing down and hooking right
+\newcommand{\drarrow}{\scalebox{1.5}{\reflectbox{\rotatebox[c]{180}{$\boldsymbol{\smash[b]{\Rsh}}$}}}}
+
+
+\newenvironment{prettydescript}[1]
+	{\begin{list}{}%
+		{\renewcommand\makelabel[1]{\itshape\bfseries\color{mitred} ##1:\hfill}%
+		\settowidth\labelwidth{\makelabel{#1}}%
+		\setlength\leftmargin{\labelwidth}%
+		\addtolength\leftmargin{\labelsep}}}%
+	{\end{list}}
+
+
+\newenvironment{customdescript}[1]
+	{\begin{list}{}%
+		{\renewcommand\makelabel[1]{\bfseries\color{mitred} ##1\hfill}%
+		\settowidth\labelwidth{\makelabel{#1}}%
+		\setlength\leftmargin{\labelwidth}%
+		\addtolength\leftmargin{\labelsep}}}%
+	{\end{list}}
+
+
+\makeatletter
+\newenvironment{customlist}[2]{
+  \ifnum\@itemdepth >2\relax\@toodeep\else
+      \advance\@itemdepth\@ne%
+      \beamer@computepref\@itemdepth%
+      \usebeamerfont{itemize/enumerate \beameritemnestingprefix body}%
+      \usebeamercolor[fg]{itemize/enumerate \beameritemnestingprefix body}%
+      \usebeamertemplate{itemize/enumerate \beameritemnestingprefix body begin}%
+      \begin{list}
+        {
+            \usebeamertemplate{itemize \beameritemnestingprefix item}
+        }
+        { \leftmargin=#1 \itemindent=#2
+            \def\makelabel##1{%
+              {%  
+                  \hss\llap{{%
+                    \usebeamerfont*{itemize \beameritemnestingprefix item}%
+                        \usebeamercolor[fg]{itemize \beameritemnestingprefix item}##1}}%
+              }%  
+            }%  
+        }
+  \fi
+}
+{
+  \end{list}
+  \usebeamertemplate{itemize/enumerate \beameritemnestingprefix body end}%
+}
+\makeatother
+
+
+\newenvironment<>{varblock}[2][\textwidth]{%
+  \setlength{\textwidth}{#1}
+  \begin{actionenv}#3%
+    \def\insertblocktitle{#2}%
+    \par%
+    \usebeamertemplate{block begin}}
+  {\par%
+    \usebeamertemplate{block end}%
+  \end{actionenv}}
+
+
+%% Notational commands:
+\newcommand{\params}{\ensuremath{\xi}}
+\newcommand{\vparms}{\ensuremath{\gvect{\params}}}
+
+
+
+
+\renewcommand{\thefootnote}{\ensuremath{\fnsymbol{footnote}}}
+\setcounter{footnote}{2}
+
+\renewcommand{\thempfootnote}{\ensuremath{\fnsymbol{mpfootnote}}}
+
+\newcommand{\newsubsection}[1]{\subsection{#1}\setcounter{subsection}{0}}
+
+
+
+%% Title Page
+\title[Stochastic Projection Method for UQ in CFD]{The Stochastic Projection Method for Uncertainty Quantification in Computational Fluid Dynamics}
+\author[]{Dustin Langewisch \\[8pt] \and Prof. Jacopo Buongiorno (Advisor)}
+\institute[\insertpagenumber]{}
+\date{\today} 
+
+
+% -----------------------------------------------------------------------------
+\begin{document}
+% -----------------------------------------------------------------------------
+
+\frame{\titlepage}
+
+\section[Outline]{}
+% ---------------------------------------------------------------------------------------------------------- %
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+% ---------------------------------------------------------------------------------------------------------- %
+
+\section{Introduction}
+
+% \newsubsection{Motivation}
+
+\begin{frame}{Motivation}
+
+	\setbeamerfont{itemize/enumerate body}{size=\smaller}
+% 	\setbeamerfont{itemize/enumerate subbody}{size=\relsize{-0}}
+	\setbeamerfont{itemize/enumerate subbody}{size=\smaller}
+
+	\begin{customlist}{0pt}{0pt}
+		\item The popularity of advanced simulation tools such as CFD (multiphase CFD, especially) is rapidly 
+			  rising in the nuclear community.
+
+		\begin{itemize}
+			\item[$\blacktriangleright$] Advantages are numerous (higher resolution, fewer empirical dependencies, etc.),
+						but \emph{very} expensive
+		\end{itemize}
+
+		\item Inevitably, the issue of {\color{red} uncertainty quantification} (UQ) for CFD must be addressed.
+
+		\begin{itemize}
+			\item[$\blacktriangleright$] this is extremely {\color{red} challenging due to the high cost} of CFD
+		\end{itemize}
+
+		\item Traditional UQ tools (\eg Monte Carlo) entail repeating expensive CFD simulations hundreds to thousands
+			  of times.
+
+		\begin{itemize}
+			\item[$\blacktriangleright$] these methods are clearly prohibitive, and \alert{alternatives are needed}.
+		\end{itemize}
+
+		\item The stochastic projection method (SPM) has been shown to be very efficient for UQ with single-phase CFD
+
+		\begin{itemize}
+			\item[$\blacktriangleright$] \alert{this work seeks to extend the SPM to multiphase CFD}
+		\end{itemize}
+
+	\end{customlist}
+
+
+\end{frame}
+
+
+
+\newsubsection{Formulating the UQ Problem}
+
+\begin{frame}
+
+	\frametitle{The Stochastic Problem}
+
+	\setbeamerfont{itemize/enumerate body}{size=\smaller}
+	\setbeamerfont{block body}{size=\smaller}
+
+
+	\begin{customlist}{0pt}{0pt}
+		\item Given a set $\vparms = \{\params_1,\dots,\params_N\}$ of {\color{blue} uncertain inputs} to our 
+			  model\footnote{\relsize{-1} At this level of abstraction, the model is arbitrary, but we will
+			  be mostly\\\hspace{5ex}\! interested in the Navier-Stokes equations.}, the 
+			  {\color{red} output} $u(\vect{x},t;\vparms)$ will be {\color{red} uncertain}.
+	\end{customlist}
+
+	\begin{prettydescript}{\smaller Goal}\smaller
+		\item[Goal] Quantify this output uncertainty.
+	\end{prettydescript}
+
+	% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
+	%% Draw diagram:
+	% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
+	\begin{center}
+	\scalebox{0.65}{%
+	\begin{tikzpicture}
+
+		\definecolor{pdfout}{named}{red};
+		\definecolor{pdfin}{named}{blue};
+
+		\tikzstyle{labels}    = [minimum height = 1.0cm, text centered, anchor = south];
+
+
+		\tikzstyle{connector} = [->, >=stealth, thick, shorten >=2pt];
+
+		\tikzstyle{input  pdf} = [scale=0.75, color=pdfin , thick,  fill = pdfin!50];
+		\tikzstyle{output pdf} = [scale=0.85, color=pdfout,  thick, fill = pdfout!50];
+
+		\colorlet{bgcolor}{mitgray!20};
+
+		\def\blockwidth{4cm};
+		\def\blockheight{4cm};
+		\def\elemheight{1cm};
+		\def\elemwidth{0.75*\blockwidth};
+
+		\def\elemvsep{0.5cm};
+		\def\elemhsep{1.25cm};
+
+		\def\labelheight{1.5*\elemheight + 1.5*\elemvsep};
+
+ 		\tikzstyle{ghost} = [rectangle, fill=none, draw=none, minimum width = \blockwidth, minimum height = \blockheight];		
+
+		\tikzstyle{frame} = [rounded corners, fill=bgcolor, draw=black, double, very thick];
+
+
+		\draw[frame] (+0.25cm,-0.75*\elemvsep) rectangle +(13.cm,5.85);
+		\draw[draw=none,clip] (+0.25cm,-0.75*\elemvsep) rectangle +(13.cm,5.85);
+
+		\begin{scope}
+
+		\tikzstyle{element} = [rectangle, rounded corners, draw = black, very thick, minimum height=\elemheight, minimum width=2.25cm, text width=2.25cm];
+
+		\node[element,anchor=south] (input 3) at (0.5*\blockwidth,0.0+0.0) 			{$\params_N$};
+
+		\node[element,anchor=south, above = \elemvsep of input 3.north] (input 2) 	{$\params_i$};
+		\node[element,anchor=south, above = \elemvsep of input 2.north] (input 1) 	{$\params_1$};
+
+		\end{scope}
+
+		\node[anchor=south] at (0.5*\blockwidth, \elemheight-0.2mm) {$\vdots$};
+		\node[anchor=south] at (0.5*\blockwidth, 2.0*\elemheight + \elemvsep+0.1mm) {$\vdots$};
+
+
+		\begin{scope}
+
+		\tikzstyle{element} = [rectangle, rounded corners, draw = black, very thick, minimum height=\elemheight, minimum width=0.85*\blockwidth];
+
+		\node[element,anchor=west, right = \elemhsep of input 2.east] (model) {$\vparms\mapsto u(\vect{x},t;\vparms)$};
+
+		\end{scope}
+
+
+		\begin{scope}
+
+		\tikzstyle{element} = [rectangle, rounded corners, draw = black, very thick, minimum height=\elemheight, minimum width=0.90*\blockwidth, text width=3.25cm];
+
+		\node[element,anchor=west, right = \elemhsep of model.east] (output) {$u(\vect{x},t;\vparms)$};
+
+		\end{scope}
+
+ 		\node[labels, above = \labelheight of input 2.center] 	{{\bfseries\underline{Inputs}}};
+ 		\node[labels, above = \labelheight of model.center] 	{{\bfseries\underline{Model}}};
+		\node[labels, above = \labelheight of output.center] 	{{\bfseries\underline{Output}}};
+
+
+		%% Draw Connectors:
+		% ---------------------------------------------------------------- %
+		\draw[connector] (input 1) to [out=0,in=170] (model);
+		\draw[connector] (input 2) to [out=0,in=180] (model);
+		\draw[connector] (input 3) to [out=0,in=190] (model);
+		\draw[connector] (model)   to [out=0,in=180] (output);
+
+		\tikzstyle{every plot} = [samples=100, domain=-1:1];
+
+		\draw[input pdf,  yshift=0.2cm, xshift=3cm]  plot (\x, {1.0*exp(-0.5*\x*\x*10)}) -- cycle;		
+		\draw[input pdf,  yshift=2.25cm, xshift=3cm] plot (\x, {1.0*exp(-0.5*\x*\x*10)}) -- cycle;		
+		\draw[input pdf,  yshift=4.3cm, xshift=3cm]  plot (\x, {1.0*exp(-0.5*\x*\x*10)}) -- cycle;		
+
+		\draw[output pdf, yshift=1.95cm, xshift=13.25cm] plot ({0.75*({1+\x})},{8*({1+\x})*(exp(-3*({1+\x})))}) -- (1.5,0) -- cycle;	
+
+	\end{tikzpicture}
+	}
+	\end{center}
+	% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
+\end{frame}
+
+
+
+\begin{frame}[t]{A Few Restrictions}
+	\setbeamerfont{block body}{size=\smaller, shape=\upshape}
+	\setbeamerfont{itemize/enumerate subbody}{size=\relsize{-0}, shape=\upshape}
+
+	\begin{block}{Assumptions:}
+	\begin{enumerate}
+
+		\item  	The model is conditionally deterministic.
+ 		\item 	Uncertainties arising from numerical errors or model inadequacy are not considered.
+		\item 	The inputs are reducible to a finite set of mutually independent RVs.
+
+	\end{enumerate}
+	\end{block} 
+
+	\vspace{0.5em}
+
+	\raisebox{-0.15ex}{\numberInBox{1}} and \raisebox{-0.15ex}{\numberInBox{2}}	have important (and useful) consequences:
+	\begin{prettydescript}{Theoretical}
+		\item[Practical]   the problem reduces to uncertainty propagation
+		\item[Theoretical] $u$ and $\params$ reside in the same probability space 
+	\end{prettydescript}
+	\vspace{-0.5em}
+	\begin{customlist}{7em}{0em}
+		\item[$\blacktriangleright$] \alert{We know where to look for the solution!}
+	\end{customlist}
+
+	\raisebox{-0.15ex}{\numberInBox{3}} {\color{mitred} $\implies$} 
+	\vspace{-1.5em}
+	\begin{customlist}{7.25ex}{0pt}
+		\item[] some care is needed to handle random fields (\eg uncertain initial/boundary conditions).			
+	\end{customlist}
+
+\end{frame}
+
+\newsubsection{Methods}
+
+\begin{frame}{Why SPM?}{a comparison with MCS}
+	\relsize{-1}
+% 	\setbeamerfont{block body}{size=\smaller, shape=\upshape}
+	\setbeamerfont{itemize/enumerate body}{size=\relsize{-1}, shape=\upshape}
+
+	\begin{block}{Monte Carlo Simulation}
+
+		\begin{customlist}{4ex}{0pt}
+		 \item  \begin{prettydescript}{Disadvantage}
+				\item [Features] 
+						{\color{mitred} $\bullet$} a non-intrusive (``black-box'') method \\
+						{\color{mitred} $\bullet$} relies on random sampling and the law of large numbers
+		        \end{prettydescript}
+		 \item \begin{prettydescript}{Disadvantage}
+					\item [Advantage]	{\color{mitred} $\bullet$} requires no modifications to existing deterministic codes
+				\end{prettydescript}
+		 \item	\begin{prettydescript}{Disadvantage}
+					\item [Disadvantage] {\color{mitred} $\bullet$} slow $O\big(N^{-\frac{1}{2}}\big)$ convergence 
+										 $\fimply$ computationally expensive
+				\end{prettydescript}
+
+		\end{customlist}
+
+	\end{block}
+
+% 	Recently, intrusive methods such as SPM have found favor for certain classes of long-running simulations
+
+	\begin{block}{Stochastic Projection Method}
+
+		\begin{customlist}{4ex}{0pt}
+		 \item  \begin{prettydescript}{Disadvantage}
+				\item [Features] 
+						{\color{mitred} $\bullet$} an intrusive method \\
+						{\color{mitred} $\bullet$} deterministic -- no random sampling
+		        \end{prettydescript}
+		 \item 	\begin{prettydescript}{Disadvantage}
+				\item [Advantage] {\color{mitred} $\bullet$} potentially large cost reductions
+				\end{prettydescript}
+		 \item 	\begin{prettydescript}{Disadvantage}
+				\item [Disadvantage]	{\color{mitred} $\bullet$} must ``open the box'' $\fimply$ new codes are needed
+				\end{prettydescript}
+		\end{customlist}
+
+	\end{block}
+
+
+
+% 	Traditionally, non-intrusive (``black-box'') sampling-based methods such as MCS\footnote[2]{Monte Carlo Simulation} 
+% 	have been popular
+% 
+% 		\begin{customlist}{4ex}{0pt}
+% 		 \item  \begin{prettydescript}{Disadvantage}
+% 				\item [Features] relies on random sampling and the law of large numbers
+% 		        \end{prettydescript}
+% 		 \item \begin{prettydescript}{Disadvantage}
+% 					\item [Advantage]	 requires no modifications to existing deterministic codes
+% 				\end{prettydescript}
+% 		 \item	\begin{prettydescript}{Disadvantage}
+% 					\item [Disadvantage] slow $O\big(N^{-\frac{1}{2}}\big)$ convergence $\fimply$ computationally expensive
+% 				\end{prettydescript}
+% 
+% 		\end{customlist}
+% 
+% 
+% 	Recently, intrusive methods such as SPM have found favor for certain classes of long-running simulations
+% 
+% 		\begin{customlist}{4ex}{0pt}
+% 		 \item  \begin{prettydescript}{Disadvantage}
+% 				\item [Features] deterministic -- no random sampling 
+% 		        \end{prettydescript}
+% 		 \item 	\begin{prettydescript}{Disadvantage}
+% 				\item [Advantage] potentially large efficiency gains $\fimply$ reduced cost
+% 				\end{prettydescript}
+% 		 \item 	\begin{prettydescript}{Disadvantage}
+% 				\item [Disadvantage]	must ``open the box'' -- new codes are needed
+% 				\end{prettydescript}
+% 		\end{customlist}
+
+
+\end{frame}
+
+
+
+\section[Stochastic Projection Method]{The Stochastic Projection Method (SPM)}
+
+\newsubsection{Overview}
+
+% \begin{frame}[t]{The Procedure}
+\begin{frame}[t]{The Stochastic Projection Method}
+
+	\relsize{-1}
+
+	\begin{block}{The Procedure:}
+	\begin{enumerate}
+		\item 	\alert{Identify relevant uncertain inputs} $\gvect{\xi} = \{\xi_i\}_{i=0}^{N}$\\[1em]
+
+		\item 	\alert{Construct a stochastic basis} -- a set of RVs $\{\Psi_k(\gvect{\xi})\}_{k=0}^{\infty}$ 
+				spanning the probability space, $\mathcal{S}$, for the problem
+
+		\item 	\alert{Truncate} the basis: $\{\Psi_k(\gvect{\xi})\}_{k=0}^{\infty} \to \{\Psi_k(\gvect{\xi})\}_{k=0}^{P}$\\[1em]
+
+		\item 	\alert{Discretize}: express all RVs in terms of this basis, \ie 
+				$u = \sum_{k=0}^{P} u_k \Psi_k$\\[1em]
+
+		\item 	\alert{Project} (Galerkin) the model onto the subspace $\mathcal{S}_P \subset \mathcal{S}$ spanned by 
+					$\{\Psi_k\}_{k=0}^{P}$ 
+
+		\item 	\alert{Solve} for the stochastic modes $u_k$
+	\end{enumerate}
+	\end{block} 
+	\vspace{2pt}
+	\raisebox{-.2ex}{\numberInBox{1}} is straightforward if all inputs are parameters, but in general we must 
+		\emph{parameterize} a random field.
+
+\end{frame}
+
+
+\newsubsection{Parameterizing Random Fields}
+
+\begin{frame}[t]{The Karhunen-Lo\`{e}ve Expansion}
+	\relsize{-1}
+	\begin{definition}\packin
+		Let $\kappa(\vect{x};\omega)$ be a \second-order\footnote[2]{Finite variance} random field with mean $\bar{\kappa}(\vect{x})$ and covariance 
+		function $C(\vect{x},\vect{y})$.	The KL-expansion of $\kappa$ is 
+		\[
+			\kappa(\vect{x};\omega) = \bar{\kappa}(\vect{x}) + \sum_{i=1}^{\infty} \sqrt{\lambda_i} \, \hat{\kappa}_i(\vect{x}) \, \xi_{i}, \vspace{-1.2em}
+		\]
+		where 
+		\begin{itemize}\smaller
+			\item $\lambda_{i}$ is the $i^{\textrm{th}}$ ordered (decreasing) eigenvalue of $C(\vect{x},\vect{y})$,
+			\item $\hat{\kappa}_i(\vect{x})$ is the corresponding eigenfunction, and
+			\item $\{\xi_i\}_{i=1}^{\infty}$ are a set of mutually uncorrelated, zero-mean RVs.
+		\end{itemize}
+	\end{definition}
+
+	\begin{customlist}{0ex}{0pt}
+		\item[$\therefore$\!] a random field is reducible to a \emph{countable} set of \emph{mutually uncorrelated} RVs.  
+	\end{customlist}
+	\vspace{-1em}
+	\begin{customlist}{5ex}{0pt}
+		\item[$\blacktriangleright$] In practice the series is truncated after $N_{KL}$ terms.
+	\end{customlist}
+\end{frame}
+
+
+
+\newsubsection{Constructing a Stochastic Basis}
+
+\begin{frame}{Generalized Polynomial Chaos (gPC) Expansion}
+
+	\relsize{-2}
+	\setbeamerfont{itemize/enumerate subbody}{size=\relsize{-0}, shape=\upshape}
+		
+	\begin{definition}\packin
+		The gPC expansion of $u(\vect{x},t;\gvect{\xi})$ is given by
+		\[
+			u(\vect{x},t;\gvect{\xi}) =\displaystyle \sum_{i=0}^{\infty} \hat{u}_{i}(\vect{x},t) \Psi_{i}(\gvect{\xi}),
+		\]
+		where the $\Psi_i (\gvect{\xi})$ are multivariate polynomials orthogonal under product expectation:
+		\[
+			\langle \Psi_i, \Psi_j \rangle \equiv E(\Psi_i \Psi_j) = E(\Psi_i^2) \,\delta_{ij}.
+		\]
+	\end{definition}
+
+	\begin{columns}[t]
+
+	\column{0.5\textwidth}
+	\vspace{-3em}	 
+	\begin{table}
+	\begin{center}
+	\renewcommand{\arraystretch}{1.15}
+	\begin{tabular}{@{\,}|c|c|@{\,}} 
+
+	\multicolumn{2}{l}{{\color{mitred}\textbf{\!\!\!\!Univariate gPC Basis Functions*:}}} \\[1pt]
+
+	\toprule
+
+	\makebox[0.9in]{\textbf{Distribution -- $\xi_j$}} & 
+	\makebox[0.9in]{\textbf{Basis -- $\psi_i(\xi_j)$}} \\
+
+	\midrule \addlinespace[-1pt] \midrule %\addlinespace[-0.1pt]
+
+	Gaussian 	& Hermite 		\\ 
+	Uniform		& Legendre 		\\ 
+	Beta		& Jacobi		\\ 
+	Gamma		& Laguerre		\\ 
+	Poisson		& Charlier		\\ 
+	Binomial	& Krawtchouk	\\ 
+
+	\bottomrule
+
+	\end{tabular}
+	\end{center}
+	\end{table}
+
+
+	\column{0.5\textwidth}
+
+	\begin{customlist}{4pt}{0pt}\packin
+		\item[*] Give optimal representation of RVs with given distribution, \eg:
+
+		\item[--] If $u\sim\mathcal{N}(\mu,\sigma^2)$ and $\psi_i$ are Hermite polynomials,
+		then \[ u(\xi) = \mu \psi_0 + \sigma^2 \psi_1 = \mu + \sigma^2 \xi \vspace{2pt}\] 
+
+		\item[--] \alert{The PC expansion terminates!}
+
+
+
+	\end{customlist}
+
+	\end{columns}	
+
+\end{frame}
+
+
+\newsubsection{Demonstration}
+
+\begin{frame}[t]{Steady Stochastic Diffusion Equation}
+	\relsize{-2}
+	\setbeamerfont{itemize/enumerate subbody}{size=\relsize{+0}}
+
+	\only<1>{
+		\begin{columns}[t]
+		\column{0.5\textwidth}
+		\vspace{-1em}
+		\begin{block}{Governing Equations}
+		\setlength\abovedisplayskip{1pt}\setlength\belowdisplayskip{2pt}
+		\begin{align*}
+			-\nabla\cdot\big(\kappa(\vect{x};\omega)\, \nabla u(\vect{x};\omega)\big) &= f(\vect{x}), 
+			&\vect{x} &\in \mathcal{D} \\[1pt]
+			u(\vect{x};\omega) &= 0, 
+			&\vect{x} &\in \partial\mathcal{D}
+		\end{align*}
+		\end{block}
+		\column{0.5\textwidth}
+
+		Impose the following:
+		\begin{enumerate}
+			\item $f(\vect{x})$ is deterministic, as are the BCs
+			\item $\kappa(\vect{x};\omega) = \bar{\kappa}(\vect{x}) + \sum_{i=1}^{N_{KL}} \sqrt{\lambda_i} \hat{\kappa}_i(\vect{x}) \xi_{i}$
+		\end{enumerate}
+		\vspace{-4pt}
+		\begin{customlist}{3.0em}{0pt}
+			\item[$\implies$] all uncertainty given by $\gvect{\xi}=\{\xi_i\}_{i=1}^{N_{KL}}$
+		\end{customlist}
+		\end{columns}
+
+		\medskip
+		\begin{customlist}{0pt}{0pt}
+
+			\item From $\gvect{\xi}$, {\color{mitred} construct the gPC basis} $\{ \Psi_j(\gvect{\xi}) \}_{j=0}^{P}$
+
+			\begin{itemize}
+				\item[--] ordered such that $\Psi_0 = 1$, and $\Psi_i = \xi_i$ for $1 \le i \le N_{KL}$
+				\[ 
+% 					{\smash{\numberInBox[0.8]{2}}} 
+					{\raisebox{-0.175ex}{\numberInBox[0.8]{2}}} 
+					{\color{mitred}\quad\boldsymbol{\longrightarrow}\quad}
+					\kappa(\vect{x};\omega) = \sum_{i=0}^{N_{KL}} \tilde{\kappa}_i(\vect{x}) \Psi_{i} 
+						\quad\text{where}\quad
+						\tilde{\kappa}_i(\vect{x}) \equiv
+						\begin{cases}
+							\bar{\kappa}(\vect{x}), & i = 0 \\
+							\lambda_i^{1/2} \hat{\kappa}_i(\vect{x}), & 1 \le i \le N_{KL}
+						\end{cases}				
+				\]				
+			\end{itemize}
+
+			\item {\color{mitred} Expand the unknown}: 
+				$\displaystyle u(\vect{x};\omega) = \sum_{j=0}^{P} \hat{u}_{j} (\vect{x}) \Psi_j(\gvect{\xi})$
+
+			\item {\color{mitred} Discretize} (plug-in expansions):
+				\(\displaystyle
+					\sum_{j=0}^{P}\sum_{i=0}^{N_{KL}} \Psi_j \Psi_i 
+					\left[
+						-\nabla\cdot\big(\tilde{\kappa}_i(\vect{x})\,\nabla \hat{u}_j(\vect{x})\big)
+					\right]
+					= f(\vect{x})
+				\)
+
+		\end{customlist}
+	}
+
+	\only<2->{
+
+		\begin{customlist}{0pt}{0pt}
+			\item {\color{mitred} Project}:
+			\(\displaystyle
+				\sum_{j=0}^{P}
+				\sum_{i=0}^{N_{KL}} 
+				\only<2>{{\color{red} 
+				\overbrace{
+				\frac{\langle \Psi_j \Psi_i, \Psi_k \rangle}{\langle \Psi_k, \Psi_k \rangle}
+				}^{\equiv C_{ijk}}
+				}}
+				\only<3>{
+				\frac{\langle \Psi_j \Psi_i, \Psi_k \rangle}{\langle \Psi_k, \Psi_k \rangle}
+				}
+				\only<2>{{\color{dark green} 
+				\overbrace{
+				\Big(
+					-\nabla\cdot\big(\tilde{\kappa}_i(\vect{x})\, \nabla \big) 
+				\Big)
+				}^{\equiv \mathcal{L}_i}
+				}}
+				\only<3>{
+				\Big(
+					-\nabla\cdot\big(\tilde{\kappa}_i(\vect{x})\, \nabla \big) 
+				\Big)
+				}
+				\hat{u}_j(\vect{x})
+				= \frac{\langle f(\vect{x}), \Psi_k \rangle}{\langle \Psi_k, \Psi_k \rangle} 
+				= f(\vect{x}) 
+				\only<2>{{\color{blue} 
+				\overbrace{
+				\frac{\langle \Psi_0, \Psi_k \rangle}{\langle \Psi_k, \Psi_k \rangle}
+				}^{=\delta_{k0}}
+				}}
+				\only<3>{
+				\frac{\langle \Psi_0, \Psi_k \rangle}{\langle \Psi_k, \Psi_k \rangle}
+				}
+			\)
+		\end{customlist}
+		\[
+			{\color{mitred}\implies}\quad
+			\sum_{j=0}^{P} 
+			  \only<2>{
+			  \Bigg[ 
+				\sum_{i=0}^{N_{KL}} 
+				{\color<2>{red} C_{ijk}}
+				{\color<2>{dark green} \mathcal{L}_i } 
+			  \Bigg] 			
+			  }
+			  \only<3>{{\color{red}
+				\underbrace{
+				\Bigg[ 
+				  \sum_{i=0}^{N_{KL}} 
+				  {\color<2>{red} C_{ijk}}
+				  {\color<2>{dark green} \mathcal{L}_i } 
+				\Bigg] 			
+				}_{\equiv \small\mathcal{A}_{kj}}
+			  }}
+			  {\color<3>{blue} \hat{u}_j(\vect{x})} = 
+			  {\color<3>{dark green} f(\vect{x})\, {\color<2>{blue} \delta_{k0}}}
+			  \visible<3>{
+			  \quad{\color{mitred}\implies}\quad
+			  \tiny
+				\left[
+				{\color{red}
+				\begin{matrix}
+					\mathcal{A}_{00} & \mathcal{A}_{01} & \dots & \mathcal{A}_{0P} \\
+					\mathcal{A}_{10} & \mathcal{A}_{11} & & \vdots \\
+					\vdots 		& & \ddots	& \vdots \\
+					\mathcal{A}_{P0} & \dots & \dots & \mathcal{A}_{PP}
+				\end{matrix}
+				}
+				\right]
+				\left(
+				{\color{blue}
+				\begin{matrix}
+					\hat{u}_{0}(\vect{x}) \\
+					\vdots \\
+					\vdots \\
+					\hat{u}_{P}(\vect{x}) 
+				\end{matrix}
+				}
+				\right) = 
+				\left(
+				{\color{dark green}
+				\begin{matrix}
+					f(\vect{x})\mathstrut \\
+					\phantom{\vdots}\!\raisebox{1.25ex}{0} \\
+					\vdots \\
+					\raisebox{0ex}{0}
+				\end{matrix}
+				}
+				\right)	
+			}
+		\]		
+
+	}
+
+	\visible<3>{
+		\begin{customlist}{4ex}{0ex}
+			\item[$\blacktriangleright$] Problem size increases by a factor of $P+1$.
+			\item[$\blacktriangleright$] When discretized (in space), each $\mathcal{A}_{kj}$ becomes a block matrix.
+	
+			\begin{customlist}{8ex}{0pt}
+				\item[$\bullet$] Sparse block structure: most $\mathcal{A}_{kj} = 0$ by orthogonality
+				\item[$\bullet$] Symmetry: $\mathcal{A}_{kj} = \mathcal{A}_{jk}$
+			\end{customlist}
+
+			\item[$\blacktriangleright$] Only the $N_{KL}+1$ deterministic system matrices, $\mathcal{L}_i$, 
+					must be explicitly constructed.
+
+		
+		\end{customlist}
+	}
+
+\end{frame}
+
+
+
+\begin{frame}[t]{Extension to the Transient Case: $\D{u}/Dt -\nabla\cdot\big(\kappa\, \nabla u \big) = f(\vect{x})$}
+
+\setbeamerfont{itemize/enumerate subbody}{size=\relsize{+0}}
+
+\vspace{-1em}
+{\relsize{-2}
+\[	\hspace{-1em}
+	\Big\langle {\color{red} \D{{\color{black} u}}/Dt}, \Psi_k \Big\rangle = 
+	{\color{red} \D{}/Dt} \big\langle u, \Psi_k \big\rangle = 
+	{\color{red} \D{ {\color{black}\hat{u}_{k}} }/Dt}
+	\quad\implies\quad\tiny
+	\left[
+	\begin{matrix}
+		{\color{red} \D{}/Dt} + \mathcal{A}_{00} & \mathcal{A}_{01} & \dots & \mathcal{A}_{0P} \\
+		\mathcal{A}_{10} & {\color{red} \D{}/Dt} + \mathcal{A}_{11} & & \vdots \\
+		\vdots 		& & \ddots	& \vdots \\
+		\mathcal{A}_{P0} & \dots & \dots & {\color{red} \D{}/Dt} + \mathcal{A}_{PP}
+	\end{matrix}
+	\right]
+	\left(
+	\begin{matrix}
+		\hat{u}_{0}(\vect{x}) \\
+		\vdots \\
+		\vdots \\
+		\hat{u}_{P}(\vect{x}) 
+	\end{matrix}
+	\right) = 
+	\left(
+	\begin{matrix}
+		f(\vect{x})\mathstrut \\
+		\phantom{\vdots}\!\raisebox{1.25ex}{0} \\
+		\vdots \\
+		\raisebox{0ex}{0}
+	\end{matrix}
+	\right)	
+\]
+}
+
+% \vspace{-1em}
+\smaller
+\begin{customlist}{0pt}{0pt}
+	\item The extension is trivial because the \alert{$\Psi_k$ are time-independent}
+	\item This has an important practical implication:
+
+	\begin{itemize}
+		\item[$\blacktriangleright$] \alert{A sufficient basis for $t\approx 0$ may poorly
+				represent $u$ for $t \gg 0$}.  
+		\item[$\blacktriangleright$] The stochasticity can evolve out of
+			$\mathcal{S}_P = \mathrm{span}\big( \{ \Psi_k \}_{k=0}^{P} \big)$
+	\end{itemize}
+
+	\item This limitation is well-known, and generalizations have been proposed, \ie 
+		  Time-Dependent gPC (TDgPC) \cite{Gerritsma2010}. 
+
+\end{customlist}
+
+
+
+% \begin{itemize}
+% 
+% 	\item[$\therefore$]\relsize{-1}
+% 		\(\displaystyle
+% 			\left[
+% 			\begin{matrix}
+% 				{\color{red} \D{}/Dt} + \mathcal{A}_{00} & \mathcal{A}_{01} & \dots & \mathcal{A}_{0P} \\
+% 				\mathcal{A}_{10} & {\color{red} \D{}/Dt} + \mathcal{A}_{11} & & \vdots \\
+% 				\vdots 		& & \ddots	& \vdots \\
+% 				\mathcal{A}_{P0} & \dots & \dots & {\color{red} \D{}/Dt} + \mathcal{A}_{PP}
+% 			\end{matrix}
+% 			\right]
+% 			\left(
+% 			\begin{matrix}
+% 				\hat{u}_{0}(\vect{x}) \\
+% 				\vdots \\
+% 				\vdots \\
+% 				\hat{u}_{P}(\vect{x}) 
+% 			\end{matrix}
+% 			\right) = 
+% 			\left(
+% 			\begin{matrix}
+% 				f(\vect{x})\mathstrut \\
+% 				\phantom{\vdots}\!\raisebox{1.25ex}{0} \\
+% 				\vdots \\
+% 				\raisebox{0ex}{0}
+% 			\end{matrix}
+% 			\right)	
+% 		\)
+% 		
+% \end{itemize}
+
+% This is true because the \alert{$\Psi_k$ are time-independent}, but this has an important practical implication:
+% \begin{itemize}
+% 	\item As
+% \end{itemize}
+
+
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Computational Tools}
+
+	\relsize{-1}
+
+	\begin{customlist}{0pt}{0pt}
+		\item The SPM is currently being implemented in \texttt{C++} using the Trilinos library \cite{Heroux2005}%\cite{Trilinos-Overview}
+		\item Trilinos consists of numerous tools for numerical computing, but its most important feature 
+			is the \alert{Stokhos} package.
+			\begin{customlist}{4ex}{0pt}\relsize{+1}
+				\item[$\blacktriangleright$] Contains tools to facilitate development of intrusive UQ methods
+				\item[$\blacktriangleright$] Some of the more useful offerings are listed below:
+			\end{customlist}
+	\end{customlist}
+
+	\relsize{-1}
+
+	\begin{center}\begin{tabular}{c l} 
+
+		\toprule
+
+		\multicolumn{2}{l}{\bfseries Some Useful Classes} \\
+
+		\midrule
+			$\{\psi_k(\xi_i)\}_{k=0}^{r}$		& 	\texttt{Stokhos::OneDOrthogPolyBasis}	\\[4pt]
+			$\{\Psi_k(\gvect{\xi})\}_{k=0}^{P}$	&	\texttt{Stokhos::OrthogPolyBasis}		\\[4pt]
+			$C_{ijk}$							&	\texttt{Stokhos::Sparse3Tensor}			\\
+		\midrule
+
+		\multicolumn{2}{l}{\bfseries Other Useful Tools} \\
+
+		\midrule
+			
+			\multicolumn{2}{l}{$C_{ijk} = \big(\Psi_k\big)$\!\texttt{.computeTripleProductTensor()}} 			\\[4pt]
+			\multicolumn{2}{l}{$\mathcal{A} = $ \texttt{KLMatrixFreeEpetraOp(}$C_{ijk},\, \Psi_k,\, \mathcal{L}_{i}$\texttt{)}} 	\\
+
+		\bottomrule
+
+	\end{tabular}\end{center}
+
+\end{frame}
+
+
+\begin{frame}[t]{Results -- Steady Problem}
+	\relsize{-2}
+
+	\only<1>{
+ 		\begin{block}{Solution Mean and Variance ($N_{KL} = 2$, $P = 20$)}
+		\begin{center}
+		\input{Figures/DiffusionCase/mean_var_surf32.tikz}
+		\end{center}	
+		\end{block}
+
+		\begin{customlist}{0pt}{0pt}
+		 \item[] $f(\vect{x}) = 2.5$, $\mathcal{\overline{D}} = [0,1]^2$, and $\kappa$ has mean $\bar{\kappa}= 0.5$ with 
+				expontial correlation kernel ($\sigma^2 = 0.01$).
+		\end{customlist}
+	}
+
+	\only<2>{
+		\begin{columns}
+		\column{0.8\textwidth}
+		\begin{block}{Mean $\pm$ Standard Deviation ($y = 0.5$)}
+		\begin{center}
+		\input{Figures/DiffusionCase/mean_errbar.tikz}
+		\end{center}
+		\end{block}
+		\end{columns}		
+	}
+
+	\only<3>{
+		\begin{block}{$P$-Convergence}
+		\begin{center}
+		\input{Figures/DiffusionCase/mean_var_Pconvergence.tikz}
+		\end{center}
+		\end{block}
+	}
+
+\end{frame}
+
+
+
+\begin{frame}{Results -- Transient Problem}
+
+	\begin{align*}
+		&{\color{mitred}\text{Initial Condition:}}&
+		u(\vect{x},0) &= 0, \qquad \vect{x} \in \mathcal{D} = \big[-\tfrac{1}{2},+\tfrac{1}{2}\big]^2
+		\\%[1pt]
+		&{\color{mitred}\text{Boundary Condition:}}&
+		u(\vect{x},t) &= 1, \qquad \vect{x} \in \partial\mathcal{D}	
+		\\[1pt]
+		&{\color{mitred}\text{No Source:}}&
+		f(\vect{x},t) &= 0	
+	\end{align*}
+	\[ 
+		\kappa(\vect{x};\omega) \text{ is unchanged from the steady problem} 
+	\]
+
+	\medskip
+
+	\begin{center}
+		{\color{red}$\big<$\texttt{animation}$\big>$}
+	\end{center}
+
+\end{frame}
+
+
+\section[SPM for Incompressible Flow]{Application of SPM to Incompressible Flow Problems}
+
+
+		\newlength{\arrowsize}  
+		\pgfarrowsdeclare{smallertip}{smallertip}{  
+		\setlength{\arrowsize}{0.5pt}  
+		\addtolength{\arrowsize}{.5\pgflinewidth}  
+		\pgfarrowsrightextend{0}  
+		\pgfarrowsleftextend{-5\arrowsize}  
+		}{  
+		\setlength{\arrowsize}{0.5pt}  
+		\addtolength{\arrowsize}{.5\pgflinewidth}  
+		\pgfpathmoveto{\pgfpoint{-3\arrowsize}{1\arrowsize}}  
+		\pgfpathlineto{\pgfpointorigin}  
+		\pgfpathlineto{\pgfpoint{-3\arrowsize}{-1\arrowsize}}  
+		\pgfusepathqstroke  
+		}  
+
+\subsection{The Stochastic Navier-Stokes Equations}
+\setcounter{subsection}{0}
+
+\begin{frame}{The Deterministic Flow Equations}
+
+	\relsize{-1}
+
+	{\color{mitred} {\bfseries Incompressible Navier-Stokes Equations} (\textit{constant fluid properties})\textbf{:}}
+	\[
+		\D{\vect{u}}/Dt + (\vect{u}\cdot\nabla)\vect{u} = -\nabla p + \nu \nabla^2 \vect{u} \qquad\text{with}\qquad
+		\nabla\cdot\vect{u} = 0
+	\]
+
+	\medskip
+	{\color{mitred} {\bfseries Fully-Explicit Pressure-Projection Method:}}
+	\vspace{-0.5em}
+	\begin{center}
+		\scalebox{1.0}{\input{Figures/Deterministic_PressureProject_Schematic.tikz}}
+	\end{center}
+
+\end{frame}
+
+
+\begin{frame}{The Stochastic Flow Equations}
+	\relsize{-1}
+
+	\begin{customlist}{0pt}{0pt}
+	\item Expanding all flow quantities as $\alpha = \sum_{i=0}^{P} \hat{\alpha}_i \Psi_i$, where $\alpha = (\vect{u},p,\nu)$,
+		and projecting yields:
+	\end{customlist}
+	\[
+		\D{\hat{\vect{u}}_k}/Dt = -\nabla\hat{p}_k + 
+			\sum_{i=0}^{P}\sum_{j=0}^{P} C_{ijk} 
+			\Big[ \hat{\nu}_j \nabla^2 \hat{\vect{u}}_i - (\hat{\vect{u}}_j \cdot \nabla) \hat{\vect{u}}_i \Big]
+	\]
+
+	\medskip
+	\visible<1>{{\color{mitred} {\bfseries Updated Algorithm:}}}
+	\vspace{-2.5em}
+
+	\begin{center}
+		\scalebox{1.0}{\input{Figures/Stochastic_PressureProject_Schematic.tikz}}
+	\end{center}
+
+\end{frame}
+
+
+\begin{frame}{Comments}
+
+\begin{itemize}
+
+	\item Solving the stochastic Navier-Stokes equations is a work-in-progress.
+
+	\item Parallelizing the pressure solves is critical to the cost-effectiveness of SPM.
+
+	\item Implementing Stokhos in parallel is a challenge due to limited documentation.
+
+		\begin{itemize}
+			\item[$\blacktriangleright$] the previous examples were all sufficiently small to be run in serial
+		\end{itemize}
+
+	\item Furthermore, a good deterministic solver is clearly a prerequisite.  
+
+\end{itemize}
+ 
+
+\end{frame}
+
+
+\subsection{Deterministic Case Studies}\setcounter{subsection}{0}
+
+
+\begin{frame}{Lid-Driven Cavity Flow}
+	\framesubtitle<1>{Streamline plot for \textrm{Re} = 100}
+	\framesubtitle<2>{Validation against data of Ghia et al.}
+	\smaller
+	\begin{center}
+	\only<1>{
+		\includegraphics[width=0.65\textwidth,keepaspectratio=true,clip=true,trim=0.5in 0.15in 0.25in 0.75in]{cavflow_streamlines}
+	}
+	\onslide<2>{
+		\scalebox{0.975}{\input{Figures/FlowCase/CavityFlowValidation.tikz}}
+	}
+	\end{center}
+\end{frame}
+
+% \subsubsection{Channel Flow}
+
+\begin{frame}{Channel Flow}
+	\framesubtitle<1>{Streamline plot for uniform ($\boldsymbol{u_{in} = 10}$) inflow (\textrm{Re} = 100)}
+	\framesubtitle<2>{Validation against Truchas code (LANL)}
+	\begin{center}
+	\only<1>{
+		\includegraphics[width=0.99\textwidth,keepaspectratio=true,clip=true,trim=1in 0in 1.25in 0in]{chanflow_streamlines}		
+	}
+	\only<2>{
+		\vspace{1cm}
+		\scalebox{0.825}{\input{Figures/FlowCase/ChannelFlowValidation.tikz}}
+	}
+	\end{center}
+
+\end{frame}
+
+
+
+
+\section[Conclusions]{Conclusions \& Future Work}
+
+\begin{frame}{Conclusions}
+
+	\begin{itemize}
+
+	\item UQ in conjunction with CFD is issue that inevitably will need to be addressed.
+
+	\item The cost of simulation tools such as CFD precludes the use of sampling-based UQ methods.
+
+	\item SPM has clear advantages over alternatives, particularly for incompressible flow problems due 
+		  to decoupling of the stochastic pressure modes.
+
+	\item Stokhos/Trilinos offer many utilities, but these tools come with a \emph{very} steep learning curve. 
+
+	\item Preliminary results for the deterministic single-phase flow solver are promising
+
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Future Work}
+
+	The road ahead is long, and many tasks remain:
+
+	\begin{enumerate}
+		\item Finish the deterministic, single-phase flow solver:
+
+		\begin{itemize}
+		 \item[$\blacktriangleright$] mostly optimization work
+		\end{itemize}
+	
+		\item Apply SPM to select single-phase flow examples
+
+		\begin{itemize}
+		 \item[$\blacktriangleright$] in progress
+		\end{itemize}
+
+		\item Develop a multiphase flow solver using the front-tracking method
+
+		\begin{itemize}
+		 \item[$\blacktriangleright$] this, itself, is a huge task and will likely take considerable time
+		\end{itemize}
+
+		\item Implement the SPM within the multiphase flow solver
+
+		\begin{itemize}
+		 \item[$\blacktriangleright$] with the lessons learned from applying SPM to single-phase flow problems,
+				this \emph{should} be relatively straightforward -- in comparison to \raisebox{-0.15ex}{\numberInBox{3}}.
+		\end{itemize}
+
+	\end{enumerate}
+
+
+
+\end{frame}
+
+
+\section[]{}
+
+\begin{frame}{That's All, Folks!}
+	\begin{center}
+		\Huge\bfseries Questions?
+	\end{center}
+\end{frame}
+
+
+  
+% \begin{frame}{References}
+% \relsize{-2}
+% \bibliographystyle{siam}
+% \bibliography{/home/dustin/Documents/LaTeX/bibliography/mylib}
+% \end{frame}
+
+
+
+
+
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
+%	APPENDIX
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ %
+\appendix
+
+\begin{frame}{\;}
+	\begin{center}
+		\Huge\bfseries Extra Slides
+	\end{center}	
+\end{frame}
+
+
+
+\begin{frame}{Additional Comments on the Karhunen-Lo\`{e}ve Expansion}
+	\setbeamerfont{itemize/enumerate body}{size=\relsize{-1}}
+
+	\begin{itemize}[<1->]
+
+		\item 	The $\{\xi_i\}_{i=1}^{\infty}$ are uncorrelated, {\color{red} not necessarily independent}.
+		\begin{itemize}
+			\item[$\blacktriangleright$] They are \emph{approximately} independent (to $1^{\mathrm{st}}$-order).
+		\end{itemize}
+
+
+		\item 	The series must be truncated after a finite number $N_{KL}$ of terms.
+		\begin{itemize}
+			\item[$\blacktriangleright$] The truncated KL expansion is \alert{mean-square optimal} ($L^2$-optimal). 
+		\end{itemize}
+
+		\item 	The optimal $N_{KL}$ depends on spectrum (eigenvalues) of $C(\cdot\,,\cdot)$
+	
+ 		\begin{enumerate}
+			\item The further the correlation extends in space, the ``faster'' the eigenvalues decay $\implies$ smaller $N_{KL}$. 
+			\vspace{1ex}
+			\item Conversely, $\lambda_i \to 1$ $\forall i$ as $C(\vect{x},\vect{y}) \to \delta(\vect{x}-\vect{y})$ 
+				  (vanishing correlation)
+
+			\begin{itemize}\relsize{-1}
+				\item[$\bullet$] Knowing $\kappa(\vect{x};\omega)$ says nothing of $\kappa(\vect{y};\omega)$ for $\vect{x}\ne\vect{y}$. 
+			\end{itemize}
+
+		\end{enumerate}
+		\vspace{-1.1ex}
+		\begin{customlist}{2.75em}{0pt}
+			\item[\drarrow] analogous to the Fourier (and Heisenberg) uncertainty principle		 
+		\end{customlist}
+		
+	\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{The gPC Expansion in $N$-dimensions}
+
+	\setbeamerfont{itemize/enumerate body}{size=\smaller}
+ 
+	\begin{itemize}
+
+	\item Let $\xi$ and $\eta$ be mutually independent RVs with known distributions (need not be ID).
+
+	\item Let $\psi_k(\xi)$ and $\varphi_k(\eta)$ denote the respective $k^{\mathrm{th}}$ gPC basis function.
+
+	\item The product basis $\{\Psi_k(\xi,\eta)\}_{k=0}^{\infty}$ is given by:
+	\[\begin{matrix}
+		\Psi_0 = \psi_0 \varphi_0		&
+		\Psi_2 = \psi_0 \varphi_1		& 
+		\Psi_5 = \psi_0 \varphi_2		&\dots\\
+
+		\Psi_1 = \psi_1 \varphi_0		&
+		\Psi_4 = \psi_1 \varphi_1		&
+		\\
+
+		\Psi_3 = \psi_2 \varphi_0 &
+		\\
+		\vdots
+	\end{matrix}\]
+	\vspace{-1.5em}
+	\item Repeating \emph{ad infinitum}, a basis for any dimension can be constructed.
+
+	\item By construction, \alert{orthogonality is preserved}:
+ 	\[
+ 		E(\Psi_i \Psi_j) \equiv \langle \Psi_i, \Psi_j \rangle = E(\Psi_i^2) \delta_{ij}
+ 	\]
+
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Staggered Grid Arrangement}
+\begin{center}
+	\scalebox{0.65}{\input{Figures/FlowCase/Staggered_Stencil.tikz}}
+\end{center}
+\end{frame}
+
+
+% ========================================================================================================== %
+\end{document}

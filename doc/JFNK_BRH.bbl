@@ -1,0 +1,95 @@
+\begin{thebibliography}{10}
+
+\bibitem{Bell1970}
+George Bell and Samuel Glasstone.
+\newblock {\em {Nuclear Reactor Theory}}.
+\newblock Van Nostrand Reinhold Co., New York, 1970.
+
+\bibitem{Downar2009}
+T.~Downar, D.~Lee, Y.~Xu, and V.~Seker.
+\newblock {\em {PARCS v3.0: U.S. NRC Core Neutronics Simulator. User Manual}}.
+\newblock University of Michigan, 2009.
+
+\bibitem{Duderstadt1976}
+James~J. Duderstadt and Louis~J. Hamilton.
+\newblock {\em {Nuclear Reactor Analysis}}.
+\newblock Wiley, New York, 1976.
+
+\bibitem{Gill2009}
+Daniel~F. Gill.
+\newblock {\em Newton-Krylov Methods for the Solution of the k-Eigenvalue
+  Problem in Multigroup Neutronics Calculations}.
+\newblock PhD thesis, The Pennsylvania State University, 2009.
+
+\bibitem{Hebert2009}
+Alain H\'{e}bert.
+\newblock {\em {Applied Reactor Physics}}.
+\newblock Presses Internationales Polytechnique, Montr\'{e}al, 2009.
+
+\bibitem{Holmgren2006}
+Magnus Holmgren.
+\newblock {\em {X STEAM for MATLAB}}.
+\newblock Excel Engineering, 2006.
+
+\bibitem{Kelly1987}
+C.T. Kelly.
+\newblock {\em {Iterative Methods for Linear and Nonlinear Equations}}.
+\newblock Society for Industrial and Applied Mathematics, Philadelphia, 1987.
+
+\bibitem{Kelly2003}
+C.T. Kelly.
+\newblock {\em {Solving Nonlinear Equations with Newton's Method}}.
+\newblock Society for Industrial and Applied Mathematics, Philadelphia, 2003.
+
+\bibitem{Knoll2004}
+D.A. Knoll and D.E. Keyes.
+\newblock {Jacobian-free Newton-Krylov methods: a survey of approaches and
+  applications}.
+\newblock {\em Journal of Computational Physics}, 193:357--397, 2004.
+
+\bibitem{LeppanenUser2010}
+Jaakko Lepp\"{a}nen.
+\newblock {\em {PSG2/Serpent: A Continuous-energy Monte Carlo Reactor Physics
+  Burnup Code User's Manual}}.
+\newblock VTT, Espoo, December 2010.
+
+\bibitem{Planet2011}
+Planet Math.
+\newblock Given rotation.
+\newblock {\em http://planetmath.org/encyclopedia/GivensRotation.html}, 2011.
+
+\bibitem{Mousseau2003}
+V.A. Mousseau.
+\newblock {Implicitly balanced solution of the two-phase flow equations couple
+  to nonlinear heat conduction}.
+\newblock {\em Journal of Computational Physics}, 200:104--132, 2004.
+
+\bibitem{RELAP5}
+{RELAP5-3D}.
+\newblock {\em RELAP5-3D Code Manual Volume II: User's Guide and Input
+  Requirements}.
+\newblock Idaho National Laboratory, 2.4 edition, June 2005.
+
+\bibitem{Saad1986}
+Youcef Saad and Martin~H. Schultz.
+\newblock Gmres: A generalized minimal residual algorithm for solving
+  nonsymmetric linear systems.
+\newblock {\em Society for Industrial and Applied Mathematics}, 7:856--869,
+  1986.
+
+\bibitem{Saad2003}
+Yousef Saad.
+\newblock {\em Iterative Methods for Sparse Linear Systems}.
+\newblock Societry for Industrial and Applied Mathematics, 2003.
+
+\bibitem{Todreas2011}
+Neil~E. Todreas and Mujid~S. Kazimi.
+\newblock {\em {Nuclear Systems I}}.
+\newblock Taylor \& Francis, New York, second edition, 2011.
+
+\bibitem{Trefethen1997}
+Lloyd~N. Trefethen and David Bau.
+\newblock {\em Numerical Linear Algebra}.
+\newblock Societry for Industrial and Applied Mathematics, 1997.
+
+\end{thebibliography}
