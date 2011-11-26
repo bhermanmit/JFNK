@@ -89,7 +89,8 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-A full design of a nuclear reactor system is complex and involves many physics.
+A complete design of a nuclear reactor system is complex and involves many
+ coupled physics.
  When performing reactor physics calculations, the design engineer is primarily
  concerned with the reactivity of the core, spatial power distribution and
  isotopics.
@@ -97,18 +98,16 @@ A full design of a nuclear reactor system is complex and involves many physics.
  hydraulic calculations which ensure that core is cooled adequately.
  Whether performing reactor physics calculations for fuel management or
  for reactor safety, the distribution of neutrons (hence fission rate and
- power), temperature and density are highly coupled.
- The temperature and density distributions affect the probability of certain
- nuclear reactions such as fission.
+ power) and coolant density are highly coupled.
+ The temperature of the fuel and coolant density distributions affect the
+ probability of certain nuclear reactions such as fission.
  
 \end_layout
 
 \begin_layout Standard
 Once example of a reactor safety calculation is the sudden ejection of a
- control.
- This a highly non-linear problem to solve.
- A common approach to solve this problem is to use operator splitting or
- physics splitting.
+ control rod.
+ A common approach to solve this problem is to use operator or physics splitting.
  In this approach a temperature/density distribution is assumed, a power
  distribution is calculated from neutronics, and this is fed to the thermal
  hydraulic equations to get a new temperature/density distribution.
@@ -118,22 +117,17 @@ Once example of a reactor safety calculation is the sudden ejection of a
  is the U.S.
  N.R.C.
  code PARCS 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-ref
-\end_layout
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Downar2009"
 
 \end_inset
 
-which is couple to the thermal hydraulic system code TRACE
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-ref
-\end_layout
+ which is coupled to and external thermal hydraulic system code such as
+ RELAP 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "RELAP5"
 
 \end_inset
 
@@ -147,10 +141,6 @@ reference "fig:PARCSCoupling"
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
-\align center
 \begin_inset Float figure
 wide false
 sideways false
@@ -211,10 +201,6 @@ reference "fig:PARCSTime"
  are not converged in a given time step.
  Although this is an approximation, it has shown to be effective.
  
-\end_layout
-
-\begin_layout Standard
-\align center
 \begin_inset Float figure
 wide false
 sideways false
@@ -260,10 +246,10 @@ name "fig:PARCSTime"
 
 \begin_layout Standard
 In this paper, a fully coupled time-dependent solution between neutronics
- and thermal hydraulics is investigated.
+ and thermal hydraulics is performed.
  In this method, no operator splitting is performed and the equations are
  solved non-linearly at the same time.
- For this nonlinear system of equations a Jacobian-Free Newton Krylov (JFNK)
+ For this nonlinear system of equations, a Jacobian-Free Newton Krylov (JFNK)
  method is applied.
 \end_layout
 
@@ -279,7 +265,7 @@ name "sec:Governing"
 \end_inset
 
 In this section, the reactor model will be discussed along with the governing
- equations that will be used to solve for the physics.
+ equations that will be used to solve for physics.
  For the geometry, a one-dimensional slab reactor is assumed.
  A diagram of this model is shown in Fig.
  
@@ -332,9 +318,9 @@ name "fig:geometry"
 \end_inset
 
  In this geometry, the slab reactor (similar to modeling the axial direction
- of a fuel pin) is assumed to be 100 cm.
+ of a fuel pin) is assumed to be 370 cm.
  To remove the heat produced from fission reactors in the core, a fluid
- is passed over the slab to cool.
+ is passed over the slab.
  Here, only one dimensional flow is considered and only the energy equation
  is applied since the flow rate will be specified and remains constant.
  In addition, it will be assumed that the heat from the reactor is completely
@@ -343,7 +329,7 @@ name "fig:geometry"
  With these assumptions, the system of equations that remains is the simplest
  for these coupled physics.
  This is important since the JFNK nonlinear algorithm is of interest in
- this paper.
+ this work.
 \end_layout
 
 \begin_layout Subsection
@@ -355,7 +341,14 @@ In this section, the governing equations to model the neutronics will be
  presented.
  The neutron transport equation is the most detailed form to describe the
  behavior how neutrons travel and interact in a medium.
- In time-dependent form, the neutron transport equation is
+ In time-dependent form, the neutron transport equation is 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Hebert2009"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -370,7 +363,7 @@ In this section, the governing equations to model the neutronics will be
 \begin_inset Formula 
 \begin{eqnarray}
 Q\left(\mathbf{r},E,\mathbf{\Omega},t\right) & = & \underbrace{\int_{4\pi}d^{2}\Omega^{\prime}\int_{0}^{\infty}dE^{\prime}\Sigma_{s}\left(\mathbf{r},E^{\prime}\rightarrow E,\mathbf{\Omega}^{\prime}\rightarrow\mathbf{\Omega},t\right)\varphi\left(\mathbf{r},E^{\prime},\mathbf{\Omega}^{\prime},t\right)}_{\mathrm{neutrons\, scattering\, into\, phase\, space}}\label{eq:TransportSource}\\
- & + & \underbrace{\frac{1}{4\pi}\frac{\left(1-\beta\right)}{k_{eff}}\int_{0}^{\infty}dE^{\prime}\nu\Sigma_{f}\left(\mathbf{r},E^{\prime}\rightarrow Et\right)\varphi\left(\mathbf{r},E^{\prime},\mathbf{\Omega}^{\prime},t\right)}_{\mathrm{neutrons\, from\, prompt\, fissions}}+\underbrace{\frac{1}{4\pi}\sum_{l}\lambda_{l}c_{l}\left(\mathbf{r},t\right)}_{\mathrm{neutrons\, from\, precursor\, decay}}.\nonumber 
+ & + & \underbrace{\frac{1}{4\pi}\frac{\left(1-\beta\right)}{k_{eff}}\int_{0}^{\infty}dE^{\prime}\nu\Sigma_{f}\left(\mathbf{r},E^{\prime}\rightarrow Et\right)\varphi\left(\mathbf{r},E^{\prime},\mathbf{\Omega}^{\prime},t\right)}_{\mathrm{neutrons\, from\, prompt\, fissions}}+\underbrace{\frac{1}{4\pi}\sum_{l}\lambda_{d,l}c_{l}\left(\mathbf{r},t\right)}_{\mathrm{neutrons\, from\, precursor\, decay}}.\nonumber 
 \end{eqnarray}
 
 \end_inset
@@ -468,7 +461,7 @@ Q\left(\mathbf{r},E,\mathbf{\Omega},t\right) & = & \underbrace{\int_{4\pi}d^{2}\
 \uwave off
 \noun off
 \color none
-\begin_inset Formula $\lambda_{l}$
+\begin_inset Formula $\lambda_{d,l}$
 \end_inset
 
  - delayed neutron precursor decay constant with subscript 
@@ -499,8 +492,8 @@ An important concept in reactor physics is
 
  or the core multiplication factor.
  In modeling of reactors, if the steady state calculation is not perfectly
- balanced, neutron destruction does not equal neutron production, an eigenvalue
- is introduced to state how far away from 
+ balanced, neutron destruction does not equal neutron production, and an
+ eigenvalue is introduced to state how far away from 
 \begin_inset Quotes eld
 \end_inset
 
@@ -536,21 +529,26 @@ To model the concentration of precursors the following equation is used
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\frac{\partial c_{l}}{\partial t}=\underbrace{\frac{\beta}{k_{eff}}\int_{0}^{\infty}dE\int_{0}^{\infty}dE^{\prime}\nu\Sigma_{f}\left(\mathbf{r},E^{\prime}\rightarrow Et\right)\varphi\left(\mathbf{r},E^{\prime},\mathbf{\Omega}^{\prime},t\right)}_{\mathrm{neutrons\, from\, precursor\, decay}}-\underbrace{\lambda_{l}c_{l}\left(\mathbf{r},t\right)}_{\mathrm{precursor\, decay}}.\label{eq:TransportPrec}
+\frac{\partial c_{l}}{\partial t}=\underbrace{\frac{\beta}{k_{eff}}\int_{0}^{\infty}dE\int_{0}^{\infty}dE^{\prime}\nu\Sigma_{f}\left(\mathbf{r},E^{\prime}\rightarrow Et\right)\varphi\left(\mathbf{r},E^{\prime},\mathbf{\Omega}^{\prime},t\right)}_{\mathrm{neutrons\, from\, precursor\, decay}}-\underbrace{\lambda_{d,l}c_{l}\left(\mathbf{r},t\right)}_{\mathrm{precursor\, decay}}.\label{eq:TransportPrec}
 \end{equation}
 
 \end_inset
 
+The assumption is that the decay of one precursor isotope will give off
+ one neutron.
+ This is why the decay term shows up as a source of neutrons in the neutron
+ balance equation.
  From these transport equations, the neutron diffusion equation can be derived.
  The form can be determined by expanding the angular flux and scattering
  source in Legendre polynomials and truncating after order 1.
- The resulting equations represent neutron balance and an equation that
- looks like Fick's Law (hence diffusion).
+ After the expansion and reduction, two equations result.
+ The first represents neutron balance and the other is an equation that
+ resembles Fick's Law (hence diffusion).
  They are
 \begin_inset Formula 
 \begin{multline}
 \frac{1}{v}\frac{\partial\phi}{\partial t}+\nabla\cdot\mathbf{J}\left(\mathbf{r},E,t\right)+\Sigma_{t}\left(\mathbf{r},E,t\right)\phi\left(\mathbf{r},E,t\right)=\\
-\int_{0}^{\infty}dE^{\prime}\left[\Sigma_{s}\left(\mathbf{r},E^{\prime}\rightarrow E,t\right)+\frac{1-\beta}{k_{eff}}\nu\Sigma_{f}\left(\mathbf{r},E^{\prime}\rightarrow E,t\right)\right]\phi\left(\mathbf{r},E^{\prime},t\right)+\sum_{l}\lambda_{l}c_{l}\left(\mathbf{r},t\right),\label{eq:DiffusionBalance-1}
+\int_{0}^{\infty}dE^{\prime}\left[\Sigma_{s}\left(\mathbf{r},E^{\prime}\rightarrow E,t\right)+\frac{1-\beta}{k_{eff}}\nu\Sigma_{f}\left(\mathbf{r},E^{\prime}\rightarrow E,t\right)\right]\phi\left(\mathbf{r},E^{\prime},t\right)+\sum_{l}\lambda_{d,l}c_{l}\left(\mathbf{r},t\right),\label{eq:DiffusionBalance-1}
 \end{multline}
 
 \end_inset
@@ -564,12 +562,23 @@ To model the concentration of precursors the following equation is used
 \end_inset
 
  The equation to model the precursor cursor concentration is 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+look at this eq.
+ more, see BNA paper
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\frac{\partial c_{l}}{\partial t}=\frac{\beta}{k_{eff}}\int_{0}^{\infty}dE\int_{0}^{\infty}dE^{\prime}\nu\Sigma_{f}\left(\mathbf{r},E^{\prime}\rightarrow Et\right)\phi\left(\mathbf{r},E^{\prime},t\right)-\lambda_{l}c_{l}\left(\mathbf{r},t\right).\label{eq:DiffusionPrec}
+\frac{\partial c_{l}}{\partial t}=\frac{\beta}{k_{eff}}\int_{0}^{\infty}dE\int_{0}^{\infty}dE^{\prime}\nu\Sigma_{f}\left(\mathbf{r},E^{\prime}\rightarrow E,t\right)\phi\left(\mathbf{r},E^{\prime},t\right)-\lambda_{d,l}c_{l}\left(\mathbf{r},t\right).\label{eq:DiffusionPrec}
 \end{equation}
 
 \end_inset
@@ -611,7 +620,7 @@ One-dimensional One-group Transient Neutron Diffusion Equation
 \end_layout
 
 \begin_layout Standard
-For this paper, only the one-dimensional one-group (energy) transient neutron
+For this paper, only the one-dimensional one-energy group transient neutron
  diffusion equation is required.
  If Eq.
  
@@ -625,7 +634,7 @@ reference "eq:DiffusionBalance-1"
  the equations become
 \begin_inset Formula 
 \begin{gather}
-\frac{1}{v}\frac{\partial\phi}{\partial t}+\nabla\cdot\mathbf{J}\left(\mathbf{r},t\right)+\Sigma_{a}\left(\mathbf{r},t\right)\phi\left(\mathbf{r},t\right)=\frac{1-\beta}{k_{eff}}\nu\Sigma_{f}\left(\mathbf{r},t\right)\phi\left(\mathbf{r},t\right)+\lambda c\left(\mathbf{r},t\right),\label{eq:DiffusionBalance1g}
+\frac{1}{v}\frac{\partial\phi}{\partial t}+\nabla\cdot\mathbf{J}\left(\mathbf{r},t\right)+\Sigma_{a}\left(\mathbf{r},t\right)\phi\left(\mathbf{r},t\right)=\frac{1-\beta}{k_{eff}}\nu\Sigma_{f}\left(\mathbf{r},t\right)\phi\left(\mathbf{r},t\right)+\lambda_{d}c\left(\mathbf{r},t\right),\label{eq:DiffusionBalance1g}
 \end{gather}
 
 \end_inset
@@ -644,12 +653,12 @@ reference "eq:DiffusionBalance-1"
  
 \begin_inset Formula 
 \begin{equation}
-\frac{\partial c}{\partial t}=\frac{\beta}{k_{eff}}\nu\Sigma_{f}\left(\mathbf{r},t\right)\phi\left(\mathbf{r},t\right)-\lambda c\left(\mathbf{r},t\right).\label{eq:DiffusionPrec1g}
+\frac{\partial c}{\partial t}=\frac{\beta}{k_{eff}}\nu\Sigma_{f}\left(\mathbf{r},t\right)\phi\left(\mathbf{r},t\right)-\lambda_{d}c\left(\mathbf{r},t\right).\label{eq:DiffusionPrec1g}
 \end{equation}
 
 \end_inset
 
- In the Eq.
+ In Eq.
  
 \begin_inset CommandInset ref
 LatexCommand eqref
@@ -657,10 +666,10 @@ reference "eq:DiffusionBalance1g"
 
 \end_inset
 
- the neutron absorption macroscopic cross section is introduced which is
- the difference between the total and scattering macroscopic cross section,
- 
-\begin_inset Formula $\Sigma_{a}=\Sigma_{t}-\Sigma_{s}$
+, the neutron absorption macroscopic cross section is introduced.
+ This cross section is defined as the difference between the total and scatterin
+g macroscopic cross section, 
+\begin_inset Formula $\Sigma_{a}\equiv\Sigma_{t}-\Sigma_{s}$
 \end_inset
 
 .
@@ -670,7 +679,7 @@ reference "eq:DiffusionBalance1g"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\frac{1}{v}\frac{\partial\phi}{\partial t}+\frac{\partial J}{\partial x}+\Sigma_{a}\left(x,t\right)\phi\left(x,t\right)=\frac{1-\beta}{k_{eff}}\nu\Sigma_{f}\left(x,t\right)\phi\left(x,t\right)+\lambda c\left(x,t\right),\label{eq:Diffusion1g1d}
+\frac{1}{v}\frac{\partial\phi}{\partial t}+\frac{\partial J}{\partial x}+\Sigma_{a}\left(x,t\right)\phi\left(x,t\right)=\frac{1-\beta}{k_{eff}}\nu\Sigma_{f}\left(x,t\right)\phi\left(x,t\right)+\lambda_{d}c\left(x,t\right),\label{eq:Diffusion1g1d}
 \end{equation}
 
 \end_inset
@@ -686,7 +695,7 @@ J\left(x,t\right)=-D\left(x,t\right)\frac{\partial\phi}{\partial x},\label{eq:Di
  
 \begin_inset Formula 
 \begin{equation}
-\frac{\partial c}{\partial t}=\frac{\beta}{k_{eff}}\nu\Sigma_{f}\left(x,t\right)\phi\left(x,t\right)-\lambda c\left(x,t\right).\label{eq:DiffusionPrec1d1g}
+\frac{\partial c}{\partial t}=\frac{\beta}{k_{eff}}\nu\Sigma_{f}\left(x,t\right)\phi\left(x,t\right)-\lambda_{d}c\left(x,t\right).\label{eq:DiffusionPrec1d1g}
 \end{equation}
 
 \end_inset
@@ -750,7 +759,7 @@ reference "eq:DiffusionPrec1d1g"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\frac{dJ}{dx}+\Sigma_{a}\left(x\right)\phi\left(x\right)=\frac{1-\beta}{k_{eff}}\nu\Sigma_{f}\left(x\right)\phi\left(x\right)+\lambda c\left(x\right),\label{eq:DiffusionBalSteady}
+\frac{dJ}{dx}+\Sigma_{a}\left(x\right)\phi\left(x\right)=\frac{1-\beta}{k_{eff}}\nu\Sigma_{f}\left(x\right)\phi\left(x\right)+\lambda_{d}c\left(x\right),\label{eq:DiffusionBalSteady}
 \end{equation}
 
 \end_inset
@@ -766,7 +775,7 @@ J\left(x\right)=-D\left(x\right)\frac{d\phi}{dx},\label{eq:DiffusionFicksSteady}
 
 \begin_inset Formula 
 \begin{equation}
-\lambda c\left(x\right)=\frac{\beta}{k_{eff}}\nu\Sigma_{f}\left(x\right)\phi\left(x\right).\label{eq:DiffusionPrecSteady}
+\lambda_{d}c\left(x\right)=\frac{\beta}{k_{eff}}\nu\Sigma_{f}\left(x\right)\phi\left(x\right).\label{eq:DiffusionPrecSteady}
 \end{equation}
 
 \end_inset
@@ -804,7 +813,19 @@ reference "eq:DiffusionSteady"
 
  is an eigenvalue problem since neutron current depends on flux through
  Fick's law.
- Here the spatial flux distribution represents the eigenfunction.
+ Here the spatial flux distribution represents the eigenfunction and 
+\begin_inset Formula $1/k_{eff}$
+\end_inset
+
+ is the eigenvalue which is commonly denoted as 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ (not to be confused with the decay constant, 
+\begin_inset Formula $\lambda_{d}$
+\end_inset
+
+).
  
 \end_layout
 
@@ -898,17 +919,6 @@ Q\left(x\right)=\tilde{c}\kappa\Sigma_{f}\left(x\right)\phi\left(x\right).\label
 \end_inset
 
  
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Ref.
- Hebert
-\end_layout
-
-\end_inset
-
- 
 \end_layout
 
 \begin_layout Subsection
@@ -917,12 +927,9 @@ Thermal Hydrualics - Energy Equation
 
 \begin_layout Standard
 The energy equation for a single phase fluid is given by 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-ref T&K
-\end_layout
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Todreas2011"
 
 \end_inset
 
@@ -1020,6 +1027,9 @@ Assuming inviscid flow, the energy equation reduces to
 
 \end_inset
 
+It will be assumed that the energy produced from fissions will be a volumetric
+ heat source in the energy equation (note this is not common since fissions
+ occur in fuel and not in coolant).
  Multiplying this form of the energy equation by the 
 \begin_inset Quotes eld
 \end_inset
@@ -1129,27 +1139,27 @@ Thermal Hydraulic to Neutronic Coupling
 
 \begin_layout Standard
 The macroscopic cross sections and diffusion coefficient that were described
- in the neutronics formulation actually depend heavily on density as well.
- This is due to the fact that besides water being the coolant in a nuclear
- reactor it has the dual purpose of also slowing down neutrons.
- Slow neutrons have a much higher probability of causing a fission reaction.
+ in the neutronics formulation depend on density of the coolant.
+ This is due to the fact that besides water functioning as a coolant in
+ a nuclear reactor, it has the dual purpose of also slowing down neutrons.
+ Slow neutrons have a higher probability of causing a fission reaction.
  This process is almost analogous to billiard ball elastic collisions.
  Thus, if the density of water is low, it is less effective at slowing down
- neutrons and will have a negative affect the rate at which fissions occur.
+ neutrons and will have a negative effect the rate at which fissions occur.
  This is why nuclear reactors are somewhat self-regulating.
  If the power suddenly increases in a region of the core, the temperature
  will increase lowering the density and thus decreasing the fission rate
  and power.
  Note that this may not be the dominant effect as there are other nuclear
- process that will also have a negative effect on the fission rate.
- In this paper, only the effect of density will be modeled.
+ process that will also have a negative effect on the fission rate such
+ as fuel temperature.
+ In this paper, only the effect of density is modeled.
  
 \end_layout
 
 \begin_layout Standard
 Once the temperature distribution is known, the density distribution can
- be calculated from the equation of state for water as long as the pressure
- is specified.
+ be calculated from the equation of state for water as the pressure is specified.
  Thus, 
 \end_layout
 
@@ -1161,13 +1171,11 @@ Once the temperature distribution is known, the density distribution can
 
 \end_inset
 
- The state equation is evaluated from the XSteam lookup tables 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-ref Xsteam
-\end_layout
+The state equation is evaluated in the X-Steam look-up tables for MATLAB
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Holmgren2006"
 
 \end_inset
 
@@ -1218,8 +1226,8 @@ D\left(x,t\right)=D^{ref}+\frac{\partial D}{\partial\rho}\left[\rho\left(x,t\rig
 
 \end_inset
 
- For each of the above equations, there is a reference value.
- These values are described in Section 
+ For each of the above equations, there is a reference value and are described
+ in Section 
 \begin_inset CommandInset ref
 LatexCommand pageref
 reference "sub:Reference"
@@ -1232,26 +1240,22 @@ reference "sub:Reference"
 
 \begin_layout Subsection
 Calculation of Reference Neutronic Parameters 
+\end_layout
+
+\begin_layout Standard
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:Reference"
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-To calculate macroscopic cross sections and diffusion coefficient for core
+To calculate macroscopic cross sections and diffusion coefficients for core
  simulation, the 2-D neutron transport equation is solved.
  To solve this complicated PDE in space angle and energy, a stochastic Monte
- Carlo code, Serpent is used to generate this parameters 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-refSerpent
-\end_layout
+ Carlo code, Serpent, is used to generate these parameters 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "LeppanenUser2010"
 
 \end_inset
 
@@ -1412,7 +1416,7 @@ D^{ref}=8.85342\times10^{-1}\,\mathrm{cm},
 
 \end_inset
 
- Perturbations of -10%, -5%, +5% and +10% were made to the reference density
+Perturbations of -10%, -5%, +5% and +10% were made to the reference density
  to obtain the dependence of the above parameters on density.
  These points are then fit with a linear regression to determine the slope
  of the data.
@@ -1634,12 +1638,12 @@ name "fig:kfissRHO"
 
 \end_inset
 
-From the results the macroscopic cross sections have a positive slope which
+From the results the macroscopic cross sections have a positive slope while
  the diffusion coefficient has a negative slope.
  The cross section dependence makes sense since as the density increases,
  neutrons will slow down more and cause more fission.
  The opposite is true for the diffusion coefficient, if the density increases,
- neutrons are more efficiently slowed down in and therefore will not diffusion
+ neutrons are more efficiently slowed down in and therefore will not diffuse
  as much.
  Therefore, if the density goes down there will be a negative effect on
  producing more neutrons from fission as the cross section will go down
@@ -1664,6 +1668,7 @@ reference "sec:Governing"
  be determined.
  Therefore, the discretization of the steady state form of the equations
  will be presented first.
+ It is assumed that the grid is discretized uniformly over the slab.
 \end_layout
 
 \begin_layout Subsection
@@ -1795,8 +1800,8 @@ reference "eq:DiffusionSteady"
 \end_inset
 
  This is a second order approximation.
- It is also assumed in this derivation that the grid is uniform and that
- neutronic parameters are spatially constant in a cell.
+ It is also assumed in this derivation that neutronic parameters are spatially
+ constant in a cell.
  Performing the integration over cell 
 \begin_inset Formula $i$
 \end_inset
@@ -1812,7 +1817,7 @@ J_{i+1/2}-J_{i-1/2}+\Sigma_{a,i}\bar{\phi}_{i}\Delta x=\frac{1}{k_{eff}}\nu\Sigm
 
 \end_inset
 
- The fluxes that show up in finite volume equations is actually the neutron
+ The fluxes that show up in finite volume equations are actually the neutron
  current, NOT the neutron flux.
  From Fick's Law in Eq.
  
@@ -1994,12 +1999,9 @@ J_{1/2}=J_{in}-J_{out}=-D_{1}\left.\frac{d\phi}{dx}\right|_{1/2}.\label{eq:Jinou
  From neutron transport theory, the partial incoming and outgoing currents
  can be represent in terms of the flux at the boundary (Marshak Boundary
  Conditions 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-refBell
-\end_layout
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Bell1970"
 
 \end_inset
 
@@ -2252,7 +2254,7 @@ reference "eq:fluxpownorm"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-Q_{R}=\tilde{c}\int_{0}^{L}dx\kappa\Sigma_{f}\left(x\right)\phi\left(x\right)=\tilde{c}\sum_{i}\kappa\Sigma_{f,i}\bar{\phi}_{i}\Delta x=\tilde{c}\kappa\mathbf{\Sigma}_{f}^{\top}\bar{\mathbf{\Phi}}\Delta x.\label{eq:normfluxdiscrete}
+Q_{R}=\tilde{c}\int_{0}^{L}dx\kappa\Sigma_{f}\left(x\right)\phi\left(x\right)=\tilde{c}\sum_{i}\kappa\Sigma_{f,i}\bar{\phi}_{i}\Delta x=\tilde{c}\kappa\mathbf{\Sigma}_{f}^{\mathrm{T}}\bar{\mathbf{\Phi}}\Delta x.\label{eq:normfluxdiscrete}
 \end{equation}
 
 \end_inset
@@ -2278,7 +2280,7 @@ Q_{i}=\int_{x_{i-1/2}}^{x_{i+1/2}}\tilde{c}\kappa\Sigma_{f}\phi\left(x\right)=\t
 
 \end_inset
 
- In matrix form the above equation is represented by
+In matrix form, the above equation is represented by
 \end_layout
 
 \begin_layout Standard
@@ -2511,7 +2513,7 @@ D_{i}=D^{ref}+\frac{\partial D}{\partial\rho}\left[\rho_{i}-\rho^{ref}\right],\l
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\kappa\mathbf{\Sigma}_{f,i}=\kappa\Sigma_{f}^{ref}+\frac{\partial\kappa\Sigma_{f}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right].\label{eq:KfissRHOCellVec}
+\kappa\mathbf{\Sigma}_{f}=\kappa\Sigma_{f}^{ref}+\frac{\partial\kappa\Sigma_{f}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right].\label{eq:KfissRHOCellVec}
 \end{equation}
 
 \end_inset
@@ -2528,21 +2530,18 @@ Newton's Method
 \end_layout
 
 \begin_layout Standard
-To solve the coupled neutronic/thermal hydrualic problem, a nonlinear method
+To solve the coupled neutronic/thermal hydraulic problem, a nonlinear method
  must be used.
  A common approach to solve nonlinear equations is to employ Newton's method
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-ref CT 
-\end_layout
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kelly2003"
 
 \end_inset
 
 .
- The algorithm for Newton's methods is quite straightforward and is presented
- in Algorithm 
+ The algorithm for Newton's methods is presented in Algorithm 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "alg:NewtonEasy"
@@ -2688,6 +2687,15 @@ name "alg:NewtonEasy"
 
 \end_inset
 
+where 
+\begin_inset Formula $\mathbf{F}$
+\end_inset
+
+ is the residual vector and 
+\begin_inset Formula $\mathbf{x}$
+\end_inset
+
+ is the unknown vector.
  From these residual equations, a Jacobian matrix can be constructed by
  taking the partial derivative of each residual equation by the variables
  in the unknown vector.
@@ -2706,7 +2714,7 @@ name "alg:NewtonEasy"
 
  This nonlinear tolerance is user defined and is arbitrary.
  We only note that this value be compared to the tolerance used when solving
- the linear system equation with an iterative method(see step 5 in Algorithm
+ the linear system equation with an iterative method (see step 5 in Algorithm
  
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -2720,7 +2728,7 @@ reference "alg:NewtonEasy"
 
 \begin_layout Standard
 In the coupled system of neutronic and thermal hydraulic equations, an analytic
- Jacobian cannot be determined since the state equation for water is a lookup
+ Jacobian cannot be determined since the state equation for water is a look-up
  table.
  One could fit an analytic curve to the state equation to describe the dependenc
 e of density on temperature.
@@ -2773,17 +2781,17 @@ name "sec:Krylov"
 \begin_layout Standard
 In Krylov methods just like other direct and iterative numerical schemes,
  the goal is to solve 
-\begin_inset Formula $\mathbf{A}x=b$
+\begin_inset Formula $\mathbb{A}\mathbf{x}=\mathbf{b}$
 \end_inset
 
 .
  Krylov methods fall into the category of iterative projection methods.
  In projection methods, an approximate solution to the vector 
-\begin_inset Formula $x$
+\begin_inset Formula $\mathbf{x}$
 \end_inset
 
 , denoted as 
-\begin_inset Formula $\hat{x}$
+\begin_inset Formula $\hat{\mathbf{x}}$
 \end_inset
 
  is determined from a projection of the system onto some subspace.
@@ -2797,7 +2805,7 @@ In Krylov methods just like other direct and iterative numerical schemes,
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathcal{K}_{n}\left(A,v\right)=\mathrm{span}\left\{ v,\mathbf{A}v,\mathbf{A}^{2}v,...,\mathbf{A}^{n-1}v\right\} ,\label{eq:KrySub}
+\mathcal{K}_{n}\left(\mathbb{A},\mathbf{v}\right)=\mathrm{span}\left\{ \mathbf{v},\mathbb{A}\mathbf{v},\mathbb{A}^{2}\mathbf{v},...,\mathbb{A}^{n-1}\mathbf{v}\right\} ,\label{eq:KrySub}
 \end{equation}
 
 \end_inset
@@ -2811,7 +2819,7 @@ In Krylov methods just like other direct and iterative numerical schemes,
 \end_inset
 
 , 
-\begin_inset Formula $A$
+\begin_inset Formula $\mathbb{A}$
 \end_inset
 
  is an 
@@ -2819,7 +2827,7 @@ In Krylov methods just like other direct and iterative numerical schemes,
 \end_inset
 
  matrix and 
-\begin_inset Formula $v$
+\begin_inset Formula $\mathbf{v}$
 \end_inset
 
  is a vector of length 
@@ -2835,11 +2843,11 @@ key "Saad2003"
 
 .
  Here, the vectors 
-\begin_inset Formula $v$
+\begin_inset Formula $\mathbf{v}$
 \end_inset
 
 , 
-\begin_inset Formula $Av...$
+\begin_inset Formula $\mathbb{A}\mathbf{v}...$
 \end_inset
 
  form a basis of 
@@ -2882,21 +2890,21 @@ key "Trefethen1997"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{AQ=QH}.\label{eq:Arnoldi1}
+\mathbb{A}\mathbb{Q}=\mathbb{Q}\mathbb{H}.\label{eq:Arnoldi1}
 \end{equation}
 
 \end_inset
 
 Here, 
-\begin_inset Formula $\mathbf{A}$
+\begin_inset Formula $\mathbb{A}$
 \end_inset
 
  is the coefficient matrix, 
-\begin_inset Formula $\mathbf{Q}$
+\begin_inset Formula $\mathbb{Q}$
 \end_inset
 
  is unitary and 
-\begin_inset Formula $\mathbf{H}$
+\begin_inset Formula $\mathbb{H}$
 \end_inset
 
  is a matrix in Hessenberg form.
@@ -2910,7 +2918,7 @@ Here,
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{H}=\left[\begin{array}{cccc}
+\mathbb{H}=\left[\begin{array}{cccc}
 h_{11} &  & \cdots & h_{1n}\\
 h_{21} & h_{22}\\
  & \ddots & \ddots & \vdots\\
@@ -2921,7 +2929,7 @@ h_{21} & h_{22}\\
 \end_inset
 
 Since the matrix 
-\begin_inset Formula $\mathbf{A}$
+\begin_inset Formula $\mathbb{A}$
 \end_inset
 
  may be very large and so a full reduction to Hessenberg may not be feasible.
@@ -2930,7 +2938,7 @@ Since the matrix
 \end_inset
 
  columns are considered so that 
-\begin_inset Formula $\mathbf{Q}_{n}$
+\begin_inset Formula $\mathbb{Q}_{n}$
 \end_inset
 
  is a 
@@ -2942,7 +2950,7 @@ Since the matrix
 \end_inset
 
  columns of 
-\begin_inset Formula $\mathbf{Q}$
+\begin_inset Formula $\mathbb{Q}$
 \end_inset
 
 ,
@@ -2951,7 +2959,7 @@ Since the matrix
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{Q}_{n}=\left[q_{1},q_{2}...,q_{n}\right].
+\mathbb{Q}_{n}=\left[\mathbf{q}_{1},\mathbf{q}_{2}...,\mathbf{q}_{n}\right].
 \end{equation}
 
 \end_inset
@@ -2970,7 +2978,7 @@ reference "eq:Arnoldi1"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{AQ}_{n}=\mathbf{Q}_{n+1}\mathbf{\widetilde{H}}_{n}.\label{eq:Arnoldi2}
+\mathbb{A}\mathbb{Q}_{n}=\mathbb{Q}_{n+1}\widetilde{\mathbb{H}}_{n}.\label{eq:Arnoldi2}
 \end{equation}
 
 \end_inset
@@ -2984,7 +2992,7 @@ reference "eq:Arnoldi2"
 \end_inset
 
  
-\begin_inset Formula $\mathbf{\widetilde{H}}_{n}$
+\begin_inset Formula $\widetilde{\mathbb{H}}_{n}$
 \end_inset
 
  is a 
@@ -2992,7 +3000,7 @@ reference "eq:Arnoldi2"
 \end_inset
 
  upper-left section of 
-\begin_inset Formula $\mathbf{H}$
+\begin_inset Formula $\mathbb{H}$
 \end_inset
 
  and also of Hessenberg form,
@@ -3001,7 +3009,7 @@ reference "eq:Arnoldi2"
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\mathbf{\widetilde{H}}_{n}=\left[\begin{array}{cccc}
+\widetilde{\mathbb{H}}_{n}=\left[\begin{array}{cccc}
 h_{11} &  & \cdots & h_{1n}\\
 h_{21} & h_{22}\\
  & \ddots & \ddots & \vdots\\
@@ -3012,16 +3020,16 @@ h_{21} & h_{22}\\
 
 \end_inset
 
- If the 
-\begin_inset Formula $\mathbf{A}$
+ If 
+\begin_inset Formula $\mathbb{A}$
 \end_inset
 
-is applied to the 
+ is applied to the 
 \begin_inset Formula $n$
 \end_inset
 
 -th column of 
-\begin_inset Formula $\mathbf{Q}_{n}$
+\begin_inset Formula $\mathbb{Q}_{n}$
 \end_inset
 
  in Eq.
@@ -3038,13 +3046,13 @@ reference "eq:Arnoldi2"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{A}q_{n}=h_{1n}q_{1}+\cdots+h_{n,n}q_{n}+h_{n+1,n}q_{n+1}.
+\mathbb{A}\mathbf{q}_{n}=h_{1n}\mathbf{q}_{1}+\cdots+h_{n,n}\mathbf{q}_{n}+h_{n+1,n}\mathbf{q}_{n+1}.
 \end{equation}
 
 \end_inset
 
  Thus, the next column of 
-\begin_inset Formula $\mathbf{Q}$
+\begin_inset Formula $\mathbb{Q}$
 \end_inset
 
  can be determined with 
@@ -3053,7 +3061,7 @@ reference "eq:Arnoldi2"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-v=\mathbf{A}q_{n}-\left(h_{1n}q_{1}+\cdots+h_{n,n}q_{n}\right)\label{eq:Arnoldi3}
+\mathbf{v}=\mathbb{A}\mathbf{q}_{n}-\left(h_{1n}\mathbf{q}_{1}+\cdots+h_{n,n}\mathbf{q}_{n}\right)\label{eq:Arnoldi3}
 \end{equation}
 
 \end_inset
@@ -3064,22 +3072,22 @@ v=\mathbf{A}q_{n}-\left(h_{1n}q_{1}+\cdots+h_{n,n}q_{n}\right)\label{eq:Arnoldi3
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-q_{n+1}=v/h_{n+1,n},
+\mathbf{q}_{n+1}=\mathbf{v}/h_{n+1,n},
 \end{equation}
 
 \end_inset
 
  where 
-\begin_inset Formula $v$
+\begin_inset Formula $\mathbf{v}$
 \end_inset
 
  is just a temporary vector.
  In order to ensure 
-\begin_inset Formula $q_{n+1}$
+\begin_inset Formula $\mathbf{q}_{n+1}$
 \end_inset
 
  is orthonormal, 
-\begin_inset Formula $h_{n+1,n}=\left\Vert v\right\Vert .$
+\begin_inset Formula $h_{n+1,n}=\left\Vert \mathbf{v}\right\Vert .$
 \end_inset
 
  In this paper, 
@@ -3266,18 +3274,8 @@ reference "eq:Arnoldi3"
 .
  Also in the algorithm on line 2, the loop can go for an arbitrary number
  of iterations.
- This parameter is specified by the user and is problem specific.
- 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Do we want to include an example?
-\end_layout
-
-\end_inset
-
- Therefore, with each Arnoldi iteration a projections are made onto successive
+ This iteration parameter is specified by the user and is problem specific.
+ Therefore, with each Arnoldi iteration projections are made onto successive
  Krylov subspaces.
 \end_layout
 
@@ -3287,31 +3285,31 @@ Generalized Minimal RESidual method (GMRES)
 
 \begin_layout Standard
 The Arnoldi iteration that was presented in the previous section is used
- to find the eigenvalues of a system.
+ to find eigenvalues of a system.
  GMRES on the other hand can be used to solve 
-\begin_inset Formula $\mathbf{A}x=b.$
+\begin_inset Formula $\mathbb{A}\mathbf{x}=\mathbf{b}.$
 \end_inset
 
- According to Trefethen the idea behind GMRES is that at iteration step
+ According to Trefethen, the idea behind GMRES is that at iteration step
  
 \begin_inset Formula $n$
 \end_inset
 
 , 
-\begin_inset Formula $x$
+\begin_inset Formula $\mathbf{x}$
 \end_inset
 
  is approximated with 
-\begin_inset Formula $x_{n}\in\mathcal{K}_{n}$
+\begin_inset Formula $\mathbf{x}_{n}\in\mathcal{K}_{n}$
 \end_inset
 
  that minimizes the norm of residual 
-\begin_inset Formula $r_{n}=b-\mathbf{A}x_{n}$
+\begin_inset Formula $\mathbf{r}_{n}=\mathbf{b}-\mathbb{A}\mathbf{x}_{n}$
 \end_inset
 
 .
  Therefore, 
-\begin_inset Formula $x_{n}$
+\begin_inset Formula $\mathbf{x}_{n}$
 \end_inset
 
  is determined by solving a least squares problem.
@@ -3321,9 +3319,9 @@ The Arnoldi iteration that was presented in the previous section is used
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{A}\mathbf{K}_{n}=\left[\begin{array}{c|c|c|c}
+\mathbb{A}\mathbb{K}_{n}=\left[\begin{array}{c|c|c|c}
  &  & \\
-\mathbf{A}b & \mathbf{A}^{2}b & \cdots & \mathbf{A}^{n}b\\
+\mathbb{A}\mathbf{b} & \mathbb{A}^{2}\mathbf{b} & \cdots & \mathbb{A}^{n}\mathbf{b}\\
  &  & \\
 \end{array}\right].
 \end{equation}
@@ -3336,7 +3334,7 @@ The Arnoldi iteration that was presented in the previous section is used
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\left\Vert \mathbf{A}\mathbf{K}_{n}c-b\right\Vert =\mathrm{minimum},\label{eq:GMRES1}
+\left\Vert \mathbb{A}\mathbb{K}_{n}\mathbf{c}-\mathbf{b}\right\Vert =\mathrm{minimum},\label{eq:GMRES1}
 \end{equation}
 
 \end_inset
@@ -3347,7 +3345,7 @@ The Arnoldi iteration that was presented in the previous section is used
 
  is determined such that the 2-norm of the residual is minimized.
  It can be seen that 
-\begin_inset Formula $x_{n}=\mathbf{K}_{n}c$
+\begin_inset Formula $\mathbf{x}_{n}=\mathbb{K}_{n}\mathbf{c}$
 \end_inset
 
 .
@@ -3360,13 +3358,13 @@ reference "sub:LeastSq"
 
 .
  One method to solve this problem is to use QR factorization of 
-\begin_inset Formula $\mathbf{A}\mathbf{K}_{n}$
+\begin_inset Formula $\mathbb{A}\mathbb{K}_{n}$
 \end_inset
 
 .
  According to Trefethen, this approach is numerically unstable and also
  generates a matrix 
-\begin_inset Formula $\mathbf{R}$
+\begin_inset Formula $\mathbb{R}$
 \end_inset
 
  which is not utilized.
@@ -3378,7 +3376,7 @@ reference "alg:Arnoldi"
 \end_inset
 
  is used to generate a sequence of Krylov matrices denoted by 
-\begin_inset Formula $\mathbf{Q}_{n}$
+\begin_inset Formula $\mathbb{Q}_{n}$
 \end_inset
 
  whose columns span the Krylov subspace 
@@ -3400,13 +3398,13 @@ reference "eq:GMRES1"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\left\Vert \mathbf{A}\mathbf{Q}_{n}y-b\right\Vert =\mathrm{minimum},\label{eq:GMRES2}
+\left\Vert \mathbb{A}\mathbb{Q}_{n}\mathbf{y}-\mathbf{b}\right\Vert =\mathrm{minimum},\label{eq:GMRES2}
 \end{equation}
 
 \end_inset
 
  so that 
-\begin_inset Formula $x_{n}=\mathbf{Q}_{n}y.$
+\begin_inset Formula $\mathbf{x}_{n}=\mathbb{Q}_{n}\mathbf{y}.$
 \end_inset
 
  Equation 
@@ -3430,13 +3428,13 @@ reference "eq:GMRES2"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\left\Vert \mathbf{Q}_{n+1}\mathbf{\widetilde{H}}_{n}y-b\right\Vert =\mathrm{minimum}.\label{eq:GMRES3}
+\left\Vert \mathbb{Q}_{n+1}\widetilde{\mathbb{H}}_{n}\mathbf{y}-\mathbf{b}\right\Vert =\mathrm{minimum}.\label{eq:GMRES3}
 \end{equation}
 
 \end_inset
 
  Since 
-\begin_inset Formula $\mathbf{Q}_{n+1}$
+\begin_inset Formula $\mathbb{Q}_{n+1}$
 \end_inset
 
  is unitary and the vectors inside the norm are in the column space of this
@@ -3454,13 +3452,13 @@ reference "eq:GMRES3"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\left\Vert \mathbf{\widetilde{H}}_{n}y-\mathbf{Q}_{n+1}^{*}b\right\Vert =\mathrm{minimum}.
+\left\Vert \widetilde{\mathbb{H}}_{n}\mathbf{y}-\mathbb{Q}_{n+1}^{*}\mathbf{b}\right\Vert =\mathrm{minimum},
 \end{equation}
 
 \end_inset
 
  where 
-\begin_inset Formula $\mathbf{Q}_{n+1}^{*}$
+\begin_inset Formula $\mathbb{Q}_{n+1}^{*}$
 \end_inset
 
  is the conjugate transpose of 
@@ -3476,7 +3474,7 @@ reference "eq:GMRES3"
 \noun off
 \color none
 
-\begin_inset Formula $\mathbf{Q}_{n+1}$
+\begin_inset Formula $\mathbb{Q}_{n+1}$
 \end_inset
 
 .
@@ -3493,11 +3491,11 @@ reference "eq:GMRES3"
 \noun default
 \color inherit
  Another property of this expression is that 
-\begin_inset Formula $\mathbf{Q}_{n+1}^{*}b=\left\Vert b\right\Vert e_{1}$
+\begin_inset Formula $\mathbb{Q}_{n+1}^{*}\mathbf{b}=\left\Vert \mathbf{b}\right\Vert \mathbf{e}_{1}$
 \end_inset
 
  where 
-\begin_inset Formula $e_{1}=\left\langle 1,0,0...\right\rangle ^{*}.$
+\begin_inset Formula $\mathbf{e}_{1}=\left\langle 1,0,0...\right\rangle ^{*}.$
 \end_inset
 
  Finally, the GMRES problem can be cast as 
@@ -3506,7 +3504,7 @@ reference "eq:GMRES3"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\left\Vert \mathbf{\widetilde{H}}_{n}y-\left\Vert b\right\Vert e_{1}\right\Vert =\mathrm{minimum}.
+\left\Vert \widetilde{\mathbb{H}}_{n}\mathbf{y}-\left\Vert \mathbf{b}\right\Vert \mathbf{e}_{1}\right\Vert =\mathrm{minimum}.
 \end{equation}
 
 \end_inset
@@ -3518,13 +3516,13 @@ reference "eq:GMRES3"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-x=x_{0}+\mathbf{Q}_{n}y
+\mathbf{x}=\mathbf{x}_{0}+\mathbb{Q}_{n}\mathbf{y},
 \end{equation}
 
 \end_inset
 
  where here 
-\begin_inset Formula $\mathbf{Q}_{n}$
+\begin_inset Formula $\mathbb{Q}_{n}$
 \end_inset
 
  is the Krylov matrix determined from the Arnoldi iteration.
@@ -3545,7 +3543,7 @@ reference "alg:GMRESbasic"
 \end_inset
 
 , where the least squares problem is listed as a high level command.
- This algorithm has a slightly different form as it is casted is Saad's
+ This algorithm has a slightly different form as it is written is Saad's
  notation rather than Trefethen's described above.
  
 \begin_inset Float algorithm
@@ -3766,13 +3764,13 @@ name "alg:GMRESbasic"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\min\left\Vert b-\mathbf{A}\left[x_{1}+z\right]\right\Vert =\min\left\Vert r_{1}-\mathbf{A}z\right\Vert 
+\min\left\Vert \mathbf{b}-\mathbb{A}\left[\mathbf{x}_{1}+\mathbf{z}\right]\right\Vert =\min\left\Vert \mathbf{r}_{1}-\mathbb{A}\mathbf{z}\right\Vert 
 \end{equation}
 
 \end_inset
 
  so that 
-\begin_inset Formula $z=\mathbf{Q}_{n}y$
+\begin_inset Formula $\mathbf{z}=\mathbb{Q}_{n}\mathbf{y}$
 \end_inset
 
 .
@@ -3783,13 +3781,13 @@ name "alg:GMRESbasic"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\min\left\Vert \beta e_{1}-\mathbf{\widetilde{H}}_{n}y\right\Vert ,\label{eq:Least2}
+\min\left\Vert \beta\mathbf{e}_{1}-\widetilde{\mathbb{H}}_{n}\mathbf{y}\right\Vert ,\label{eq:Least2}
 \end{equation}
 
 \end_inset
 
  where 
-\begin_inset Formula $\beta=\left\Vert r_{1}\right\Vert .$
+\begin_inset Formula $\beta=\left\Vert \mathbf{r}_{1}\right\Vert .$
 \end_inset
 
  The basic GMRES algorithm has also been extended to incorporate a restart
@@ -4054,7 +4052,7 @@ name "alg:GMRESrestart"
 status open
 
 \begin_layout Plain Layout
-talk about restart tradeoffs
+talk about restart tradeoffs and look at algorithm to check
 \end_layout
 
 \end_inset
@@ -4074,7 +4072,7 @@ Solving the Least Squares Problem
 
 \begin_layout Standard
 In linear algebra, a least squares problem must be solved if 
-\begin_inset Formula $\mathbf{A}x=b$
+\begin_inset Formula $\mathbb{A}\mathbf{x}=\mathbf{b}$
 \end_inset
 
  is overdetermined 
@@ -4088,25 +4086,25 @@ key "Trefethen1997"
  One of the methods to solve a least squares problem is QR factorization.
  This QR factorization is performed using Gram-Schmidt or Householder triangular
 ization such that 
-\begin_inset Formula $\mathbf{A}=\mathbf{QR}$
+\begin_inset Formula $\mathbb{A}=\mathcal{Q}\mathcal{R}$
 \end_inset
 
 .
  Note that this 
-\begin_inset Formula $\mathbf{Q}$
+\begin_inset Formula $\mathcal{Q}\mathcal{R}$
 \end_inset
 
- is not the same as the matrix 
-\begin_inset Formula $\mathbf{Q}$
+ is written in scripts to not conflict with 
+\begin_inset Formula $\mathbb{Q}$
 \end_inset
 
  from the Arnoldi iteration that is in some Krylov subspace.
  To do this, the orthogonal projector 
-\begin_inset Formula $\mathbf{P}=\mathbf{Q}\mathbf{Q}^{*}$
+\begin_inset Formula $\mathbb{P}=\mathcal{Q}\mathcal{Q}^{*}$
 \end_inset
 
 is applied to 
-\begin_inset Formula $b$
+\begin_inset Formula $\mathbf{b}$
 \end_inset
 
 ,
@@ -4115,7 +4113,7 @@ is applied to
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-y=\mathbf{P}b=\mathbf{Q}\mathbf{Q^{*}}b.
+\mathbf{y}=\mathbb{P}\mathbf{b}=\mathcal{Q}\mathcal{Q}^{*}\mathbf{b}.
 \end{equation}
 
 \end_inset
@@ -4126,7 +4124,7 @@ y=\mathbf{P}b=\mathbf{Q}\mathbf{Q^{*}}b.
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{A}x=y
+\mathbb{A}\mathbf{x}=\mathbf{y}
 \end{equation}
 
 \end_inset
@@ -4138,17 +4136,17 @@ y=\mathbf{P}b=\mathbf{Q}\mathbf{Q^{*}}b.
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{QR}x=\mathbf{QQ}^{*}b.
+\mathcal{QR}\mathbf{x}=\mathcal{QQ}^{*}\mathbf{b}.
 \end{equation}
 
 \end_inset
 
  Since 
-\begin_inset Formula $\mathbf{Q}^{*}A=R$
+\begin_inset Formula $\mathcal{Q}^{*}\mathbb{A}=\mathcal{R}$
 \end_inset
 
 , left multiplication of 
-\begin_inset Formula $\mathbf{Q}^{*}$
+\begin_inset Formula $\mathcal{Q}^{*}$
 \end_inset
 
  gives
@@ -4157,27 +4155,18 @@ y=\mathbf{P}b=\mathbf{Q}\mathbf{Q^{*}}b.
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{R}x=\mathbf{Q}^{*}b.\label{eq:Least1}
+\mathcal{R}\mathbf{x}=\mathcal{Q}^{*}\mathbf{b}.\label{eq:Least1}
 \end{equation}
 
 \end_inset
 
  The left hand side is now an upper triangular matrix and can be solved
  via back substitution.
- As one can see, since the matrix 
-\begin_inset Formula $\mathbf{Q}$
-\end_inset
-
- is obtained from the Arnoldi iteration, an extra matrix 
-\begin_inset Formula $\mathbf{R}$
-\end_inset
-
- is also needed for this method of solving the least squares problem.
  In the GMRES problem, 
-\begin_inset Formula $\mathbf{\widetilde{H}}_{n}$
+\begin_inset Formula $\widetilde{\mathbb{H}}_{n}$
 \end_inset
 
- is actually the coefficient matrix 
+ is the coefficient matrix 
 \begin_inset Formula $\mathbf{A}$
 \end_inset
 
@@ -4194,11 +4183,11 @@ y=\mathbf{P}b=\mathbf{Q}\mathbf{Q^{*}}b.
 \noun off
 \color none
 
-\begin_inset Formula $\beta e_{1}$
+\begin_inset Formula $\beta\mathbf{e}_{1}$
 \end_inset
 
  as 
-\begin_inset Formula $b$
+\begin_inset Formula $\mathbf{b}$
 \end_inset
 
 .
@@ -4216,11 +4205,11 @@ y=\mathbf{P}b=\mathbf{Q}\mathbf{Q^{*}}b.
 \color inherit
  A practical implementation of solving the least squares problem is to factor
  
-\begin_inset Formula $\mathbf{\widetilde{H}}_{n}$
+\begin_inset Formula $\widetilde{\mathbb{H}}_{n}$
 \end_inset
 
  into 
-\begin_inset Formula $\mathbf{Q}_{n}\mathbf{R}_{n}$
+\begin_inset Formula $\mathcal{Q}_{n}\mathcal{R}_{n}$
 \end_inset
 
  using plane rotations (Givens rotation) 
@@ -4241,7 +4230,7 @@ Introduction to Givens Rotation
 It is desirable to not have to perform QR factorization at every iteration
  of GMRES.
  Because of the special structure of 
-\begin_inset Formula $\mathbf{\widetilde{H}}_{n}$
+\begin_inset Formula $\widetilde{\mathbb{H}}_{n}$
 \end_inset
 
 , it can be progressively updated at each iteration.
@@ -4255,21 +4244,22 @@ In general, QR factorizations can be computed with successive Givens rotations.
  With each rotation an element of a matrix that is subdiagonal is zeroed
  out.
  The final matrix is the upper triangular matrix 
-\begin_inset Formula $\mathbf{R}$
+\begin_inset Formula $\mathcal{R}$
 \end_inset
 
  while the matrix 
-\begin_inset Formula $\mathbf{Q}$
+\begin_inset Formula $\mathcal{Q}$
 \end_inset
 
- is given by multiplying all of the rotation matrices together.
+ is given by multiplying the conjugate transpose of all rotation matrices
+ together.
  In general a rotation matrix is given by 
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{G}=\left[\begin{array}{ccccccc}
+\mathbb{G}=\left[\begin{array}{ccccccc}
 1 & \cdots & 0 & \cdots & 0 & \cdots & 0\\
 \vdots & \ddots & \vdots &  & \vdots & \iddots & \vdots\\
 0 & \cdots & c & \cdots & -s & \cdots & 0\\
@@ -4304,7 +4294,7 @@ key "Planet2011"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{A}=\left[\begin{array}{ccc}
+\mathbb{A}=\left[\begin{array}{ccc}
 6 & 5 & 0\\
 5 & 1 & 4\\
 0 & 4 & 3
@@ -4323,7 +4313,7 @@ key "Planet2011"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{Q}=\left[\begin{array}{ccc}
+\mathcal{Q}=\left[\begin{array}{ccc}
 -0.7682 & 0.03327 & -0.5470\\
 -0.6402 & -0.3992 & 0.6564\\
 0 & 0.8544 & 0.5196
@@ -4338,7 +4328,7 @@ key "Planet2011"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{R}=\left[\begin{array}{ccc}
+\mathcal{R}=\left[\begin{array}{ccc}
 -7.8102 & -4.4813 & -2.5607\\
 0 & 4.6817 & 0.9664\\
 0 & 0 & 4.1843
@@ -4348,7 +4338,7 @@ key "Planet2011"
 \end_inset
 
  Looking at the matrix 
-\begin_inset Formula $\mathbf{A}$
+\begin_inset Formula $\mathbb{A}$
 \end_inset
 
  in order to triangularize it, the element (2,1) and (3,2) must be eliminated.
@@ -4363,7 +4353,7 @@ key "Planet2011"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{G}=\left[\begin{array}{ccc}
+\mathbb{G}=\left[\begin{array}{ccc}
 c & -s & 0\\
 s & c & 0\\
 0 & 0 & 1
@@ -4523,7 +4513,7 @@ s=-0.6402.
 \end_inset
 
  Apply the rotation matrix 
-\begin_inset Formula $\mathbf{G}$
+\begin_inset Formula $\mathbb{G}$
 \end_inset
 
 , with 
@@ -4544,7 +4534,7 @@ s=-0.6402.
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{A}^{\prime}=\mathbf{GA}=\left[\begin{array}{ccc}
+\mathbb{A}^{\prime}=\mathbb{GA}=\left[\begin{array}{ccc}
 7.8102 & 4.4813 & 2.5607\\
 0 & -2.4327 & 3.0729\\
 0 & 4 & 3
@@ -4565,7 +4555,7 @@ A few observations can be made.
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{G}^{\prime}=\left[\begin{array}{ccc}
+\mathbb{G}^{\prime}=\left[\begin{array}{ccc}
 1 & 0 & 0\\
 0 & c & -s\\
 0 & s & c
@@ -4588,7 +4578,7 @@ A few observations can be made.
 
 .
  Applying the rotation matrix to 
-\begin_inset Formula $\mathbf{A}^{\prime}$
+\begin_inset Formula $\mathbb{A}^{\prime}$
 \end_inset
 
  it becomes
@@ -4597,7 +4587,7 @@ A few observations can be made.
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{A}^{\prime\prime}=\mathbf{G}^{\prime}\mathbf{A}^{\prime}=\left[\begin{array}{ccc}
+\mathbb{A}^{\prime\prime}=\mathbb{G}^{\prime}\mathbb{A}^{\prime}=\left[\begin{array}{ccc}
 7.8102 & 4.4813 & 2.5607\\
 0 & 4.6817 & 0.9664\\
 0 & 0 & -4.1843
@@ -4607,13 +4597,13 @@ A few observations can be made.
 \end_inset
 
  At this point the QR factorization is complete where 
-\begin_inset Formula $\mathbf{R}=\mathbf{A}^{\prime\prime}$
+\begin_inset Formula $\mathcal{R}=\mathbb{A}^{\prime\prime}$
 \end_inset
 
  and 
 \begin_inset Formula 
 \begin{equation}
-\mathbf{Q}=\mathbf{G}^{*}\mathbf{G}^{\prime*}=\left[\begin{array}{ccc}
+\mathcal{Q}=\mathbb{G}^{*}\mathbb{G}^{\prime*}=\left[\begin{array}{ccc}
 0.7682 & 0.3327 & 0.5470\\
 0.6402 & -0.3992 & -0.6564\\
 0 & 0.8544 & -0.5196
@@ -4634,7 +4624,7 @@ reference "sub:LeastSq"
 \end_inset
 
 , the conjugate transpose of 
-\begin_inset Formula $\mathbf{Q}$
+\begin_inset Formula $\mathcal{Q}$
 \end_inset
 
  must be applied to the right hand side vector (see Eq.
@@ -4647,7 +4637,7 @@ reference "eq:Least1"
 
 ).
  Therefore, only product of the rotation matrices are needed and not the
- product of their conjugate tranposes.
+ product of their conjugate transposes.
 \end_layout
 
 \begin_layout Subsubsection
@@ -4665,29 +4655,29 @@ reference "sub:LeastSq"
 
 .
  A matrix 
-\begin_inset Formula $\mathbf{Q}_{n}$
+\begin_inset Formula $\mathcal{Q}_{n}$
 \end_inset
 
  with dimensions 
 \begin_inset Formula $\left(n+1\right)\times\left(n+1\right)$
 \end_inset
 
- can be defined such that it is the accumulated product of rotation matrices
- 
-\begin_inset Formula $\left(\mathbf{Q}_{2}=\mathbf{G}_{2}\mathbf{G}_{1}\right)$
+ can be defined such that it is the accumulated product of the conjugate
+ transpose of rotation matrices 
+\begin_inset Formula $\left(\mathcal{Q}_{2}=\mathbb{G}_{2}^{*}\mathbb{G}_{1}^{*}\right)$
 \end_inset
 
 .
- Since this matrix is unitary, 
+ Recall this matrix is unitary, 
 \begin_inset Formula 
 \begin{equation}
-\min\left\Vert \beta e_{1}-\mathbf{\widetilde{H}}_{n}y\right\Vert =\min\left\Vert \mathbf{Q}_{n}\left[\beta e_{1}-\mathbf{\widetilde{H}}_{n}y\right]\right\Vert =\min\left\Vert g_{n}-\mathbf{R}_{n}y\right\Vert \label{eq:GMRESgiven1}
+\min\left\Vert \beta\mathbf{e}_{1}-\widetilde{\mathbb{H}}_{n}\mathbf{y}\right\Vert =\min\left\Vert \mathbb{Q}_{n}\left[\beta\mathbf{e}_{1}-\widetilde{\mathbb{H}}_{n}\mathbf{y}\right]\right\Vert =\min\left\Vert \mathbf{g}_{n}-\mathcal{R}_{n}\mathbf{y}\right\Vert \label{eq:GMRESgiven1}
 \end{equation}
 
 \end_inset
 
 where 
-\begin_inset Formula $g_{n}\equiv\mathbf{Q}_{n}\beta e_{1}$
+\begin_inset Formula $\mathbf{g}_{n}\equiv\mathbb{Q}_{n}\beta\mathbf{e}_{1}$
 \end_inset
 
 .
@@ -4704,7 +4694,7 @@ where
 \noun off
 \color none
 
-\begin_inset Formula $\mathbf{\widetilde{H}}_{n}\in\mathbb{C}^{\left(n+1\right)\times n}$
+\begin_inset Formula $\widetilde{\mathbb{H}}_{n}\in\mathbb{C}^{\left(n+1\right)\times n}$
 \end_inset
 
  is 
@@ -4713,27 +4703,18 @@ where
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{\widetilde{H}}_{n}=\mathbf{Q}_{n}^{\prime}\mathbf{R}_{n}.\label{eq:GMRESgiven2}
+\widetilde{\mathbb{H}}_{n}=\mathcal{Q}_{n}\mathcal{R}_{n}.\label{eq:GMRESgiven2}
 \end{equation}
 
 \end_inset
 
-A prime is used to not confuse with the definition of 
-\begin_inset Formula $\mathbf{Q}_{n}$
-\end_inset
-
- listed above.
- Left multiplying by the conjugate transpose of 
-\begin_inset Formula $\mathbf{Q}_{n}^{\prime}$
-\end_inset
-
- this equation becomes,
+Left multiplying by the conjugate transpose of this equation becomes,
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{Q}_{n}^{\prime*}\mathbf{\widetilde{H}}_{n}=\mathbf{R}_{n}.
+\mathcal{Q}_{n}^{*}\widetilde{\mathbb{H}}_{n}=\mathcal{R}_{n}.
 \end{equation}
 
 \end_inset
@@ -4747,7 +4728,7 @@ reference "eq:Givens1"
 \end_inset
 
 , the conjugate transpose of 
-\begin_inset Formula $\mathbf{Q}_{n}^{\prime}$
+\begin_inset Formula $\mathcal{Q}_{n}$
 \end_inset
 
  in the QR factorization is the accumulated product of rotation matrices,
@@ -4756,7 +4737,7 @@ reference "eq:Givens1"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{Q}_{n}^{\prime*}=\mathbf{G}_{1}\times\mathbf{G}_{2}\times...
+\mathcal{Q}_{n}^{*}=\mathbb{G}_{n}\times...\times\mathbb{G}_{2}\times\mathbb{G}_{1}
 \end{equation}
 
 \end_inset
@@ -4767,7 +4748,7 @@ reference "eq:Givens1"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{Q}_{n}=\mathbf{Q}_{n}^{\prime*}.
+\mathbb{Q}_{n}=\mathcal{Q}_{n}^{*}.
 \end{equation}
 
 \end_inset
@@ -4801,7 +4782,7 @@ reference "eq:GMRESgiven1"
 \noun off
 \color none
 
-\begin_inset Formula $\mathbf{R}_{n}=\mathbf{Q}_{n}\mathbf{\widetilde{H}}_{n}$
+\begin_inset Formula $\mathcal{R}_{n}=\mathbb{Q}_{n}\widetilde{\mathbb{H}}_{n}$
 \end_inset
 
 .
@@ -4828,7 +4809,7 @@ To summarize the above explanation, the least squares problem that is being
 \color none
 \begin_inset Formula 
 \begin{equation}
-\min\left\Vert g_{n}-\mathbf{R}_{n}y\right\Vert ,
+\min\left\Vert g_{n}-\mathcal{R}_{n}y\right\Vert ,
 \end{equation}
 
 \end_inset
@@ -4846,21 +4827,21 @@ To summarize the above explanation, the least squares problem that is being
 \noun default
 \color inherit
 
-\begin_inset Formula $g_{n}=\mathbf{Q}_{n}\beta e_{1}$
+\begin_inset Formula $g_{n}=\mathbb{Q}_{n}\beta\mathbf{e}_{1}$
 \end_inset
 
  and 
-\begin_inset Formula $\mathbf{R}_{n}=\mathbf{Q}_{n}\mathbf{\widetilde{H}}_{n}$
+\begin_inset Formula $\mathcal{R}_{n}=\mathbb{Q}_{n}\widetilde{\mathbb{H}}_{n}$
 \end_inset
 
 .
  It can be seen that the accumulated product of Givens rotation matrices
  must be applied at each step to 
-\begin_inset Formula $\beta e_{1}$
+\begin_inset Formula $\beta\mathbf{e}_{1}$
 \end_inset
 
  and the Hessenberg matrix 
-\begin_inset Formula $\mathbf{\widetilde{H}}_{n}$
+\begin_inset Formula $\widetilde{\mathbb{H}}_{n}$
 \end_inset
 
 .
@@ -4870,41 +4851,41 @@ To summarize the above explanation, the least squares problem that is being
 
 , one would need to compute a new Givens rotation matrix, apply it the accumulat
 ed 
-\begin_inset Formula $\mathbf{Q}_{n}$
+\begin_inset Formula $\mathbb{Q}_{n}$
 \end_inset
 
  matrix and apply that new matrix to 
-\begin_inset Formula $\beta e_{1}$
+\begin_inset Formula $\beta\mathbf{e}_{1}$
 \end_inset
 
  and 
-\begin_inset Formula $\mathbf{\widetilde{H}}_{n}$
+\begin_inset Formula $\widetilde{\mathbb{H}}_{n}$
 \end_inset
 
  to compute 
-\begin_inset Formula $g_{n}$
+\begin_inset Formula $\mathbf{g}_{n}$
 \end_inset
 
  and 
-\begin_inset Formula $\mathbf{R}_{n}$
+\begin_inset Formula $\mathcal{R}_{n}$
 \end_inset
 
 .
  Due to the structure of 
-\begin_inset Formula $\beta e_{1}$
+\begin_inset Formula $\beta\mathbf{e}_{1}$
 \end_inset
 
 , 
-\begin_inset Formula $\mathbf{\widetilde{H}}_{n}$
+\begin_inset Formula $\widetilde{\mathbb{H}}_{n}$
 \end_inset
 
  and the Givens rotation matrix, this process can be simplified.
  After the first Arnoldi step in the GMRES algorithm, 
-\begin_inset Formula $\beta e_{1}$
+\begin_inset Formula $\beta\mathbf{e}_{1}$
 \end_inset
 
  and 
-\begin_inset Formula $\mathbf{\widetilde{H}}_{n}$
+\begin_inset Formula $\widetilde{\mathbb{H}}_{n}$
 \end_inset
 
  are 
@@ -4913,10 +4894,10 @@ ed
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\beta e_{1}=\left[\begin{array}{c}
+\beta\mathbf{e}_{1}=\left[\begin{array}{c}
 \beta\\
 0
-\end{array}\right]\qquad\mathbf{\widetilde{H}}_{1}=\left[\begin{array}{c}
+\end{array}\right]\qquad\widetilde{\mathbb{H}}_{1}=\left[\begin{array}{c}
 h_{11}\\
 h_{21}
 \end{array}\right].
@@ -4930,7 +4911,7 @@ h_{21}
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{G}_{1}=\left[\begin{array}{cc}
+\mathbb{G}_{1}=\left[\begin{array}{cc}
 c_{1} & -s_{1}\\
 s_{2} & c_{2}
 \end{array}\right],
@@ -4939,11 +4920,11 @@ s_{2} & c_{2}
 \end_inset
 
  
-\begin_inset Formula $g$
+\begin_inset Formula $\mathbf{g}$
 \end_inset
 
  and 
-\begin_inset Formula $\mathbf{R}_{n}$
+\begin_inset Formula $\mathcal{R}_{n}$
 \end_inset
 
  are
@@ -4952,10 +4933,10 @@ s_{2} & c_{2}
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-g^{\left(1\right)}=\left[\begin{array}{c}
+\mathbf{g}^{\left(1\right)}=\left[\begin{array}{c}
 g_{1}\\
 g_{2}
-\end{array}\right]\qquad\mathbf{R}_{n}=\left[\begin{array}{c}
+\end{array}\right]\qquad\mathcal{R}_{n}=\left[\begin{array}{c}
 r_{11}\end{array}\right].
 \end{equation}
 
@@ -4967,11 +4948,11 @@ r_{11}\end{array}\right].
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\beta e_{1}=\left[\begin{array}{c}
+\beta\mathbf{e}_{1}=\left[\begin{array}{c}
 \beta\\
 0\\
 0
-\end{array}\right]\qquad\mathbf{\widetilde{H}}_{2}=\left[\begin{array}{cc}
+\end{array}\right]\qquad\widetilde{\mathbb{H}}_{2}=\left[\begin{array}{cc}
 h_{11} & h_{12}\\
 h_{21} & h_{22}\\
  & h_{23}
@@ -4983,7 +4964,7 @@ h_{21} & h_{22}\\
  After two Givens, the first with 
 \begin_inset Formula 
 \begin{equation}
-\mathbf{G}_{1}=\left[\begin{array}{ccc}
+\mathbb{G}_{1}=\left[\begin{array}{ccc}
 c_{1} & -s_{1} & 0\\
 s_{1} & c_{1} & 0\\
 0 & 0 & 1
@@ -4998,7 +4979,7 @@ s_{1} & c_{1} & 0\\
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{G}_{2}=\left[\begin{array}{ccc}
+\mathbb{G}_{2}=\left[\begin{array}{ccc}
 1 & 0 & 0\\
 0 & c_{1} & -s_{1}\\
 0 & s_{1} & c_{1}
@@ -5021,11 +5002,11 @@ s_{1} & c_{1} & 0\\
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-g^{\left(2\right)}=\left[\begin{array}{c}
+\mathbf{g}^{\left(2\right)}=\left[\begin{array}{c}
 g_{1}\\
 g_{2}^{\prime}\\
 g_{3}
-\end{array}\right]\qquad\mathbf{R}_{n}=\left[\begin{array}{cc}
+\end{array}\right]\qquad\mathcal{R}_{n}=\left[\begin{array}{cc}
 r_{11} & r_{12}\\
 0 & r_{22}
 \end{array}\right].
@@ -5051,7 +5032,7 @@ r_{11} & r_{12}\\
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-g^{\left(2\right)}=\mathbf{G}_{2}g^{\left(1\right)}=\left[\begin{array}{ccc}
+\mathbf{g}^{\left(2\right)}=\mathbb{G}_{2}\mathbf{g}^{\left(1\right)}=\left[\begin{array}{ccc}
 1 & 0 & 0\\
 0 & c_{1} & -s_{1}\\
 0 & s_{1} & c_{1}
@@ -5067,7 +5048,7 @@ g_{2}\\
  and 
 \begin_inset Formula 
 \begin{equation}
-\mathbf{R}_{2}^{\left\langle 2\right\rangle }=\mathbf{G}_{2}\mathbf{G}_{1}\mathbf{\widetilde{H}}_{2}^{\left\langle 2\right\rangle }.
+\mathcal{R}_{2}^{\left\langle 2\right\rangle }=\mathbb{G}_{2}\mathbb{G}_{1}\widetilde{\mathbb{H}}_{2}^{\left\langle 2\right\rangle }.
 \end{equation}
 
 \end_inset
@@ -5087,7 +5068,7 @@ g_{2}\\
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-g^{\left(n\right)}=\mathbf{G}_{n}g^{\left(n-1\right)}
+\mathbf{g}^{\left(n\right)}=\mathbb{G}_{n}\mathbf{g}^{\left(n-1\right)}
 \end{equation}
 
 \end_inset
@@ -5098,7 +5079,7 @@ g^{\left(n\right)}=\mathbf{G}_{n}g^{\left(n-1\right)}
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{R}_{n}^{\left\langle n\right\rangle }=\prod_{i=1}^{n}\mathbf{G}_{n}\mathbf{\widetilde{H}}_{n}^{\left\langle n\right\rangle }.\label{eq:GMRESgivens3}
+\mathcal{R}_{n}^{\left\langle n\right\rangle }=\prod_{i=1}^{n}\mathbb{G}_{n}\widetilde{\mathbb{H}}_{n}^{\left\langle n\right\rangle }.\label{eq:GMRESgivens3}
 \end{equation}
 
 \end_inset
@@ -5118,13 +5099,13 @@ g^{\left(n\right)}=\mathbf{G}_{n}g^{\left(n-1\right)}
  To save on memory, it can be seen from Eq.
  
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:GMRESgivens3"
 
 \end_inset
 
  that the matrix 
-\begin_inset Formula $\mathbf{R}_{n}$
+\begin_inset Formula $\mathcal{R}_{n}$
 \end_inset
 
  only depends on column 
@@ -5146,13 +5127,13 @@ reference "alg:GMRESbasic"
  of the Hessenberg matrix does not depend directly on any elements from
  the previous column.
  Therefore, the new column of the matrix 
-\begin_inset Formula $\mathbf{R}_{n}$
+\begin_inset Formula $\mathcal{R}_{n}$
 \end_inset
 
  computed from Eq.
  
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:GMRESgivens3"
 
 \end_inset
@@ -5174,7 +5155,7 @@ reference "eq:GMRESgivens3"
 \noun off
 \color none
 
-\begin_inset Formula $\mathbf{\widetilde{H}}_{n}$
+\begin_inset Formula $\widetilde{\mathbb{H}}_{n}$
 \end_inset
 
 .
@@ -5196,7 +5177,7 @@ reference "eq:GMRESgivens3"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{\widetilde{H}}_{n}^{\left\langle n\right\rangle }=\prod_{i=1}^{n}\mathbf{G}_{n}\mathbf{\widetilde{H}}_{n}^{\left\langle n\right\rangle }.\label{eq:GMRESgivens4}
+\widetilde{\mathbb{H}}_{n}^{\left\langle n\right\rangle }=\prod_{i=1}^{n}\mathbb{G}_{n}\widetilde{\mathbb{H}}_{n}^{\left\langle n\right\rangle }.\label{eq:GMRESgivens4}
 \end{equation}
 
 \end_inset
@@ -5473,7 +5454,8 @@ name "alg:Givens"
 \end_layout
 
 \begin_layout Standard
-The last question that has not answered is when to stop the GMRES iteration.
+The last question that has not been answered yet is when to stop the GMRES
+ iteration.
  After iteration 
 \begin_inset Formula $n$
 \end_inset
@@ -5481,17 +5463,17 @@ The last question that has not answered is when to stop the GMRES iteration.
 , the residual norm is given by 
 \begin_inset Formula 
 \begin{equation}
-\left\Vert r_{n}\right\Vert =\left\Vert g_{n}-\mathbf{R}_{n}y\right\Vert .
+\left\Vert \mathbf{r}_{n}\right\Vert =\left\Vert \mathbf{g}_{n}-\mathcal{R}_{n}\mathbf{y}\right\Vert .
 \end{equation}
 
 \end_inset
 
  Due to the structure of 
-\begin_inset Formula $\mathbf{R}_{n}$
+\begin_inset Formula $\mathcal{R}_{n}$
 \end_inset
 
  and 
-\begin_inset Formula $y$
+\begin_inset Formula $\mathbf{y}$
 \end_inset
 
 , this norm is equivalent to the absolute value of the 
@@ -5533,7 +5515,7 @@ prove this
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-g_{n}=\mathbf{R}_{n}y.
+\mathbf{g}_{n}=\mathcal{R}_{n}\mathbf{y}.
 \end{equation}
 
 \end_inset
@@ -5544,13 +5526,13 @@ g_{n}=\mathbf{R}_{n}y.
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-x=x_{0}+\mathbf{Q}_{n}y,\label{eq:KrySol}
+\mathbf{x}=\mathbf{x}_{0}+\mathbb{Q}_{n}\mathbf{y},\label{eq:KrySol}
 \end{equation}
 
 \end_inset
 
  where 
-\begin_inset Formula $\mathbf{Q}_{n}$
+\begin_inset Formula $\mathbb{Q}_{n}$
 \end_inset
 
  is the Krylov matrix from the Arnoldi iteration.
@@ -5561,7 +5543,7 @@ reference "alg:GMRESbasic"
 
 \end_inset
 
- can now be extended for Givens rotations, presented in Algorithm
+ can now be extended for Givens rotations, presented in Algorithm 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "alg:GMRESgivens"
@@ -5856,13 +5838,12 @@ name "sec:JFNK"
 
 \end_inset
 
- The previous two sections discussed how to solve nonlinear equations, Newton's
- method, and how to solve a linear system of equations with GMRES.
- The combination of these two methods, using Newton's method for the nonlinear
- equations and using a Krylov method for the linear step in Newton's method
- is called Newton-Krylov.
+ The previous two sections discussed how to solve nonlinear equations with
+ Newton's method, and how to solve a linear system of equations with GMRES.
+ The combination of these two methods, is called Newton-Krylov or more specifica
+lly Newton-GMRES.
  Since each linear system solve in Newton's iteration is not solved exactly
- with a direct method, the result from the iterative solve is not exact.
+ with a direct method, the result from the iterative solver is not exact.
  This idea is known as Inexact Newton's method and can be taken advantage
  of.
  
@@ -5879,12 +5860,9 @@ Since there are two tolerances the user can set, the nonlinear tolerance
  Since at the beginning of Newton's iteration, the nonlinear residual is
  quite large, the linear system does not need to be converged very tightly
  to get a good approximation of the next nonlinear step 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-ref Mousseau
-\end_layout
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Mousseau2003"
 
 \end_inset
 
@@ -5922,7 +5900,7 @@ ref Mousseau
 \end_inset
 
  and must be given to the Krylov solver.
- Thus the linear tolerance in the Krylov solver is just 
+ Thus, the absolute linear tolerance in the Krylov solver is just 
 \begin_inset Formula $\eta\left\Vert \mathbf{b}\right\Vert _{2}$
 \end_inset
 
@@ -5931,7 +5909,7 @@ ref Mousseau
 \begin_inset Formula $\mathbf{b}$
 \end_inset
 
- is large, at initial Newton step, the linear tolerance is not that tight.
+ is large, at initial Newton steps, the linear tolerance is not that tight.
  However, at later Newton steps when the norm of 
 \begin_inset Formula $\mathbf{b}$
 \end_inset
@@ -6009,13 +5987,13 @@ d\mathbf{x}_{m}=d\mathbf{x}_{0}+a_{0}\mathbf{r}_{0}+a_{1}\mathbb{J}\mathbf{r}_{0
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbb{J}\mathbf{v}\approx\frac{\mathbf{F}\left(\mathbf{x}+\epsilon\mathbf{v}\right)-\mathbf{F}\left(\mathbf{x}\right)}{\epsilon},
+\mathbb{J}\mathbf{y}\approx\frac{\mathbf{F}\left(\mathbf{x}+\epsilon\mathbf{y}\right)-\mathbf{F}\left(\mathbf{x}\right)}{\epsilon},
 \end{equation}
 
 \end_inset
 
  where 
-\begin_inset Formula $\mathbf{v}$
+\begin_inset Formula $\mathbf{y}$
 \end_inset
 
  is an arbitrary vector, 
@@ -6039,16 +6017,23 @@ key "Knoll2004"
 \end_inset
 
 .
- Mousseau recommends using 
+ Mousseau 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Mousseau2003"
+
+\end_inset
+
+ recommends using 
 \begin_inset Formula 
 \begin{equation}
-\epsilon=\frac{\sum_{i=1}^{N}bx_{i}}{N\left\Vert \mathbf{v}\right\Vert _{2}}.
+\epsilon=\frac{\sum_{i=1}^{N}bx_{i}}{N\left\Vert \mathbf{y}\right\Vert _{2}}.
 \end{equation}
 
 \end_inset
 
  This is definition of the perturbation parameter used in this work to approxima
-te the Jacobian.
+te the Jacobian-vector product.
  Even if the Jacobian-vector product can be evaluated analytically, it can
  also be approximated with a finite difference.
  In the system of equations solved in this work, all of the Jacobian-vector
@@ -6058,8 +6043,8 @@ te the Jacobian.
  The idea of forming the Jacobian-vector products analytically or approximating
  it all with a finite difference is investigated in this work.
  If the finite difference approximation of the whole system can be performed
- quicker, then this extra routine to perform the Jacobian-vector product
- is not needed.
+ quicker, then this extra routine to perform the analytic Jacobian-vector
+ product is not needed.
  This would be fortunate since these routines can become complicated to
  write.
  
@@ -6080,8 +6065,15 @@ It is important to keep the number of iterations in the GMRES solver to
 \begin_inset Formula $\mathbb{A}$
 \end_inset
 
- by a preconditioner 
+ by a preconditioner matrix 
 \begin_inset Formula $\mathbb{M}^{-1}$
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kelly1987"
+
 \end_inset
 
 .
@@ -6110,7 +6102,7 @@ It is important to keep the number of iterations in the GMRES solver to
  
 \begin_inset CommandInset citation
 LatexCommand cite
-key "Saad2003,Knoll2004"
+key "Knoll2004,Saad2003"
 
 \end_inset
 
@@ -6119,7 +6111,8 @@ key "Saad2003,Knoll2004"
 \end_layout
 
 \begin_layout Standard
-In this work ILU preconditioning is used as it is relatively easier to form.
+In this work, ILU preconditioning is used as it is relatively easier to
+ form.
  An ILU process computes sparse lower and upper triangular matrices (
 \begin_inset Formula $\mathbb{L}$
 \end_inset
@@ -6145,8 +6138,12 @@ In this work ILU preconditioning is used as it is relatively easier to form.
 \end_inset
 
  has the same number and locations of nonzeros, known as Zero Fill-in ILU.
- This is the default in MATLAB when the function 
+ This is used in MATLAB when the function 
 \begin_inset Formula $\mathtt{ilu}$
+\end_inset
+
+ with 
+\begin_inset Formula $\mathtt{'no\, fill'}$
 \end_inset
 
  is used.
@@ -6158,7 +6155,7 @@ In this work ILU preconditioning is used as it is relatively easier to form.
 
 \end_inset
 
- and therefore
+ and 
 \begin_inset Formula 
 \begin{equation}
 \mathbb{U}^{-1}\mathbb{L}^{-1}\mathbb{A}\mathbf{x}=\mathbb{U}^{-1}\mathbb{L}^{-1}\mathbf{b}.
@@ -6166,7 +6163,7 @@ In this work ILU preconditioning is used as it is relatively easier to form.
 
 \end_inset
 
- This can easily be added to the basic GMRES algorithm now modified in Algorithm
+ This can be added to the basic GMRES algorithm, now modified in Algorithm
  
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -6222,15 +6219,15 @@ mathbb{U}^{-1}
 \backslash
 mathbb{L}^{-1}
 \backslash
+left ( 
+\backslash
 mathbf{b} - 
-\backslash
-mathbb{U}^{-1}
-\backslash
-mathbb{L}^{-1}
 \backslash
 mathbb{A}
 \backslash
-mathbf{x}_{1}$
+mathbf{x}_{1} 
+\backslash
+right )$
 \end_layout
 
 \begin_layout Plain Layout
@@ -6438,8 +6435,8 @@ name "sec:steadyneut"
 
 \begin_layout Standard
 As an introduction to solving this coupled set of nonlinear neutronics and
- thermal hydraulics equations, a simpler problem of just neutronics was
- solved first.
+ thermal hydraulics equations, a simpler problem of neutronics was solved
+ first.
  The steady steady neutron diffusion equation to be solved is 
 \end_layout
 
@@ -6474,13 +6471,10 @@ reference "alg:power"
 
 \end_inset
 
-
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-refDH
-\end_layout
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Duderstadt1976"
 
 \end_inset
 
@@ -6729,8 +6723,7 @@ In the power iteration, the flux vector is the only unknown and hence the
 
 \end_inset
 
- The last equation represents the constraint unity L2-norm constraint on
- the eigenvector.
+ The last equation represents the unity L2-norm constraint on the eigenvector.
  The unknown vector is setup as
 \end_layout
 
@@ -6897,7 +6890,6 @@ reference "fig:fluxdiff600"
 \end_inset
 
 .
- 
 \begin_inset Float figure
 wide false
 sideways false
@@ -6986,7 +6978,7 @@ name "fig:fluxdiff600"
 
 .
  What is more interesting to compare is number of iterations, final residual
- and computation time.
+ and computational time.
  These results are listed in Table 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -7494,6 +7486,8 @@ name "tab:eigcomp_300"
 e approach taking slightly longer to solve.
  This is due to the number of GMRES inner iterations needed to converge
  the system.
+ The JFNK method was therefore successfully applied to the neutronics eigenvalue
+ problem.
 \end_layout
 
 \begin_layout Section
@@ -7598,7 +7592,7 @@ reference "eq:KfissRHOCellVec"
 \end_inset
 
  comprise the set of equations needed to solve for the steady distributions.
- The residual equations can be formulated as
+ The residual equations can then be formulated as
 \end_layout
 
 \begin_layout Standard
@@ -7624,8 +7618,12 @@ Note that in the nonlinear equations, the operators
 \begin_inset Formula $\mathbb{M}$
 \end_inset
 
- and 
+, 
 \begin_inset Formula $\mathbb{F}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbb{E}$
 \end_inset
 
  have to updated since they depend on neutronic parameters.
@@ -7653,7 +7651,7 @@ Note that in the nonlinear equations, the operators
 
 \end_inset
 
- From the residual equation and unknown vector, the analytic Jacobian vector
+ From the residual vector and unknown vector, the analytic Jacobian-vector
  product can be constructed in matrix notation as
 \end_layout
 
@@ -7714,7 +7712,7 @@ Performing the Jacobian-vector product analytically, the set of equations
 
 \end_inset
 
- This Jacobian-vector operation is perform in a MATLAB function that can
+ This Jacobian-vector operation is performed in a MATLAB function that can
  be called upon by the GMRES solver.
  In Eqs.
  
@@ -7831,8 +7829,8 @@ Each of these equations will be placed on the diagonal of the
  matrix.
  The last tricky part is that the partial derivative of the state equation
  is not known.
- Therefore, this section will have to be evaluated with a finite difference.
- It has the form,
+ Therefore, this section will have to be evaluated with a finite difference
+ and has the form,
 \end_layout
 
 \begin_layout Standard
@@ -8078,8 +8076,8 @@ reference "sec:steadyneut"
 
 \begin_layout Standard
 The solution of this problem was not easy.
- If the above equations are implemented as is, the MATLAB will not converge
- on a solution.
+ If the above equations are implemented as is, the MATLAB code will not
+ converge on a solution.
  This is primarily due to the fact that the kappa-fission cross section
  is so small.
  It is on the order of 
@@ -8098,7 +8096,7 @@ or.
 
  is applied in the input file.
  Therefore, the span of the magnitudes of the flux-to-power normalization
- constant will be smaller.
+ constant and kappa-fission cross section will be smaller.
  This proved to be effective for this situation and was used to compute
  the results presented in this section.
  
