@@ -3,7 +3,7 @@
 % Steady State couple physics
 clear; close all; clear -global
 
-% profile on -timer cpu
+profile on -timer cpu
 tic
 % function for residual evaluation
 myfun = @jfnk_steady_state_fun;
@@ -35,5 +35,6 @@ mymatvecmult = @(myfun,x,y) matvecmult(myfun,x,y);
 x = run_transient(x,myfun,mymatvecmult);
 
 toc
-% profile off
+profile viewer
+profile off
 % profsave(profile('info'),'prof_results')

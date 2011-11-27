@@ -15,7 +15,7 @@ n = geom.n;
 dx = geom.dx;
 
 % allocate function%
-J = sparse(zeros(9*n)); % jacobian of function
+J = zeros(9*n); % jacobian of function
 
 % extract vectors from x
 dt = info.dt;
@@ -41,16 +41,16 @@ T = x(3*n+1:4*n);
 Q = x(2*n+1:3*n);
 
 % flux equation by flux
-J(1:n,1:n) = 1 + vel*dt*(M - (1-beta)*lamb*F);
+J(1:n,1:n) = eye(n) + vel*dt*(M - (1-beta)*lamb*F);
 
 % flux equation by precursor
-J(1:n,n+1:2*n) = -vel*dt*lambd*speye(n);
+J(1:n,n+1:2*n) = -vel*dt*lambd*eye(n);
 
 % flux equation by absxs
 J(1:n,5*n+1:6*n) = vel*dt*diag(phi);
 
 % flux equation by nfiss
-J(1:n,6*n+1:7*n) = -lamb*diag(phi);
+J(1:n,6*n+1:7*n) = -vel*dt*(1-beta)*lamb*diag(phi);
 
 % flux equation by diff
 J(1:n,7*n+1:8*n) = vel*dt*MD;
@@ -59,7 +59,7 @@ J(1:n,7*n+1:8*n) = vel*dt*MD;
 J(n+1:2*n,1:n) = -dt*beta*lamb*F;
 
 % precursor by precursor
-J(n+1:2*n,n+1:2*n) = 1 + dt*lambd*speye(n);
+J(n+1:2*n,n+1:2*n) = eye(n) + dt*lambd*eye(n);
 
 % precursor by nfiss
 J(n+1:2*n,6*n+1:7*n) = -dt*beta*lamb*diag(phi);
@@ -77,42 +77,44 @@ J(2*n+1:3*n,8*n+1:9*n) = -c_tilde*dx*diag(phi);
 J(3*n+1:4*n,2*n+1:3*n) = -(w*dt)./(rho_mat*A*dx).*R;
 
 % temperature by temperature
-J(3*n+1:4*n,3*n+1:4*n) = 1 + (w*dt)./(rho_mat*A*dx).*S;
+J(3*n+1:4*n,3*n+1:4*n) = eye(n) + (w*dt)./(rho_mat*A*dx).*S;
 
 % temperature by density
 tmp = (S*T - R*Q);
 tmp(1) = tmp(1) - Tin;
-J(3*n+1:4*n,4*n+1:5*n) = diag(-(w*dt)/(rho.^2*A*dx)*tmp);
+J(3*n+1:4*n,4*n+1:5*n) = diag((-(w*dt)/(A*dx).*(1./rho.^2)).*tmp);
 
 % density by temperature
-J(4*n+1:5*n,3*n+1:4*n) = -DrhoDtemp*speye(n);
+J(4*n+1:5*n,3*n+1:4*n) = -DrhoDtemp*eye(n);
 
 % density by density
-J(4*n+1:5*n,4*n+1:5*n) = speye(n);
+J(4*n+1:5*n,4*n+1:5*n) = eye(n);
 
 % absorption by density
-J(5*n+1:6*n,4*n+1:5*n) = -DabsxsDrho*speye(n);
+J(5*n+1:6*n,4*n+1:5*n) = -DabsxsDrho*eye(n);
 
 % absorption by absorption
-J(5*n+1:6*n,5*n+1:6*n) = speye(n);
+J(5*n+1:6*n,5*n+1:6*n) = eye(n);
 
 % nfiss by density
-J(6*n+1:7*n,4*n+1:5*n) = -DnfissDrho*speye(n);
+J(6*n+1:7*n,4*n+1:5*n) = -DnfissDrho*eye(n);
 
 % nfiss by nfiss
-J(6*n+1:7*n,6*n+1:7*n) = speye(n);
+J(6*n+1:7*n,6*n+1:7*n) = eye(n);
 
 % diff by density
-J(7*n+1:8*n,4*n+1:5*n) = -DdiffDrho*speye(n);
+J(7*n+1:8*n,4*n+1:5*n) = -DdiffDrho*eye(n);
 
 % diff by diff
-J(7*n+1:8*n,7*n+1:8*n) = speye(n);
+J(7*n+1:8*n,7*n+1:8*n) = eye(n);
 
 % kfiss by density
-J(8*n+1:9*n,4*n+1:5*n) = -DkfissDrho*speye(n);
+J(8*n+1:9*n,4*n+1:5*n) = -DkfissDrho*eye(n);
 
 % kfiss by kfiss
-J(8*n+1:9*n,8*n+1:9*n) = speye(n);
+J(8*n+1:9*n,8*n+1:9*n) = eye(n);
+
+J = sparse(J);
 
 % form constant preconditioner
 setup.type='nofill';

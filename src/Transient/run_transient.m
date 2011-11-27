@@ -19,9 +19,9 @@ cr = zeros(n,1);
 
 % begin time loop
 for i = 1:Nt
-       
+
     % put CR in
-    if i >= 20
+    if i >= 20 && i < 100
         if mod(i,5) == 0
             if cr(1) == 0
                 cr(1:2) = 1;
@@ -29,6 +29,10 @@ for i = 1:Nt
                 cr(find(cr,1,'last')+1:find(cr,1,'last')+2) = 1;
             end
         end
+    end
+    
+    if i >=100
+        cr(find(cr,1,'last'):-1:find(cr,1,'last')-1) = 0;
     end
     
     % evaluate function at last time
@@ -50,9 +54,20 @@ for i = 1:Nt
     hold on
     plot(x(2*n+1:3*n,i+1),'r');
     title(horzcat('tstep = ',num2str(i)));
+    xlabel('Slab Length [cm]');
+    ylabel('Power [W]');
     drawnow;
-    pause(0.01);
+    %pause(0.01);
     hold off
+    
+    if mod(i,6) == 0
+        matlab2tikz(horzcat('./anim/power_',num2str(i),'.tikz'));
+    end
+    
+    
+    figure(4)
+    plot(cr)
+    drawnow;
         
 end
 

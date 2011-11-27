@@ -3,6 +3,7 @@
 \documentclass{beamer}
 
 \usefonttheme[onlymath]{serif}
+\usepackage{comment}
 \usepackage{hyperref}
 \usepackage{pgfpages}
 \usepackage{amsmath}
@@ -159,6 +160,18 @@
 
 \end{frame}
 %-----------------------------------------------------------------------------------------------------------
+\begin{frame}{PARCS Coupling}
+
+	\begin{center}
+	\scalebox{0.65}{%
+
+		\input {./tikz/PARCS_coupling.tikz}
+
+	}
+	\end{center}
+
+\end{frame}
+%-----------------------------------------------------------------------------------------------------------
 
 \end{subsection}
 
@@ -201,6 +214,58 @@
 	\end{center}
 
 \end{frame}
+%-----------------------------------------------------------------------------------------------------------
+\begin{comment}
+\begin{frame}{Animation}
+
+	\begin{center}
+
+		\begin{animateinline}[loop, poster = first, controls]{2}
+			\input{./tikz/anim/power_6.tikz}
+			\newframe
+			\input{./tikz/anim/power_12.tikz}
+			\newframe
+			\input{./tikz/anim/power_18.tikz}
+			\newframe
+			\input{./tikz/anim/power_24.tikz}
+			\newframe
+			\input{./tikz/anim/power_30.tikz}
+			\newframe
+			\input{./tikz/anim/power_36.tikz}
+			\newframe
+			\input{./tikz/anim/power_42.tikz}
+			\newframe
+			\input{./tikz/anim/power_48.tikz}
+			\newframe
+			\input{./tikz/anim/power_54.tikz}
+			\newframe
+			\input{./tikz/anim/power_60.tikz}
+			\newframe
+			\input{./tikz/anim/power_66.tikz}
+			\newframe
+			\input{./tikz/anim/power_72.tikz}
+			\newframe
+			\input{./tikz/anim/power_78.tikz}
+			\newframe
+			\input{./tikz/anim/power_84.tikz}
+			\newframe
+			\input{./tikz/anim/power_90.tikz}
+			\newframe
+			\input{./tikz/anim/power_96.tikz}
+			\newframe
+			\input{./tikz/anim/power_102.tikz}
+			\newframe
+			\input{./tikz/anim/power_108.tikz}
+			\newframe
+			\input{./tikz/anim/power_114.tikz}
+			\newframe
+			\input{./tikz/anim/power_120.tikz}
+		\end{animateinline}	
+
+	\end{center}
+
+\end{frame}
+\end{comment}
 %-----------------------------------------------------------------------------------------------------------
 \end{section}
 %======================================================

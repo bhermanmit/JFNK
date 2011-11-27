@@ -6,6 +6,8 @@
 \begin_preamble
 \usepackage{algorithmic}
 \usepackage{flafter}
+\usepackage{graphicx}
+\usepackage[framed]{mcode}
 \end_preamble
 \use_default_options true
 \begin_modules
@@ -8178,6 +8180,27 @@ Conclusions
 LatexCommand bibtex
 bibfiles "refs"
 options "plain"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+\start_of_appendix
+Source Code
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting{../src/run_coupled.m}
+\end_layout
 
 \end_inset
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2011.11.23)  24 NOV 2011 21:58
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2011.11.23)  26 NOV 2011 20:30
 entering extended mode
 **C:/Users/bherman/Documents/JFNK/doc/slides/BRH_Slides-229.tex
 (C:/Users/bherman/Documents/JFNK/doc/slides/BRH_Slides-229.tex
@@ -734,6 +734,10 @@ Package: beamerouterthemedefault 2010/06/17  (rcs-revision d02a7cf4d8ae)
 beamerfontthemeserif.sty
 Package: beamerfontthemeserif 2010/06/17  (rcs-revision d02a7cf4d8ae)
 )
+(C:\Users\bherman\AppData\Roaming\MiKTeX\2.9\tex\latex\comment\comment.sty
+\CommentStream=\write5
+
+Excluding comment 'comment')
 (C:\Users\bherman\AppData\Roaming\MiKTeX\2.9\tex\latex\pgf\utilities\pgfpages.s
 ty
 Package: pgfpages 2004/11/05 ver 0.01
@@ -1130,20 +1134,20 @@ Package: beamerinnerthemerectangles 2010/06/17  (rcs-revision d02a7cf4d8ae)
 \c@angle=\count207
 
 (C:\Users\bherman\Documents\JFNK\doc\slides\BRH_Slides-229.aux)
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 121.
-LaTeX Font Info:    ... okay on input line 121.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 121.
-LaTeX Font Info:    ... okay on input line 121.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 121.
-LaTeX Font Info:    ... okay on input line 121.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 121.
-LaTeX Font Info:    ... okay on input line 121.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 121.
-LaTeX Font Info:    ... okay on input line 121.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 121.
-LaTeX Font Info:    ... okay on input line 121.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 121.
-LaTeX Font Info:    ... okay on input line 121.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 122.
+LaTeX Font Info:    ... okay on input line 122.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1181,7 +1185,7 @@ LaTeX Font Info:    ... okay on input line 121.
 
 ABD: EveryShipout initializing macros
 \AtBeginShipoutBox=\box80
-Package hyperref Info: Link coloring OFF on input line 121.
+Package hyperref Info: Link coloring OFF on input line 122.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
 Package: nameref 2010/04/30 v2.40 Cross-referencing by name of section
@@ -1191,13 +1195,13 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count208
 )
-LaTeX Info: Redefining \ref on input line 121.
-LaTeX Info: Redefining \pageref on input line 121.
-LaTeX Info: Redefining \nameref on input line 121.
+LaTeX Info: Redefining \ref on input line 122.
+LaTeX Info: Redefining \pageref on input line 122.
+LaTeX Info: Redefining \nameref on input line 122.
 
 (C:\Users\bherman\Documents\JFNK\doc\slides\BRH_Slides-229.out)
 (C:\Users\bherman\Documents\JFNK\doc\slides\BRH_Slides-229.out)
-\@outlinefile=\write5
+\@outlinefile=\write6
 
 (C:\Users\bherman\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\translator\d
 icts\translator-basic-dictionary-English.dict
@@ -1226,7 +1230,7 @@ Dictionary: translator-theorem-dictionary, Language: English
 (C:\Users\bherman\Documents\JFNK\doc\slides\BRH_Slides-229.nav)
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <4> not available
-(Font)              size <5> substituted on input line 123.
+(Font)              size <5> substituted on input line 124.
 
 [1{C:/Users/bherman/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
 
@@ -1268,19 +1272,77 @@ File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )) [5
 
 ]
-(C:\Users\bherman\Documents\JFNK\doc\slides\BRH_Slides-229.toc) [6
+(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\PARCS_coupling.tikz
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
 
-]
-(C:\Users\bherman\Documents\JFNK\doc\slides\BRH_Slides-229.toc) [7
+Overfull \hbox (2.88963pt too wide) in paragraph at lines 27--27
+ \OT1/cmss/m/n/10.95 N 
+ []
+
+
+Overfull \hbox (2.58543pt too wide) in paragraph at lines 27--27
+ \OT1/cmss/m/n/10.95 T 
+ []
+
+
+Overfull \hbox (1.67294pt too wide) in paragraph at lines 27--27
+ \OT1/cmss/m/n/10.95 E 
+ []
+
+
+Overfull \hbox (2.20525pt too wide) in paragraph at lines 27--27
+ \OT1/cmss/m/n/10.95 R 
+ []
+
+
+Overfull \hbox (1.36879pt too wide) in paragraph at lines 27--27
+ \OT1/cmss/m/n/10.95 F 
+ []
+
+
+Overfull \hbox (2.43336pt too wide) in paragraph at lines 27--27
+ \OT1/cmss/m/n/10.95 A 
+ []
+
+
+Overfull \hbox (2.1292pt too wide) in paragraph at lines 27--27
+ \OT1/cmss/m/n/10.95 C 
+ []
+
+
+Overfull \hbox (1.67294pt too wide) in paragraph at lines 27--27
+ \OT1/cmss/m/n/10.95 E 
+ []
+
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+)
+Overfull \vbox (5.4134pt too high) detected at line 173
+ []
+
+[6
+
+] (C:\Users\bherman\Documents\JFNK\doc\slides\BRH_Slides-229.toc) [7
 
 ]
 (C:\Users\bherman\Documents\JFNK\doc\slides\BRH_Slides-229.toc) [8
 
 ]
+(C:\Users\bherman\Documents\JFNK\doc\slides\BRH_Slides-229.toc) [9
+
+]
 (C:\Users\bherman\Documents\JFNK\doc\slides\tikz\flux.tikz
 Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
-) [9
+) [10
 
 ]
 (C:\Users\bherman\Documents\JFNK\doc\slides\tikz\flux.tikz
@@ -1288,20 +1350,20 @@ Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
 ) <a0,fr0>
 (C:\Users\bherman\Documents\JFNK\doc\slides\tikz\density.tikz) <a0,fr1>
-[10
+[11
 
-] (C:\Users\bherman\Documents\JFNK\doc\slides\BRH_Slides-229.toc) [11
+] (C:\Users\bherman\Documents\JFNK\doc\slides\BRH_Slides-229.toc) [12
 
 ]
-\tf@nav=\write6
-\tf@toc=\write7
-\tf@snm=\write8
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 211.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 211.
+\tf@nav=\write7
+\tf@toc=\write8
+\tf@snm=\write9
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 276.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 276.
 
 (C:\Users\bherman\Documents\JFNK\doc\slides\BRH_Slides-229.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 211.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 211.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 276.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 276.
 Package rerunfilecheck Info: File `BRH_Slides-229.out' has not changed.
 (rerunfilecheck)             Checksum: 390FB30B6BF8693C39DC5D8A405828E1;319.
 
@@ -1311,10 +1373,10 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 28300 strings out of 494045
- 648490 string characters out of 3145962
- 918075 words of memory out of 3000000
- 30918 multiletter control sequences out of 15000+200000
+ 28399 strings out of 494045
+ 650270 string characters out of 3145962
+ 920064 words of memory out of 3000000
+ 31008 multiletter control sequences out of 15000+200000
  10423 words of font info for 41 fonts, out of 3000000 for 9000
  715 hyphenation exceptions out of 8191
  50i,19n,74p,5550b,1865s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1326,9 +1388,9 @@ am Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss12.pfb><C:/Program
  Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss8.pfb><C:/Program Fi
 les (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program File
 s (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on BRH_Slides-229.pdf (11 pages, 191199 bytes).
+Output written on BRH_Slides-229.pdf (12 pages, 198983 bytes).
 PDF statistics:
- 321 PDF objects out of 1000 (max. 8388607)
- 30 named destinations out of 1000 (max. 500000)
+ 349 PDF objects out of 1000 (max. 8388607)
+ 32 named destinations out of 1000 (max. 500000)
  218 words of extra memory for PDF output out of 10000 (max. 10000000)
 
