@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2011.11.23)  26 NOV 2011 20:30
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2011.11.23)  27 NOV 2011 11:46
 entering extended mode
 **C:/Users/bherman/Documents/JFNK/doc/slides/BRH_Slides-229.tex
 (C:/Users/bherman/Documents/JFNK/doc/slides/BRH_Slides-229.tex
@@ -1345,25 +1345,46 @@ Missing character: There is no ; in font nullfont!
 ) [10
 
 ]
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\flux.tikz
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-) <a0,fr0>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\density.tikz) <a0,fr1>
-[11
+(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\power_6.tikz) <a0,fr0>
+(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\power_12.tikz) <a0,fr1>
+(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\power_18.tikz) <a0,fr2>
+(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\power_24.tikz) <a0,fr3>
+(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\power_30.tikz) <a0,fr4>
+(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\power_36.tikz) <a0,fr5>
+(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\power_42.tikz) <a0,fr6>
+(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\power_48.tikz) <a0,fr7>
+(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\power_54.tikz) <a0,fr8>
+(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\power_60.tikz) <a0,fr9>
+(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\power_66.tikz) <a0,fr10>
+(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\power_72.tikz) <a0,fr11>
+(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\power_78.tikz) <a0,fr12>
+(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\power_84.tikz) <a0,fr13>
+(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\power_90.tikz) <a0,fr14>
+(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\power_96.tikz) <a0,fr15>
+(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\power_102.tikz)
+<a0,fr16> (C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\power_108.tikz)
+<a0,fr17> (C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\power_114.tikz)
+<a0,fr18> (C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\power_120.tikz)
+<a0,fr19> [11
 
-] (C:\Users\bherman\Documents\JFNK\doc\slides\BRH_Slides-229.toc) [12
+] (C:\Users\bherman\Documents\JFNK\doc\slides\tikz\Fuel_pin.tikz)
+Overfull \vbox (4.4147pt too high) detected at line 260
+ []
+
+[12
+
+] (C:\Users\bherman\Documents\JFNK\doc\slides\BRH_Slides-229.toc) [13
 
 ]
 \tf@nav=\write7
 \tf@toc=\write8
 \tf@snm=\write9
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 276.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 276.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 268.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 268.
 
 (C:\Users\bherman\Documents\JFNK\doc\slides\BRH_Slides-229.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 276.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 276.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 268.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 268.
 Package rerunfilecheck Info: File `BRH_Slides-229.out' has not changed.
 (rerunfilecheck)             Checksum: 390FB30B6BF8693C39DC5D8A405828E1;319.
 
@@ -1373,10 +1394,10 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 28399 strings out of 494045
- 650270 string characters out of 3145962
- 920064 words of memory out of 3000000
- 31008 multiletter control sequences out of 15000+200000
+ 34923 strings out of 494045
+ 786790 string characters out of 3145962
+ 950611 words of memory out of 3000000
+ 37470 multiletter control sequences out of 15000+200000
  10423 words of font info for 41 fonts, out of 3000000 for 9000
  715 hyphenation exceptions out of 8191
  50i,19n,74p,5550b,1865s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1388,9 +1409,9 @@ am Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss12.pfb><C:/Program
  Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss8.pfb><C:/Program Fi
 les (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program File
 s (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on BRH_Slides-229.pdf (12 pages, 198983 bytes).
+Output written on BRH_Slides-229.pdf (13 pages, 358038 bytes).
 PDF statistics:
- 349 PDF objects out of 1000 (max. 8388607)
- 32 named destinations out of 1000 (max. 500000)
- 218 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 454 PDF objects out of 1000 (max. 8388607)
+ 34 named destinations out of 1000 (max. 500000)
+ 434 words of extra memory for PDF output out of 10000 (max. 10000000)
 

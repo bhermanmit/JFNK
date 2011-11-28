@@ -8,9 +8,6 @@ Nt = info.time/info.dt;
 % get problem size
 n = geom.n;
 
-% set option
-opt = 'no';
-
 % create preconditioner
 [L,U] = create_precond_trans(x(:,1));
 
@@ -44,31 +41,10 @@ for i = 1:Nt
       
     % iterate to get values at next time step
     x(:,i+1) = JFNK_neut_trans(myfun_eval,mymatvecmult_eval,x(:,i+1),L,U);
-    
-    % eval flux at next time step
-    % x(:,i+1) = eval_time_step(x(:,i),opt);
-    
-    % plot power
-    figure(3)
-    plot(x(2*n+1:3*n,1),'b');
-    hold on
-    plot(x(2*n+1:3*n,i+1),'r');
-    title(horzcat('tstep = ',num2str(i)));
-    xlabel('Slab Length [cm]');
-    ylabel('Power [W]');
-    drawnow;
-    %pause(0.01);
-    hold off
-    
-    if mod(i,6) == 0
-        matlab2tikz(horzcat('./anim/power_',num2str(i),'.tikz'));
-    end
-    
-    
-    figure(4)
-    plot(cr)
-    drawnow;
-        
+       
+    % plot
+    create_plots(x(:,i+1))
+           
 end
 
 end

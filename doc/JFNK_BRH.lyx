@@ -7,7 +7,14 @@
 \usepackage{algorithmic}
 \usepackage{flafter}
 \usepackage{graphicx}
+\usepackage{pgfpages}
+\usepackage{color}
+\usepackage{tikz,pgfplots}
+\usetikzlibrary{plotmarks,shapes,arrows,positioning}
 \usepackage[framed]{mcode}
+\DefineNamedColor{named}{mitred}    {rgb}{0.6,0.2,0.2}
+\DefineNamedColor{named}{mitgray}   {rgb}{0.4,0.4,0.4}
+\DefineNamedColor{named}{darkgray}   {cmyk}{0,0,0,0.90}
 \end_preamble
 \use_default_options true
 \begin_modules
@@ -146,13 +153,19 @@ reference "fig:PARCSCoupling"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
-\begin_inset Graphics
-	filename pics/PARCS_coupling.png
-	scale 50
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{./slides/tikz/PARCS_coupling.tikz}
+\end_layout
 
 \end_inset
 
@@ -206,13 +219,19 @@ reference "fig:PARCSTime"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
-\begin_inset Graphics
-	filename pics/parcs_time.png
-	scale 50
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{./slides/tikz/PARCS_marching.tikz}
+\end_layout
 
 \end_inset
 
@@ -223,7 +242,7 @@ status collapsed
 \begin_inset Caption
 
 \begin_layout Plain Layout
-PARCS Coupling Structure
+PARCS Marching Scheme
 \end_layout
 
 \end_inset
@@ -282,7 +301,7 @@ reference "fig:geometry"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center

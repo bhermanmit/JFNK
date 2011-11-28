@@ -1,0 +1,14 @@
+\begin{tikzpicture}
+
+	\tikzstyle{fuelcirc}    = [draw = black, shape = circle, fill = red,   inner sep = 3*0.4096cm]
+	\tikzstyle{gascirc}     = [draw = black, shape = circle, fill = green, inner sep = 3*0.4178cm]
+	\tikzstyle{cladcirc}    = [draw = black, shape = circle, fill = gray,  inner sep = 3*0.4750cm]
+	\tikzstyle{coolantsqu}  = [draw = black, very thick, shape = rectangle, fill = blue, inner sep = 3*1.26cm]
+	\begin{scope}
+		\node[coolantsqu] (cool) at (0,0) {};
+		\node[cladcirc]   (clad) at (0,0) {};
+		\node[gascirc]    (gas)  at (0,0) {};
+		\node[fuelcirc]   (fuel) at (0,0) {};
+	\end{scope}
+
+\end{tikzpicture}
