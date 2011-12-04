@@ -31,6 +31,6 @@ myfun_eval = @(xx) myfun(M,F,xx);
 myJacvecmult = @(x,y) Jacobian_vec_FD(myfun_eval,x,y);
 
 % run static calculation
-x = JFNK_neut(myfun_eval,myJacvecmult,x,L,U);
+x = inexact_newton(myfun_eval,myJacvecmult,x,L,U);
 
 end

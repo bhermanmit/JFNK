@@ -15,7 +15,7 @@ info.dt = 0.1;
 %% geometry object
 
 % number of mesh cells
-geom.n = 370;
+geom.n = 600;
 
 % dimension of mesh [cm]
 geom.dx = 1;
@@ -72,9 +72,3 @@ neut.DabsxsDrho = 0.020796*neut.skew;
 neut.DnfissDrho = 0.035471*neut.skew;
 neut.DdiffDrho  = -0.95551*neut.skew;
 neut.DkfissDrho = 4.7055E-13*neut.kfissconst*neut.skew;
-
-% set evaluation of neutronic parameters as a function of density
-neut.absxs = @(rho) neut.absxsREF + neut.DabsxsDrho*(rho - th.rhoREF);
-neut.nfiss = @(rho) neut.nfissREF + neut.DnfissDrho*(rho - th.rhoREF);
-neut.diff = @(rho) neut.diffREF + neut.DdiffDrho*(rho - th.rhoREF);
-neut.kfiss = @(rho) neut.kfissREF + neut.DkfissDrho*(rho - th.rhoREF);

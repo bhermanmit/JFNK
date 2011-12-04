@@ -10,6 +10,6 @@ x = get_initial_guess();
 myJacvecmult = @(x,y) Jacobian_vec_FD(myfun,x,y);
 
 % run steady state
-x = JFNK_neut(myfun,myJacvecmult,x,L,U);
+x = inexact_newton(myfun,myJacvecmult,x,L,U);
 
 end

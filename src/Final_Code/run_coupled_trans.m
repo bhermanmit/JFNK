@@ -39,7 +39,7 @@ for i = 1:Nt
     mymatvecmult_eval = @(x,y) Jacobian_vec_FD(myfun_eval,x,y);
     
     % iterate to get values at next time step
-    x = JFNK_neut(myfun_eval,mymatvecmult_eval,x,L,U);
+    x = inexact_newton(myfun_eval,mymatvecmult_eval,x,L,U);
     
     % calculate power and average temp
     pow(i+1) = sum(x(2*n+1:3*n));

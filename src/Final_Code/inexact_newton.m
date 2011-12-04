@@ -1,4 +1,4 @@
-function x = JFNK_neut(myfun,mymatvecmult,xo,L,U)
+function x = inexact_newton(myfun,mymatvecmult,xo,L,U)
 
 % set guess to x vector
 x = xo;

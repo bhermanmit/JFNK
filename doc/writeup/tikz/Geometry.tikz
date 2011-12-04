@@ -1,0 +1,19 @@
+\begin{tikzpicture}
+
+	% Draw slab reactor
+	\draw[draw = black, very thick,fill = red!50] (0.0,0.0) rectangle (12.0cm,1cm);
+
+	% Label and Draw Width
+	\node[rectangle, minimum height=1cm, minimum width=5cm, fill=none] (title) at (6.0cm,0.5cm) {1-D Reactor, 370cm};
+	\draw[->, >=stealth, very thick, shorten >=2pt] (title) to [out=180,in=0] (0.0,0.5cm);
+	\draw[->, >=stealth, very thick, shorten >=2pt] (title) to [out=0,in=180] (12.0cm,0.5cm);	
+
+	% Draw coolant wavy arrows
+	\draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (0.0cm,1.5cm) -- (12.0cm,1.5cm);
+	\draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (0.0cm,2.0cm) -- (12.0cm,2.0cm);
+	\draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (0.0cm,2.5cm) -- (12.0cm,2.5cm);
+
+	% Label as Coolant
+	\node[rectangle, minimum height=0.5cm, minimum width=1cm, fill=white] (cool) at (6.0cm,2.0cm) {Coolant};
+	
+\end{tikzpicture}

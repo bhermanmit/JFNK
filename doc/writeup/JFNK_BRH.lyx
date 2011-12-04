@@ -2,7 +2,7 @@
 \lyxformat 413
 \begin_document
 \begin_header
-\textclass amsart
+\textclass article
 \begin_preamble
 \usepackage{algorithmic}
 \usepackage{flafter}
@@ -10,11 +10,15 @@
 \usepackage{pgfpages}
 \usepackage{color}
 \usepackage{tikz,pgfplots}
-\usetikzlibrary{plotmarks,shapes,arrows,positioning}
+\usetikzlibrary{plotmarks,shapes,arrows,positioning,snakes}
 \usepackage[framed]{mcode}
 \DefineNamedColor{named}{mitred}    {rgb}{0.6,0.2,0.2}
 \DefineNamedColor{named}{mitgray}   {rgb}{0.4,0.4,0.4}
 \DefineNamedColor{named}{darkgray}   {cmyk}{0,0,0,0.90}
+\usepackage[font=normalsize, labelsep=period,justification=centering]{caption}
+\usepackage{sectsty}
+\sectionfont{\centering}
+\pgfplotsset{compat=1.3}
 \end_preamble
 \use_default_options true
 \begin_modules
@@ -62,7 +66,9 @@ figs-within-sections
 \color #008000
 \end_index
 \leftmargin 1in
+\topmargin 1in
 \rightmargin 1in
+\bottommargin 1in
 \secnumdepth 3
 \tocdepth 2
 \paragraph_separation indent
@@ -81,6 +87,49 @@ figs-within-sections
 
 \begin_body
 
+\begin_layout Title
+
+\shape smallcaps
+\size huge
+Jacobian-Free Newton-Krylov Methods
+\begin_inset Newline newline
+\end_inset
+
+ for Solving Coupled Physics
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\shape default
+2.29 Numerical Fluid Mechanics Term Project
+\end_layout
+
+\begin_layout Author
+Bryan Herman
+\end_layout
+
+\begin_layout Date
+12 December 2011
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "100col%"
+height "1pt"
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 \begin_inset ERT
 status open
@@ -91,48 +140,6 @@ status open
 \backslash
 thispagestyle{empty}
 \end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset line
-LatexCommand rule
-offset "0.5ex"
-width "100col%"
-height "1pt"
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Title
-Jacobian-Free Newton-Krylov Methods for Solving Coupled Physics
-\end_layout
-
-\begin_layout Author
-Bryan Herman
-\end_layout
-
-\begin_layout Standard
-\align center
-12 December 2011
-\end_layout
-
-\begin_layout Standard
-\align center
-2.29 Numerical Fluid Mechanics Term Project
-\end_layout
-
-\begin_layout Standard
-\begin_inset CommandInset line
-LatexCommand rule
-offset "0.5ex"
-width "100col%"
-height "1pt"
 
 \end_inset
 
@@ -164,7 +171,51 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Section
-Objective
+Objectives and Motivation
+\end_layout
+
+\begin_layout Standard
+The main goal of this work is to learn how to implement the Jacobian-Free
+ Newton Krylov framework.
+ The following objectives are met in this work:
+\end_layout
+
+\begin_layout Enumerate
+Learn how to solve and implement nonlinear equations with Newton's method,
+\end_layout
+
+\begin_layout Enumerate
+Learn how the GMRES Krylov Subspace method works and implement it in MATLAB,
+\end_layout
+
+\begin_layout Enumerate
+Compare solving an eigenvalue problem with conventional power iteration
+ vs.
+ JFNK,
+\end_layout
+
+\begin_layout Enumerate
+Implement a coupled Neutronic/Thermal Hydraulic model to solve with JFNK
+ both for steady state and transients,
+\end_layout
+
+\begin_layout Enumerate
+Implement a fully implicit backward Euler approach for time discretization,
+\end_layout
+
+\begin_layout Enumerate
+Combine models and solvers into a JFNK framework.
+ 
+\end_layout
+
+\begin_layout Standard
+The JFNK method for solving coupled neutronics and thermal hydraulics equations
+ is not commonly performed in the nuclear community.
+ As part of my PhD research, there is a potential that this method may be
+ used in the coupling of neutronics and thermal hydraulics for coarsh mesh
+ finite difference acceleration of Monte Carlo neutron transport codes.
+ This project is therefore an introduction to this and the simplest neutronic/th
+ermal hydraulic model is used to test its implementation.
 \end_layout
 
 \begin_layout Section
@@ -379,9 +430,15 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
-\begin_inset Graphics
-	filename pics/geometry.png
-	scale 40
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{./tikz/Geometry.tikz}
+\end_layout
 
 \end_inset
 
@@ -1361,9 +1418,15 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
-\begin_inset Graphics
-	filename pics/pincell_serp_geom1.png
-	scale 15
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{./tikz/Fuel_pin.tikz}
+\end_layout
 
 \end_inset
 
@@ -1374,7 +1437,7 @@ status collapsed
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Typical 2-D Cross Section of a Fuel Rod
+Typical 2-D Cross Section of a Fuel Rod unit cell
 \end_layout
 
 \end_inset
@@ -1395,16 +1458,6 @@ name "fig:pincell"
 \end_inset
 
 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-replace figure
-\end_layout
-
-\end_inset
-
- 
 \end_layout
 
 \begin_layout Standard
@@ -1454,12 +1507,9 @@ T^{ref}=310\,\mathrm{^{\circ}C}.
 .
  The input file for the Serpent code with these reference conditions is
  listed in Appendix 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-__
-\end_layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "app:Serpent"
 
 \end_inset
 
@@ -1538,9 +1588,15 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
-\begin_inset Graphics
-	filename pics/absxs.png
-	scale 70
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{./tikz/absxs.tikz}
+\end_layout
 
 \end_inset
 
@@ -1579,9 +1635,15 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
-\begin_inset Graphics
-	filename pics/nfiss.png
-	scale 70
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{./tikz/nfiss.tikz}
+\end_layout
 
 \end_inset
 
@@ -1620,9 +1682,15 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
-\begin_inset Graphics
-	filename pics/diff.png
-	scale 70
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{./tikz/diff.tikz}
+\end_layout
 
 \end_inset
 
@@ -1661,9 +1729,15 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
-\begin_inset Graphics
-	filename pics/kfiss.png
-	scale 70
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{./tikz/kfiss.tikz}
+\end_layout
 
 \end_inset
 
@@ -2708,9 +2782,10 @@ Neutronics-Flux
 For an interior computational cell, the discretized neutron diffusion equation
  in time-dependent (1-D, 1-energy) form is 
 \begin_inset Formula 
-\begin{equation}
-\frac{1}{v}\frac{d\bar{\phi}_{i}}{dt}+-\frac{2}{\Delta x^{2}}\frac{D_{i}D_{i-1}}{D_{i}+D_{i-1}}\bar{\phi}_{i-1}+\left(\frac{2}{\Delta x^{2}}\frac{D_{i+1}D_{i}}{D_{i+1}+D_{i}}+\frac{2}{\Delta x^{2}}\frac{D_{i}D_{i-1}}{D_{i}+D_{i-1}}+\Sigma_{a,i}\right)\bar{\phi}_{i}-\frac{2}{\Delta x^{2}}\frac{D_{i+1}D_{i}}{D_{i+1}+D_{i}}\bar{\phi}_{i+1}=\frac{1-\beta}{k_{eff}}\nu\Sigma_{f,i}\bar{\phi}_{i}+\lambda_{d}\bar{c}_{i}.\label{eq:NeutTrans1}
-\end{equation}
+\begin{multline}
+\frac{1}{v}\frac{d\bar{\phi}_{i}}{dt}+-\frac{2}{\Delta x^{2}}\frac{D_{i}D_{i-1}}{D_{i}+D_{i-1}}\bar{\phi}_{i-1}+\left(\frac{2}{\Delta x^{2}}\frac{D_{i+1}D_{i}}{D_{i+1}+D_{i}}+\frac{2}{\Delta x^{2}}\frac{D_{i}D_{i-1}}{D_{i}+D_{i-1}}+\Sigma_{a,i}\right)\bar{\phi}_{i}-\\
+\frac{2}{\Delta x^{2}}\frac{D_{i+1}D_{i}}{D_{i+1}+D_{i}}\bar{\phi}_{i+1}=\frac{1-\beta}{k_{eff}}\nu\Sigma_{f,i}\bar{\phi}_{i}+\lambda_{d}\bar{c}_{i}.\label{eq:NeutTrans1}
+\end{multline}
 
 \end_inset
 
@@ -3060,16 +3135,6 @@ reference "sec:JFNK"
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Krylov"
-
-\end_inset
-
- 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-list in Appendix A
-\end_layout
 
 \end_inset
 
@@ -6136,7 +6201,14 @@ name "alg:GMRESgivens"
 
 \end_inset
 
+ Source code for this solver is listed in Appendix 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "app:GMRES"
 
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Section
@@ -6234,6 +6306,14 @@ key "Mousseau2003"
 \end_inset
 
  parameter is problem dependent and can be optimized for each problem.
+ Source code for this solver is listed in Appendix 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "app:Newton"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Subsection
@@ -6359,10 +6439,18 @@ te the Jacobian-vector product.
  product is not needed.
  This would be fortunate since these routines can become complicated to
  write.
+ Source code for this finite difference approximation is listed in Appendix
  
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "app:FD"
+
+\end_inset
+
+.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Preconditioning
 \end_layout
 
@@ -7097,13 +7185,10 @@ reference "sub:JFNK"
 
 \begin_layout Standard
 Each of these methods were implemented in a MATLAB code which is presented
- in Appendix ___
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-list in Appendix B
-\end_layout
+ in Appendix 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "app:NeutSteady"
 
 \end_inset
 
@@ -7112,12 +7197,9 @@ list in Appendix B
  of 0.997.
  Note the dominance ratio is the ratio of two largest eigenvalues of the
  system 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-check this
-\end_layout
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Wachspress1966"
 
 \end_inset
 
@@ -7140,9 +7222,15 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
-\begin_inset Graphics
-	filename pics/FundMode_600.png
-	scale 50
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{./tikz/highdom.tikz}
+\end_layout
 
 \end_inset
 
@@ -7209,9 +7297,15 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
-\begin_inset Graphics
-	filename pics/Flux_600.png
-	scale 50
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{./tikz/highdom_power.tikz}
+\end_layout
 
 \end_inset
 
@@ -7250,9 +7344,15 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
-\begin_inset Graphics
-	filename pics/diff_flux_600.png
-	scale 50
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{./tikz/diff_highdom.tikz}
+\end_layout
 
 \end_inset
 
@@ -7542,9 +7642,15 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
-\begin_inset Graphics
-	filename pics/diff_flux_300.png
-	scale 50
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{./tikz/diff_lowdom.tikz}
+\end_layout
 
 \end_inset
 
@@ -8289,9 +8395,15 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
-\begin_inset Graphics
-	filename pics/SteadyCoupledb.png
-	scale 50
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{./tikz/coupled1.tikz}
+\end_layout
 
 \end_inset
 
@@ -8330,9 +8442,15 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
-\begin_inset Graphics
-	filename pics/SteadyCoupleda.png
-	scale 50
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{./tikz/coupled2.tikz}
+\end_layout
 
 \end_inset
 
@@ -8537,6 +8655,14 @@ name "fig:profilelinear"
  The total time to run the steady state calculation is now only 0.436 seconds
  as compared to 7 seconds with the look up table.
  Therefore, this method will be used for the transient analysis.
+ Source code for these routines is listed in Appendix 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "app:coupledstatic"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Section
@@ -8639,7 +8765,7 @@ reference "fig:cr"
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -8703,9 +8829,10 @@ reference "fig:underTave"
 .
  
 \begin_inset Float figure
+placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -8750,9 +8877,10 @@ name "fig:underPow"
 
  
 \begin_inset Float figure
+placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -8856,9 +8984,10 @@ reference "fig:dampTave"
 .
  
 \begin_inset Float figure
+placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -8903,9 +9032,10 @@ name "fig:dampedPow"
 
  
 \begin_inset Float figure
+placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -8956,11 +9086,30 @@ name "fig:dampTave"
  effect.
  When the control rod is removed, the power increases and then settles back
  at the original steady state.
+ A comparison was also made for the flux shapes and density distribution
+ for the steady state conditions when the rod is partially inserted and
+ withdrawn.
+ These comparisons are shown in Figs.
  
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:fluxCR"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:DensityCR"
+
+\end_inset
+
+.
 \begin_inset Float figure
+placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -9003,11 +9152,12 @@ name "fig:fluxCR"
 
 \end_inset
 
- 
+
 \begin_inset Float figure
+placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -9050,11 +9200,107 @@ name "fig:DensityCR"
 
 \end_inset
 
+ It can be observed that when the control rod is inserted in the reactor,
+ the flux is depressed in that region, since neutrons are being absorbed
+ and not causing fission.
+ The flux peak is also lowered and shifted to the right from where is was
+ when the rod is not inserted.
+ Since there is no power being generated in the leftmost part of the reactor,
+ the density remains constant during this region.
+ It can also be observed that the average density is higher when the rod
+ is partially inserted.
+ The results are consistent with the interaction physics for this transient.
+ For these transient calculations, about 6-7 Newton iterations were required
+ at each time step.
+ For a given Newton iteration, about 20-30 GMRES inner iterations were required
+ to converge the linear step.
+ Source code for these routines is listed in Appendix 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "app:trans"
 
+\end_inset
+
+.
+ 
 \end_layout
 
 \begin_layout Section
-Conclusions
+Conclusions and Future Work
+\end_layout
+
+\begin_layout Standard
+In this work, a Jacobian-Free Newton-Krylov framework was established and
+ tested for both eigenvalue and nonlinear coupled physics problems.
+ The solvers seem to be robust as long as the the Jacobian-vector approximation
+ is scaled appropriately.
+ The only time the solvers broke down was when the original implementation
+ of fission energy was employed.
+ Since the magnitude of the neutron flux normalization parameter is so large
+ and the energy per fission is so small, i.e.
+ 26 orders of magnitude between the values, scaling problems arose.
+ These scaling problems were fixed by altering the magnitude of energy produce
+ from fission such that the normalization constant is of similar magnitude.
+ 
+\end_layout
+
+\begin_layout Standard
+It was also observed that since the neutronics steady-state calculation
+ is an eigenvalue problem, and eigenpair can satisfy the nonlinear equations.
+ This problem of converging on a different mode was observed in reactors
+ with a high dominance ratio.
+ To circumvent this problem, a few number of power iterations were run to
+ get a rough fundamental mode flux shape to assist in the convergence to
+ this mode in the nonlinear solver.
+ For each nonlinear calculation a preconditioner was necessary to limit
+ the number of iterations in the GMRES solver.
+ This was preconditioner was only constructed once at the beginning of the
+ nonlinear iteration loop.
+ For the steady state calculations, the result from a few power iterations
+ was used to construct the Jacobian, whereas in the transient case, the
+ steady results were used to form the preconditioner.
+ 
+\end_layout
+
+\begin_layout Standard
+It was observed that the majority of the time was spent looking up thermodynamic
+ properties from XSteam.
+ This is considered unacceptable and a better method must be employed in
+ the future.
+ One solution is to create separate lookup tables in the region of interest
+ from XSteam and use this new routine in the code.
+ In this routine a faster search algorithm can be implement to ensure this
+ is not the bottleneck of the calculation.
+ Another solution is to fit the depend with a high order polynomial.
+ In the transient calculation, only a linear dependence was used to just
+ get more realistic execution times.
+ 
+\end_layout
+
+\begin_layout Standard
+For future work, this code needs to be rewritten in a compiled language
+ such as Fortran.
+ Instead of using the manual solvers created in MATLAB, the PETSc library
+ will be used for the Newton iteration and GMRES solution.
+ This will also give a better indication on the computational cost of performing
+ these calculations.
+ An immediate improvement would be to implement a heat conduction model
+ so that fuel temperature feedback can be modeled.
+ This feedback is more important than the coolant density feedback used
+ in this work.
+ This will hopefully give more of the prompt behavior that is expected in
+ these transients.
+ Finally, higher order time integration schemes could be implemented instead
+ of the simple first order implicit Euler.
+ These could include predictor-corrector, Runge-Kutta or multistep methods.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -9068,9 +9314,596 @@ options "plain"
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 \start_of_appendix
-Source Code
+Source Code for General Solvers
+\end_layout
+
+\begin_layout Subsection
+Inexact Newton Nonlinear Solver
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "app:Newton"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting{../../src/Final_Code/inexact_newton.m}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+GMRES Linear Solver w/ Preconditioning and Givens Rotation
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "app:GMRES"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting{../../src/Final_Code/gmres_jfnk.m}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Power Iteration
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "app:power"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting{../../src/Final_Code/power_iter.m}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Finite Difference Jacobian-vector Multiplication
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "app:FD"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting{../../src/Final_Code/Jacobian_vec_FD.m}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Source Code for Calculations
+\end_layout
+
+\begin_layout Subsection
+Input File and Main Code
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "app:main"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting{../../src/Final_Code/jfnk_input.m}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting{../../src/Final_Code/main.m}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Steady State Neutronics only
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "app:NeutSteady"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting{../../src/Final_Code/run_neut_only.m}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting{../../src/Final_Code/create_operators_neut.m}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting{../../src/Final_Code/create_precond_neut.m}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting{../../src/Final_Code/neut_res_fun.m}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Analytic Jacobian-vector Product Routine
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "app:JVecNeut"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting{../../src/Neut_Static/Jacobian_vec_mult.m}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Steady State Coupled Neutronics/Thermal Hydraulics
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "app:coupledstatic"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting{../../src/Final_Code/run_coupled_static.m}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting{../../src/Final_Code/get_initial_guess.m}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting{../../src/Final_Code/create_operators_steady.m}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting{../../src/Final_Code/create_precond_steady.m}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting{../../src/Final_Code/coupled_steady_res_fun.m}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Analytic Jacobian-vector Product Routine
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "app:JVecCoupledStatic"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting{../../src/Coupled_Static/JacobianVectMult.m}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Transient Coupled Neutronics/Thermal Hydraulics
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "app:trans"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting{../../src/Final_Code/run_coupled_trans.m}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting{../../src/Final_Code/process_steady.m}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting{../../src/Final_Code/get_initial_vec.m}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting{../../src/Final_Code/create_operators_trans.m}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting{../../src/Final_Code/create_precond_steady.m}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting{../../src/Final_Code/coupled_trans_res_fun.m}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Control Rod Movement File
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "app:CR"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting{../../src/Final_Code/control_rod.m}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Serpent Input File for Diffusion Theory Parameters
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "app:Serpent"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -9081,7 +9914,34 @@ status open
 
 
 \backslash
-lstinputlisting{../../src/run_coupled.m}
+begin{scriptsize}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset CommandInset include
+LatexCommand verbatiminput
+filename "D:/Documents/PhD/JFNK/Serpent/0.705/pincell_705.inp"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{scriptsize}
 \end_layout
 
 \end_inset

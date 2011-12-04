@@ -2,13 +2,14 @@
 % 2.29 Numerical Fluid Mechanics Term Project
 % Steady State couple physics
 clear; close all; clear -global
+path(path,'../../Steam')
 
 % input file
 jfnk_input
 
 % choose execution option (1-Neutronics Static, 2-Coupled Static,
 % 3-Transient)
-opt = 3;
+opt = 2;
 
 % turn on profiler
 %profile on -timer cpu
