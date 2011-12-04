@@ -29,9 +29,9 @@ for i = 1:10000
     
     % construct matrix vector multiply @ x
     mymatvecmult_x = @(y) mymatvecmult(x,y);
-       
+         
     % GMRES solution
-    [dx,err] = gmres_jfnk(L,U,-F,dx,mymatvecmult_x,1000,5,1e-8);
+    [dx,err] = gmres_jfnk(L,U,-F,dx,mymatvecmult_x,1000,5,1e-8,1e-10);
 
     % check GMRES convergence
     if find(err,1,'last') == length(err)

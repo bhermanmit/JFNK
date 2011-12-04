@@ -22,7 +22,7 @@ diff = steady.diff;
 kfiss = steady.kfiss;
 
 % preallocate vector
-x = zeros(9*n,Nt);
+x = zeros(9*n,1);
 
 % record flux
 x(1:n,1) = phi;

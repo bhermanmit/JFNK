@@ -1,4 +1,4 @@
-function create_plots(x)
+function create_plots(x,pow,tave)
 
 global geom
 
@@ -36,6 +36,21 @@ plot(x(5*n+1:6*n))
 title('Absorption')
 xlabel('Slab Length [cm]')
 ylabel('Absorption [cm^{-1}]')
+drawnow;
+
+% create average plots
+figure(2)
+subplot(1,2,1)
+plot(pow)
+title('Reactor Power')
+xlabel('Time [step]')
+ylabel('Power [W]')
+drawnow;
+subplot(1,2,2)
+plot(tave)
+title('Average Temperature')
+xlabel('Time [step]')
+ylabel('Temperature [C]')
 drawnow;
 
 end

@@ -1,0 +1,21 @@
+\begin{tikzpicture}[scale=0.5]
+
+\begin{axis}[%
+scale only axis,
+width=4.52083in,
+height=3.56562in,
+xmin=1e+004, xmax=3e+004,
+ymin=1e+004, ymax=9e+004,
+xlabel={Slab Length [cm]},
+ylabel={Flux},
+axis on top]
+\addplot [
+color=blue,
+solid
+]
+coordinates{
+ (1e+004,4e+004)(3e+004,9e+004) 
+};
+
+\end{axis}
+\end{tikzpicture}

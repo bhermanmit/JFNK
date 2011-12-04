@@ -4,7 +4,7 @@
 clear; close all; clear -global
 
 profile on -timer cpu
-tic
+% tic
 % function for residual evaluation
 myfun = @jfnk_steady_state_fun;
 
@@ -20,7 +20,7 @@ x = get_initial_guess();
 % build preconditioner
 [L,U] = create_precond(x);
 
-% run no feedback system
+% run steady state
 x = JFNK_neut(myfun,mymatvecmult,x,L,U);
 
 % process steady state results into steady object
@@ -32,9 +32,9 @@ x = get_initial_vec();
 % run transient
 myfun = @jfnk_trans_fun;
 mymatvecmult = @(myfun,x,y) matvecmult(myfun,x,y);
-x = run_transient(x,myfun,mymatvecmult);
+[x,pow,tave,rod] = run_transient(x,myfun,mymatvecmult);
 
-toc
+% toc
 profile viewer
 profile off
 % profsave(profile('info'),'prof_results')

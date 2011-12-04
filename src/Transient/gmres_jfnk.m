@@ -1,4 +1,4 @@
-function [x,err] = gmres_jfnk(L,U,b,x,matvec,res,maxiter,tol)
+function [x,err] = gmres_jfnk(L,U,b,x,matvec,res,maxiter,tol,mtol)
 
 % get size of b
 m = length(b);
@@ -13,6 +13,7 @@ s = zeros(res+1,1);
 % re-set tolerance
 scale = norm(U\(L\b));
 tol = tol*scale;
+tol = max(tol,mtol);
 
 % begin while loop
 for k = 1:maxiter

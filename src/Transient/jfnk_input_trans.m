@@ -7,7 +7,7 @@ global info geom th neut
 %% Control Information
 
 % maximum time
-info.time = 100.0;
+info.time = 150.0;
 
 % time step
 info.dt = 0.1;
@@ -29,7 +29,7 @@ th.Tin = 293.1;
 th.w = 0.335;
 
 % Interior Subchannel flow area [cm^2]
-th.area = 0.879;
+th.area = 0.879e-5;
 
 % Average power per subchannel [W]
 th.Qr = 3411e6/(193*264);
