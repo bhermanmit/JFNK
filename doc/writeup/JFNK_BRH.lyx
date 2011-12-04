@@ -1,0 +1,9093 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass amsart
+\begin_preamble
+\usepackage{algorithmic}
+\usepackage{flafter}
+\usepackage{graphicx}
+\usepackage{pgfpages}
+\usepackage{color}
+\usepackage{tikz,pgfplots}
+\usetikzlibrary{plotmarks,shapes,arrows,positioning}
+\usepackage[framed]{mcode}
+\DefineNamedColor{named}{mitred}    {rgb}{0.6,0.2,0.2}
+\DefineNamedColor{named}{mitgray}   {rgb}{0.4,0.4,0.4}
+\DefineNamedColor{named}{darkgray}   {cmyk}{0,0,0,0.90}
+\end_preamble
+\use_default_options true
+\begin_modules
+theorems-ams
+eqs-within-sections
+figs-within-sections
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1in
+\rightmargin 1in
+\secnumdepth 3
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\bullet 0 0 0 -1
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+thispagestyle{empty}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "100col%"
+height "1pt"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Title
+Jacobian-Free Newton-Krylov Methods for Solving Coupled Physics
+\end_layout
+
+\begin_layout Author
+Bryan Herman
+\end_layout
+
+\begin_layout Standard
+\align center
+12 December 2011
+\end_layout
+
+\begin_layout Standard
+\align center
+2.29 Numerical Fluid Mechanics Term Project
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "100col%"
+height "1pt"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Objective
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+A complete design of a nuclear reactor system is complex and involves many
+ coupled physics.
+ When performing reactor physics calculations, the design engineer is primarily
+ concerned with the reactivity of the core, spatial power distribution and
+ isotopics.
+ This power distribution is usually used as a input condition for thermal
+ hydraulic calculations which ensure that core is cooled adequately.
+ Whether performing reactor physics calculations for fuel management or
+ for reactor safety, the distribution of neutrons (hence fission rate and
+ power) and coolant density are highly coupled.
+ The temperature of the fuel and coolant density distributions affect the
+ probability of certain nuclear reactions such as fission.
+ 
+\end_layout
+
+\begin_layout Standard
+Once example of a reactor safety calculation is the sudden ejection of a
+ control rod.
+ A common approach to solve this problem is to use operator or physics splitting.
+ In this approach a temperature/density distribution is assumed, a power
+ distribution is calculated from neutronics, and this is fed to the thermal
+ hydraulic equations to get a new temperature/density distribution.
+ This iteration between operators continues until a steady state solution
+ is found.
+ A widely used core simulator that performs these transient calculations
+ is the U.S.
+ N.R.C.
+ code PARCS 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Downar2009"
+
+\end_inset
+
+ which is coupled to and external thermal hydraulic system code such as
+ RELAP 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "RELAP5"
+
+\end_inset
+
+.
+ This iteration setup is shown in Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:PARCSCoupling"
+
+\end_inset
+
+.
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{./tikz/PARCS_coupling.tikz}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+PARCS Coupling Structure
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:PARCSCoupling"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+After a steady state coupled solution is found, the time-dependent solution
+ can be calculated.
+ In PARCS, this is done by an operator-split, explicit scheme as shown in
+ Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:PARCSTime"
+
+\end_inset
+
+.
+ In their time-marching algorithm, the neutronics and thermal hydraulics
+ are not converged in a given time step.
+ Although this is an approximation, it has shown to be effective.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{./tikz/PARCS_marching.tikz}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+PARCS Marching Scheme
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:PARCSTime"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this paper, a fully coupled time-dependent solution between neutronics
+ and thermal hydraulics is performed.
+ In this method, no operator splitting is performed and the equations are
+ solved non-linearly at the same time.
+ For this nonlinear system of equations, a Jacobian-Free Newton Krylov (JFNK)
+ method is applied.
+\end_layout
+
+\begin_layout Section
+Model and Governing Equations
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Governing"
+
+\end_inset
+
+In this section, the reactor model will be discussed along with the governing
+ equations that will be used to solve for physics.
+ For the geometry, a one-dimensional slab reactor is assumed.
+ A diagram of this model is shown in Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:geometry"
+
+\end_inset
+
+.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pics/geometry.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Geometry of Reactor Slab
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:geometry"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ In this geometry, the slab reactor (similar to modeling the axial direction
+ of a fuel pin) is assumed to be 370 cm.
+ To remove the heat produced from fission reactors in the core, a fluid
+ is passed over the slab.
+ Here, only one dimensional flow is considered and only the energy equation
+ is applied since the flow rate will be specified and remains constant.
+ In addition, it will be assumed that the heat from the reactor is completely
+ dumped into the coolant and there is no time constant for this process.
+ Therefore, conduction and convective heat transfer equations are not applied.
+ With these assumptions, the system of equations that remains is the simplest
+ for these coupled physics.
+ This is important since the JFNK nonlinear algorithm is of interest in
+ this work.
+\end_layout
+
+\begin_layout Subsection
+Neutron Diffusion Equation
+\end_layout
+
+\begin_layout Standard
+In this section, the governing equations to model the neutronics will be
+ presented.
+ The neutron transport equation is the most detailed form to describe the
+ behavior how neutrons travel and interact in a medium.
+ In time-dependent form, the neutron transport equation is 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Hebert2009"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\underbrace{\frac{1}{v}\frac{\partial\varphi}{\partial t}}_{\mathrm{time-dependent}}+\underbrace{\mathbf{\Omega}\cdot\nabla\varphi\left(\mathbf{r},E,\mathbf{\Omega},t\right)}_{\mathrm{neutron\, leakage}}+\underbrace{\Sigma_{t}\left(\mathbf{r},E,t\right)\varphi\left(\mathbf{r},E,\mathbf{\Omega},t\right)}_{\mathrm{interation\, of\, neutrons\, with\, medium}}=\underbrace{Q\left(\mathbf{r},E,\mathbf{\Omega},t\right)}_{\mathrm{neutron\, source}},\label{eq:FluxTransport}
+\end{equation}
+
+\end_inset
+
+ 
+\begin_inset Formula 
+\begin{eqnarray}
+Q\left(\mathbf{r},E,\mathbf{\Omega},t\right) & = & \underbrace{\int_{4\pi}d^{2}\Omega^{\prime}\int_{0}^{\infty}dE^{\prime}\Sigma_{s}\left(\mathbf{r},E^{\prime}\rightarrow E,\mathbf{\Omega}^{\prime}\rightarrow\mathbf{\Omega},t\right)\varphi\left(\mathbf{r},E^{\prime},\mathbf{\Omega}^{\prime},t\right)}_{\mathrm{neutrons\, scattering\, into\, phase\, space}}\label{eq:TransportSource}\\
+ & + & \underbrace{\frac{1}{4\pi}\frac{\left(1-\beta\right)}{k_{eff}}\int_{0}^{\infty}dE^{\prime}\nu\Sigma_{f}\left(\mathbf{r},E^{\prime}\rightarrow Et\right)\varphi\left(\mathbf{r},E^{\prime},\mathbf{\Omega}^{\prime},t\right)}_{\mathrm{neutrons\, from\, prompt\, fissions}}+\underbrace{\frac{1}{4\pi}\sum_{l}\lambda_{d,l}c_{l}\left(\mathbf{r},t\right)}_{\mathrm{neutrons\, from\, precursor\, decay}}.\nonumber 
+\end{eqnarray}
+
+\end_inset
+
+ The variables in these formulas are as follows:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $v$
+\end_inset
+
+ - neutron speed
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\varphi$
+\end_inset
+
+ - angular neutron flux 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $t$
+\end_inset
+
+ - time
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\mathbf{\Omega}$
+\end_inset
+
+ - unit vector of neutron travel
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\mathbf{r}$
+\end_inset
+
+ - spatial location of neutron
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $E$
+\end_inset
+
+ - neutron energy
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\Sigma_{t}$
+\end_inset
+
+ - total macroscopic cross section
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Q$
+\end_inset
+
+ - neutron source
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\Sigma_{s}$
+\end_inset
+
+ - scattering macroscopic cross section
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\beta$
+\end_inset
+
+ - total delayed neutron fraction
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\nu\Sigma_{f}$
+\end_inset
+
+ - neutron fission production macroscopic cross section
+\end_layout
+
+\begin_layout Itemize
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\lambda_{d,l}$
+\end_inset
+
+ - delayed neutron precursor decay constant with subscript 
+\begin_inset Formula $l$
+\end_inset
+
+ for precursor group number
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $c_{l}$
+\end_inset
+
+ - delayed neutron precursor concentration
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $k_{eff}$
+\end_inset
+
+ - core multiplication factor
+\end_layout
+
+\begin_layout Standard
+An important concept in reactor physics is 
+\begin_inset Formula $k_{eff}$
+\end_inset
+
+ or the core multiplication factor.
+ In modeling of reactors, if the steady state calculation is not perfectly
+ balanced, neutron destruction does not equal neutron production, and an
+ eigenvalue is introduced to state how far away from 
+\begin_inset Quotes eld
+\end_inset
+
+steady
+\begin_inset Quotes erd
+\end_inset
+
+ the reactor is.
+ If 
+\begin_inset Formula $k_{eff}$
+\end_inset
+
+ is unity then the neutron population is perfectly balanced.
+ Therefore, when beginning a transient calculation, for example with the
+ equations above, 
+\begin_inset Formula $k_{eff}$
+\end_inset
+
+ from the steady state calculations must be used.
+ 
+\end_layout
+
+\begin_layout Standard
+To model the concentration of precursors the following equation is used
+ for each precursor group 
+\begin_inset Formula $l$
+\end_inset
+
+, which describes a balance of precursor production from fission reactions
+ to their destruction from decay,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial c_{l}}{\partial t}=\underbrace{\frac{\beta}{k_{eff}}\int_{0}^{\infty}dE\int_{0}^{\infty}dE^{\prime}\nu\Sigma_{f}\left(\mathbf{r},E^{\prime}\rightarrow Et\right)\varphi\left(\mathbf{r},E^{\prime},\mathbf{\Omega}^{\prime},t\right)}_{\mathrm{neutrons\, from\, precursor\, decay}}-\underbrace{\lambda_{d,l}c_{l}\left(\mathbf{r},t\right)}_{\mathrm{precursor\, decay}}.\label{eq:TransportPrec}
+\end{equation}
+
+\end_inset
+
+The assumption is that the decay of one precursor isotope will give off
+ one neutron.
+ This is why the decay term shows up as a source of neutrons in the neutron
+ balance equation.
+ From these transport equations, the neutron diffusion equation can be derived.
+ The form can be determined by expanding the angular flux and scattering
+ source in Legendre polynomials and truncating after order 1.
+ After the expansion and reduction, two equations result.
+ The first represents neutron balance and the other is an equation that
+ resembles Fick's Law (hence diffusion).
+ They are
+\begin_inset Formula 
+\begin{multline}
+\frac{1}{v}\frac{\partial\phi}{\partial t}+\nabla\cdot\mathbf{J}\left(\mathbf{r},E,t\right)+\Sigma_{t}\left(\mathbf{r},E,t\right)\phi\left(\mathbf{r},E,t\right)=\\
+\int_{0}^{\infty}dE^{\prime}\left[\Sigma_{s}\left(\mathbf{r},E^{\prime}\rightarrow E,t\right)+\frac{1-\beta}{k_{eff}}\nu\Sigma_{f}\left(\mathbf{r},E^{\prime}\rightarrow E,t\right)\right]\phi\left(\mathbf{r},E^{\prime},t\right)+\sum_{l}\lambda_{d,l}c_{l}\left(\mathbf{r},t\right),\label{eq:DiffusionBalance-1}
+\end{multline}
+
+\end_inset
+
+ 
+\begin_inset Formula 
+\begin{equation}
+\mathbf{J}\left(\mathbf{r},E,t\right)=-D\left(\mathbf{r},E,t\right)\nabla\phi\left(\mathbf{r},E,t\right).\label{eq:DiffusionFicks}
+\end{equation}
+
+\end_inset
+
+ The equation to model the precursor cursor concentration is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial c_{l}}{\partial t}=\frac{\beta}{k_{eff}}\int_{0}^{\infty}dE\int_{0}^{\infty}dE^{\prime}\nu\Sigma_{f}\left(\mathbf{r},E^{\prime}\rightarrow E,t\right)\phi\left(\mathbf{r},E^{\prime},t\right)-\lambda_{d,l}c_{l}\left(\mathbf{r},t\right).\label{eq:DiffusionPrec}
+\end{equation}
+
+\end_inset
+
+ The new variables introduced here are
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\phi$
+\end_inset
+
+ - scalar neutron flux, 
+\begin_inset Formula $\phi=\int_{4\pi}\varphi d^{2}\Omega$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\mathbf{J}$
+\end_inset
+
+ - scalar neutron current, 
+\begin_inset Formula $\mathbf{J}=\int_{4\pi}\mathbf{\Omega}\varphi d^{2}\Omega$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $D$
+\end_inset
+
+ - neutron diffusion coefficient
+\end_layout
+
+\begin_layout Subsubsection
+One-dimensional One-group Transient Neutron Diffusion Equation
+\end_layout
+
+\begin_layout Standard
+For this paper, only the one-dimensional one-energy group transient neutron
+ diffusion equation is required.
+ If Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:DiffusionBalance-1"
+
+\end_inset
+
+ is integrated over all energies and only 1 precursor group is considered,
+ the equations become
+\begin_inset Formula 
+\begin{gather}
+\frac{1}{v}\frac{\partial\phi}{\partial t}+\nabla\cdot\mathbf{J}\left(\mathbf{r},t\right)+\Sigma_{a}\left(\mathbf{r},t\right)\phi\left(\mathbf{r},t\right)=\frac{1-\beta}{k_{eff}}\nu\Sigma_{f}\left(\mathbf{r},t\right)\phi\left(\mathbf{r},t\right)+\lambda_{d}c\left(\mathbf{r},t\right),\label{eq:DiffusionBalance1g}
+\end{gather}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{J}\left(\mathbf{r},t\right)=-D\left(\mathbf{r},t\right)\nabla\phi\left(\mathbf{r},t\right),\label{eq:DiffusionFicks1g}
+\end{equation}
+
+\end_inset
+
+ 
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial c}{\partial t}=\frac{\beta}{k_{eff}}\nu\Sigma_{f}\left(\mathbf{r},t\right)\phi\left(\mathbf{r},t\right)-\lambda_{d}c\left(\mathbf{r},t\right).\label{eq:DiffusionPrec1g}
+\end{equation}
+
+\end_inset
+
+ In Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:DiffusionBalance1g"
+
+\end_inset
+
+, the neutron absorption macroscopic cross section is introduced.
+ This cross section is defined as the difference between the total and scatterin
+g macroscopic cross section, 
+\begin_inset Formula $\Sigma_{a}\equiv\Sigma_{t}-\Sigma_{s}$
+\end_inset
+
+.
+ The equations can be further reduced to 1-dimension and become
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{1}{v}\frac{\partial\phi}{\partial t}+\frac{\partial J}{\partial x}+\Sigma_{a}\left(x,t\right)\phi\left(x,t\right)=\frac{1-\beta}{k_{eff}}\nu\Sigma_{f}\left(x,t\right)\phi\left(x,t\right)+\lambda_{d}c\left(x,t\right),\label{eq:Diffusion1g1d}
+\end{equation}
+
+\end_inset
+
+ 
+\begin_inset Formula 
+\begin{equation}
+J\left(x,t\right)=-D\left(x,t\right)\frac{\partial\phi}{\partial x},\label{eq:DiffusionFicks1g1d}
+\end{equation}
+
+\end_inset
+
+ 
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial c}{\partial t}=\frac{\beta}{k_{eff}}\nu\Sigma_{f}\left(x,t\right)\phi\left(x,t\right)-\lambda_{d}c\left(x,t\right).\label{eq:DiffusionPrec1d1g}
+\end{equation}
+
+\end_inset
+
+ Equations 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Diffusion1g1d"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:DiffusionFicks1g1d"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:DiffusionPrec1d1g"
+
+\end_inset
+
+ form the set of transient neutronics equations that will be solved in this
+ paper.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Steady State Form of the Neutron Diffusion Equation
+\end_layout
+
+\begin_layout Standard
+Equations 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Diffusion1g1d"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:DiffusionFicks1g1d"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:DiffusionPrec1d1g"
+
+\end_inset
+
+ can be reduced to steady by removing the time-derivative term.
+ This is shown as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{dJ}{dx}+\Sigma_{a}\left(x\right)\phi\left(x\right)=\frac{1-\beta}{k_{eff}}\nu\Sigma_{f}\left(x\right)\phi\left(x\right)+\lambda_{d}c\left(x\right),\label{eq:DiffusionBalSteady}
+\end{equation}
+
+\end_inset
+
+ 
+\begin_inset Formula 
+\begin{equation}
+J\left(x\right)=-D\left(x\right)\frac{d\phi}{dx},\label{eq:DiffusionFicksSteady}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\lambda_{d}c\left(x\right)=\frac{\beta}{k_{eff}}\nu\Sigma_{f}\left(x\right)\phi\left(x\right).\label{eq:DiffusionPrecSteady}
+\end{equation}
+
+\end_inset
+
+ Equation 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:DiffusionPrecSteady"
+
+\end_inset
+
+ can be combined with Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:DiffusionBalSteady"
+
+\end_inset
+
+ to give the final form of the 1-D neutron balance equation,
+\begin_inset Formula 
+\begin{equation}
+\frac{dJ}{dx}+\Sigma_{a}\left(x\right)\phi\left(x\right)=\frac{1}{k_{eff}}\nu\Sigma_{f}\left(x\right)\phi\left(x\right).\label{eq:DiffusionSteady}
+\end{equation}
+
+\end_inset
+
+Note that Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:DiffusionSteady"
+
+\end_inset
+
+ is an eigenvalue problem since neutron current depends on flux through
+ Fick's law.
+ Here the spatial flux distribution represents the eigenfunction and 
+\begin_inset Formula $1/k_{eff}$
+\end_inset
+
+ is the eigenvalue which is commonly denoted as 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ (not to be confused with the decay constant, 
+\begin_inset Formula $\lambda_{d}$
+\end_inset
+
+).
+ 
+\end_layout
+
+\begin_layout Subsection
+Coupling Neutrons to Thermal Hydraulics 
+\end_layout
+
+\begin_layout Standard
+From the steady state neutronic analysis a neutron flux distribution is
+ obtained.
+ Since the flux is an eigenfunction, it must be normalized to some physical
+ quantity to have meaning.
+ In reactor physics the flux is normalized to reactor power.
+ This step is known as flux-to-power normalization.
+ This step can be calculated by computing the energy per fission multiplied
+ by the fission reaction rate and integrated over all space and volume.
+ This is represented mathematically as 
+\begin_inset Formula 
+\begin{equation}
+Q_{r}=\tilde{c}\int_{V}d^{3}r\int_{0}^{\infty}dE\kappa\Sigma_{f}\left(\mathbf{r},E\right)\phi\left(\mathbf{r},E\right).
+\end{equation}
+
+\end_inset
+
+Here, the variables are
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Q_{r}$
+\end_inset
+
+ - reactor power
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\tilde{c}$
+\end_inset
+
+ - flux-to-power normalization constant
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\kappa\Sigma_{f}$
+\end_inset
+
+ - energy (from fission) deposition cross section
+\end_layout
+
+\begin_layout Standard
+In one dimension and one energy group this is
+\begin_inset Formula 
+\begin{equation}
+Q_{R}=\tilde{c}\int_{0}^{L}dx\kappa\Sigma_{f}\left(x\right)\phi\left(x\right).\label{eq:fluxpownorm}
+\end{equation}
+
+\end_inset
+
+Note that this step only needs to be performed during the steady state analysis
+ since the transient analysis is not an eigenvalue problem.
+ The transient equations are given the eigenvalue and eigenvector normalization
+ constant and these parameters are held constant throughout the transient.
+ 
+\end_layout
+
+\begin_layout Standard
+Once this normalization constant is determined from the steady state calculation
+, the time-dependent spatial distribution of power density, 
+\begin_inset Formula $Q\left(x,t\right)$
+\end_inset
+
+ can be calculated as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+Q\left(x,t\right)=\tilde{c}\kappa\Sigma_{f}\left(x,t\right)\phi\left(x,t\right).\label{eq:energydep}
+\end{equation}
+
+\end_inset
+
+ This can be reduced to steady state to give
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+Q\left(x\right)=\tilde{c}\kappa\Sigma_{f}\left(x\right)\phi\left(x\right).\label{eq:energydepSteady}
+\end{equation}
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Subsection
+Thermal Hydrualics - Energy Equation
+\end_layout
+
+\begin_layout Standard
+The energy equation for a single phase fluid is given by 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Todreas2011"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\left(\rho h\right)}{\partial t}+\nabla\cdot\left(\rho h\mathbf{u}\right)=-\nabla\cdot\mathbf{q}^{\prime\prime}+q^{\prime\prime\prime}+\frac{Dp}{Dt}+\Phi.\label{eq:EnergyFull}
+\end{equation}
+
+\end_inset
+
+ The variables in this equation are
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\rho$
+\end_inset
+
+ - density of fluid
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $h$
+\end_inset
+
+ - enthalpy of fluid
+\end_layout
+
+\begin_layout Itemize
+t - time
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\begin_inset Formula $\mathbf{u}$
+\end_inset
+
+ 
+\series default
+- velocity vector
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\mathbf{q}^{\prime\prime}$
+\end_inset
+
+ - heat flux vector
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $q^{\prime\prime\prime}$
+\end_inset
+
+ - volumetric heat source
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $p$
+\end_inset
+
+ - pressure
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\Phi$
+\end_inset
+
+ - dissipation function
+\end_layout
+
+\begin_layout Standard
+Assuming inviscid flow, the energy equation reduces to 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\left(\rho h\right)}{\partial t}+\nabla\cdot\left(\rho h\mathbf{u}\right)=-\nabla\cdot\mathbf{q}^{\prime\prime}+q^{\prime\prime\prime}.\label{eq:energyinviscid}
+\end{equation}
+
+\end_inset
+
+ Assuming one-dimensional flow and no heat flux, the energy becomes
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\left(\rho h\right)}{\partial t}+\frac{\partial\left(\rho hu\right)}{\partial x}=q^{\prime\prime\prime}.
+\end{equation}
+
+\end_inset
+
+It will be assumed that the energy produced from fissions will be a volumetric
+ heat source in the energy equation (note this is not common since fissions
+ occur in fuel and not in coolant).
+ Multiplying this form of the energy equation by the 
+\begin_inset Quotes eld
+\end_inset
+
+area
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Formula $A$
+\end_inset
+
+, of the flow, it can be rewritten as follows
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+A\frac{\partial\left(\rho h\right)}{\partial t}+w\frac{\partial h}{\partial x}=q^{\prime}.
+\end{equation}
+
+\end_inset
+
+ The new variables that appear in the above equation are
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $w$
+\end_inset
+
+ - mass flow rate calculated as 
+\begin_inset Formula $w=\rho uA$
+\end_inset
+
+ which from the continuity equation must be constant spatially and therefore
+ taken out of the differential
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $q^{\prime}$
+\end_inset
+
+ - linear heat rate calculated as 
+\begin_inset Formula $q^{\prime}=q^{\prime\prime\prime}A$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+If the variation of density from thermal expansion is neglected as a function
+ of time the equation reduces to 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\rho A\frac{\partial h}{\partial t}+w\frac{\partial h}{\partial x}=q^{\prime}.
+\end{equation}
+
+\end_inset
+
+ Using the constitutive relation between enthalpy and temperature for an
+ incompressible fluid that 
+\begin_inset Formula $dh=c_{p}dT$
+\end_inset
+
+, the energy equation becomes
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\rho Ac_{p}\frac{\partial T}{\partial t}+wc_{p}\frac{\partial T}{\partial x}=q^{\prime}.\label{eq:energy1DTrans}
+\end{equation}
+
+\end_inset
+
+ This is the transient form of the energy equation that is solved in this
+ paper.
+ For steady state, the energy equation becomes 
+\begin_inset Formula 
+\begin{equation}
+wc_{p}\frac{dT}{dx}=q^{\prime}.\label{eq:energy1D}
+\end{equation}
+
+\end_inset
+
+ Note that if the energy equation is integrated over the whole reactor,
+ the outlet temperature can be calculated with
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+T_{out}=T_{in}+\frac{Q_{r}}{wc_{p}}.
+\end{equation}
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Subsection
+Thermal Hydraulic to Neutronic Coupling
+\end_layout
+
+\begin_layout Standard
+The macroscopic cross sections and diffusion coefficient that were described
+ in the neutronics formulation depend on density of the coolant.
+ This is due to the fact that besides water functioning as a coolant in
+ a nuclear reactor, it has the dual purpose of also slowing down neutrons.
+ Slow neutrons have a higher probability of causing a fission reaction.
+ This process is almost analogous to billiard ball elastic collisions.
+ Thus, if the density of water is low, it is less effective at slowing down
+ neutrons and will have a negative effect the rate at which fissions occur.
+ This is why nuclear reactors are somewhat self-regulating.
+ If the power suddenly increases in a region of the core, the temperature
+ will increase lowering the density and thus decreasing the fission rate
+ and power.
+ Note that this may not be the dominant effect as there are other nuclear
+ process that will also have a negative effect on the fission rate such
+ as fuel temperature.
+ In this paper, only the effect of density is modeled.
+ 
+\end_layout
+
+\begin_layout Standard
+Once the temperature distribution is known, the density distribution can
+ be calculated from the equation of state for water as the pressure is specified.
+ Thus, 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\rho\left(x,t\right)=\rho\left(T\left(x,t\right),p\right).\label{eq:StateEq}
+\end{equation}
+
+\end_inset
+
+The state equation is evaluated in the X-Steam look-up tables for MATLAB
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Holmgren2006"
+
+\end_inset
+
+.
+ Since the macroscopic cross sections and diffusion coefficient are to first
+ order linear with density, the following formulas can be used to describe
+ the dependence of these neutronic parameters on density:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\Sigma_{a}\left(x,t\right)=\Sigma_{a}^{ref}+\frac{\partial\Sigma_{a}}{\partial\rho}\left[\rho\left(x,t\right)-\rho^{ref}\right],\label{eq:AbsRHO}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\nu\Sigma_{f}\left(x,t\right)=\nu\Sigma_{f}^{ref}+\frac{\partial\nu\Sigma_{f}}{\partial\rho}\left[\rho\left(x,t\right)-\rho^{ref}\right],\label{eq:NfissRHO}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+D\left(x,t\right)=D^{ref}+\frac{\partial D}{\partial\rho}\left[\rho\left(x,t\right)-\rho^{ref}\right],\label{eq:DiffRHO}
+\end{equation}
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\kappa\Sigma_{f}\left(x,t\right)=\kappa\Sigma_{f}^{ref}+\frac{\partial\kappa\Sigma_{f}}{\partial\rho}\left[\rho\left(x,t\right)-\rho^{ref}\right].\label{eq:KfissRHO}
+\end{equation}
+
+\end_inset
+
+ For each of the above equations, there is a reference value and are described
+ in Section 
+\begin_inset CommandInset ref
+LatexCommand pageref
+reference "sub:Reference"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Subsection
+Calculation of Reference Neutronic Parameters 
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Reference"
+
+\end_inset
+
+To calculate macroscopic cross sections and diffusion coefficients for core
+ simulation, the 2-D neutron transport equation is solved.
+ To solve this complicated PDE in space angle and energy, a stochastic Monte
+ Carlo code, Serpent, is used to generate these parameters 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "LeppanenUser2010"
+
+\end_inset
+
+.
+ For this calculation a typical nuclear fuel rod is used depicted in Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:pincell"
+
+\end_inset
+
+.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pics/pincell_serp_geom1.png
+	scale 15
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Typical 2-D Cross Section of a Fuel Rod
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:pincell"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+replace figure
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+For the Seabrook Nuclear Reactor, the inlet temperature the core is 
+\begin_inset Formula $293.1\,\mathrm{^{\circ}C}$
+\end_inset
+
+ and the outlet temperature is 
+\begin_inset Formula $326.8\,\mathrm{^{\circ}C}$
+\end_inset
+
+.
+ The core average temperature is taken as the straight average of these
+ two values to give
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T^{ref}=310\,\mathrm{^{\circ}C}.
+\]
+
+\end_inset
+
+ The pressure of the Seabrook nuclear reactor is 
+\begin_inset Formula $155$
+\end_inset
+
+ bar.
+ Therefore using XSteam, the density of water at this pressure and average
+ temperature is 
+\begin_inset Formula 
+\[
+\rho^{ref}=0.705\,\mathrm{g/cc}.
+\]
+
+\end_inset
+
+ The mass flow rate and flow area as set as 
+\begin_inset Formula $w=0.335\,\mathrm{kg/s}$
+\end_inset
+
+ and 
+\begin_inset Formula $A=0.879\,\mathrm{cm^{2}}$
+\end_inset
+
+.
+ The input file for the Serpent code with these reference conditions is
+ listed in Appendix 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+__
+\end_layout
+
+\end_inset
+
+.
+ The reference neutronic parameters from the Serpent code (neglecting their
+ associated uncertainties from the stochastic process) are as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Sigma_{a}^{ref}=2.27516\times10^{-2}\,\mathrm{cm^{-1}},
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\nu\Sigma_{f}^{ref}=3.13791\times10^{-2}\,\mathrm{cm^{-1}},
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+D^{ref}=8.85342\times10^{-1}\,\mathrm{cm},
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\kappa\Sigma_{f}^{ref}=4.13494\times10^{-13}\,\mathrm{cm^{-1}}.
+\]
+
+\end_inset
+
+Perturbations of -10%, -5%, +5% and +10% were made to the reference density
+ to obtain the dependence of the above parameters on density.
+ These points are then fit with a linear regression to determine the slope
+ of the data.
+ This regression was performed for each of the parameters above and plots
+ of this regression is shown in Figs.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:absxsRHO"
+
+\end_inset
+
+-
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:kfissRHO"
+
+\end_inset
+
+.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pics/absxs.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Dependence of Absorption Macroscopic Cross Section on Density
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:absxsRHO"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pics/nfiss.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Dependence of Fission Neutron Production Macroscopic Cross Section on Density
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:nfissRHO"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pics/diff.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Dependence of Diffusion Coefficient on Density
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:diffRHO"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pics/kfiss.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Dependence of Energy Deposition Macroscopic Cross Section on Density
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:kfissRHO"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ From each of the figures, it can be observed that the trend of the data
+ is linear.
+ The slopes of the regressions are as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\partial\Sigma_{a}}{\partial\rho}=0.020796\,\mathrm{cm^{2}/g},
+\]
+
+\end_inset
+
+ 
+\begin_inset Formula 
+\[
+\frac{\partial\nu\Sigma_{f}}{\partial\rho}=0.035471\,\mathrm{cm^{2}/g},
+\]
+
+\end_inset
+
+ 
+\begin_inset Formula 
+\[
+\frac{\partial D}{\partial\rho}=-0.95551\,\mathrm{cm^{4}/g},
+\]
+
+\end_inset
+
+ 
+\begin_inset Formula 
+\[
+\frac{\partial\kappa\Sigma_{f}}{\partial\rho}=4.7055\times10^{-13}\,\mathrm{cm^{2}/g}.
+\]
+
+\end_inset
+
+From the results the macroscopic cross sections have a positive slope while
+ the diffusion coefficient has a negative slope.
+ The cross section dependence makes sense since as the density increases,
+ neutrons will slow down more and cause more fission.
+ The opposite is true for the diffusion coefficient, if the density increases,
+ neutrons are more efficiently slowed down in and therefore will not diffuse
+ as much.
+ Therefore, if the density goes down there will be a negative effect on
+ producing more neutrons from fission as the cross section will go down
+ and neutrons will diffuse further and have a higher probability of leaking
+ out of the core.
+\end_layout
+
+\begin_layout Section
+Discretization of Equations
+\end_layout
+
+\begin_layout Standard
+In this section, the governing 1-D equations presented in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Governing"
+
+\end_inset
+
+ are discretized in space and time.
+ Before a transient calculation can be performed, a steady solution must
+ be determined.
+ Therefore, the discretization of the steady state form of the equations
+ will be presented first.
+ It is assumed that the grid is discretized uniformly over the slab.
+\end_layout
+
+\begin_layout Subsection
+Steady-State Equations
+\end_layout
+
+\begin_layout Standard
+For the discretization in space, a second order finite volume method will
+ be used.
+ This discretization is shown in Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:discretization"
+
+\end_inset
+
+.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pics/discretizaton.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Spatial Discretization of 1-D Geometry
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:discretization"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Neutronics
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:SteadyNeut"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can integrate each term in Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:DiffusionSteady"
+
+\end_inset
+
+ over cell 
+\begin_inset Formula $i$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\int_{x_{i-1/2}}^{x_{i+1/2}}dx\frac{dJ}{dx}+\int_{x_{i-1/2}}^{x_{i+1/2}}dx\Sigma_{a}\left(x\right)\phi\left(x\right)=\int_{x_{i-1/2}}^{x_{i+1/2}}dx\frac{1}{k_{eff}}\nu\Sigma_{f}\left(x\right)\phi\left(x\right).
+\end{equation}
+
+\end_inset
+
+ The average flux in cell 
+\begin_inset Formula $i$
+\end_inset
+
+ can be calculated as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\bar{\phi}_{i}=\frac{1}{\Delta x}\int_{x_{i-1/2}}^{x_{i+1/2}}dx\phi\left(x\right).
+\end{equation}
+
+\end_inset
+
+ The average flux is for cell 
+\begin_inset Formula $i$
+\end_inset
+
+ is then taken to be the value at the center of the cell,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\bar{\phi}_{i}=\bar{\phi}_{i}\left(x_{i}\right)=\phi\left(x_{i}\right)+O\left(\Delta x^{2}\right).
+\end{equation}
+
+\end_inset
+
+ This is a second order approximation.
+ It is also assumed in this derivation that neutronic parameters are spatially
+ constant in a cell.
+ Performing the integration over cell 
+\begin_inset Formula $i$
+\end_inset
+
+, the neutron balance equation becomes
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+J_{i+1/2}-J_{i-1/2}+\Sigma_{a,i}\bar{\phi}_{i}\Delta x=\frac{1}{k_{eff}}\nu\Sigma_{f,i}\bar{\phi}_{i}\Delta x.\label{eq:FVNeutBalance}
+\end{equation}
+
+\end_inset
+
+ The fluxes that show up in finite volume equations are actually the neutron
+ current, NOT the neutron flux.
+ From Fick's Law in Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:DiffusionFicksSteady"
+
+\end_inset
+
+, the fluxes at the surfaces of the mesh cell are given by 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+J_{i+1/2}=-D_{i}\left.\frac{d\phi}{dx}\right|_{i+1/2}\qquad J_{i-1/2}=-D_{i}\left.\frac{d\phi}{dx}\right|_{i-1/2}.
+\end{equation}
+
+\end_inset
+
+ A second order central difference scheme is applied to approximate the
+ derivative of the flux at the boundary.
+ Since the diffusion coefficients in adjacent cells do not necessarily need
+ to be constant, the current at the interface between adjacent cells must
+ be equivalent.
+ For the 
+\begin_inset Formula $i+1/2$
+\end_inset
+
+ interface, the current from the left cell is equated to the current from
+ the right cell,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+-D_{i}\left.\frac{d\phi}{dx}\right|_{i+1/2}=-D_{i+1}\left.\frac{d\phi}{dx}\right|_{i+1/2}.
+\end{equation}
+
+\end_inset
+
+Applying a second order finite difference to the derivatives, the current
+ continuity becomes
+\begin_inset Formula 
+\begin{equation}
+-D_{i}\frac{\phi_{i+1/2}-\bar{\phi}_{i}}{\Delta x/2}=-D_{i+1}\frac{\bar{\phi}_{i+1}-\phi_{i+1/2}}{\Delta x/2}.
+\end{equation}
+
+\end_inset
+
+ The flux at the interface can be represented as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\phi_{i+1/2}=\frac{2}{\Delta x}\frac{D_{i+1}}{D_{i+1}+D_{i}}\left(\bar{\phi}_{i+1}-\bar{\phi}_{i}\right).
+\end{equation}
+
+\end_inset
+
+ Therefore the current or finite volume flux at the right interface is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+J_{i+1/2}=-\frac{2}{\Delta x}\frac{D_{i+1}D_{i}}{D_{i+1}+D_{i}}\left(\bar{\phi}_{i+1}-\bar{\phi}_{i}\right).
+\end{equation}
+
+\end_inset
+
+ Notice that if the diffusion coefficient is equivalent in adjacent cells,
+ the equation reduces to the simple second order central difference.
+ Similarly for the left interface, the current is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+J_{i-1/2}=-\frac{2}{\Delta x}\frac{D_{i}D_{i-1}}{D_{i}+D_{i-1}}\left(\bar{\phi}_{i}-\bar{\phi}_{i-1}\right).
+\end{equation}
+
+\end_inset
+
+ Substituting these currents into Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:FVNeutBalance"
+
+\end_inset
+
+ the discretized diffusion equation is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+-\frac{2}{\Delta x}\frac{D_{i+1}D_{i}}{D_{i+1}+D_{i}}\left(\bar{\phi}_{i+1}-\bar{\phi}_{i}\right)+\frac{2}{\Delta x}\frac{D_{i}D_{i-1}}{D_{i}+D_{i-1}}\left(\bar{\phi}_{i}-\bar{\phi}_{i-1}\right)+\Sigma_{a,i}\bar{\phi}_{i}\Delta x=\frac{1}{k_{eff}}\nu\Sigma_{f,i}\bar{\phi}_{i}\Delta x.
+\end{multline}
+
+\end_inset
+
+ Grouping like terms on the left hand side of the equation and dividing
+ by the cell volume, 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+-\frac{2}{\Delta x^{2}}\frac{D_{i}D_{i-1}}{D_{i}+D_{i-1}}\bar{\phi}_{i-1}+\left(\frac{2}{\Delta x^{2}}\frac{D_{i+1}D_{i}}{D_{i+1}+D_{i}}+\frac{2}{\Delta x^{2}}\frac{D_{i}D_{i-1}}{D_{i}+D_{i-1}}+\Sigma_{a,i}\right)\bar{\phi}_{i}-\frac{2}{\Delta x^{2}}\frac{D_{i+1}D_{i}}{D_{i+1}+D_{i}}\bar{\phi}_{i+1}\\
+=\frac{1}{k_{eff}}\nu\Sigma_{f,i}\bar{\phi}_{i}.\label{eq:IntNeut}
+\end{multline}
+
+\end_inset
+
+ Since the neutron diffusion equation is a second order differential equation,
+ two boundary conditions must be specified.
+ A physical boundary condition is to say that once a neutron leaves the
+ reactor it will never come back.
+ This may not always be true, especially depending on how the boundaries
+ are defined.
+ Another neutronic parameter called an albedo is defined as the ratio of
+ incoming current of neutrons at an interface to the outgoing current of
+ neutrons,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\beta=\frac{J_{in}}{J_{out}}.\label{eq:albedo}
+\end{equation}
+
+\end_inset
+
+ For the left boundary the current is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+J_{1/2}=-D_{1}\left.\frac{d\phi}{dx}\right|_{1/2}.\label{eq:Ficks1/2}
+\end{equation}
+
+\end_inset
+
+ The current at an interface is actually the net neutron current at that
+ surface.
+ This net current can always be decomposed into a partial current going
+ to the right and a partial current going to the left.
+ The relation between these partial currents to the net current is represented
+ as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+J=J_{right}-J_{left}.\label{eq:Jleftright}
+\end{equation}
+
+\end_inset
+
+ Current to the right is taken as positive since the positive 
+\begin_inset Formula $x$
+\end_inset
+
+ direction is directed to the right as well.
+ Notice that depending on the boundary, the partial current to the right
+ may be the same as the incoming current or the outgoing current.
+ For the left boundary, the net current is 
+\begin_inset Formula 
+\begin{equation}
+J_{1/2}=J_{in}-J_{out}=-D_{1}\left.\frac{d\phi}{dx}\right|_{1/2}.\label{eq:Jinout}
+\end{equation}
+
+\end_inset
+
+ From neutron transport theory, the partial incoming and outgoing currents
+ can be represent in terms of the flux at the boundary (Marshak Boundary
+ Conditions 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Bell1970"
+
+\end_inset
+
+),
+\begin_inset Formula 
+\begin{equation}
+J_{left}=\frac{1}{4}\phi_{1/2}-\frac{1}{2}J_{1/2}\qquad J_{right}=\frac{1}{4}\phi_{1/2}+\frac{1}{2}J_{1/2}.\label{eq:Marshak}
+\end{equation}
+
+\end_inset
+
+ Comparing Eqs.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Jleftright"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Jinout"
+
+\end_inset
+
+, the Marshak boundary conditions are
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+J_{out}=\frac{1}{4}\phi_{1/2}-\frac{1}{2}J_{1/2}\qquad J_{in}=\frac{1}{4}\phi_{1/2}+\frac{1}{2}J_{1/2}.
+\]
+
+\end_inset
+
+ These partial current equations can be substituted in to Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:albedo"
+
+\end_inset
+
+ and the net current can be determined to be
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+J_{1/2}=-\frac{1}{2}\frac{1-\beta}{1+\beta}\phi_{1/2}.
+\end{equation}
+
+\end_inset
+
+ Substituting this expression into Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Ficks1/2"
+
+\end_inset
+
+ and taking a first order finite difference of the spatial derivative, Fick's
+ law becomes
+\begin_inset Formula 
+\begin{equation}
+-\frac{1}{2}\frac{1-\beta}{1+\beta}\phi_{1/2}=-D_{1}\frac{\bar{\phi}_{1}-\phi_{1/2}}{\Delta x/2}.
+\end{equation}
+
+\end_inset
+
+ The surface flux at the left boundary is determined to be
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\phi_{1/2}=\frac{4\left(1+\beta\right)D_{1}}{4D_{1}\left(1+\beta\right)+\Delta x\left(1-\beta\right)}\bar{\phi}_{1}.
+\end{equation}
+
+\end_inset
+
+ Substituting this equation back into Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Ficks1/2"
+
+\end_inset
+
+ after applying the first order finite difference, the net current at the
+ boundary is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+J_{1/2}=-\frac{2D_{1}\left(1-\beta\right)}{4D_{1}\left(1+\beta\right)+\Delta x\left(1-\beta\right)}\bar{\phi}_{1}.
+\]
+
+\end_inset
+
+ Using the exact same process (except incoming/outgoing current definitions
+ switch) the net current on the right boundary is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+J_{I+1/2}=\frac{2D_{I}\left(1-\beta\right)}{4D_{I}\left(1+\beta\right)+\Delta x\left(1-\beta\right)}\bar{\phi}_{I}.
+\]
+
+\end_inset
+
+ The final form of the discretized equation for the left boundary is 
+\begin_inset Formula 
+\begin{multline}
+\left(\frac{2}{\Delta x^{2}}\frac{D_{2}D_{1}}{D_{2}+D_{1}}+\frac{2}{\Delta x}\frac{\left(1-\beta\right)D_{1}}{4D_{1}\left(1+\beta\right)+\Delta x\left(1-\beta\right)}+\Sigma_{a,1}\right)\bar{\phi}_{1}\\
+-\frac{2}{\Delta x^{2}}\frac{D_{2}D_{1}}{D_{2}+D_{1}}\bar{\phi}_{2}=\frac{1}{k_{eff}}\nu\Sigma_{f,1}\bar{\phi}_{1}.\label{eq:LeftNeut}
+\end{multline}
+
+\end_inset
+
+ For the right boundary it is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline}
+-\frac{2}{\Delta x^{2}}\frac{D_{I}D_{I-1}}{D_{I}+D_{I-1}}\bar{\phi}_{I-1}+\left(\frac{2D_{I}\left(1-\beta\right)}{4D_{I}\left(1+\beta\right)+\Delta x\left(1-\beta\right)}+\frac{2}{\Delta x^{2}}\frac{D_{I}D_{I-1}}{D_{I}+D_{I-1}}+\Sigma_{a,I}\right)\bar{\phi}_{I}\\
+=\frac{1}{k_{eff}}\nu\Sigma_{f,I}\bar{\phi}_{I}.\label{eq:RightNeut}
+\end{multline}
+
+\end_inset
+
+ Equations 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:IntNeut"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:LeftNeut"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:RightNeut"
+
+\end_inset
+
+ can be represented in matrix notation as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{M}\bar{\mathbf{\Phi}}=\lambda\mathbb{F}\bar{\mathbf{\Phi}},\label{eq:NeutronOper}
+\end{equation}
+
+\end_inset
+
+ where
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\mathbb{M}$
+\end_inset
+
+ is the neutron destruction operator,
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\bar{\mathbf{\Phi}}$
+\end_inset
+
+ is a vector of cell average fluxes,
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\lambda$
+\end_inset
+
+ is the eigenvalue of the system, which is 
+\begin_inset Formula $1/k_{eff}$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\mathbb{F}$
+\end_inset
+
+ is the neutron production operator.
+ 
+\end_layout
+
+\begin_layout Standard
+The neutron destruction operator has a tridiagonal form while the production
+ operator is a diagonal of fission neutron production macroscopic cross
+ sections.
+ Since this eigenvalue problem will be formulated in a nonlinear sense,
+ another equation is needed to constrain the eigenvector.
+ The common approach is to make the L2-norm of the eigenvector be unity
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Gill2009"
+
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left\Vert \bar{\mathbf{\Phi}}\right\Vert _{2}=1.\label{eq:norm}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Coupling Neutrons to Thermal Hydraulics 
+\end_layout
+
+\begin_layout Standard
+The normalization condition in Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:fluxpownorm"
+
+\end_inset
+
+ can be converted into a summation of discrete volumes as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+Q_{R}=\tilde{c}\int_{0}^{L}dx\kappa\Sigma_{f}\left(x\right)\phi\left(x\right)=\tilde{c}\sum_{i}\kappa\Sigma_{f,i}\bar{\phi}_{i}\Delta x=\tilde{c}\kappa\mathbf{\Sigma}_{f}^{\mathrm{T}}\bar{\mathbf{\Phi}}\Delta x.\label{eq:normfluxdiscrete}
+\end{equation}
+
+\end_inset
+
+Once the normalization constant is determined the power in each volume can
+ be determined by integrating the power density,Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:energydep"
+
+\end_inset
+
+, over a cell volume.
+ The resulting formula is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+Q_{i}=\int_{x_{i-1/2}}^{x_{i+1/2}}\tilde{c}\kappa\Sigma_{f}\phi\left(x\right)=\tilde{c}\kappa\Sigma_{f}\bar{\phi}_{i}\Delta x.\label{eq:powerdiscrete}
+\end{equation}
+
+\end_inset
+
+In matrix form, the above equation is represented by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{Q}=\tilde{c}\mathbb{E}\bar{\mathbf{\Phi}}\Delta x,\label{eq:energyoper}
+\end{equation}
+
+\end_inset
+
+ the energy deposition operator 
+\begin_inset Formula $\mathbb{E}$
+\end_inset
+
+ is a diagonal matrix of the energy deposition cross section.
+\end_layout
+
+\begin_layout Subsubsection
+Energy Equation
+\end_layout
+
+\begin_layout Standard
+The steady state energy can be integrated over cell 
+\begin_inset Formula $i$
+\end_inset
+
+ to give
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\int_{x_{i-1/2}}^{x_{i+1/2}}dx\frac{dT}{dx}=\int_{x_{i-1/2}}^{x_{i+1/2}}dx\frac{q^{\prime}}{wc_{p}}.
+\end{equation}
+
+\end_inset
+
+After integration, 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+T_{i+1/2}-T_{i-1/2}=\frac{Q_{i}}{wc_{p}}.\label{eq:FVEnergy}
+\end{equation}
+
+\end_inset
+
+ We can define the average cell temperature and take it at the center of
+ the cell 
+\begin_inset Formula 
+\begin{equation}
+\bar{T}_{i}\approx\frac{1}{\Delta x}\int_{x_{i-1/2}}^{x_{i+1/2}}dxT\left(x\right).
+\end{equation}
+
+\end_inset
+
+ The surface temperature on the left can be related to the temperature in
+ the left adjacent cell as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+T_{i-1/2}=\bar{T}_{i-1}+\frac{Q_{i-1}}{2wc_{p}}
+\end{equation}
+
+\end_inset
+
+ since only half of the energy is deposited between the center of the cell
+ and the surface.
+ Similarly the right surface temperature can be related to the cell average
+ temperature as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+T_{i+1/2}=\bar{T}_{i}+\frac{Q_{i}}{2wc_{p}}.
+\end{equation}
+
+\end_inset
+
+ These two approximations are known as Upwind approximations.
+ Substituting these surface temperatures into Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:FVEnergy"
+
+\end_inset
+
+ to give a relation between cell average temperatures
+\begin_inset Formula 
+\begin{equation}
+\bar{T}_{i}-\bar{T}_{i-1}=\frac{1}{2wc_{p}}Q_{i-1}+\frac{1}{2wc_{p}}Q_{i}.\label{eq:EnergyDiscret}
+\end{equation}
+
+\end_inset
+
+ This can be represented in matrix notation as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{S}\mathbf{\bar{T}}=\mathbb{R}\mathbf{Q},\label{eq:TempOper}
+\end{equation}
+
+\end_inset
+
+ where 
+\begin_inset Formula $\mathbb{S}$
+\end_inset
+
+ is the temperature operator and contains a diagonal and a subdiagonal and
+ 
+\begin_inset Formula $\mathbb{R}$
+\end_inset
+
+ is the energy operator and is comprised of a diagonal and subdiagonal.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Energy to Neutronic Coupling
+\end_layout
+
+\begin_layout Standard
+These coupling equations can very simply be converted for a whole cell.
+ The cell average density can be related to the cell average density as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\rho_{i}=\rho\left(\bar{T}_{i},p\right).\label{eq:DensityTemp}
+\end{equation}
+
+\end_inset
+
+ In vector form this is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathcal{P}=\rho\left(\bar{\mathbf{T}},p\right).\label{eq:DensityTempVec}
+\end{equation}
+
+\end_inset
+
+The neutronic parameters can be related to this cell average density as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\Sigma_{a,i}=\Sigma_{a}^{ref}+\frac{\partial\Sigma_{a}}{\partial\rho}\left[\rho_{i}-\rho^{ref}\right],\label{eq:AbsRHOCell}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\nu\Sigma_{f,i}=\nu\Sigma_{f}^{ref}+\frac{\partial\nu\Sigma_{f}}{\partial\rho}\left[\rho_{i}-\rho^{ref}\right],\label{eq:NfissRHOCell}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+D_{i}=D^{ref}+\frac{\partial D}{\partial\rho}\left[\rho_{i}-\rho^{ref}\right],\label{eq:DiffRHOCell}
+\end{equation}
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\kappa\Sigma_{f,i}=\kappa\Sigma_{f}^{ref}+\frac{\partial\kappa\Sigma_{f}}{\partial\rho}\left[\rho_{i}-\rho^{ref}\right].\label{eq:KfissRHOCell}
+\end{equation}
+
+\end_inset
+
+ In vector for these are written as
+\begin_inset Formula 
+\begin{equation}
+\mathbf{\Sigma}_{a}=\Sigma_{a}^{ref}+\frac{\partial\Sigma_{a}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right],\label{eq:AbsRHOCellVec}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\nu\mathbf{\Sigma}_{f}=\nu\Sigma_{f}^{ref}+\frac{\partial\nu\Sigma_{f}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right],\label{eq:NfissRHOCellVec}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{D}=D^{ref}+\frac{\partial D}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right],\label{eq:DiffRHOCellVec}
+\end{equation}
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\kappa\mathbf{\Sigma}_{f}=\kappa\Sigma_{f}^{ref}+\frac{\partial\kappa\Sigma_{f}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right].\label{eq:KfissRHOCellVec}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Transient Equations
+\end_layout
+
+\begin_layout Standard
+In this section, the time-dependent form of the discretized equations will
+ be formulated.
+ Since the spatial operators have been defined in the previous subsection,
+ these will also be used in the time-dependent equations.
+ Note that Equs.
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:normfluxdiscrete"
+
+\end_inset
+
+, 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:energyoper"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:DensityTempVec"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:AbsRHOCellVec"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:NfissRHOCellVec"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:DiffRHOCellVec"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:KfissRHOCellVec"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Neutronics-Flux
+\end_layout
+
+\begin_layout Standard
+For an interior computational cell, the discretized neutron diffusion equation
+ in time-dependent (1-D, 1-energy) form is 
+\begin_inset Formula 
+\begin{equation}
+\frac{1}{v}\frac{d\bar{\phi}_{i}}{dt}+-\frac{2}{\Delta x^{2}}\frac{D_{i}D_{i-1}}{D_{i}+D_{i-1}}\bar{\phi}_{i-1}+\left(\frac{2}{\Delta x^{2}}\frac{D_{i+1}D_{i}}{D_{i+1}+D_{i}}+\frac{2}{\Delta x^{2}}\frac{D_{i}D_{i-1}}{D_{i}+D_{i-1}}+\Sigma_{a,i}\right)\bar{\phi}_{i}-\frac{2}{\Delta x^{2}}\frac{D_{i+1}D_{i}}{D_{i+1}+D_{i}}\bar{\phi}_{i+1}=\frac{1-\beta}{k_{eff}}\nu\Sigma_{f,i}\bar{\phi}_{i}+\lambda_{d}\bar{c}_{i}.\label{eq:NeutTrans1}
+\end{equation}
+
+\end_inset
+
+ Applying the spatial operators, this is reduced in matrix form to 
+\begin_inset Formula 
+\begin{equation}
+\frac{1}{v}\frac{d\bar{\mathbf{\Phi}}}{dt}+\mathbb{M}\bar{\mathbf{\Phi}}=\left(1-\beta\right)\lambda\mathbb{F}\bar{\mathbf{\Phi}}+\lambda_{d}\mathbf{\bar{c}}.
+\end{equation}
+
+\end_inset
+
+ Applying an implicit Euler time discretization scheme,
+\begin_inset Formula 
+\begin{equation}
+\frac{1}{v}\frac{\bar{\mathbf{\Phi}}^{n+1}-\bar{\mathbf{\Phi}}^{n}}{\Delta t}+\mathbb{M}\bar{\mathbf{\Phi}}^{n+1}=\left(1-\beta\right)\lambda\mathbb{F}\bar{\mathbf{\Phi}}^{n+1}+\lambda_{d}\mathbf{\bar{c}}^{n+1},
+\end{equation}
+
+\end_inset
+
+ where 
+\begin_inset Formula $n$
+\end_inset
+
+ denotes the time step.
+ In residual form,
+\begin_inset Formula 
+\begin{equation}
+\bar{\mathbf{\Phi}}^{n+1}-\bar{\mathbf{\Phi}}^{n}+v\Delta t\left(\mathbb{M}\bar{\mathbf{\Phi}}^{n+1}-\left(1-\beta\right)\lambda\mathbb{F}\bar{\mathbf{\Phi}}^{n+1}-\lambda_{d}\mathbf{\bar{c}}^{n+1}\right)=0.\label{eq:FluxTimeDep}
+\end{equation}
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Neutronics-Precursors
+\end_layout
+
+\begin_layout Standard
+The precursor concentration from Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:DiffusionPrec1d1g"
+
+\end_inset
+
+ can be cast in finite volume form as
+\begin_inset Formula 
+\[
+\frac{d\mathbf{\bar{c}}}{dt}=\beta\lambda\mathbb{F}\bar{\mathbf{\Phi}}-\lambda_{d}\mathbf{\bar{c}}.
+\]
+
+\end_inset
+
+ Discretizing the the time derivative with implicit Euler,
+\begin_inset Formula 
+\[
+\frac{\mathbf{\bar{c}}^{n+1}-\mathbf{\bar{c}}^{n}}{\Delta t}=\beta\lambda\mathbb{F}\bar{\mathbf{\Phi}}^{n+1}-\lambda_{d}\mathbf{\bar{c}}^{n+1}.
+\]
+
+\end_inset
+
+ In residual form,
+\begin_inset Formula 
+\[
+\mathbf{\bar{c}}^{n+1}-\mathbf{\bar{c}}^{n}+\Delta t\left(\lambda_{d}\mathbf{\bar{c}}^{n+1}-\beta\lambda\mathbb{F}\bar{\mathbf{\Phi}}^{n+1}\right)=0.
+\]
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Energy Equation
+\end_layout
+
+\begin_layout Standard
+The time-dependent form of the energy equation that will be used in this
+ model is shown in Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:energy1DTrans"
+
+\end_inset
+
+.
+ Rearranging the equation,
+\begin_inset Formula 
+\[
+\frac{\rho A\Delta x}{w}\frac{d\bar{T}_{i}}{dt}+\bar{T}_{i}-\bar{T}_{i-1}=\frac{1}{2wc_{p}}Q_{i-1}+\frac{1}{2wc_{p}}Q_{i}.
+\]
+
+\end_inset
+
+ Applying the spatial operators defined for the steady state equations,
+\begin_inset Formula 
+\[
+\frac{\mathcal{P}A\Delta x}{w}\frac{d\mathbf{\bar{T}}}{dt}+\mathbb{S}\mathbf{\bar{T}}=\mathbb{R}\mathbf{Q}.
+\]
+
+\end_inset
+
+ Using implicit Euler to discretize the time derivative,
+\begin_inset Formula 
+\[
+\frac{\mathcal{P}^{n+1}A}{w}\frac{\mathbf{\bar{T}}^{n+1}-\mathbf{\bar{T}}^{n}}{\Delta t}+\mathbb{S}\mathbf{\bar{T}}^{n+1}=\mathbb{R}\mathbf{Q}^{n+1}.
+\]
+
+\end_inset
+
+ In residual form,
+\begin_inset Formula 
+\[
+\mathbf{\bar{T}}^{n+1}-\mathbf{\bar{T}}^{n}+\frac{w\Delta t}{\mathcal{P}^{n+1}A\Delta x}\left(\mathbb{S}\mathbf{\bar{T}}^{n+1}-\mathbb{R}\mathbf{Q}^{n+1}\right)=0.
+\]
+
+\end_inset
+
+ Note that the density vector is in the denominator of the coefficient fraction.
+ This should be 
+\end_layout
+
+\begin_layout Section
+Newton's Method 
+\end_layout
+
+\begin_layout Standard
+To solve the coupled neutronic/thermal hydraulic problem, a nonlinear method
+ must be used.
+ A common approach to solve nonlinear equations is to employ Newton's method
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kelly2003"
+
+\end_inset
+
+.
+ The algorithm for Newton's methods is presented in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:NewtonEasy"
+
+\end_inset
+
+.
+ 
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Newton's Method
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{algorithmic}[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+FOR{$n=1,2,3,...$}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE evaluate residual, $
+\backslash
+mathbf{F}(
+\backslash
+mathbf{x}_{n})$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE test for convergence
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE evaluate Jacobian, $
+\backslash
+mathbb{J}(
+\backslash
+mathbf{x}_{n})$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE solve $d
+\backslash
+mathbf{x} = 
+\backslash
+mathbb{J}(
+\backslash
+mathbf{x}_{n})^{-1}
+\backslash
+mathbf{F}(
+\backslash
+mathbf{x}_{n})$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE compute next guess, $
+\backslash
+mathbf{x}_{n+1} = 
+\backslash
+mathbf{x}_{n} + d
+\backslash
+mathbf{x}$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{algorithmic}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:NewtonEasy"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ Therefore a set of residual equations must be formulated such that 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{F}\left(\mathbf{x}\right)=0.
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\mathbf{F}$
+\end_inset
+
+ is the residual vector and 
+\begin_inset Formula $\mathbf{x}$
+\end_inset
+
+ is the unknown vector.
+ From these residual equations, a Jacobian matrix can be constructed by
+ taking the partial derivative of each residual equation by the variables
+ in the unknown vector.
+ To test for convergence, the norm of the residual is usually compared to
+ some tolerance.
+ This termination criteria is shown as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left\Vert \mathbf{F}\left(\mathbf{x}\right)\right\Vert _{2}<tol.
+\end{equation}
+
+\end_inset
+
+ This nonlinear tolerance is user defined and is arbitrary.
+ We only note that this value be compared to the tolerance used when solving
+ the linear system equation with an iterative method (see step 5 in Algorithm
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:NewtonEasy"
+
+\end_inset
+
+).
+ 
+\end_layout
+
+\begin_layout Standard
+In the coupled system of neutronic and thermal hydraulic equations, an analytic
+ Jacobian cannot be determined since the state equation for water is a look-up
+ table.
+ One could fit an analytic curve to the state equation to describe the dependenc
+e of density on temperature.
+ However in this application, the Jacobian will be approximated.
+ This process is discussed in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:JFNK"
+
+\end_inset
+
+.
+ Therefore, direct methods cannot be utilized with solving this linear system
+ of equations in Newton's method.
+ Instead, an iterative GMRES Krylov subspace method is used and is described
+ in detail in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Krylov"
+
+\end_inset
+
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+list in Appendix A
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Krylov Subspace Methods
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Krylov"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In Krylov methods just like other direct and iterative numerical schemes,
+ the goal is to solve 
+\begin_inset Formula $\mathbb{A}\mathbf{x}=\mathbf{b}$
+\end_inset
+
+.
+ Krylov methods fall into the category of iterative projection methods.
+ In projection methods, an approximate solution to the vector 
+\begin_inset Formula $\mathbf{x}$
+\end_inset
+
+, denoted as 
+\begin_inset Formula $\hat{\mathbf{x}}$
+\end_inset
+
+ is determined from a projection of the system onto some subspace.
+ In Krylov methods, a Krylov subspace, 
+\begin_inset Formula $\mathcal{K}_{n}$
+\end_inset
+
+ , has the form
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathcal{K}_{n}\left(\mathbb{A},\mathbf{v}\right)=\mathrm{span}\left\{ \mathbf{v},\mathbb{A}\mathbf{v},\mathbb{A}^{2}\mathbf{v},...,\mathbb{A}^{n-1}\mathbf{v}\right\} ,\label{eq:KrySub}
+\end{equation}
+
+\end_inset
+
+ where 
+\begin_inset Formula $n$
+\end_inset
+
+ is a dimension of the subspace which is 
+\begin_inset Formula $m\times n$
+\end_inset
+
+, 
+\begin_inset Formula $\mathbb{A}$
+\end_inset
+
+ is an 
+\begin_inset Formula $m\times m$
+\end_inset
+
+ matrix and 
+\begin_inset Formula $\mathbf{v}$
+\end_inset
+
+ is a vector of length 
+\begin_inset Formula $m$
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Saad2003"
+
+\end_inset
+
+.
+ Here, the vectors 
+\begin_inset Formula $\mathbf{v}$
+\end_inset
+
+, 
+\begin_inset Formula $\mathbb{A}\mathbf{v}...$
+\end_inset
+
+ form a basis of 
+\begin_inset Formula $\mathcal{K}_{m}$
+\end_inset
+
+.
+ Arnoldi's method allows for a general non-Hermitian matrix to be orthogonally
+ projected onto 
+\begin_inset Formula $\mathcal{K}_{n}$
+\end_inset
+
+.
+ According to Saad, this procedure was introduced as a means of reducing
+ dense matrices into Hesssenberg form.
+ The power of the Arnoldi Iteration is that with a small number of steps
+ to create a Hessenberg matrix, the eigenvalues of this matrix approximate
+ the eigenvalues of the original matrix.
+ This is very important and powerful for large sparse linear systems of
+ equations.
+\end_layout
+
+\begin_layout Subsection
+Arnoldi Iteration
+\end_layout
+
+\begin_layout Standard
+The Arnoldi process is a way to transform a matrix to Hessenberg form.
+ Trefethen's notation will be used in defining the Arnold iteration 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Trefethen1997"
+
+\end_inset
+
+.
+ This can be represented as 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{A}\mathbb{Q}=\mathbb{Q}\mathbb{H}.\label{eq:Arnoldi1}
+\end{equation}
+
+\end_inset
+
+Here, 
+\begin_inset Formula $\mathbb{A}$
+\end_inset
+
+ is the coefficient matrix, 
+\begin_inset Formula $\mathbb{Q}$
+\end_inset
+
+ is unitary and 
+\begin_inset Formula $\mathbb{H}$
+\end_inset
+
+ is a matrix in Hessenberg form.
+ A Hessenberg matrix that is 
+\begin_inset Formula $n\times n$
+\end_inset
+
+ has the form,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{H}=\left[\begin{array}{cccc}
+h_{11} &  & \cdots & h_{1n}\\
+h_{21} & h_{22}\\
+ & \ddots & \ddots & \vdots\\
+ &  & h_{n,n-1} & h_{n,n}
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+Since the matrix 
+\begin_inset Formula $\mathbb{A}$
+\end_inset
+
+ may be very large and so a full reduction to Hessenberg may not be feasible.
+ Rather, the first 
+\begin_inset Formula $n$
+\end_inset
+
+ columns are considered so that 
+\begin_inset Formula $\mathbb{Q}_{n}$
+\end_inset
+
+ is a 
+\begin_inset Formula $m\times n$
+\end_inset
+
+ matrix which contains the first 
+\begin_inset Formula $n$
+\end_inset
+
+ columns of 
+\begin_inset Formula $\mathbb{Q}$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{Q}_{n}=\left[\mathbf{q}_{1},\mathbf{q}_{2}...,\mathbf{q}_{n}\right].
+\end{equation}
+
+\end_inset
+
+To set up the iteration Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Arnoldi1"
+
+\end_inset
+
+ becomes 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{A}\mathbb{Q}_{n}=\mathbb{Q}_{n+1}\widetilde{\mathbb{H}}_{n}.\label{eq:Arnoldi2}
+\end{equation}
+
+\end_inset
+
+ In Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Arnoldi2"
+
+\end_inset
+
+ 
+\begin_inset Formula $\widetilde{\mathbb{H}}_{n}$
+\end_inset
+
+ is a 
+\begin_inset Formula $\left(n+1\right)\times n$
+\end_inset
+
+ upper-left section of 
+\begin_inset Formula $\mathbb{H}$
+\end_inset
+
+ and also of Hessenberg form,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\widetilde{\mathbb{H}}_{n}=\left[\begin{array}{cccc}
+h_{11} &  & \cdots & h_{1n}\\
+h_{21} & h_{22}\\
+ & \ddots & \ddots & \vdots\\
+ &  & h_{n,n-1} & h_{n,n}\\
+ &  &  & h_{n+1,n}
+\end{array}\right].
+\]
+
+\end_inset
+
+ If 
+\begin_inset Formula $\mathbb{A}$
+\end_inset
+
+ is applied to the 
+\begin_inset Formula $n$
+\end_inset
+
+-th column of 
+\begin_inset Formula $\mathbb{Q}_{n}$
+\end_inset
+
+ in Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Arnoldi2"
+
+\end_inset
+
+, the following formula can be derived:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{A}\mathbf{q}_{n}=h_{1n}\mathbf{q}_{1}+\cdots+h_{n,n}\mathbf{q}_{n}+h_{n+1,n}\mathbf{q}_{n+1}.
+\end{equation}
+
+\end_inset
+
+ Thus, the next column of 
+\begin_inset Formula $\mathbb{Q}$
+\end_inset
+
+ can be determined with 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{v}=\mathbb{A}\mathbf{q}_{n}-\left(h_{1n}\mathbf{q}_{1}+\cdots+h_{n,n}\mathbf{q}_{n}\right)\label{eq:Arnoldi3}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{q}_{n+1}=\mathbf{v}/h_{n+1,n},
+\end{equation}
+
+\end_inset
+
+ where 
+\begin_inset Formula $\mathbf{v}$
+\end_inset
+
+ is just a temporary vector.
+ In order to ensure 
+\begin_inset Formula $\mathbf{q}_{n+1}$
+\end_inset
+
+ is orthonormal, 
+\begin_inset Formula $h_{n+1,n}=\left\Vert \mathbf{v}\right\Vert .$
+\end_inset
+
+ In this paper, 
+\begin_inset Formula $\left\Vert \cdot\right\Vert $
+\end_inset
+
+will indicate a 2-norm.
+ The Arnoldi iteration is presented in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Arnoldi"
+
+\end_inset
+
+.
+ Since the Arnoldi iteration is used for eigenvalue calculations as well,
+ 
+\begin_inset Formula $b$
+\end_inset
+
+ will be considered an arbitrary vector.
+\begin_inset Float algorithm
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Arnoldi Iteration 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Saad1986,Trefethen1997"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{algorithmic}[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $b = $arbitrary, $q_{1}=b/
+\backslash
+left
+\backslash
+Vert b 
+\backslash
+right
+\backslash
+Vert$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+FOR{$n=1,2,3,...$}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $v = 
+\backslash
+mathbf{A}q_{n}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+FOR{$j=1..n$}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE $h_{jn} = q^{*}_{j}v$
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE $v = v - h_{jn}q_{j}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $h_{n+1,n} = 
+\backslash
+left
+\backslash
+Vert v 
+\backslash
+right
+\backslash
+Vert$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $q_{n+1} = v/h_{n+1,n}$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{algorithmic}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Arnoldi"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+Lines 5 and 6 of Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Arnoldi"
+
+\end_inset
+
+ perform the operations in Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Arnoldi3"
+
+\end_inset
+
+.
+ Also in the algorithm on line 2, the loop can go for an arbitrary number
+ of iterations.
+ This iteration parameter is specified by the user and is problem specific.
+ Therefore, with each Arnoldi iteration projections are made onto successive
+ Krylov subspaces.
+\end_layout
+
+\begin_layout Subsection
+Generalized Minimal RESidual method (GMRES) 
+\end_layout
+
+\begin_layout Standard
+The Arnoldi iteration that was presented in the previous section is used
+ to find eigenvalues of a system.
+ GMRES on the other hand can be used to solve 
+\begin_inset Formula $\mathbb{A}\mathbf{x}=\mathbf{b}.$
+\end_inset
+
+ According to Trefethen, the idea behind GMRES is that at iteration step
+ 
+\begin_inset Formula $n$
+\end_inset
+
+, 
+\begin_inset Formula $\mathbf{x}$
+\end_inset
+
+ is approximated with 
+\begin_inset Formula $\mathbf{x}_{n}\in\mathcal{K}_{n}$
+\end_inset
+
+ that minimizes the norm of residual 
+\begin_inset Formula $\mathbf{r}_{n}=\mathbf{b}-\mathbb{A}\mathbf{x}_{n}$
+\end_inset
+
+.
+ Therefore, 
+\begin_inset Formula $\mathbf{x}_{n}$
+\end_inset
+
+ is determined by solving a least squares problem.
+ To solve this the following Krylov matrix is constructed 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{A}\mathbb{K}_{n}=\left[\begin{array}{c|c|c|c}
+ &  & \\
+\mathbb{A}\mathbf{b} & \mathbb{A}^{2}\mathbf{b} & \cdots & \mathbb{A}^{n}\mathbf{b}\\
+ &  & \\
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ The least squares problem then becomes 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left\Vert \mathbb{A}\mathbb{K}_{n}\mathbf{c}-\mathbf{b}\right\Vert =\mathrm{minimum},\label{eq:GMRES1}
+\end{equation}
+
+\end_inset
+
+ where 
+\begin_inset Formula $c$
+\end_inset
+
+ is determined such that the 2-norm of the residual is minimized.
+ It can be seen that 
+\begin_inset Formula $\mathbf{x}_{n}=\mathbb{K}_{n}\mathbf{c}$
+\end_inset
+
+.
+ Solving the least squares problem is discussed in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:LeastSq"
+
+\end_inset
+
+.
+ One method to solve this problem is to use QR factorization of 
+\begin_inset Formula $\mathbb{A}\mathbb{K}_{n}$
+\end_inset
+
+.
+ According to Trefethen, this approach is numerically unstable and also
+ generates a matrix 
+\begin_inset Formula $\mathbb{R}$
+\end_inset
+
+ which is not utilized.
+ Instead, the Arnoldi iteration from Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Arnoldi"
+
+\end_inset
+
+ is used to generate a sequence of Krylov matrices denoted by 
+\begin_inset Formula $\mathbb{Q}_{n}$
+\end_inset
+
+ whose columns span the Krylov subspace 
+\begin_inset Formula $\mathcal{K}_{n}$
+\end_inset
+
+.
+ Therefore, Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:GMRES1"
+
+\end_inset
+
+ can be rewritten as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left\Vert \mathbb{A}\mathbb{Q}_{n}\mathbf{y}-\mathbf{b}\right\Vert =\mathrm{minimum},\label{eq:GMRES2}
+\end{equation}
+
+\end_inset
+
+ so that 
+\begin_inset Formula $\mathbf{x}_{n}=\mathbb{Q}_{n}\mathbf{y}.$
+\end_inset
+
+ Equation 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Arnoldi2"
+
+\end_inset
+
+ can be used to rewrite Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:GMRES2"
+
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left\Vert \mathbb{Q}_{n+1}\widetilde{\mathbb{H}}_{n}\mathbf{y}-\mathbf{b}\right\Vert =\mathrm{minimum}.\label{eq:GMRES3}
+\end{equation}
+
+\end_inset
+
+ Since 
+\begin_inset Formula $\mathbb{Q}_{n+1}$
+\end_inset
+
+ is unitary and the vectors inside the norm are in the column space of this
+ matrix, Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:GMRES3"
+
+\end_inset
+
+ can be written equivalently as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left\Vert \widetilde{\mathbb{H}}_{n}\mathbf{y}-\mathbb{Q}_{n+1}^{*}\mathbf{b}\right\Vert =\mathrm{minimum},
+\end{equation}
+
+\end_inset
+
+ where 
+\begin_inset Formula $\mathbb{Q}_{n+1}^{*}$
+\end_inset
+
+ is the conjugate transpose of 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\mathbb{Q}_{n+1}$
+\end_inset
+
+.
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ Another property of this expression is that 
+\begin_inset Formula $\mathbb{Q}_{n+1}^{*}\mathbf{b}=\left\Vert \mathbf{b}\right\Vert \mathbf{e}_{1}$
+\end_inset
+
+ where 
+\begin_inset Formula $\mathbf{e}_{1}=\left\langle 1,0,0...\right\rangle ^{*}.$
+\end_inset
+
+ Finally, the GMRES problem can be cast as 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left\Vert \widetilde{\mathbb{H}}_{n}\mathbf{y}-\left\Vert \mathbf{b}\right\Vert \mathbf{e}_{1}\right\Vert =\mathrm{minimum}.
+\end{equation}
+
+\end_inset
+
+ After the residual norm is below a certain value, the solution can be found
+ with 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{x}=\mathbf{x}_{0}+\mathbb{Q}_{n}\mathbf{y},
+\end{equation}
+
+\end_inset
+
+ where here 
+\begin_inset Formula $\mathbb{Q}_{n}$
+\end_inset
+
+ is the Krylov matrix determined from the Arnoldi iteration.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+GMRES Algorithm
+\end_layout
+
+\begin_layout Standard
+The basic GMRES algorithm using the Arnoldi method is listed in Algorithm
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:GMRESbasic"
+
+\end_inset
+
+, where the least squares problem is listed as a high level command.
+ This algorithm has a slightly different form as it is written is Saad's
+ notation rather than Trefethen's described above.
+ 
+\begin_inset Float algorithm
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Basic GMRES 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Saad1986"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{algorithmic}[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $r_{1} = b - 
+\backslash
+mathbf{A}x_{1}$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $q_{1}=r_{1}/
+\backslash
+left
+\backslash
+Vert r_{1} 
+\backslash
+right
+\backslash
+Vert$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+FOR{$n=1,2,3,...$}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $v = 
+\backslash
+mathbf{A}q_{n}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+FOR{$j=1..n$}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE $h_{jn} = q^{*}_{j}v$
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE $v = v - h_{jn}q_{j}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $h_{n+1,n} = 
+\backslash
+left
+\backslash
+Vert v 
+\backslash
+right
+\backslash
+Vert$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $q_{n+1} = v/h_{n+1,n}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE Find $y$ to minimize $
+\backslash
+left
+\backslash
+Vert 
+\backslash
+mathbf{
+\backslash
+widetilde{H}}_{n}y-
+\backslash
+beta e_{1}
+\backslash
+right
+\backslash
+Vert$ 
+\backslash
+COMMENT{where $
+\backslash
+beta = 
+\backslash
+left
+\backslash
+Vert r_{1} 
+\backslash
+right
+\backslash
+Vert$}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $x_{n}=
+\backslash
+mathbf{Q{_n}}y$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{algorithmic}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:GMRESbasic"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ The main difference is the form of the least squares problem to solve.
+ Saad defines the approximate solution of 
+\begin_inset Formula $x$
+\end_inset
+
+ with 
+\begin_inset Formula $x_{1}+z$
+\end_inset
+
+, where 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+ is some guess of the solution input to the algorithm.
+ The least squares problem is then cast into the form
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\min\left\Vert \mathbf{b}-\mathbb{A}\left[\mathbf{x}_{1}+\mathbf{z}\right]\right\Vert =\min\left\Vert \mathbf{r}_{1}-\mathbb{A}\mathbf{z}\right\Vert 
+\end{equation}
+
+\end_inset
+
+ so that 
+\begin_inset Formula $\mathbf{z}=\mathbb{Q}_{n}\mathbf{y}$
+\end_inset
+
+.
+ Following the same procedure listed above for Trefethen's notation, the
+ least squares problem can be cast in the form,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\min\left\Vert \beta\mathbf{e}_{1}-\widetilde{\mathbb{H}}_{n}\mathbf{y}\right\Vert ,\label{eq:Least2}
+\end{equation}
+
+\end_inset
+
+ where 
+\begin_inset Formula $\beta=\left\Vert \mathbf{r}_{1}\right\Vert .$
+\end_inset
+
+ The basic GMRES algorithm has also been extended to incorporate a restart
+ feature.
+ This feature is straightforward and presented in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:GMRESrestart"
+
+\end_inset
+
+.
+ 
+\begin_inset Float algorithm
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+GMRES w/ Restart 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Saad1986"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{algorithmic}[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+FOR{$k=1..max$}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $r = b - 
+\backslash
+mathbf{A}x$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $
+\backslash
+beta = 
+\backslash
+left
+\backslash
+Vert r 
+\backslash
+right
+\backslash
+Vert$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+IF{$
+\backslash
+beta < tol$}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE leave loop
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+ENDIF
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $q=r/
+\backslash
+beta$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+FOR{$n=1...res$}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE $v = 
+\backslash
+mathbf{A}q_{n}$
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+FOR{$j=1..n$}
+\end_layout
+
+\begin_layout Plain Layout
+
+			
+\backslash
+STATE $h_{jn} = q^{*}_{j}v$
+\end_layout
+
+\begin_layout Plain Layout
+
+			
+\backslash
+STATE $v = v - h_{jn}q_{j}$
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE $h_{n+1,n} = 
+\backslash
+left
+\backslash
+Vert v 
+\backslash
+right
+\backslash
+Vert$
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE $q_{n+1} = v/h_{n+1,n}$
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE Find $y$ to minimize $
+\backslash
+left
+\backslash
+Vert 
+\backslash
+mathbf{
+\backslash
+widetilde{H}}_{n}y-
+\backslash
+beta e_{1}
+\backslash
+right
+\backslash
+Vert$ 
+\backslash
+COMMENT{where $
+\backslash
+beta = 
+\backslash
+left
+\backslash
+Vert r_{1} 
+\backslash
+right
+\backslash
+Vert$}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $x_{n}=
+\backslash
+mathbf{Q{_n}}y$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{algorithmic}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:GMRESrestart"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+talk about restart tradeoffs and look at algorithm to check
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:LeastSq"
+
+\end_inset
+
+Solving the Least Squares Problem
+\end_layout
+
+\begin_layout Standard
+In linear algebra, a least squares problem must be solved if 
+\begin_inset Formula $\mathbb{A}\mathbf{x}=\mathbf{b}$
+\end_inset
+
+ is overdetermined 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Trefethen1997"
+
+\end_inset
+
+.
+ One of the methods to solve a least squares problem is QR factorization.
+ This QR factorization is performed using Gram-Schmidt or Householder triangular
+ization such that 
+\begin_inset Formula $\mathbb{A}=\mathcal{Q}\mathcal{R}$
+\end_inset
+
+.
+ Note that this 
+\begin_inset Formula $\mathcal{Q}\mathcal{R}$
+\end_inset
+
+ is written in scripts to not conflict with 
+\begin_inset Formula $\mathbb{Q}$
+\end_inset
+
+ from the Arnoldi iteration that is in some Krylov subspace.
+ To do this, the orthogonal projector 
+\begin_inset Formula $\mathbb{P}=\mathcal{Q}\mathcal{Q}^{*}$
+\end_inset
+
+is applied to 
+\begin_inset Formula $\mathbf{b}$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{y}=\mathbb{P}\mathbf{b}=\mathcal{Q}\mathcal{Q}^{*}\mathbf{b}.
+\end{equation}
+
+\end_inset
+
+ The system
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{A}\mathbf{x}=\mathbf{y}
+\end{equation}
+
+\end_inset
+
+ has an exact solution.
+ Substituting the QR factorization, 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathcal{QR}\mathbf{x}=\mathcal{QQ}^{*}\mathbf{b}.
+\end{equation}
+
+\end_inset
+
+ Since 
+\begin_inset Formula $\mathcal{Q}^{*}\mathbb{A}=\mathcal{R}$
+\end_inset
+
+, left multiplication of 
+\begin_inset Formula $\mathcal{Q}^{*}$
+\end_inset
+
+ gives
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathcal{R}\mathbf{x}=\mathcal{Q}^{*}\mathbf{b}.\label{eq:Least1}
+\end{equation}
+
+\end_inset
+
+ The left hand side is now an upper triangular matrix and can be solved
+ via back substitution.
+ In the GMRES problem, 
+\begin_inset Formula $\widetilde{\mathbb{H}}_{n}$
+\end_inset
+
+ is the coefficient matrix 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ shown above with 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\beta\mathbf{e}_{1}$
+\end_inset
+
+ as 
+\begin_inset Formula $\mathbf{b}$
+\end_inset
+
+.
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ A practical implementation of solving the least squares problem is to factor
+ 
+\begin_inset Formula $\widetilde{\mathbb{H}}_{n}$
+\end_inset
+
+ into 
+\begin_inset Formula $\mathcal{Q}_{n}\mathcal{R}_{n}$
+\end_inset
+
+ using plane rotations (Givens rotation) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Saad1986"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Introduction to Givens Rotation
+\end_layout
+
+\begin_layout Standard
+It is desirable to not have to perform QR factorization at every iteration
+ of GMRES.
+ Because of the special structure of 
+\begin_inset Formula $\widetilde{\mathbb{H}}_{n}$
+\end_inset
+
+, it can be progressively updated at each iteration.
+ Before discussing how to formulate the GMRES algorithm with Givens rotation
+ to perform this task, a general discussion about this method will be discussed.
+ 
+\end_layout
+
+\begin_layout Standard
+In general, QR factorizations can be computed with successive Givens rotations.
+ With each rotation an element of a matrix that is subdiagonal is zeroed
+ out.
+ The final matrix is the upper triangular matrix 
+\begin_inset Formula $\mathcal{R}$
+\end_inset
+
+ while the matrix 
+\begin_inset Formula $\mathcal{Q}$
+\end_inset
+
+ is given by multiplying the conjugate transpose of all rotation matrices
+ together.
+ In general a rotation matrix is given by 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{G}=\left[\begin{array}{ccccccc}
+1 & \cdots & 0 & \cdots & 0 & \cdots & 0\\
+\vdots & \ddots & \vdots &  & \vdots & \iddots & \vdots\\
+0 & \cdots & c & \cdots & -s & \cdots & 0\\
+\vdots &  & \vdots & \ddots & \vdots &  & \vdots\\
+0 & \vdots & s & \cdots & c & \cdots & 0\\
+\vdots & \iddots & \vdots &  & \vdots & \ddots & \vdots\\
+0 & \cdots & 0 & \cdots & 0 & \cdots & 1
+\end{array}\right],
+\end{equation}
+
+\end_inset
+
+ where 
+\begin_inset Formula $c=\cos\left(\theta\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $s=\sin\left(\theta\right)$
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Planet2011"
+
+\end_inset
+
+.
+ For example, consider the following coefficient matrix
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{A}=\left[\begin{array}{ccc}
+6 & 5 & 0\\
+5 & 1 & 4\\
+0 & 4 & 3
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ Using MATLAB, 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ has the following QR factorization,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathcal{Q}=\left[\begin{array}{ccc}
+-0.7682 & 0.03327 & -0.5470\\
+-0.6402 & -0.3992 & 0.6564\\
+0 & 0.8544 & 0.5196
+\end{array}\right]
+\end{equation}
+
+\end_inset
+
+ and
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathcal{R}=\left[\begin{array}{ccc}
+-7.8102 & -4.4813 & -2.5607\\
+0 & 4.6817 & 0.9664\\
+0 & 0 & 4.1843
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ Looking at the matrix 
+\begin_inset Formula $\mathbb{A}$
+\end_inset
+
+ in order to triangularize it, the element (2,1) and (3,2) must be eliminated.
+ Taking element (2,1) to be rotated first, the following rotation matrix
+ is constructed 
+\end_layout
+
+\begin_layout Standard
+,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{G}=\left[\begin{array}{ccc}
+c & -s & 0\\
+s & c & 0\\
+0 & 0 & 1
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+Therefore, in order to compute the appropriate 
+\begin_inset Formula $c$
+\end_inset
+
+ and 
+\begin_inset Formula $s$
+\end_inset
+
+ values, the following system of equations is solved
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left[\begin{array}{cc}
+c & -s\\
+s & c
+\end{array}\right]\left[\begin{array}{c}
+a_{11}\\
+a_{21}
+\end{array}\right]=\left[\begin{array}{c}
+r\\
+0
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ In this problem, it is known that a zero needs to be replaced in the target
+ element.
+ Here it is element 
+\begin_inset Formula $a_{21}=5.$
+\end_inset
+
+ In addition to the above equation it is also known that 
+\begin_inset Formula $c^{2}+s^{2}=1$
+\end_inset
+
+ as explained above in the definition of the rotation matrix.
+ Combining the following formulas:
+\begin_inset Formula 
+\begin{equation}
+ca_{11}-sa_{21}=r,
+\end{equation}
+
+\end_inset
+
+ 
+\begin_inset Formula 
+\begin{equation}
+sa_{11}+ca_{21}=0
+\end{equation}
+
+\end_inset
+
+ and 
+\begin_inset Formula 
+\begin{equation}
+c^{2}+s^{2}=1,
+\end{equation}
+
+\end_inset
+
+ gives us and expression for 
+\begin_inset Formula $r$
+\end_inset
+
+, 
+\begin_inset Formula $c$
+\end_inset
+
+ and 
+\begin_inset Formula $s$
+\end_inset
+
+ in terms of 
+\begin_inset Formula $a_{11}$
+\end_inset
+
+ and 
+\begin_inset Formula $a_{21}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+r^{2}=a_{11}^{2}+a_{21}^{2},
+\end{equation}
+
+\end_inset
+
+ 
+\begin_inset Formula 
+\begin{equation}
+c=\frac{a_{11}}{\sqrt{a_{11}^{2}+a_{21}^{2}}},
+\end{equation}
+
+\end_inset
+
+ and 
+\begin_inset Formula 
+\begin{equation}
+s=-\frac{a_{21}}{\sqrt{a_{11}^{2}+a_{21}^{2}}}.
+\end{equation}
+
+\end_inset
+
+ The parameters 
+\begin_inset Formula $r$
+\end_inset
+
+, 
+\begin_inset Formula $c$
+\end_inset
+
+ and 
+\begin_inset Formula $s$
+\end_inset
+
+ are computed for this example as 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+r=7.8102,
+\]
+
+\end_inset
+
+ 
+\begin_inset Formula 
+\[
+c=0.7682,
+\]
+
+\end_inset
+
+ and 
+\begin_inset Formula 
+\[
+s=-0.6402.
+\]
+
+\end_inset
+
+ Apply the rotation matrix 
+\begin_inset Formula $\mathbb{G}$
+\end_inset
+
+, with 
+\begin_inset Formula $c$
+\end_inset
+
+ and 
+\begin_inset Formula $s$
+\end_inset
+
+ now computed, to the coefficient matrix 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+, it becomes
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{A}^{\prime}=\mathbb{GA}=\left[\begin{array}{ccc}
+7.8102 & 4.4813 & 2.5607\\
+0 & -2.4327 & 3.0729\\
+0 & 4 & 3
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+A few observations can be made.
+ First the rotation matrix affects only the two rows it is applied to and
+ it affects all columns in those row.
+ The third row in this case was untouched.
+ The next rotation matrix will be used to eliminate element (3,2).
+ Therefore using that element and element (2,2), the rotation matrix will
+ be of the form
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{G}^{\prime}=\left[\begin{array}{ccc}
+1 & 0 & 0\\
+0 & c & -s\\
+0 & s & c
+\end{array}\right]
+\end{equation}
+
+\end_inset
+
+ where 
+\begin_inset Formula $r=4.6817$
+\end_inset
+
+, 
+\begin_inset Formula $c=-0.5196$
+\end_inset
+
+ and 
+\begin_inset Formula $s=-0.8544$
+\end_inset
+
+.
+ Applying the rotation matrix to 
+\begin_inset Formula $\mathbb{A}^{\prime}$
+\end_inset
+
+ it becomes
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{A}^{\prime\prime}=\mathbb{G}^{\prime}\mathbb{A}^{\prime}=\left[\begin{array}{ccc}
+7.8102 & 4.4813 & 2.5607\\
+0 & 4.6817 & 0.9664\\
+0 & 0 & -4.1843
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ At this point the QR factorization is complete where 
+\begin_inset Formula $\mathcal{R}=\mathbb{A}^{\prime\prime}$
+\end_inset
+
+ and 
+\begin_inset Formula 
+\begin{equation}
+\mathcal{Q}=\mathbb{G}^{*}\mathbb{G}^{\prime*}=\left[\begin{array}{ccc}
+0.7682 & 0.3327 & 0.5470\\
+0.6402 & -0.3992 & -0.6564\\
+0 & 0.8544 & -0.5196
+\end{array}\right].\label{eq:Givens1}
+\end{equation}
+
+\end_inset
+
+ As can be observed, the matrices yield the same results (except for negatives)
+ as using the QR factorization routine in MATLAB directly.
+ Thus, successful QR factorization has been shown using a series of Givens
+ rotation matrices.
+ Note that in the least squares problem explained in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:LeastSq"
+
+\end_inset
+
+, the conjugate transpose of 
+\begin_inset Formula $\mathcal{Q}$
+\end_inset
+
+ must be applied to the right hand side vector (see Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Least1"
+
+\end_inset
+
+).
+ Therefore, only product of the rotation matrices are needed and not the
+ product of their conjugate transposes.
+\end_layout
+
+\begin_layout Subsubsection
+Implementation of Givens Rotation in GMRES
+\end_layout
+
+\begin_layout Standard
+Recall the least squares problem from Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "sub:LeastSq"
+
+\end_inset
+
+.
+ A matrix 
+\begin_inset Formula $\mathcal{Q}_{n}$
+\end_inset
+
+ with dimensions 
+\begin_inset Formula $\left(n+1\right)\times\left(n+1\right)$
+\end_inset
+
+ can be defined such that it is the accumulated product of the conjugate
+ transpose of rotation matrices 
+\begin_inset Formula $\left(\mathcal{Q}_{2}=\mathbb{G}_{2}^{*}\mathbb{G}_{1}^{*}\right)$
+\end_inset
+
+.
+ Recall this matrix is unitary, 
+\begin_inset Formula 
+\begin{equation}
+\min\left\Vert \beta\mathbf{e}_{1}-\widetilde{\mathbb{H}}_{n}\mathbf{y}\right\Vert =\min\left\Vert \mathbb{Q}_{n}\left[\beta\mathbf{e}_{1}-\widetilde{\mathbb{H}}_{n}\mathbf{y}\right]\right\Vert =\min\left\Vert \mathbf{g}_{n}-\mathcal{R}_{n}\mathbf{y}\right\Vert \label{eq:GMRESgiven1}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\mathbf{g}_{n}\equiv\mathbb{Q}_{n}\beta\mathbf{e}_{1}$
+\end_inset
+
+.
+ The QR factorization is for the Hessenberg matrix 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\widetilde{\mathbb{H}}_{n}\in\mathbb{C}^{\left(n+1\right)\times n}$
+\end_inset
+
+ is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\widetilde{\mathbb{H}}_{n}=\mathcal{Q}_{n}\mathcal{R}_{n}.\label{eq:GMRESgiven2}
+\end{equation}
+
+\end_inset
+
+Left multiplying by the conjugate transpose of this equation becomes,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathcal{Q}_{n}^{*}\widetilde{\mathbb{H}}_{n}=\mathcal{R}_{n}.
+\end{equation}
+
+\end_inset
+
+ As explained after Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Givens1"
+
+\end_inset
+
+, the conjugate transpose of 
+\begin_inset Formula $\mathcal{Q}_{n}$
+\end_inset
+
+ in the QR factorization is the accumulated product of rotation matrices,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathcal{Q}_{n}^{*}=\mathbb{G}_{n}\times...\times\mathbb{G}_{2}\times\mathbb{G}_{1}
+\end{equation}
+
+\end_inset
+
+ Thus,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{Q}_{n}=\mathcal{Q}_{n}^{*}.
+\end{equation}
+
+\end_inset
+
+ Therefore, Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:GMRESgiven2"
+
+\end_inset
+
+ can be applied to Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:GMRESgiven1"
+
+\end_inset
+
+ so that 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\mathcal{R}_{n}=\mathbb{Q}_{n}\widetilde{\mathbb{H}}_{n}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+To summarize the above explanation, the least squares problem that is being
+ solved is 
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\begin{equation}
+\min\left\Vert g_{n}-\mathcal{R}_{n}y\right\Vert ,
+\end{equation}
+
+\end_inset
+
+ where 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+
+\begin_inset Formula $g_{n}=\mathbb{Q}_{n}\beta\mathbf{e}_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathcal{R}_{n}=\mathbb{Q}_{n}\widetilde{\mathbb{H}}_{n}$
+\end_inset
+
+.
+ It can be seen that the accumulated product of Givens rotation matrices
+ must be applied at each step to 
+\begin_inset Formula $\beta\mathbf{e}_{1}$
+\end_inset
+
+ and the Hessenberg matrix 
+\begin_inset Formula $\widetilde{\mathbb{H}}_{n}$
+\end_inset
+
+.
+ It would seem then at every step 
+\begin_inset Formula $n$
+\end_inset
+
+, one would need to compute a new Givens rotation matrix, apply it the accumulat
+ed 
+\begin_inset Formula $\mathbb{Q}_{n}$
+\end_inset
+
+ matrix and apply that new matrix to 
+\begin_inset Formula $\beta\mathbf{e}_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\widetilde{\mathbb{H}}_{n}$
+\end_inset
+
+ to compute 
+\begin_inset Formula $\mathbf{g}_{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathcal{R}_{n}$
+\end_inset
+
+.
+ Due to the structure of 
+\begin_inset Formula $\beta\mathbf{e}_{1}$
+\end_inset
+
+, 
+\begin_inset Formula $\widetilde{\mathbb{H}}_{n}$
+\end_inset
+
+ and the Givens rotation matrix, this process can be simplified.
+ After the first Arnoldi step in the GMRES algorithm, 
+\begin_inset Formula $\beta\mathbf{e}_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\widetilde{\mathbb{H}}_{n}$
+\end_inset
+
+ are 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\beta\mathbf{e}_{1}=\left[\begin{array}{c}
+\beta\\
+0
+\end{array}\right]\qquad\widetilde{\mathbb{H}}_{1}=\left[\begin{array}{c}
+h_{11}\\
+h_{21}
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ After a Givens rotation,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{G}_{1}=\left[\begin{array}{cc}
+c_{1} & -s_{1}\\
+s_{2} & c_{2}
+\end{array}\right],
+\end{equation}
+
+\end_inset
+
+ 
+\begin_inset Formula $\mathbf{g}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathcal{R}_{n}$
+\end_inset
+
+ are
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{g}^{\left(1\right)}=\left[\begin{array}{c}
+g_{1}\\
+g_{2}
+\end{array}\right]\qquad\mathcal{R}_{n}=\left[\begin{array}{c}
+r_{11}\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ On the next iteration, 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\beta\mathbf{e}_{1}=\left[\begin{array}{c}
+\beta\\
+0\\
+0
+\end{array}\right]\qquad\widetilde{\mathbb{H}}_{2}=\left[\begin{array}{cc}
+h_{11} & h_{12}\\
+h_{21} & h_{22}\\
+ & h_{23}
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ After two Givens, the first with 
+\begin_inset Formula 
+\begin{equation}
+\mathbb{G}_{1}=\left[\begin{array}{ccc}
+c_{1} & -s_{1} & 0\\
+s_{1} & c_{1} & 0\\
+0 & 0 & 1
+\end{array}\right]
+\end{equation}
+
+\end_inset
+
+ and the second
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{G}_{2}=\left[\begin{array}{ccc}
+1 & 0 & 0\\
+0 & c_{1} & -s_{1}\\
+0 & s_{1} & c_{1}
+\end{array}\right],
+\end{equation}
+
+\end_inset
+
+ 
+\begin_inset Formula $g$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{R}_{n}$
+\end_inset
+
+ are 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{g}^{\left(2\right)}=\left[\begin{array}{c}
+g_{1}\\
+g_{2}^{\prime}\\
+g_{3}
+\end{array}\right]\qquad\mathcal{R}_{n}=\left[\begin{array}{cc}
+r_{11} & r_{12}\\
+0 & r_{22}
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ What is interesting to observe is that by doing this, the Given rotation
+ applied in the previous iteration is performed again such that 
+\begin_inset Formula $g_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $r_{11}$
+\end_inset
+
+ are the same as before.
+ This is because the Hessenberg matrix is all zeros below the first subdiagonal
+ such that future Givens rotations will not affect that column.
+ The same answer could have been calculated with 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{g}^{\left(2\right)}=\mathbb{G}_{2}\mathbf{g}^{\left(1\right)}=\left[\begin{array}{ccc}
+1 & 0 & 0\\
+0 & c_{1} & -s_{1}\\
+0 & s_{1} & c_{1}
+\end{array}\right]\left[\begin{array}{c}
+g_{1}\\
+g_{2}\\
+0
+\end{array}\right]
+\end{equation}
+
+\end_inset
+
+ and 
+\begin_inset Formula 
+\begin{equation}
+\mathcal{R}_{2}^{\left\langle 2\right\rangle }=\mathbb{G}_{2}\mathbb{G}_{1}\widetilde{\mathbb{H}}_{2}^{\left\langle 2\right\rangle }.
+\end{equation}
+
+\end_inset
+
+ where 
+\begin_inset Formula $\left\langle \cdot\right\rangle $
+\end_inset
+
+ denotes a column.
+ Thus a recursive relationship can be found for an arbitrary step 
+\begin_inset Formula $n$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{g}^{\left(n\right)}=\mathbb{G}_{n}\mathbf{g}^{\left(n-1\right)}
+\end{equation}
+
+\end_inset
+
+ and
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathcal{R}_{n}^{\left\langle n\right\rangle }=\prod_{i=1}^{n}\mathbb{G}_{n}\widetilde{\mathbb{H}}_{n}^{\left\langle n\right\rangle }.\label{eq:GMRESgivens3}
+\end{equation}
+
+\end_inset
+
+ This recursive procedure simplifies computations from 
+\begin_inset Formula $O\left(n^{2}\right)$
+\end_inset
+
+ to 
+\begin_inset Formula $O\left(n\right)$
+\end_inset
+
+ since the rotations do not have to be applied to the whole matrix again.
+ Since only two operations need to performed when a Givens rotation is applied,
+ simple computations are performed on individual elements instead of the
+ entire matrix.
+ To save on memory, it can be seen from Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:GMRESgivens3"
+
+\end_inset
+
+ that the matrix 
+\begin_inset Formula $\mathcal{R}_{n}$
+\end_inset
+
+ only depends on column 
+\begin_inset Formula $n$
+\end_inset
+
+ of the Hessenberg matrix.
+ Looking at Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:GMRESbasic"
+
+\end_inset
+
+, column 
+\begin_inset Formula $n$
+\end_inset
+
+ of the Hessenberg matrix does not depend directly on any elements from
+ the previous column.
+ Therefore, the new column of the matrix 
+\begin_inset Formula $\mathcal{R}_{n}$
+\end_inset
+
+ computed from Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:GMRESgivens3"
+
+\end_inset
+
+ can be stored back into the 
+\begin_inset Formula $n$
+\end_inset
+
+-th column of 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\widetilde{\mathbb{H}}_{n}$
+\end_inset
+
+.
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ Therefore the expression can be rewritten as 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\widetilde{\mathbb{H}}_{n}^{\left\langle n\right\rangle }=\prod_{i=1}^{n}\mathbb{G}_{n}\widetilde{\mathbb{H}}_{n}^{\left\langle n\right\rangle }.\label{eq:GMRESgivens4}
+\end{equation}
+
+\end_inset
+
+This algorithm is presented in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Givens"
+
+\end_inset
+
+.
+ 
+\begin_inset Float algorithm
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Givens Rotation 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Saad1986"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{algorithmic}[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+REQUIRE For step $n$:: $c
+\backslash
+left (1:n-1 
+\backslash
+right )$, $s
+\backslash
+left (1:n-1 
+\backslash
+right )$, $
+\backslash
+mathbf{
+\backslash
+widetilde{H}}_{n}$, and $g 
+\backslash
+left ( 1:n-1 
+\backslash
+right )$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+FOR{$i = 1..n-1$} 
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $a = c_{i}h_{in} - s_{i}h_{i+1,n}$  
+\backslash
+COMMENT {apply previous Givens rotations}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $b = s_{i}h_{in} + c_{i}h_{i+1,n}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $h_{in} 
+\backslash
+leftarrow a$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $h_{i+1,n} 
+\backslash
+leftarrow b$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $c_{n} = 
+\backslash
+frac{h_{nn}}{
+\backslash
+sqrt{h_{nn}^2 + h_{n+1,n}^2}}$ 
+\backslash
+COMMENT {calculate new rotation parameters}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $s_{n} = 
+\backslash
+frac{-h_{n+1,n}}{
+\backslash
+sqrt{h_{nn}^2 + h_{n+1,n}^2}}$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $a = c_{n}h_{nn} - s_{n}h_{n+1,n}$  
+\backslash
+COMMENT {apply current Givens rotations}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $b = s_{n}h_{nn} + c_{n}h_{n+1,n}$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $h_{nn} 
+\backslash
+leftarrow a$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $h_{n+1,n} 
+\backslash
+leftarrow b$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $a = c_{n}g_{n} - s_{n}g_{n+1}$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $b = s_{n}g_{n} + c_{n}g_{n+1}$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $g_{n} 
+\backslash
+leftarrow a$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $g_{n+1} 
+\backslash
+leftarrow b$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+RETURN $c
+\backslash
+left (1:n 
+\backslash
+right )$, $s
+\backslash
+left (1:n 
+\backslash
+right )$, $
+\backslash
+mathbf{
+\backslash
+widetilde{H}}_{n}$, and $g 
+\backslash
+left ( 1:n 
+\backslash
+right )$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{algorithmic}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Givens"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ For the 
+\begin_inset Formula $n$
+\end_inset
+
+-th of the Hessenberg matrix computed from the Arnoldi iteration, all of
+ the previous Givens rotation parameters are applied.
+ Then, new rotation parameters are calculated and applied to the last two
+ rows of the 
+\begin_inset Formula $n$
+\end_inset
+
+ -th column of the Hessenberg matrix and the vector 
+\begin_inset Formula $g$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+The last question that has not been answered yet is when to stop the GMRES
+ iteration.
+ After iteration 
+\begin_inset Formula $n$
+\end_inset
+
+, the residual norm is given by 
+\begin_inset Formula 
+\begin{equation}
+\left\Vert \mathbf{r}_{n}\right\Vert =\left\Vert \mathbf{g}_{n}-\mathcal{R}_{n}\mathbf{y}\right\Vert .
+\end{equation}
+
+\end_inset
+
+ Due to the structure of 
+\begin_inset Formula $\mathcal{R}_{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{y}$
+\end_inset
+
+, this norm is equivalent to the absolute value of the 
+\begin_inset Formula $n$
+\end_inset
+
+-th row in 
+\begin_inset Formula $g$
+\end_inset
+
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+prove this
+\end_layout
+
+\end_inset
+
+.
+ The convergence criteria is shown as
+\begin_inset Formula 
+\[
+\left|g_{n}\right|<tol.
+\]
+
+\end_inset
+
+ This linear tolerance is user defined and should be compared to the nonlinear
+ tolerance in the Newton iteration.
+ After this convergence criteria is met, the vector 
+\begin_inset Formula $y$
+\end_inset
+
+ can be computed via back substitution with 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{g}_{n}=\mathcal{R}_{n}\mathbf{y}.
+\end{equation}
+
+\end_inset
+
+ Finally, the solution vector can be computed with
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{x}=\mathbf{x}_{0}+\mathbb{Q}_{n}\mathbf{y},\label{eq:KrySol}
+\end{equation}
+
+\end_inset
+
+ where 
+\begin_inset Formula $\mathbb{Q}_{n}$
+\end_inset
+
+ is the Krylov matrix from the Arnoldi iteration.
+ The GMRES algorithm from Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:GMRESbasic"
+
+\end_inset
+
+ can now be extended for Givens rotations, presented in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:GMRESgivens"
+
+\end_inset
+
+.
+ 
+\begin_inset Float algorithm
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+GMRES w/Givens Rotations 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Saad1986"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{algorithmic}[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+FOR{$k=1..max$}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $r = b - 
+\backslash
+mathbf{A}x$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $
+\backslash
+beta = 
+\backslash
+left
+\backslash
+Vert r 
+\backslash
+right
+\backslash
+Vert$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+IF{$
+\backslash
+beta < tol$}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE leave loop
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+ENDIF
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $g = 
+\backslash
+beta e_{1}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $q=r/
+\backslash
+beta$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+FOR{$n=1...res$}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE $v = 
+\backslash
+mathbf{A}q_{n}$
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+FOR{$j=1..n$}
+\end_layout
+
+\begin_layout Plain Layout
+
+			
+\backslash
+STATE $h_{jn} = q^{*}_{j}v$
+\end_layout
+
+\begin_layout Plain Layout
+
+			
+\backslash
+STATE $v = v - h_{jn}q_{j}$
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE $h_{n+1,n} = 
+\backslash
+left
+\backslash
+Vert v 
+\backslash
+right
+\backslash
+Vert$
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE $q_{n+1} = v/h_{n+1,n}$
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE perform Givens rotation (see Alg.
+ 
+\backslash
+ref{alg:Givens})
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+IF{$
+\backslash
+left 
+\backslash
+vert g_{n} 
+\backslash
+right 
+\backslash
+vert < tol$}
+\end_layout
+
+\begin_layout Plain Layout
+
+			
+\backslash
+STATE leave loop
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+ENDIF
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE solve for y, $g_{n} = 
+\backslash
+mathbf{
+\backslash
+widetilde{H}}_{n} y$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $x_{n}=
+\backslash
+mathbf{Q{_n}}y$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{algorithmic}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:GMRESgivens"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Inexact Newton's Method and Jacobian-Free Approximation
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:JFNK"
+
+\end_inset
+
+ The previous two sections discussed how to solve nonlinear equations with
+ Newton's method, and how to solve a linear system of equations with GMRES.
+ The combination of these two methods, is called Newton-Krylov or more specifica
+lly Newton-GMRES.
+ Since each linear system solve in Newton's iteration is not solved exactly
+ with a direct method, the result from the iterative solver is not exact.
+ This idea is known as Inexact Newton's method and can be taken advantage
+ of.
+ 
+\end_layout
+
+\begin_layout Subsection
+Inexact Newton's Method
+\end_layout
+
+\begin_layout Standard
+Since there are two tolerances the user can set, the nonlinear tolerance
+ in the Newton iteration and the linear tolerance in the GMRES solver, these
+ can be somewhat optimized to each other.
+ Since at the beginning of Newton's iteration, the nonlinear residual is
+ quite large, the linear system does not need to be converged very tightly
+ to get a good approximation of the next nonlinear step 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Mousseau2003"
+
+\end_inset
+
+.
+ This idea is formalized by making the convergence of the linear residual
+ proportional to the nonlinear residual,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left\Vert \mathbb{J}\left(\mathbf{x}^{n}\right)d\mathbf{x}_{m}^{n}+\mathbf{F}\left(\mathbf{x}^{n}\right)\right\Vert _{2}<\eta\left\Vert \mathbf{F}\left(\mathbf{x}^{n}\right)\right\Vert _{2}.
+\end{equation}
+
+\end_inset
+
+ Here, 
+\begin_inset Formula $n$
+\end_inset
+
+ is the nonlinear Newton iteration number, 
+\begin_inset Formula $m$
+\end_inset
+
+ is the linear iteration number of the Krylov solver and 
+\begin_inset Formula $\eta$
+\end_inset
+
+ is the relative residual tolerance.
+ To use this appropriately, the user should specify the relative residual
+ tolerance parameter.
+ In the Krylov solver, the nonlinear residual is just the right hand side
+ of 
+\begin_inset Formula $\mathbb{A}\mathbf{x}=\mathbf{b}$
+\end_inset
+
+ and must be given to the Krylov solver.
+ Thus, the absolute linear tolerance in the Krylov solver is just 
+\begin_inset Formula $\eta\left\Vert \mathbf{b}\right\Vert _{2}$
+\end_inset
+
+.
+ When the norm of 
+\begin_inset Formula $\mathbf{b}$
+\end_inset
+
+ is large, at initial Newton steps, the linear tolerance is not that tight.
+ However, at later Newton steps when the norm of 
+\begin_inset Formula $\mathbf{b}$
+\end_inset
+
+ is small, the linear tolerance is much tighter to help converge the system.
+ Therefore iterations in the Krylov solver are not wasted when the nonlinear
+ residual is large.
+ This 
+\begin_inset Formula $\eta$
+\end_inset
+
+ parameter is problem dependent and can be optimized for each problem.
+\end_layout
+
+\begin_layout Subsection
+Jacobian-Free Newton-Krylov Method
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:JFNK"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+At each Newton step the linear system, 
+\begin_inset Formula $\mathbb{J}d\mathbf{x}=-\mathbf{F}$
+\end_inset
+
+, is solved.
+ From equation 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:KrySub"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:KrySol"
+
+\end_inset
+
+, at the 
+\begin_inset Formula $m$
+\end_inset
+
+-th Krylov step the solution of the linear system is 
+\begin_inset Formula 
+\begin{equation}
+d\mathbf{x}_{m}=d\mathbf{x}_{0}+a_{0}\mathbf{r}_{0}+a_{1}\mathbb{J}\mathbf{r}_{0}+a_{2}\mathbb{J}^{2}\mathbf{r}_{0}+...+a_{m}\mathbb{J}^{m}\mathbf{r}_{0},
+\end{equation}
+
+\end_inset
+
+ where 
+\begin_inset Formula $\mathbf{r}_{0}$
+\end_inset
+
+ is the initial linear residual.
+ What is seen from the building of the Krylov subspace is that the Jacobian
+ is always acting on a vector.
+ Even if the Jacobian can be formulated analytically, why use the memory
+ and form the matrix instead of writing a separate routine to perform this
+ multiplication manually.
+ If the Jacobian cannot be formulated analytically, the Jacobian-vector
+ product can be approximated with a finite difference,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{J}\mathbf{y}\approx\frac{\mathbf{F}\left(\mathbf{x}+\epsilon\mathbf{y}\right)-\mathbf{F}\left(\mathbf{x}\right)}{\epsilon},
+\end{equation}
+
+\end_inset
+
+ where 
+\begin_inset Formula $\mathbf{y}$
+\end_inset
+
+ is an arbitrary vector, 
+\begin_inset Formula $\mathbf{x}$
+\end_inset
+
+ is the current estimate of the nonlinear solution from Newton's iteration
+ and 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ is the perturbation parameter.
+ The choice of the perturbation parameter is arbitrary, but will have an
+ effect on the number of iterations of the problem.
+ In the JFNK overview paper there are suggestions for choosing this perturbation
+ parameter 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Knoll2004"
+
+\end_inset
+
+.
+ Mousseau 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Mousseau2003"
+
+\end_inset
+
+ recommends using 
+\begin_inset Formula 
+\begin{equation}
+\epsilon=\frac{\sum_{i=1}^{N}bx_{i}}{N\left\Vert \mathbf{y}\right\Vert _{2}}.
+\end{equation}
+
+\end_inset
+
+ This is definition of the perturbation parameter used in this work to approxima
+te the Jacobian-vector product.
+ Even if the Jacobian-vector product can be evaluated analytically, it can
+ also be approximated with a finite difference.
+ In the system of equations solved in this work, all of the Jacobian-vector
+ products can be evaluated analytically except for the density evaluation
+ from the state equation, it must be calculated with a finite difference
+ approximation.
+ The idea of forming the Jacobian-vector products analytically or approximating
+ it all with a finite difference is investigated in this work.
+ If the finite difference approximation of the whole system can be performed
+ quicker, then this extra routine to perform the analytic Jacobian-vector
+ product is not needed.
+ This would be fortunate since these routines can become complicated to
+ write.
+ 
+\end_layout
+
+\begin_layout Section
+Preconditioning
+\end_layout
+
+\begin_layout Standard
+It is important to keep the number of iterations in the GMRES solver to
+ a minimum.
+ The first reason is that with fewer iterations, each linear step solve
+ will go very quickly.
+ Another important reason is that in GMRES all previous iterations' Krylov
+ vectors are stored in memory.
+ The term preconditioner means to multiply the coefficient matrix 
+\begin_inset Formula $\mathbb{A}$
+\end_inset
+
+ by a preconditioner matrix 
+\begin_inset Formula $\mathbb{M}^{-1}$
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kelly1987"
+
+\end_inset
+
+.
+ This preconditioner can be multiplied on the left, right or on both sides
+ of 
+\begin_inset Formula $\mathbb{A}$
+\end_inset
+
+.
+ The idea is that the action of the preconditioner on the coefficient matrix
+ will result in an easier linear system solve.
+ In this work only left preconditioning is used where
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{M}^{-1}\mathbb{A}\mathbf{x}=\mathbb{M}^{-1}\mathbf{b}.
+\end{equation}
+
+\end_inset
+
+ There are many methods to compute a preconditioner for a linear system.
+ Such preconditioners are Jacobi, Incomplete LU factorization (ILU), block
+ preconditioners, multigrid, physics-based etc.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Knoll2004,Saad2003"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+In this work, ILU preconditioning is used as it is relatively easier to
+ form.
+ An ILU process computes sparse lower and upper triangular matrices (
+\begin_inset Formula $\mathbb{L}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbb{U}$
+\end_inset
+
+) such that a residual matrix defined as 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{R}=\mathbb{L}\mathbb{U}-\mathbb{A},
+\end{equation}
+
+\end_inset
+
+ is constrained to certain conditions.
+ The simplest constraint is the the product of 
+\begin_inset Formula $\mathbb{LU}$
+\end_inset
+
+ has the same number and locations of nonzeros, known as Zero Fill-in ILU.
+ This is used in MATLAB when the function 
+\begin_inset Formula $\mathtt{ilu}$
+\end_inset
+
+ with 
+\begin_inset Formula $\mathtt{'no\, fill'}$
+\end_inset
+
+ is used.
+ We therefore have that
+\begin_inset Formula 
+\begin{equation}
+\mathbb{M}=\mathbb{LU}
+\end{equation}
+
+\end_inset
+
+ and 
+\begin_inset Formula 
+\begin{equation}
+\mathbb{U}^{-1}\mathbb{L}^{-1}\mathbb{A}\mathbf{x}=\mathbb{U}^{-1}\mathbb{L}^{-1}\mathbf{b}.
+\end{equation}
+
+\end_inset
+
+ This can be added to the basic GMRES algorithm, now modified in Algorithm
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:GMRESbasicPrec"
+
+\end_inset
+
+.
+\begin_inset Float algorithm
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Basic GMRES w/Preconditioning 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Saad1986"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{algorithmic}[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $
+\backslash
+mathbf{r}_{1} = 
+\backslash
+mathbb{U}^{-1}
+\backslash
+mathbb{L}^{-1}
+\backslash
+left ( 
+\backslash
+mathbf{b} - 
+\backslash
+mathbb{A}
+\backslash
+mathbf{x}_{1} 
+\backslash
+right )$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $
+\backslash
+mathbf{q}_{1}=
+\backslash
+mathbf{r}_{1}/
+\backslash
+left
+\backslash
+Vert 
+\backslash
+mathbf{r}_{1} 
+\backslash
+right
+\backslash
+Vert$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+FOR{$n=1,2,3,...$}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $
+\backslash
+mathbf{v} = 
+\backslash
+mathbb{U}^{-1}
+\backslash
+mathbb{L}^{-1}
+\backslash
+mathbb{A}
+\backslash
+mathbf{q}_{n}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+FOR{$j=1..n$}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE $h_{jn} = q^{*}_{j}v$
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+STATE $v = v - h_{jn}q_{j}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $h_{n+1,n} = 
+\backslash
+left
+\backslash
+Vert 
+\backslash
+mathbf{v} 
+\backslash
+right
+\backslash
+Vert$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $
+\backslash
+mathbf{q}_{n+1} = 
+\backslash
+mathbf{v}/h_{n+1,n}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE Find $
+\backslash
+mathbf{y}$ to minimize $
+\backslash
+left
+\backslash
+Vert 
+\backslash
+widetilde{
+\backslash
+mathbb{H}}_{n}
+\backslash
+mathbf{y}-
+\backslash
+beta 
+\backslash
+mathbf{e}_{1}
+\backslash
+right
+\backslash
+Vert$ 
+\backslash
+COMMENT{where $
+\backslash
+beta = 
+\backslash
+left
+\backslash
+Vert 
+\backslash
+mathbf{r}_{1} 
+\backslash
+right
+\backslash
+Vert$}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $
+\backslash
+mathbf{x}_{n}=
+\backslash
+mathbb{Q}_{n}
+\backslash
+mathbf{y}$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{algorithmic}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:GMRESbasicPrec"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Solving the Steady-State Neutron Diffusion Equation
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:steadyneut"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As an introduction to solving this coupled set of nonlinear neutronics and
+ thermal hydraulics equations, a simpler problem of neutronics was solved
+ first.
+ The steady steady neutron diffusion equation to be solved is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{M}\bar{\mathbf{\Phi}}=\lambda\mathbb{F}\bar{\mathbf{\Phi}},
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\lambda=1/k_{eff}$
+\end_inset
+
+.
+ This equation was derived in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:SteadyNeut"
+
+\end_inset
+
+.
+ This linear system of equations is an eigenvalue problem.
+ One straight forward approach to solve linear eigenvalue problems is to
+ use power iteration.
+ The power iteration method is outlined in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:power"
+
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Duderstadt1976"
+
+\end_inset
+
+.
+ 
+\begin_inset Float algorithm
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Power Iteration Method 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{algorithmic}[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $
+\backslash
+mathbf{
+\backslash
+Phi}^{
+\backslash
+left ( 0 
+\backslash
+right )} = $ arbitrary nonzero vector
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE $k_{eff}^{
+\backslash
+left  ( 0 
+\backslash
+right )} = $ arbitrary nonzero constant
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+FOR {$n=1,2,3,...$}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $
+\backslash
+mathbf{b} = 1/k_{eff}^{
+\backslash
+left ( n-1 
+\backslash
+right )} 
+\backslash
+mathbb{F} 
+\backslash
+mathbf{
+\backslash
+Phi}^{
+\backslash
+left ( n-1 
+\backslash
+right )}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $
+\backslash
+mathbf{
+\backslash
+Phi}^{
+\backslash
+left ( n+1 
+\backslash
+right )} = 
+\backslash
+mathbb{M}^{-1}
+\backslash
+mathbf{b}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE $k_{eff}^{
+\backslash
+left ( n 
+\backslash
+right )} = k_{eff}^{
+\backslash
+left ( n-1 
+\backslash
+right )} 
+\backslash
+frac{
+\backslash
+left ( 
+\backslash
+mathbb{F}
+\backslash
+mathbf{
+\backslash
+Phi}^{
+\backslash
+left ( n+1 
+\backslash
+right )},
+\backslash
+mathbb{F}
+\backslash
+mathbf{
+\backslash
+Phi}^{
+\backslash
+left ( n+1 
+\backslash
+right )} 
+\backslash
+right )}{
+\backslash
+left ( 
+\backslash
+mathbb{F}
+\backslash
+mathbf{
+\backslash
+Phi}^{
+\backslash
+left ( n 
+\backslash
+right )},
+\backslash
+mathbb{F}
+\backslash
+mathbf{
+\backslash
+Phi}^{
+\backslash
+left ( n+1 
+\backslash
+right ) } 
+\backslash
+right )}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+STATE check convergence of eigenvalue and eigenvector
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+ENDFOR
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{algorithmic}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:power"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ The eigenvalue is updated in each iteration with a scalar product of the
+ new fission source with itself divided by the new fission source with the
+ old fission source.
+ This method is widely used and will be used as the 
+\begin_inset Quotes eld
+\end_inset
+
+right
+\begin_inset Quotes erd
+\end_inset
+
+ answer when we compare it against a Newton's method.
+ Another important feature of power iteration is that it will always converge
+ on the fundamental solution of the equation whereas, any mode can be obtained
+ when using Newton's method.
+\end_layout
+
+\begin_layout Standard
+In the power iteration, the flux vector is the only unknown and hence the
+ system of equations is linear.
+ However, if the eigenvalue is also considered as an unknown, the system
+ of equations becomes nonlinear.
+ Therefore Newton's method is used to solve for these unknowns.
+ The residual equations are 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{F}=\left[\begin{array}{c}
+\mathbb{M}\bar{\mathbf{\Phi}}-\lambda\mathbb{F}\bar{\mathbf{\Phi}}\\
+-\frac{1}{2}\bar{\mathbf{\Phi}}^{\top}\bar{\mathbf{\Phi}}+\frac{1}{2}
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ The last equation represents the unity L2-norm constraint on the eigenvector.
+ The unknown vector is setup as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{x}=\left[\begin{array}{c}
+\bar{\mathbf{\Phi}}\\
+\lambda
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ Using these equations, the Jacobian can be constructed as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{J}=\left[\begin{array}{cc}
+\mathbb{M}-\lambda\mathbb{F} & -\mathbb{F}\bar{\mathbf{\Phi}}\\
+-\bar{\mathbf{\Phi}}^{\top} & 0
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+These set of equations can be solved 3 ways: (1) power iteration, (2) construct
+ analytic Jacobian-vector product, (3) approximate Jacobian vector product
+ with finite difference.
+ In method (2), the analytic Jacobian-vector product can be formulated as
+\begin_inset Formula 
+\begin{equation}
+\mathbb{J}\mathbf{y}=\left[\begin{array}{cc}
+\mathbb{M}-\lambda\mathbb{F} & -\mathbb{F}\bar{\mathbf{\Phi}}\\
+-\bar{\mathbf{\Phi}}^{\top} & 0
+\end{array}\right]\left[\begin{array}{c}
+y_{\phi}\\
+y_{\lambda}
+\end{array}\right]=\left[\begin{array}{c}
+\left(\mathbb{M}-\lambda\mathbb{F}\right)y_{\phi}-\mathbb{F}\bar{\mathbf{\Phi}}y_{\lambda}\\
+-\bar{\mathbf{\Phi}}^{\top}y_{\phi}
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ The finite difference approach to the Jacobian-vector product is described
+ in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:JFNK"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Each of these methods were implemented in a MATLAB code which is presented
+ in Appendix ___
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+list in Appendix B
+\end_layout
+
+\end_inset
+
+.
+ The first case is for a reactor of 600 cm that has a high dominance ratio
+ of 0.997.
+ Note the dominance ratio is the ratio of two largest eigenvalues of the
+ system 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+check this
+\end_layout
+
+\end_inset
+
+.
+ The flux eigenvectors were compared for each of the three cases and is
+ shown if Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:fluxmode"
+
+\end_inset
+
+.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pics/FundMode_600.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Flux Eigenvector Comparison, 600 cm
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:fluxmode"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ The results show that Newton-based methods do not agree with the power
+ iteration even though the residual criteria is met.
+ This is because any eigenvalue/eigenvector pair satisfies the residual
+ equations.
+ To verify, the 
+\begin_inset Formula $\mathtt{eigs}$
+\end_inset
+
+ command in MATLAB was used to get an array of eigenvalues of the system.
+ Sure enough, the converged eigenvalue was listed.
+ To ensure that the Newton-based methods converge to the fundamental mode,
+ two power iterations were computed to get the flux shape in the correct
+ direction.
+ After applying this, the results look better and are shown in Figs.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:flux600"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:fluxdiff600"
+
+\end_inset
+
+.
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pics/Flux_600.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Comparison of Flux with Initial Power Iteration, 600 cm
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:flux600"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pics/diff_flux_600.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Difference of Flux with Initial Power Iteration, 600 cm
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:fluxdiff600"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ The differences in the plot with respect to power iteration are within
+ the converged nonlinear iteration tolerance of 
+\begin_inset Formula $10^{-6}$
+\end_inset
+
+.
+ What is more interesting to compare is number of iterations, final residual
+ and computational time.
+ These results are listed in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:eigcomp_600"
+
+\end_inset
+
+.
+ 
+\begin_inset Float table
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Comparison of Methods to Solve Neutronic Eigenvalue Problem, 600 cm
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="4">
+<features booktabs="true" tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0pt">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Iterations
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Final Residual
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Time [s]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Power Iteration
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+984
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $9.9997\times10^{-7}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.116
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Analytic JFNK
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $5.024\times10^{-7}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.075
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Finite Difference JFNK
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $4.2829\times10^{-7}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.147
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:eigcomp_600"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ From the results, the power iteration takes almost 1000 iterations.
+ This is because the rate of convergence of power iteration is inversely
+ proportional to the dominance ratio.
+ The closer the dominance ratio is to unity, the more iterations it will
+ take to converge.
+ The analytic Jacobian-free method performs the best with respect to computation
+al time.
+ The finite difference version of JFNK does not do as well as the analytic
+ multiplication.
+ However, the time it takes to do this is very comparable to power iteration.
+ Both method (2) and method (3) will be compared again in the coupled neutrons/t
+hermal hydraulics problem.
+\end_layout
+
+\begin_layout Standard
+The slab width was then decreased to 370 cm which is about the length of
+ the active fuel rod length producing power in a standard pressurized water
+ reactor.
+ The dominance ratio of this system is 0.992.
+ The difference in the the flux eigenvectors is shown in Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:fluxcmp_300"
+
+\end_inset
+
+.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pics/diff_flux_300.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Flux Eigenvector Comparison, 300 cm
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:fluxcmp_300"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ A comparison of the number of iterations, final residual and computation
+ time is presented in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:eigcomp_300"
+
+\end_inset
+
+.
+\begin_inset Float table
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Comparison of Methods to Solve Neutronic Eigenvalue Problem, 300 cm
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="4">
+<features booktabs="true" tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0pt">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Iterations
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Final Residual
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Time [s]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Power Iteration
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+424
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $9.9881\times10^{-7}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.07037
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Analytic JFNK
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $5.024\times10^{-7}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.05714
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Finite Difference JFNK
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $4.2829\times10^{-7}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.08562
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:eigcomp_300"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ From the results, the time to perform the power iteration method takes
+ fewer iterations than in the high dominance ratio case.
+ Therefore, it is observed that the dominance ratio of the system has a
+ direct effect on how long the power iteration takes.
+ Both JFNK methods took the same amount of iterations, with the finite differenc
+e approach taking slightly longer to solve.
+ This is due to the number of GMRES inner iterations needed to converge
+ the system.
+ The JFNK method was therefore successfully applied to the neutronics eigenvalue
+ problem.
+\end_layout
+
+\begin_layout Section
+Steady-State Coupled Physics Solution
+\end_layout
+
+\begin_layout Standard
+In this section the determination of the steady-state spatial distribution
+ of flux, power temperature and density will be determined.
+ Equations 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:NeutronOper"
+
+\end_inset
+
+, 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:norm"
+
+\end_inset
+
+, 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:energyoper"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:TempOper"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:DensityTempVec"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:AbsRHOCellVec"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:NfissRHOCellVec"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:DiffRHOCellVec"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:KfissRHOCellVec"
+
+\end_inset
+
+ comprise the set of equations needed to solve for the steady distributions.
+ The residual equations can then be formulated as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{F}=\left[\begin{array}{c}
+\mathbb{M}\mathbf{\Phi}-\lambda\mathbb{F}\mathbf{\Phi}\\
+Q_{R}-\tilde{c}\kappa\mathbf{\Sigma}_{f}^{\mathrm{T}}\mathbf{\Phi}\Delta x.\\
+\mathbf{Q}-\tilde{c}\mathbb{E}\mathbf{\Phi}\Delta x\\
+\mathbb{S}\mathbf{T}-\mathbb{R}\mathbf{Q}\\
+\mathcal{P}-\rho\left(\mathbf{T},p\right)\\
+\mathbf{\Sigma}_{a}-\Sigma_{a}^{ref}-\frac{\partial\Sigma_{a}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right]\\
+\nu\mathbf{\Sigma}_{f}-\nu\Sigma_{f}^{ref}-\frac{\partial\nu\Sigma_{f}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right]\\
+\mathbf{D}-D^{ref}-\frac{\partial D}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right],\\
+\kappa\mathbf{\Sigma}_{f}-\kappa\Sigma_{f}^{ref}-\frac{\partial\kappa\Sigma_{f}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right]\\
+-\frac{1}{2}\mathbf{\Phi}^{\mathrm{T}}\mathbf{\Phi}+\frac{1}{2}
+\end{array}\right].\label{eq:residualStatic}
+\end{equation}
+
+\end_inset
+
+Note that in the nonlinear equations, the operators 
+\begin_inset Formula $\mathbb{M}$
+\end_inset
+
+, 
+\begin_inset Formula $\mathbb{F}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbb{E}$
+\end_inset
+
+ have to updated since they depend on neutronic parameters.
+ These residual equations are written in a function in MATLAB and can be
+ called during the Newton iteration.
+ The unknown vector is then constructed as
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbf{x}=\left[\begin{array}{c}
+\mathbf{\Phi}\\
+\tilde{c}\\
+\mathbf{Q}\\
+\mathbf{T}\\
+\mathcal{P}\\
+\mathbf{\Sigma}_{a}\\
+\nu\mathbf{\Sigma}_{f}\\
+\mathbf{D}\\
+\kappa\mathbf{\Sigma}_{f}\\
+\lambda
+\end{array}\right].\label{eq:unknownStatic}
+\end{equation}
+
+\end_inset
+
+ From the residual vector and unknown vector, the analytic Jacobian-vector
+ product can be constructed in matrix notation as
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Formula 
+\begin{equation}
+\mathbb{J}\mathbf{y}=\left[\begin{array}{c|c|c|c|c|c|c|c|c|c}
+\mathbb{M}-\lambda\mathbb{F} & 0 & 0 & 0 & 0 & \mathrm{diag\left\{ \mathbf{\Phi}\right\} } & -\lambda\mathrm{diag\left\{ \mathbf{\Phi}\right\} } & \mathbb{MD} & 0 & -\mathbb{F}\mathbf{\Phi}\\
+\hline -\tilde{c}\kappa\mathbf{\Sigma}_{f}^{\mathrm{T}}\Delta x & -\kappa\mathbf{\Sigma}_{f}^{\mathrm{T}}\mathbf{\Phi}\Delta x & 0 & 0 & 0 & 0 & 0 & 0 & -\tilde{c}\mathbf{\Phi}^{\mathrm{T}}\Delta x & 0\\
+\hline -\mathbb{E}\tilde{c}\Delta x & -\mathbb{E}\mathbf{\Phi}\Delta x & \mathbb{I} & 0 & 0 & 0 & 0 & 0 & -\tilde{c}\Delta x\mathrm{diag}\left\{ \mathbf{\Phi}\right\}  & 0\\
+\hline 0 & 0 & -\mathbb{R} & \mathbb{S} & 0 & 0 & 0 & 0 & 0 & 0\\
+\hline 0 & 0 & 0 & -\rho\left(T\right)* & \mathbb{I} & 0 & 0 & 0 & 0 & 0\\
+\hline 0 & 0 & 0 & 0 & -\frac{\partial\Sigma_{a}}{\partial\rho}\mathbb{I} & \mathbb{I} & 0 & 0 & 0 & 0\\
+\hline 0 & 0 & 0 & 0 & -\frac{\partial\nu\Sigma_{f}}{\partial\rho}\mathbb{I} & 0 & \mathbb{I} & 0 & 0 & 0\\
+\hline 0 & 0 & 0 & 0 & -\frac{\partial D}{\partial\rho}\mathbb{I} & 0 & 0 & \mathbb{I} & 0 & 0\\
+\hline 0 & 0 & 0 & 0 & -\frac{\partial\Sigma_{a}}{\partial\rho}\mathbb{I} & 0 & 0 & 0 & \mathbb{I} & 0\\
+\hline -\mathbf{\Phi}^{\mathrm{T}} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+\end{array}\right]\left[\begin{array}{c}
+y_{\phi}\\
+y_{\tilde{c}}\\
+y_{Q}\\
+y_{T}\\
+y_{\rho}\\
+y_{\Sigma_{a}}\\
+y_{\nu\Sigma_{f}}\\
+y_{D}\\
+y_{\kappa\Sigma_{f}}\\
+y_{\lambda}
+\end{array}\right]\label{eq:JacobianStatic}
+\end{equation}
+
+\end_inset
+
+ 
+\size default
+Performing the Jacobian-vector product analytically, the set of equations
+ is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{J}\mathbf{y}=\left[\begin{array}{c}
+\left(\mathbb{M}-\lambda\mathbb{F}\right)y_{\phi}+\left(\mathrm{diag\left\{ \mathbf{\Phi}\right\} }\right)y_{\Sigma_{a}}+\left(-\lambda\mathrm{diag\left\{ \mathbf{\Phi}\right\} }\right)y_{\nu\Sigma_{f}}+\left(\mathbb{MD}\right)y_{D}+\left(-\mathbb{F}\mathbf{\Phi}\right)y_{\lambda}\\
+\left(-\tilde{c}\kappa\mathbf{\Sigma}_{f}^{\mathrm{T}}\Delta x\right)y_{\phi}+\left(-\kappa\mathbf{\Sigma}_{f}^{\mathrm{T}}\mathbf{\Phi}\Delta x\right)y_{\tilde{c}}+\left(-\tilde{c}\mathbf{\Phi}^{\mathrm{T}}\Delta x\right)y_{\kappa\Sigma_{f}}\\
+\left(-\mathbb{E}\tilde{c}\Delta x\right)y_{\phi}+\left(-\mathbb{E}\mathbf{\Phi}\Delta x\right)y_{\tilde{c}}+\left(\mathbb{I}\right)y_{Q}+\left(-\tilde{c}\Delta x\mathrm{diag}\left\{ \mathbf{\Phi}\right\} \right)y_{\kappa\Sigma_{f}}\\
+\left(-\mathbb{R}\right)y_{Q}+\left(\mathbb{S}\right)y_{T}\\
+\left[-\rho\left(T\right)*\right]y_{T}+\left(\mathbb{I}\right)y_{\rho}\\
+\left(-\frac{\partial\Sigma_{a}}{\partial\rho}\mathbb{I}\right)y_{\rho}+\left(\mathbb{I}\right)y_{\Sigma_{a}}\\
+\left(-\frac{\partial\nu\Sigma_{f}}{\partial\rho}\mathbb{I}\right)y_{\rho}+\left(\mathbb{I}\right)y_{\nu\Sigma_{f}}\\
+\left(-\frac{\partial D}{\partial\rho}\mathbb{I}\right)y_{\rho}+\left(\mathbb{I}\right)y_{D}\\
+\left(-\frac{\partial\kappa\Sigma_{f}}{\partial\rho}\mathbb{I}\right)y_{\rho}+\left(\mathbb{I}\right)y_{\kappa\Sigma_{f}}\\
+\left(-\mathbf{\Phi}^{\mathrm{T}}\right)y_{\phi}
+\end{array}\right]\label{eq:JacobianVectStatic}
+\end{equation}
+
+\end_inset
+
+ This Jacobian-vector operation is performed in a MATLAB function that can
+ be called upon by the GMRES solver.
+ In Eqs.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:JacobianStatic"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:JacobianVectStatic"
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\mathrm{diag}\{\}$
+\end_inset
+
+ is the diagonal operator that places a vector along the diagonal of a matrix,
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\mathbb{MD}$
+\end_inset
+
+ is the partial derivative of the operator 
+\begin_inset Formula $\mathbb{M}$
+\end_inset
+
+ with respect to the diffusion coefficient,
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\mathbb{I}$
+\end_inset
+
+ is the identity matrix,
+\end_layout
+
+\begin_layout Itemize
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\left[-\rho\left(T\right)*\right]y_{T}$
+\end_inset
+
+ is the partial derivative of the state equation with respect to temperature
+ and must be handled with a finite difference.
+\end_layout
+
+\begin_layout Standard
+The 
+\begin_inset Formula $\mathbb{MD}$
+\end_inset
+
+ operator has the following form for the boundaries and interior cells:
+\end_layout
+
+\begin_layout Itemize
+Left boundary
+\begin_inset Formula 
+\begin{equation}
+\left(\frac{2}{\Delta x^{2}}\frac{D_{2}^{2}}{\left(D_{2}+D_{1}\right)^{2}}+2\frac{\left(1-\beta\right)^{2}}{\left[4D_{1}\left(1+\beta\right)+\Delta x\left(1-\beta\right)\right]^{2}}\right)\bar{\phi}_{1}-\frac{2}{\Delta x^{2}}\frac{D_{2}^{2}}{\left(D_{2}+D_{1}\right)^{2}}\bar{\phi}_{2},
+\end{equation}
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+Interior
+\begin_inset Formula 
+\begin{equation}
+-\frac{2}{\Delta x^{2}}\frac{D_{i-1}^{2}}{\left(D_{i}+D_{i-1}\right)^{2}}\bar{\phi}_{i-1}+\left(\frac{2}{\Delta x^{2}}\frac{D_{i+1}^{2}}{\left(D_{i+1}+D_{i}\right)^{2}}+\frac{2}{\Delta x^{2}}\frac{D_{i-1}^{2}}{\left(D_{i}+D_{i-1}\right)^{2}}\right)\bar{\phi}_{i}-\frac{2}{\Delta x^{2}}\frac{D_{i+1}^{2}}{\left(D_{i+1}+D_{i}\right)^{2}}\bar{\phi}_{i+1},
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Right boundary
+\begin_inset Formula 
+\begin{equation}
+-\frac{2}{\Delta x^{2}}\frac{D_{I-1}^{2}}{\left(D_{I}+D_{I-1}\right)^{2}}\bar{\phi}_{I-1}+\left(2\frac{\left(1-\beta\right)^{2}}{\left[4D_{I}\left(1+\beta\right)+\Delta x\left(1-\beta\right)\right]^{2}}+\frac{2}{\Delta x^{2}}\frac{D_{I-1}^{2}}{\left(D_{I}+D_{I-1}\right)^{2}}\right)\bar{\phi}_{I}.
+\end{equation}
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Each of these equations will be placed on the diagonal of the 
+\begin_inset Formula $\mathbb{MD}$
+\end_inset
+
+ matrix.
+ The last tricky part is that the partial derivative of the state equation
+ is not known.
+ Therefore, this section will have to be evaluated with a finite difference
+ and has the form,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left[-\rho\left(T\right)*\right]y_{T}=\frac{\left[\mathcal{P}-\rho\left(\mathbf{T}+\epsilon y_{T},p\right)\right]-\left[\mathcal{P}-\rho\left(\mathbf{T},p\right)\right]}{\epsilon}.
+\end{equation}
+
+\end_inset
+
+ The overall algorithm to solve this problem is presented in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:steadycoupled"
+
+\end_inset
+
+.
+ 
+\begin_inset Float algorithm
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Steady State Coupled Solution 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{algorithmic}[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE read input
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE perform small number of power iterations to estimate flux shape
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE compute thermal hydraluics based off flux shape
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE form approximate Jacobian and perform ILU to get preconditioner
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE perform Newton Iterations
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{algorithmic}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:steadycoupled"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ Once the user-defined input file is set, the code runs a few power iterations
+ to get the gross shape of the flux correct without feedback for an initial
+ guess to the Newton solver.
+ An initial guess of the thermal hydraulics is also computed based on this
+ guessed flux shape.
+ In order to minimize the number of inner iterations in the GMRES solver,
+ a preconditioner must be determined.
+ Since the Jacobian is never formed in the Newton iteration loop, this precondit
+ioner cannot be computed on-the-fly.
+ Also, it would be expensive to recompute a preconditioner at every Newton
+ step.
+ Therefore, the preconditioner is only formed once using the initial guess
+ values.
+ Here, the approximate Jacobian is fully constructed and ILU factorization
+ is performed.
+ This constant preconditioner is then used in the GMRES solver at every
+ Newton iteration.
+ 
+\end_layout
+
+\begin_layout Standard
+The solution of this steady state problem took about 7.06 seconds to complete,
+ with 8 total Newton iterations and about 21 inner GMRES iterations on average.
+ The results of this calculation are presented in Figs.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:coupledSteady1"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:coupledSteady2"
+
+\end_inset
+
+.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pics/SteadyCoupledb.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Results from Steady State Calculation Part 1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:coupledSteady1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pics/SteadyCoupleda.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Results from Steady State Calculation Part 2
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:coupledSteady2"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ The results prove that the feedback is working correctly.
+ Instead of getting a cosine shape as with the case of no feedback (see
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:steadyneut"
+
+\end_inset
+
+), the cosine shape is now skewed to the left.
+ This is due to the density feedback, where the density of water is higher
+ in the left part of the slab than in the right.
+ Therefore, more fissions will occur to the left and more power is produced.
+ 
+\end_layout
+
+\begin_layout Standard
+The solution of this problem was not easy.
+ If the above equations are implemented as is, the MATLAB code will not
+ converge on a solution.
+ This is primarily due to the fact that the kappa-fission cross section
+ is so small.
+ It is on the order of 
+\begin_inset Formula $10^{-13}$
+\end_inset
+
+ which is much smaller than other quantities in the problem.
+ Therefore, the normalization constant is very large to scale the flux eigenvect
+or.
+ This makes the problem very ill-conditioned even though a preconditioner
+ is used.
+ Since the normalization constant is always multiplied by the kappa-fission
+ cross section in the residual equations, another constant of 
+\begin_inset Formula $10^{12}$
+\end_inset
+
+ is applied in the input file.
+ Therefore, the span of the magnitudes of the flux-to-power normalization
+ constant and kappa-fission cross section will be smaller.
+ This proved to be effective for this situation and was used to compute
+ the results presented in this section.
+ 
+\end_layout
+
+\begin_layout Standard
+Finally, it is interesting to look at the distribution of how time was spent
+ in the code.
+ To do this, MATLAB's built in profiler was used.
+ The results of the profiler are shown in Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:profileSteady"
+
+\end_inset
+
+.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pics/Profile_Steady.png
+	scale 20
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Profiler Results for Steady-State Case
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:profileSteady"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ From the results, it is interesting to see that approximately 88% of the
+ time was spent in the lookup XSteam tables to relate density to temperature.
+ Unfortunately, nothing can be done about this if the lookup tables are
+ going to be used.
+ An improvement on this would be to fit the density vs.
+ temperature data with a polynomial in the range of interest and use that
+ in the residual equations and Jacobian-vector product routines.
+ A linear approximation was made for the density dependence on coolant temperatu
+re.
+ The residual equation is of the form
+\begin_inset Formula 
+\begin{equation}
+\mathcal{P}-\rho^{ref}-\frac{\partial\rho}{\partial T}\left(\mathbf{T}-T^{ref}\right),
+\end{equation}
+
+\end_inset
+
+where it was determined from the lookup tables that 
+\begin_inset Formula $\frac{\partial\rho}{\partial T}=-0.0023393\,\mathrm{g/cm^{3}/K}$
+\end_inset
+
+.
+ The computational cost was reduced significantly.
+ The MATLAB profile summary is shown in Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:profilelinear"
+
+\end_inset
+
+.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename pics/profiler_steady.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+MATLAB Profile Summary with Linear Fit for Density
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:profilelinear"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ The total time to run the steady state calculation is now only 0.436 seconds
+ as compared to 7 seconds with the look up table.
+ Therefore, this method will be used for the transient analysis.
+\end_layout
+
+\begin_layout Section
+Transient Coupled Physics Solution
+\end_layout
+
+\begin_layout Standard
+After the steady state solution is achieved, the transient simulation can
+ be performed.
+ Here, the normalization constant 
+\begin_inset Formula $\tilde{c}$
+\end_inset
+
+ and eigenvalue 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ are now supplied as constants.
+ For the transient calculations, a new set of residual equations was formulated.
+ They are
+\begin_inset Formula 
+\begin{equation}
+\mathbf{F}=\left[\begin{array}{c}
+\mathbf{\Phi}^{n+1}-\mathbf{\Phi}^{n}+v\Delta t\left[\mathbb{M}\mathbf{\Phi}^{n+1}-\left(1-\beta\right)\lambda\mathbb{F}\mathbf{\Phi}^{n+1}-\lambda_{d}\mathbf{c}^{n+1}\right]\\
+\mathbf{c}^{n+1}-\mathbf{c}^{n}+\Delta t\left(\lambda_{d}\mathbf{c}^{n+1}-\beta\lambda\mathbb{F}\mathbf{\Phi}^{n+1}\right)\\
+\mathbf{Q}-\tilde{c}\mathbb{E}\mathbf{\Phi}\Delta x\\
+\mathbf{T}^{n+1}-\mathbf{T}^{n}+\frac{w\Delta t}{\mathcal{P}^{n+1}A\Delta x}\left(\mathbb{S}\mathbf{T}^{n+1}-\mathbb{R}\mathbf{Q}^{n+1}\right)\\
+\mathcal{P}-\rho^{ref}-\frac{\partial\rho}{\partial T}\left(\mathbf{T}-T^{ref}\right)\\
+\mathbf{\Sigma}_{a}-\Sigma_{a}^{ref}-\frac{\partial\Sigma_{a}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right]\\
+\nu\mathbf{\Sigma}_{f}-\nu\Sigma_{f}^{ref}-\frac{\partial\nu\Sigma_{f}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right]\\
+\mathbf{D}-D^{ref}-\frac{\partial D}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right],\\
+\kappa\mathbf{\Sigma}_{f}-\kappa\Sigma_{f}^{ref}-\frac{\partial\kappa\Sigma_{f}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right]
+\end{array}\right],
+\end{equation}
+
+\end_inset
+
+ with unknown vector
+\begin_inset Formula 
+\begin{equation}
+\mathbf{x}^{n+1}=\left[\begin{array}{c}
+\mathbf{\Phi}\\
+\mathbf{c}\\
+\mathbf{Q}\\
+\mathbf{T}\\
+\mathcal{P}\\
+\mathbf{\Sigma}_{a}\\
+\nu\mathbf{\Sigma}_{f}\\
+\mathbf{D}\\
+\kappa\mathbf{\Sigma}_{f}
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ A Jacobian matrix was constructed from the steady solution of all of the
+ above unknowns for the purposes of creating a preconditioner.
+ This preconditioner is only formed once for the whole transient analysis.
+ The Jacobian is 
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+\begin_inset Formula 
+\begin{equation}
+\mathbb{J}=\left[\begin{array}{c|c|c|c|c|c|c|c|c}
+\mathbb{I}+v\Delta t\times &  &  &  &  &  & v\Delta t\left(1-\beta\right)\times & \\
+\left[\mathbb{M}-\left(1-\beta\right)\lambda\mathbb{F}\right] & -v\Delta t\lambda_{d}\mathbb{I} & 0 & 0 & 0 & v\Delta t\mathrm{diag\left\{ \Phi\right\} } & -\lambda\mathrm{diag}\left\{ \Phi\right\}  & v\Delta t\mathbb{MD} & 0\\
+\hline -\Delta t\beta\lambda\mathbb{F} & \mathbb{I}+\Delta t\lambda_{d}\mathbb{I} & 0 & 0 & 0 & 0 & -\Delta t\beta\lambda\mathrm{diag}\left\{ \Phi\right\}  & 0 & 0\\
+\hline -\mathbb{E}\tilde{c}\Delta x & 0 & \mathbb{I} & 0 & 0 & 0 & 0 & 0 & -\tilde{c}\Delta x\mathrm{diag\left\{ \Phi\right\} }\\
+\hline 0 & 0 &  &  & \mathrm{diag}\left\{ -\frac{w\Delta t}{\mathcal{P}^{2}A\Delta x}\times\right. &  &  & \\
+ &  & -\frac{w\Delta t}{\mathcal{P}A\Delta x}\mathbb{R} & \mathbb{I}+\frac{w\Delta t}{\mathcal{P}A\Delta x}\mathbb{S} & \left.\left(\mathbb{S}\mathbf{T}-\mathbb{R}\mathbf{Q}\right)\right\}  & 0 & 0 & 0 & 0\\
+\hline 0 & 0 & 0 & -\frac{\partial\rho}{\partial T}\mathbb{I} & \mathbb{I} & 0 & 0 & 0 & 0\\
+\hline 0 & 0 & 0 & 0 & -\frac{\partial\Sigma_{a}}{\partial\rho} & \mathbb{I} & 0 & 0 & 0\\
+\hline 0 & 0 & 0 & 0 & -\frac{\partial\nu\Sigma_{f}}{\partial\rho} & 0 & \mathbb{I} & 0 & 0\\
+\hline 0 & 0 & 0 & 0 & -\frac{\partial D}{\partial\rho} & 0 & 0 & \mathbb{I} & 0\\
+\hline 0 & 0 & 0 & 0 & -\frac{\partial\kappa\Sigma_{f}}{\partial\rho} & 0 & 0 & 0 & \mathbb{I}
+\end{array}\right].
+\end{equation}
+
+\end_inset
+
+ 
+\size default
+As in the steady state case, a zero-fill ILU preconditioner was formed from
+ this Jacobian matrix.
+ The transient that will be simulated is an insertion of a control followed
+ by a withdrawal of that control rod.
+ At every time step, the control rod insertion length is set corresponding
+ to Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:cr"
+
+\end_inset
+
+.
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{./tikz/controlrod.tikz}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Control Rod Insertion Scheme
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:cr"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ Since the equations are solving implicitly, the JFNK solver is used at
+ every time step to solve for the unknown vector above.
+ The behavior of the reactor is shown in Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:underPow"
+
+\end_inset
+
+ and core average temperature is shown in Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:underTave"
+
+\end_inset
+
+.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{./tikz/UnderDamped_power.tikz}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Power Behavior from Control Insertion/Withdrawal
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:underPow"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{./tikz/UnderDamped_tave.tikz}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Core Average Temperature Behavior from Control Insertion/Withdrawal
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:underTave"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ When the control rod was inserted, the power immediately decreased.
+ The temperature however gradually decreased.
+ This delayed effect caused the power to decrease significantly before the
+ control withdrawal and thermal feedback started to increase power again.
+ The power rose very quickly until the temperature of the coolant was large
+ enough so that rate of fissions was decreased.
+ The power then started to fall rapidly until the end of the simulation.
+ The effects seen here are in an out of phase nature.
+ The responses will continue to oscillate until a steady state is reached
+ again.
+ This type of response is not desired in a nuclear reactor due to heavy
+ thermal stress that may occur.
+ The main reason for this effect is that not all of the physics was modeled.
+ In reality, the average temperature of the fuel will have a very strong
+ prompt feedback.
+ Thus, the feedback will occur on a faster time scale.
+ 
+\end_layout
+
+\begin_layout Standard
+The response of the coolant in simulation is slow partly due to the mass
+ flux and heat capacity of the coolant.
+ To achieve a faster response, the mass flux was increased by reducing the
+ flow area.
+ This will also reduce the heat capacity.
+ Therefore, the fluid will move faster through the medium and the feedback
+ will occur more quickly 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+talk to smith about this
+\end_layout
+
+\end_inset
+
+.
+ The flow area was reduced to 
+\begin_inset Formula $A=0.867\times10^{-5}\,\mathrm{cm^{2}}$
+\end_inset
+
+.
+ The same simulation was performed with this new flow area.
+ The response of the power and core average temperature is shown in Figs.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:dampedPow"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:dampTave"
+
+\end_inset
+
+.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{./tikz/Damped_power.tikz}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Power Behavior from Control Insertion/Withdrawal with High Mass Flux
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:dampedPow"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{./tikz/Damped_tave.tikz}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Core Average Temperature Behavior from Control Insertion/Withdrawal with
+ High Mass Flux
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:dampTave"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ In this simulation, the coolant density response follows the power response
+ very closely.
+ The power reaches a new steady state with the control rod inserted.
+ This is due to the thermal feedback balancing the control rod insertion
+ effect.
+ When the control rod is removed, the power increases and then settles back
+ at the original steady state.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{./tikz/Flux_CR.tikz}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Steady State Flux Shape with and without Control Rod Inserted
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:fluxCR"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{./tikz/Density_CR.tikz}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Steady State Density Distribution with and without Control Rod Inserted
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:DensityCR"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Conclusions
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "refs"
+options "plain"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+\start_of_appendix
+Source Code
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting{../../src/run_coupled.m}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

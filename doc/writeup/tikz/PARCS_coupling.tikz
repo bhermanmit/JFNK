@@ -1,0 +1,46 @@
+\begin{tikzpicture}
+
+	% Define background color
+	\colorlet{bgcolor}{mitred!50};
+	\colorlet{boxcolor}{mitgray!20};
+
+	% Define Dimensions
+	\def\framewidth{14cm};
+	\def\frameheight{10cm};
+	
+	% Define Outer Frame
+	\tikzstyle{frame} = [rounded corners, fill=bgcolor, draw=black, double, very thick];
+	\draw[frame] (0.0,0.0) rectangle (\framewidth,\frameheight);
+
+	% Design Rectangles
+	\begin{scope}
+	
+		\tikzstyle{calcs} = [rectangle, rounded corners, fill=boxcolor, draw = black, very thick, minimum height=5cm, minimum width=3cm, text width = 2.4 cm, text centered];	
+		\node[calcs] (thcalc) at (2.0cm,3.5cm) {Thermal Hydraulics Solver};
+		\node[calcs] (neutcalc) at (12.0cm,3.5cm) {Neutronics Solver};
+		
+		\tikzstyle{input} = [rectangle, fill=boxcolor, draw = black, very thick, minimum height=2cm, minimum width=3cm, text centered];	
+		\node[input,above = 1cm of thcalc.north] (thinput) {T/H input};
+		\node[input,above = 1cm of neutcalc.north] (neutinput) {Neutronics Input};
+
+		\tikzstyle{interface} = [rectangle, rounded corners, fill=boxcolor, draw = black, very thick, minimum height=5cm, minimum width=1cm, text width=1ex, text centered];
+		\node[interface] (thneutint) at (7cm,3.5cm) {I N T E R F A C E};
+		
+		\tikzstyle{map} = [rectangle, rounded corners, fill=boxcolor, draw = black, very thick, minimum height=2cm, minimum width=2cm, text width=1.0cm, text centered];
+		\node[map,right = 0.4cm of thcalc.east](thmap) {T/H to Neut Map};
+		\node[map,left  = 0.4cm of neutcalc.west](neutmap) {Neut to T/H Map};
+		
+	\end{scope}
+	
+	% Draw connectors
+	\tikzstyle{connector} = [->, >=stealth, thick, shorten >=2pt];
+	\draw[connector] (thinput) to [out=270,in=90] (thcalc);
+	\draw[connector] (neutinput) to [out=270,in=90] (neutcalc);
+	
+	\tikzstyle{connectora} = [<->, >=stealth, thick, shorten >=2pt];
+	\draw[connectora] (thcalc) to [out=0,in=180] (thmap);
+	\draw[connectora] (neutcalc) to [out=180,in=0] (neutmap);
+	\draw[connectora] (thmap) to [out=0,in=180] (thneutint);
+	\draw[connectora] (neutmap) to [out=180,in=0] (thneutint);
+
+\end{tikzpicture}
