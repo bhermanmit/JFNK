@@ -1,0 +1,66 @@
+function create_plots(x,pow,tave,i)
+
+global geom
+
+% get needed constants from objects
+n = geom.n;
+
+% create power plot
+figure(1)
+subplot(2,2,1)
+plot(x(2*n+1:3*n))
+title('Power')
+xlabel('Slab Length [cm]')
+ylabel('Power [W]')
+drawnow;
+
+% create temperature plot
+subplot(2,2,2)
+plot(x(3*n+1:4*n))
+title('Temperature')
+xlabel('Slab Length [cm]')
+ylabel('Temperature [C]')
+drawnow;
+
+% create density plot
+subplot(2,2,3)
+plot(x(4*n+1:5*n))
+title('Density')
+xlabel('Slab Length [cm]')
+ylabel('Density [g/cc]')
+drawnow;
+
+% create absorption plot
+subplot(2,2,4)
+plot(x(5*n+1:6*n))
+title('Absorption')
+xlabel('Slab Length [cm]')
+ylabel('Absorption [cm^{-1}]')
+drawnow;
+
+% create average plots
+figure(2)
+subplot(1,2,1)
+plot(pow)
+title('Reactor Power')
+xlabel('Time [step]')
+ylabel('Power [W]')
+drawnow;
+subplot(1,2,2)
+plot(tave)
+title('Average Temperature')
+xlabel('Time [step]')
+ylabel('Temperature [C]')
+drawnow;
+
+% create snapshot plots
+if i == 400
+    figure(4)
+    plot(geom.dx*(1:n)',x(1:n))
+    drawnow;
+    figure(5)
+    plot(geom.dx*(1:n)',x(4*n+1:5*n))
+    drawnow;
+end
+
+end
