@@ -15,7 +15,7 @@ info.dt = 0.1;
 %% geometry object
 
 % number of mesh cells
-geom.n = 600;
+geom.n = 370;
 
 % dimension of mesh [cm]
 geom.dx = 1;

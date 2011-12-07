@@ -1,0 +1,46 @@
+\begin{tikzpicture}[scale=0.65]
+	
+	% Draw nucleus
+	\tikzstyle{nucleon}=[shape = circle, shading=ball, minimum size=0.25cm];
+	\node[nucleon, ball color = green] (neut) at (0.1,0.3) {};
+	\node[nucleon, ball color = red] (prot) at (0.0,0.0) {};
+	\node[nucleon, ball color = green] (neut2) at (0.3,0.2) {};
+        \node[nucleon, ball color = red] (prot2) at (-0.2,0.1) {};
+	\node[nucleon, ball color = green] (neut3) at (-0.1,0.3) {};
+        \node[nucleon, ball color = red] (prot3) at (0.2,-0.15) {};
+	\node[nucleon, ball color = green] (neut4) at (-0.05,-0.12) {};
+        \node[nucleon, ball color = red] (prot4) at (0.17,0.21) {};
+	\draw (0.17,0.21) node{$+$};
+
+	% Draw electrons
+	\draw[rotate = 80] (0,0) ellipse (1.5 and 0.75)[color=blue];
+	\shade[ball color=yellow] (0,0.75)[rotate=80] circle (.1);
+        \draw[rotate = 260] (0,0) ellipse (1.2 and 1.4)[color=blue];
+        \shade[ball color=yellow] (0,1.4)[rotate=260] circle (.1);
+        \draw[rotate = 30] (0,0) ellipse (4 and 2)[color=blue];
+        \shade[ball color=yellow] (0,2)[rotate=30] circle (.1);
+        \draw[rotate = 60] (0,0) ellipse (5 and 1)[color=blue];
+        \shade[ball color=yellow] (0,1)[rotate=60] circle (.1);
+        \draw[rotate = 150] (0,0) ellipse (5.5 and 1.5)[color=blue];
+        \shade[ball color=yellow] (0,1.5)[rotate=150] circle (.1);
+        \draw[rotate = 80] (0,0) ellipse (2.8 and 2.25)[color=blue];
+        \shade[ball color=yellow] (0,2.25)[rotate=80] circle (.1);
+
+	% Draw incident neutron
+	\node[nucleon, ball color = green] (neut) at (-5.0,-5.0) {};
+	\draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=orange] (-4.5cm,-4.5cm) -- (-0.4,-0.4);
+
+        % Draw text
+	\node[shape = rectangle,color=black,minimum width=8,minimum height=5,draw=black,above=5cm of prot.north] (N)   {Neutronics};
+	\node[shape = rectangle,color=black,minimum width=8,minimum height=5,draw=black,below=5cm of prot.south] (T)   {Thermal Hydraulics};
+	\node[shape = rectangle,color=black,minimum width=8,minimum height=5,draw=black,right=5cm of prot.east]  (NT)  {Neut/TH};
+	\node[shape = rectangle,color=black,minimum width=8,minimum height=5,draw=black,left=5cm of prot.west]   (TN)  {TH/Neut};
+
+	% Draw arrows
+	\tikzstyle{connector} = [->,>=stealth, thick];
+	\draw[connector] (N)  to [out=0,in=90]    (NT);
+	\draw[connector] (NT) to [out=270,in=0]   (T);
+	\draw[connector] (T)  to [out=180,in=270] (TN);
+	\draw[connector] (TN) to [out=90,in=180]  (N);
+
+\end{tikzpicture}

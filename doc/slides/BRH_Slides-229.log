@@ -1,36 +1,25 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2011.8.29)  28 NOV 2011 19:04
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.10.20)  6 DEC 2011 19:19
 entering extended mode
-**D:/Documents/PhD/JFNK/doc/slides/BRH_Slides-229.tex
-(D:/Documents/PhD/JFNK/doc/slides/BRH_Slides-229.tex
-LaTeX2e <2011/06/27>
-Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
-abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
-croatian, czech, danish, dutch, esperanto, estonian, farsi, finnish, french, ga
-lician, german, german-x-2009-06-19, greek, gujarati, hindi, hungarian, iceland
-ic, indonesian, interlingua, irish, italian, kannada, kurmanji, lao, latin, lat
-vian, lithuanian, malayalam, marathi, mongolian, mongolianlmc, monogreek, ngerm
-an, ngerman-x-2009-06-19, nynorsk, oriya, panjabi, pinyin, polish, portuguese, 
-romanian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, swis
-sgerman, tamil, telugu, turkish, turkmen, ukenglish, ukrainian, uppersorbian, u
-senglishmax, welsh, loaded.
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamer.cls
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbasercs.
-sty
-Package: beamerbasercs 2010/06/12 (rcs-revision c3821710bb40)
+ %&-line parsing enabled.
+**BRH_Slides-229.tex
+(./BRH_Slides-229.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, loaded.
+(/usr/share/texmf/tex/latex/beamer/base/beamer.cls
+(/usr/share/texmf/tex/latex/beamer/base/beamerbasercs.sty
+Package: beamerbasercs 2007/01/28 (rcs-revision 1.4)
 )
-Document Class: beamer 2010/06/21 development version 3.10 A class for typesett
-ing presentations (rcs-revision a6b1a8434d30)
-
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbasemode
-s.sty
-Package: beamerbasemodes 2010/05/01 (rcs-revision efa082c6111d)
+Document Class: beamer 2007/03/11 cvs version 3.07 A class for typesetting pres
+entations (rcs-revision 1.70)
+(/usr/share/texmf/tex/latex/beamer/base/beamerbasemodes.sty
+Package: beamerbasemodes 2007/01/28 (rcs-revision 1.22)
 \beamer@tempbox=\box26
 \beamer@tempcount=\count79
 \c@beamerpauses=\count80
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbasedeco
-de.sty
-Package: beamerbasedecode 2010/05/01 (rcs-revision efa082c6111d)
+(/usr/share/texmf/tex/latex/beamer/base/beamerbasedecode.sty
+Package: beamerbasedecode 2007/01/28 (rcs-revision 1.20)
 \beamer@slideinframe=\count81
 \beamer@minimum=\count82
 )
@@ -80,147 +69,98 @@ Package: beamerbasedecode 2010/05/01 (rcs-revision efa082c6111d)
 \beamer@sectionadjust=\count100
 \beamer@tocsectionnumber=\count101
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbaseopti
-ons.sty
-Package: beamerbaseoptions 2010/04/27 (rcs-revision 982469101dd6)
- ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+(/usr/share/texmf/tex/latex/beamer/base/beamerbaseoptions.sty
+Package: beamerbaseoptions 2007/01/28 (rcs-revision 1.8)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/keyval.sty
 Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 \KV@toks@=\toks14
 ))
-\beamer@paperwidth=\skip42
-\beamer@paperheight=\skip43
-
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\geometry\geometry.sty"
-Package: geometry 2010/09/12 v5.6 Page Geometry
-
-("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.sty"
-Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
-Package ifpdf Info: pdfTeX in PDF mode is detected.
-)
-("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\ifvtex.sty"
-Package: ifvtex 2010/03/01 v1.5 Switches for detecting VTeX and its modes (HO)
-Package ifvtex Info: VTeX not detected.
-)
-("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.sty"
-Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
-)
-\Gm@cnth=\count102
-\Gm@cntv=\count103
-\c@Gm@tempcnt=\count104
-\Gm@bindingoffset=\dimen119
-\Gm@wd@mp=\dimen120
-\Gm@odd@mp=\dimen121
-\Gm@even@mp=\dimen122
-\Gm@layoutwidth=\dimen123
-\Gm@layoutheight=\dimen124
-\Gm@layouthoffset=\dimen125
-\Gm@layoutvoffset=\dimen126
-\Gm@dimlist=\toks15
-
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\geometry\geometry.cfg"))
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\size11.clo"
-File: size11.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
-)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\pgf\basiclayer\pgfcore.sty
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+(/home/bherman/texmf/tex/base/tex/latex/pgf/basiclayer/pgfcore.sty
+(/usr/share/texmf-texlive/tex/latex/graphics/graphicx.sty
 Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
 
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+(/usr/share/texmf-texlive/tex/latex/graphics/graphics.sty
 Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
 
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+(/usr/share/texmf-texlive/tex/latex/graphics/trig.sty
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 )
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
-File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+(/etc/texmf/tex/latex/config/graphics.cfg
+File: graphics.cfg 2009/08/28 v1.8 graphics configuration of TeX Live
 )
 Package graphics Info: Driver file: pdftex.def on input line 91.
 
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
-File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
-
-("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
-Package: infwarerr 2010/04/08 v1.3 Providing info/warning/message (HO)
-)
-("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
-Package: ltxcmds 2011/04/18 v1.20 LaTeX kernel commands for general use (HO)
-)
-\Gread@gobject=\count105
+(/usr/share/texmf-texlive/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2010/03/12 v0.04p Graphics/color for pdfTeX
+\Gread@gobject=\count102
 ))
-\Gin@req@height=\dimen127
-\Gin@req@width=\dimen128
+\Gin@req@height=\dimen119
+\Gin@req@width=\dimen120
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\pgf\systemlayer\pgfsys.sty
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\pgf\utilities\pgfrcs.sty
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\utilities\pgfutil-co
-mmon.tex
-\pgfutil@everybye=\toks16
+(/home/bherman/texmf/tex/base/tex/latex/pgf/systemlayer/pgfsys.sty
+(/home/bherman/texmf/tex/base/tex/latex/pgf/utilities/pgfrcs.sty
+(/home/bherman/texmf/tex/base/tex/generic/pgf/utilities/pgfutil-common.tex
+\pgfutil@everybye=\toks15
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\utilities\pgfutil-la
-tex.def
+(/home/bherman/texmf/tex/base/tex/generic/pgf/utilities/pgfutil-latex.def
 \pgfutil@abb=\box34
- (C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\ms\everyshi.sty
+
+(/usr/share/texmf-texlive/tex/latex/ms/everyshi.sty
 Package: everyshi 2001/05/15 v3.00 EveryShipout Package (MS)
 ))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\utilities\pgfrcs.cod
-e.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/utilities/pgfrcs.code.tex
 Package: pgfrcs 2010/10/25 v2.10 (rcs-revision 1.24)
 ))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\systemlayer\pgfsys.c
-ode.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/systemlayer/pgfsys.code.tex
 Package: pgfsys 2010/06/30 v2.10 (rcs-revision 1.37)
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\utilities\pgfkeys.co
-de.tex
-\pgfkeys@pathtoks=\toks17
-\pgfkeys@temptoks=\toks18
+(/home/bherman/texmf/tex/base/tex/generic/pgf/utilities/pgfkeys.code.tex
+\pgfkeys@pathtoks=\toks16
+\pgfkeys@temptoks=\toks17
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\utilities\pgfkeysfil
-tered.code.tex
-\pgfkeys@tmptoks=\toks19
+(/home/bherman/texmf/tex/base/tex/generic/pgf/utilities/pgfkeysfiltered.code.te
+x
+\pgfkeys@tmptoks=\toks18
 ))
-\pgf@x=\dimen129
-\pgf@y=\dimen130
-\pgf@xa=\dimen131
-\pgf@ya=\dimen132
-\pgf@xb=\dimen133
-\pgf@yb=\dimen134
-\pgf@xc=\dimen135
-\pgf@yc=\dimen136
+\pgf@x=\dimen121
+\pgf@y=\dimen122
+\pgf@xa=\dimen123
+\pgf@ya=\dimen124
+\pgf@xb=\dimen125
+\pgf@yb=\dimen126
+\pgf@xc=\dimen127
+\pgf@yc=\dimen128
 \w@pgf@writea=\write3
 \r@pgf@reada=\read1
-\c@pgf@counta=\count106
-\c@pgf@countb=\count107
-\c@pgf@countc=\count108
-\c@pgf@countd=\count109
-
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\systemlayer\pgf.cfg
+\c@pgf@counta=\count103
+\c@pgf@countb=\count104
+\c@pgf@countc=\count105
+\c@pgf@countd=\count106
+ (/home/bherman/texmf/tex/base/tex/generic/pgf/systemlayer/pgf.cfg
 File: pgf.cfg 2008/05/14  (rcs-revision 1.7)
 )
 Package pgfsys Info: Driver file for pgf: pgfsys-pdftex.def on input line 900.
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\systemlayer\pgfsys-p
-dftex.def
+(/home/bherman/texmf/tex/base/tex/generic/pgf/systemlayer/pgfsys-pdftex.def
 File: pgfsys-pdftex.def 2009/05/22  (rcs-revision 1.26)
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\systemlayer\pgfsys-c
-ommon-pdf.def
+(/home/bherman/texmf/tex/base/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def
 File: pgfsys-common-pdf.def 2008/05/19  (rcs-revision 1.10)
 )))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\systemlayer\pgfsysso
-ftpath.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.t
+ex
 File: pgfsyssoftpath.code.tex 2008/07/18  (rcs-revision 1.7)
-\pgfsyssoftpath@smallbuffer@items=\count110
-\pgfsyssoftpath@bigbuffer@items=\count111
+\pgfsyssoftpath@smallbuffer@items=\count107
+\pgfsyssoftpath@bigbuffer@items=\count108
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\systemlayer\pgfsyspr
-otocol.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/systemlayer/pgfsysprotocol.code.t
+ex
 File: pgfsysprotocol.code.tex 2006/10/16  (rcs-revision 1.4)
-))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\xcolor\xcolor.sty
+)) (/usr/share/texmf/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
 
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\color.cfg"
+(/etc/texmf/tex/latex/config/color.cfg
 File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
 Package xcolor Info: Driver file: pdftex.def on input line 225.
@@ -234,837 +174,806 @@ Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcore.c
-ode.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/basiclayer/pgfcore.code.tex
 Package: pgfcore 2010/04/11 v2.10 (rcs-revision 1.7)
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmath.code.te
-x
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmathcalc.cod
-e.tex
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmathutil.cod
-e.tex)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmathparser.c
-ode.tex
-\pgfmath@dimen=\dimen137
-\pgfmath@count=\count112
+(/home/bherman/texmf/tex/base/tex/generic/pgf/math/pgfmath.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/math/pgfmathcalc.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/math/pgfmathutil.code.tex)
+(/home/bherman/texmf/tex/base/tex/generic/pgf/math/pgfmathparser.code.tex
+\pgfmath@dimen=\dimen129
+\pgfmath@count=\count109
 \pgfmath@box=\box35
-\pgfmath@toks=\toks20
-\pgfmath@stack@operand=\toks21
-\pgfmath@stack@operation=\toks22
+\pgfmath@toks=\toks19
+\pgfmath@stack@operand=\toks20
+\pgfmath@stack@operation=\toks21
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmathfunction
-s.code.tex
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmathfunction
-s.basic.code.tex)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmathfunction
-s.trigonometric.code.tex)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmathfunction
-s.random.code.tex)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmathfunction
-s.comparison.code.tex)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmathfunction
-s.base.code.tex)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmathfunction
-s.round.code.tex)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmathfunction
-s.misc.code.tex)))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\math\pgfmathfloat.co
-de.tex
-\c@pgfmathroundto@lastzeros=\count113
+(/home/bherman/texmf/tex/base/tex/generic/pgf/math/pgfmathfunctions.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/math/pgfmathfunctions.basic.code.
+tex)
+(/home/bherman/texmf/tex/base/tex/generic/pgf/math/pgfmathfunctions.trigonometr
+ic.code.tex)
+(/home/bherman/texmf/tex/base/tex/generic/pgf/math/pgfmathfunctions.random.code
+.tex)
+(/home/bherman/texmf/tex/base/tex/generic/pgf/math/pgfmathfunctions.comparison.
+code.tex)
+(/home/bherman/texmf/tex/base/tex/generic/pgf/math/pgfmathfunctions.base.code.t
+ex)
+(/home/bherman/texmf/tex/base/tex/generic/pgf/math/pgfmathfunctions.round.code.
+tex)
+(/home/bherman/texmf/tex/base/tex/generic/pgf/math/pgfmathfunctions.misc.code.t
+ex))) (/home/bherman/texmf/tex/base/tex/generic/pgf/math/pgfmathfloat.code.tex
+\c@pgfmathroundto@lastzeros=\count110
 ))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcorepo
-ints.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
 File: pgfcorepoints.code.tex 2010/04/09  (rcs-revision 1.20)
-\pgf@picminx=\dimen138
-\pgf@picmaxx=\dimen139
-\pgf@picminy=\dimen140
-\pgf@picmaxy=\dimen141
-\pgf@pathminx=\dimen142
-\pgf@pathmaxx=\dimen143
-\pgf@pathminy=\dimen144
-\pgf@pathmaxy=\dimen145
-\pgf@xx=\dimen146
-\pgf@xy=\dimen147
-\pgf@yx=\dimen148
-\pgf@yy=\dimen149
-\pgf@zx=\dimen150
-\pgf@zy=\dimen151
+\pgf@picminx=\dimen130
+\pgf@picmaxx=\dimen131
+\pgf@picminy=\dimen132
+\pgf@picmaxy=\dimen133
+\pgf@pathminx=\dimen134
+\pgf@pathmaxx=\dimen135
+\pgf@pathminy=\dimen136
+\pgf@pathmaxy=\dimen137
+\pgf@xx=\dimen138
+\pgf@xy=\dimen139
+\pgf@yx=\dimen140
+\pgf@yy=\dimen141
+\pgf@zx=\dimen142
+\pgf@zy=\dimen143
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcorepa
-thconstruct.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/basiclayer/pgfcorepathconstruct.c
+ode.tex
 File: pgfcorepathconstruct.code.tex 2010/08/03  (rcs-revision 1.24)
-\pgf@path@lastx=\dimen152
-\pgf@path@lasty=\dimen153
+\pgf@path@lastx=\dimen144
+\pgf@path@lasty=\dimen145
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcorepa
-thusage.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/basiclayer/pgfcorepathusage.code.
+tex
 File: pgfcorepathusage.code.tex 2008/04/22  (rcs-revision 1.12)
-\pgf@shorten@end@additional=\dimen154
-\pgf@shorten@start@additional=\dimen155
+\pgf@shorten@end@additional=\dimen146
+\pgf@shorten@start@additional=\dimen147
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcoresc
-opes.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
 File: pgfcorescopes.code.tex 2010/09/08  (rcs-revision 1.34)
 \pgfpic=\box36
 \pgf@hbox=\box37
 \pgf@layerbox@main=\box38
-\pgf@picture@serial@count=\count114
+\pgf@picture@serial@count=\count111
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcoregr
-aphicstate.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/basiclayer/pgfcoregraphicstate.co
+de.tex
 File: pgfcoregraphicstate.code.tex 2008/04/22  (rcs-revision 1.9)
-\pgflinewidth=\dimen156
+\pgflinewidth=\dimen148
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcoretr
-ansformations.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/basiclayer/pgfcoretransformations
+.code.tex
 File: pgfcoretransformations.code.tex 2009/06/10  (rcs-revision 1.11)
-\pgf@pt@x=\dimen157
-\pgf@pt@y=\dimen158
-\pgf@pt@temp=\dimen159
+\pgf@pt@x=\dimen149
+\pgf@pt@y=\dimen150
+\pgf@pt@temp=\dimen151
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcorequ
-ick.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
 File: pgfcorequick.code.tex 2008/10/09  (rcs-revision 1.3)
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcoreob
-jects.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/basiclayer/pgfcoreobjects.code.te
+x
 File: pgfcoreobjects.code.tex 2006/10/11  (rcs-revision 1.2)
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcorepa
-thprocessing.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/basiclayer/pgfcorepathprocessing.
+code.tex
 File: pgfcorepathprocessing.code.tex 2008/10/09  (rcs-revision 1.8)
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcorear
-rows.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex
 File: pgfcorearrows.code.tex 2008/04/23  (rcs-revision 1.11)
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcoresh
-ade.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
 File: pgfcoreshade.code.tex 2008/11/23  (rcs-revision 1.13)
-\pgf@max=\dimen160
-\pgf@sys@shading@range@num=\count115
-)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcoreim
-age.code.tex
+\pgf@max=\dimen152
+\pgf@sys@shading@range@num=\count112
+) (/home/bherman/texmf/tex/base/tex/generic/pgf/basiclayer/pgfcoreimage.code.te
+x
 File: pgfcoreimage.code.tex 2010/03/25  (rcs-revision 1.16)
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcoreex
-ternal.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/basiclayer/pgfcoreexternal.code.t
+ex
 File: pgfcoreexternal.code.tex 2010/09/01  (rcs-revision 1.17)
 \pgfexternal@startupbox=\box39
 ))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcorela
-yers.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex
 File: pgfcorelayers.code.tex 2010/08/27  (rcs-revision 1.2)
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcoretr
-ansparency.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/basiclayer/pgfcoretransparency.co
+de.tex
 File: pgfcoretransparency.code.tex 2008/01/17  (rcs-revision 1.2)
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\basiclayer\pgfcorepa
-tterns.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/basiclayer/pgfcorepatterns.code.t
+ex
 File: pgfcorepatterns.code.tex 2009/07/02  (rcs-revision 1.3)
-)))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\pgf\utilities\xxcolor.sty
+))) (/home/bherman/texmf/tex/base/tex/latex/pgf/basiclayer/pgfbaseimage.sty
+
+Package pgf Warning: This package is obsolete and no longer needed on input lin
+e 13.
+
+) (/home/bherman/texmf/tex/base/tex/latex/pgf/utilities/xxcolor.sty
 Package: xxcolor 2003/10/24 ver 0.1
-\XC@nummixins=\count116
-\XC@countmixins=\count117
-) ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\hyperref.sty"
-Package: hyperref 2011/08/19 v6.82h Hypertext links for LaTeX
-
-("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\hobsub-hyperref.sty"
-Package: hobsub-hyperref 2011/04/23 v1.4 Bundle oberdiek, subset hyperref (HO)
-
-("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\hobsub-generic.sty"
-Package: hobsub-generic 2011/04/23 v1.4 Bundle oberdiek, subset generic (HO)
-Package: hobsub 2011/04/23 v1.4 Subsetting bundle oberdiek (HO)
-Package hobsub Info: Skipping package `infwarerr' (already loaded).
-Package hobsub Info: Skipping package `ltxcmds' (already loaded).
-Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
-Package ifluatex Info: LuaTeX not detected.
-Package hobsub Info: Skipping package `ifvtex' (already loaded).
-Package: intcalc 2007/09/27 v1.1 Expandable integer calculations (HO)
-Package hobsub Info: Skipping package `ifpdf' (already loaded).
-Package: etexcmds 2011/02/16 v1.5 Prefix for e-TeX command names (HO)
-Package etexcmds Info: Could not find \expanded.
-(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
-(etexcmds)             that some package has redefined \expanded.
-(etexcmds)             In the latter case, load this package earlier.
-Package: kvsetkeys 2011/04/07 v1.13 Key value parser (HO)
-Package: kvdefinekeys 2011/04/07 v1.3 Defining keys (HO)
-Package: pdftexcmds 2011/04/22 v0.16 Utilities of pdfTeX for LuaTeX (HO)
-Package pdftexcmds Info: LuaTeX not detected.
-Package pdftexcmds Info: \pdf@primitive is available.
-Package pdftexcmds Info: \pdf@ifprimitive is available.
-Package pdftexcmds Info: \pdfdraftmode found.
-Package: pdfescape 2011/04/04 v1.12 Provides string conversions (HO)
-Package: bigintcalc 2011/01/30 v1.2 Expandable big integer calculations (HO)
-Package: bitset 2011/01/30 v1.1 Data type bit set (HO)
-Package: uniquecounter 2011/01/30 v1.2 Provides unlimited unique counter (HO)
+\XC@nummixins=\count113
+\XC@countmixins=\count114
 )
-Package hobsub Info: Skipping package `hobsub' (already loaded).
-Package: letltxmacro 2010/09/02 v1.4 Let assignment for LaTeX macros (HO)
-Package: hopatch 2011/01/30 v1.0 Wrapper for package hooks (HO)
-Package: xcolor-patch 2011/01/30 xcolor patch
-Package: atveryend 2011/04/23 v1.7 Hooks at very end of document (HO)
-Package: atbegshi 2011/01/30 v1.15 At begin shipout hook (HO)
-Package: refcount 2010/12/01 v3.2 Data extraction from references (HO)
-Package: hycolor 2011/01/30 v1.7 Color options of hyperref/bookmark (HO)
-)
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
-Package: kvoptions 2010/12/23 v3.10 Keyval support for LaTeX options (HO)
-)
-\@linkdim=\dimen161
-\Hy@linkcounter=\count118
-\Hy@pagecounter=\count119
-
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\pd1enc.def"
-File: pd1enc.def 2011/08/19 v6.82h Hyperref: PDFDocEncoding definition (HO)
-)
-\Hy@SavedSpaceFactor=\count120
-
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\hyperref.cfg"
-File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
-)
-Package hyperref Info: Option `bookmarks' set `true' on input line 3932.
-Package hyperref Info: Option `bookmarksopen' set `true' on input line 3932.
-Package hyperref Info: Option `implicit' set `false' on input line 3932.
-Package hyperref Info: Hyper figures OFF on input line 4053.
-Package hyperref Info: Link nesting OFF on input line 4058.
-Package hyperref Info: Hyper index ON on input line 4061.
-Package hyperref Info: Plain pages OFF on input line 4068.
-Package hyperref Info: Backreferencing OFF on input line 4073.
-Package hyperref Info: Implicit mode OFF; no redefinition of LaTeX internals.
-Package hyperref Info: Bookmarks ON on input line 4291.
-\c@Hy@tempcnt=\count121
-
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ltxmisc\url.sty"
-\Urlmuskip=\muskip10
-Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
-)
-LaTeX Info: Redefining \url on input line 4644.
-\Fld@menulength=\count122
-\Field@Width=\dimen162
-\Fld@charsize=\dimen163
-Package hyperref Info: Hyper figures OFF on input line 5730.
-Package hyperref Info: Link nesting OFF on input line 5735.
-Package hyperref Info: Hyper index ON on input line 5738.
-Package hyperref Info: backreferencing OFF on input line 5745.
-Package hyperref Info: Link coloring OFF on input line 5750.
-Package hyperref Info: Link coloring with OCG OFF on input line 5755.
-Package hyperref Info: PDF/A mode OFF on input line 5760.
-LaTeX Info: Redefining \ref on input line 5800.
-LaTeX Info: Redefining \pageref on input line 5804.
-\Hy@abspage=\count123
-
-
-Package hyperref Message: Stopped early.
-
-)
-
-Package hyperref Message: Driver (autodetected): hpdftex.
-
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\hpdftex.def"
-File: hpdftex.def 2011/08/19 v6.82h Hyperref driver for pdfTeX
-\Fld@listcount=\count124
-\c@bookmark@seq@number=\count125
-
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\rerunfilecheck.sty"
-Package: rerunfilecheck 2011/04/15 v1.7 Rerun checks for auxiliary files (HO)
-Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
-82.
-))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbaserequ
-ires.sty
-Package: beamerbaserequires 2010/05/01  (rcs-revision efa082c6111d)
-
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbasecomp
-atibility.sty
-Package: beamerbasecompatibility 2010/07/12  (rcs-revision 6648c3177e4e)
-)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbasefont
-.sty
-Package: beamerbasefont 2010/05/10  (rcs-revision cd36e8a33c6b)
- ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amssymb.sty"
+(/usr/share/texmf-texlive/tex/latex/amsfonts/amssymb.sty
 Package: amssymb 2009/06/22 v3.00
 
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.sty"
+(/usr/share/texmf-texlive/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
-\@emptytoks=\toks23
+\@emptytoks=\toks22
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
+))
+(/usr/share/texmf-texlive/tex/latex/geometry/geometry.sty
+Package: geometry 2008/12/21 v4.2 Page Geometry
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2009/04/10 v2.0 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in pdf mode detected.
+)
+(/usr/share/texmf-texlive/tex/generic/oberdiek/ifvtex.sty
+Package: ifvtex 2008/11/04 v1.4 Switches for detecting VTeX and its modes (HO)
+Package ifvtex Info: VTeX not detected.
+)
+\Gm@cnth=\count115
+\Gm@cntv=\count116
+\c@Gm@tempcnt=\count117
+\Gm@bindingoffset=\dimen153
+\Gm@wd@mp=\dimen154
+\Gm@odd@mp=\dimen155
+\Gm@even@mp=\dimen156
+\Gm@dimlist=\toks23
+)
+(/usr/share/texmf-texlive/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2009/10/09 v6.79a Hypertext links for LaTeX
+
+(/usr/share/texmf-texlive/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2009/01/23 v0.5 Provides ifxetex conditional
+)
+(/usr/share/texmf-texlive/tex/latex/oberdiek/hycolor.sty
+Package: hycolor 2009/10/02 v1.5 Code for color options of hyperref/bookmark (H
+O)
+
+(/usr/share/texmf-texlive/tex/latex/oberdiek/xcolor-patch.sty
+Package: xcolor-patch 2009/10/02 xcolor patch
+))
+\@linkdim=\dimen157
+\Hy@linkcounter=\count118
+\Hy@pagecounter=\count119
+
+(/usr/share/texmf-texlive/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2009/10/09 v6.79a Hyperref: PDFDocEncoding definition (HO)
+)
+(/usr/share/texmf-texlive/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2007/12/12 v1.2 Prefix for e-TeX command names (HO)
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2007/09/09 v1.2 Providing info/warning/message (HO)
+)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)
+(/usr/share/texmf-texlive/tex/latex/latexconfig/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+(/usr/share/texmf-texlive/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2009/08/13 v3.4 Keyval support for LaTeX options (HO)
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2009/07/30 v1.5 Key value parser with default handler suppor
+t (HO)
+))
+Package hyperref Info: Option `bookmarks' set `true' on input line 2864.
+Package hyperref Info: Option `bookmarksopen' set `true' on input line 2864.
+Package hyperref Info: Option `implicit' set `false' on input line 2864.
+Package hyperref Info: Hyper figures OFF on input line 2975.
+Package hyperref Info: Link nesting OFF on input line 2980.
+Package hyperref Info: Hyper index ON on input line 2983.
+Package hyperref Info: Plain pages OFF on input line 2990.
+Package hyperref Info: Backreferencing OFF on input line 2995.
+
+Implicit mode OFF; no redefinition of LaTeX internals
+Package hyperref Info: Bookmarks ON on input line 3191.
+(/usr/share/texmf-texlive/tex/latex/ltxmisc/url.sty
+\Urlmuskip=\muskip10
+Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 3428.
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/bitset.sty
+Package: bitset 2007/09/28 v1.0 Data type bit set (HO)
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/intcalc.sty
+Package: intcalc 2007/09/27 v1.1 Expandable integer calculations (HO)
+)
+(/usr/share/texmf-texlive/tex/generic/oberdiek/bigintcalc.sty
+Package: bigintcalc 2007/11/11 v1.1 Expandable big integer calculations (HO)
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2009/09/23 v0.6 LuaTeX support for pdfTeX utility functions
+ (HO)
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2009/04/17 v1.2 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+(/usr/share/texmf-texlive/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2009/08/05 v1.0 Some LaTeX kernel commands for general use (HO
+)
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
 )))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbasetran
-slator.sty
-Package: beamerbasetranslator 2010/06/11  (rcs-revision 85fd1cc7fc42)
+\Fld@menulength=\count120
+\Field@Width=\dimen158
+\Fld@charsize=\dimen159
+\Field@toks=\toks24
+Package hyperref Info: Hyper figures OFF on input line 4377.
+Package hyperref Info: Link nesting OFF on input line 4382.
+Package hyperref Info: Hyper index ON on input line 4385.
+Package hyperref Info: backreferencing OFF on input line 4392.
+Package hyperref Info: Link coloring OFF on input line 4397.
+Package hyperref Info: Link coloring with OCG OFF on input line 4402.
+Package hyperref Info: PDF/A mode OFF on input line 4407.
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\translator\tra
-nslator.sty
-Package: translator 2010/06/12 ver 1.10
+(/usr/share/texmf-texlive/tex/generic/oberdiek/atbegshi.sty
+Package: atbegshi 2008/07/31 v1.9 At begin shipout hook (HO)
+)
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\translator\tra
-nslator-language-mappings.tex)))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbasemisc
-.sty
-Package: beamerbasemisc 2010/06/06  (rcs-revision bff0a9294b45)
+Package hyperref Warning: Option `pdfpagelabels' is turned off
+(hyperref)                because \thepage is undefined.
+
+Hyperref stopped early
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbasetwos
-creens.sty
-Package: beamerbasetwoscreens 2010/05/01  (rcs-revision efa082c6111d)
+*hyperref using default driver hpdftex*
+(/usr/share/texmf-texlive/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2009/10/09 v6.79a Hyperref driver for pdfTeX
+\Fld@listcount=\count121
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbaseover
-lay.sty
-Package: beamerbaseoverlay 2010/05/07  (rcs-revision 5584dad462a9)
-\beamer@argscount=\count126
-\beamer@lastskipcover=\skip44
-\beamer@trivlistdepth=\count127
+(/usr/share/texmf-texlive/tex/latex/base/size11.clo
+File: size11.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbasetitl
-e.sty
-Package: beamerbasetitle 2010/06/12  (rcs-revision 717e481ca47a)
+(/usr/share/texmf/tex/latex/beamer/base/beamerbasecompatibility.sty
+Package: beamerbasecompatibility 2007/01/28  (rcs-revision 1.63)
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbasesect
-ion.sty
-Package: beamerbasesection 2010/06/17  (rcs-revision e0d9401bb743)
-\c@lecture=\count128
-\c@part=\count129
-\c@section=\count130
-\c@subsection=\count131
-\c@subsubsection=\count132
+(/usr/share/texmf/tex/latex/beamer/base/beamerbasefont.sty
+Package: beamerbasefont 2007/01/28  (rcs-revision 1.16)
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbasefram
-e.sty
-Package: beamerbaseframe 2010/06/06  (rcs-revision bff0a9294b45)
+(/usr/share/texmf/tex/latex/beamer/base/beamerbasemisc.sty
+Package: beamerbasemisc 2007/01/28  (rcs-revision 1.24)
+)
+(/usr/share/texmf/tex/latex/beamer/base/beamerbasetwoscreens.sty
+Package: beamerbasetwoscreens 2007/01/28  (rcs-revision 1.7)
+)
+(/usr/share/texmf/tex/latex/beamer/base/beamerbaseoverlay.sty
+Package: beamerbaseoverlay 2007/01/28  (rcs-revision 1.50)
+\beamer@argscount=\count122
+\beamer@lastskipcover=\skip42
+\beamer@trivlistdepth=\count123
+)
+(/usr/share/texmf/tex/latex/beamer/base/beamerbasetitle.sty
+Package: beamerbasetitle 2007/01/28  (rcs-revision 1.25)
+)
+(/usr/share/texmf/tex/latex/beamer/base/beamerbasesection.sty
+Package: beamerbasesection 2007/01/28  (rcs-revision 1.21)
+\c@lecture=\count124
+\c@part=\count125
+\c@section=\count126
+\c@subsection=\count127
+\c@subsubsection=\count128
+)
+(/usr/share/texmf/tex/latex/beamer/base/beamerbaseframe.sty
+Package: beamerbaseframe 2007/01/28  (rcs-revision 1.60)
 \beamer@framebox=\box40
 \beamer@frametitlebox=\box41
 \beamer@zoombox=\box42
-\beamer@zoomcount=\count133
-\beamer@zoomframecount=\count134
-\beamer@frametextheight=\dimen164
-\c@subsectionslide=\count135
-\beamer@frametopskip=\skip45
-\beamer@framebottomskip=\skip46
-\beamer@frametopskipautobreak=\skip47
-\beamer@framebottomskipautobreak=\skip48
-\beamer@envbody=\toks24
-\c@framenumber=\count136
+\beamer@zoomcount=\count129
+\beamer@zoomframecount=\count130
+\beamer@frametextheight=\dimen160
+\c@subsectionslide=\count131
+\beamer@frametopskip=\skip43
+\beamer@framebottomskip=\skip44
+\beamer@frametopskipautobreak=\skip45
+\beamer@framebottomskipautobreak=\skip46
+\beamer@envbody=\toks25
+\c@framenumber=\count132
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbaseverb
-atim.sty
-Package: beamerbaseverbatim 2010/05/01  (rcs-revision efa082c6111d)
+(/usr/share/texmf/tex/latex/beamer/base/beamerbaseverbatim.sty
+Package: beamerbaseverbatim 2007/01/28  (rcs-revision 1.8)
 \beamer@verbatimfileout=\write4
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbasefram
-esize.sty
-Package: beamerbaseframesize 2010/06/27  (rcs-revision 6baa2d92e6f1)
+(/usr/share/texmf/tex/latex/beamer/base/beamerbaseframesize.sty
+Package: beamerbaseframesize 2007/01/28  (rcs-revision 1.18)
 \beamer@splitbox=\box43
-\beamer@autobreakcount=\count137
-\beamer@autobreaklastheight=\dimen165
-\beamer@frametitletoks=\toks25
-\beamer@framesubtitletoks=\toks26
+\beamer@autobreakcount=\count133
+\beamer@autobreaklastheight=\dimen161
+\beamer@frametitletoks=\toks26
+\beamer@framesubtitletoks=\toks27
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbasefram
-ecomponents.sty
-Package: beamerbaseframecomponents 2010/07/12  (rcs-revision 09e82992d9b1)
+(/usr/share/texmf/tex/latex/beamer/base/beamerbaseframecomponents.sty
+Package: beamerbaseframecomponents 2007/01/28  (rcs-revision 1.41)
 \beamer@footins=\box44
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbasecolo
-r.sty
-Package: beamerbasecolor 2010/06/06  (rcs-revision d1a9b48be06d)
+(/usr/share/texmf/tex/latex/beamer/base/beamerbasecolor.sty
+Package: beamerbasecolor 2007/01/28  (rcs-revision 1.42)
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbasenote
-s.sty
-Package: beamerbasenotes 2010/05/01  (rcs-revision efa082c6111d)
+(/usr/share/texmf/tex/latex/beamer/base/beamerbasenotes.sty
+Package: beamerbasenotes 2007/01/28  (rcs-revision 1.23)
 \beamer@frameboxcopy=\box45
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbasetoc.
-sty
-Package: beamerbasetoc 2010/06/11  (rcs-revision 242ecaa6783b)
+(/usr/share/texmf/tex/latex/beamer/base/beamerbasetoc.sty
+Package: beamerbasetoc 2007/01/28  (rcs-revision 1.21)
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbasetemp
-lates.sty
-Package: beamerbasetemplates 2010/05/01  (rcs-revision efa082c6111d)
-\beamer@sbttoks=\toks27
+(/usr/share/texmf/tex/latex/beamer/base/beamerbasetemplates.sty
+Package: beamerbasetemplates 2007/01/28  (rcs-revision 1.51)
+\beamer@sbttoks=\toks28
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbaseauxt
-emplates.sty
-Package: beamerbaseauxtemplates 2010/05/01  (rcs-revision efa082c6111d)
+(/usr/share/texmf/tex/latex/beamer/base/beamerbaseauxtemplates.sty
+Package: beamerbaseauxtemplates 2007/01/28  (rcs-revision 1.28)
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbaseboxe
-s.sty
-Package: beamerbaseboxes 2010/05/01  (rcs-revision efa082c6111d)
+(/usr/share/texmf/tex/latex/beamer/base/beamerbaseboxes.sty
+Package: beamerbaseboxes 2007/03/11  (rcs-revision 1.32)
 \bmb@box=\box46
 \bmb@colorbox=\box47
 \bmb@boxshadow=\box48
 \bmb@boxshadowball=\box49
 \bmb@boxshadowballlarge=\box50
-\bmb@temp=\dimen166
-\bmb@dima=\dimen167
-\bmb@dimb=\dimen168
-\bmb@prevheight=\dimen169
+\bmb@temp=\dimen162
+\bmb@dima=\dimen163
+\bmb@dimb=\dimen164
+\bmb@prevheight=\dimen165
 )
-\beamer@blockheadheight=\dimen170
+\beamer@blockheadheight=\dimen166
 ))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbaseloca
-lstructure.sty
-Package: beamerbaselocalstructure 2010/06/01  (rcs-revision 81f9e33f7cc2)
- ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\enumerate.sty"
+(/usr/share/texmf/tex/latex/beamer/base/beamerbaselocalstructure.sty
+Package: beamerbaselocalstructure 2007/01/28  (rcs-revision 1.53)
+
+(/usr/share/texmf-texlive/tex/latex/tools/enumerate.sty
 Package: enumerate 1999/03/05 v3.00 enumerate extensions (DPC)
-\@enLab=\toks28
+\@enLab=\toks29
 )
-\c@figure=\count138
-\c@table=\count139
-\abovecaptionskip=\skip49
-\belowcaptionskip=\skip50
+\c@figure=\count134
+\c@table=\count135
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbasenavi
-gation.sty
-Package: beamerbasenavigation 2010/05/01  (rcs-revision efa082c6111d)
+(/usr/share/texmf/tex/latex/beamer/base/beamerbasenavigation.sty
+Package: beamerbasenavigation 2007/01/28  (rcs-revision 1.36)
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbasetheo
-rems.sty
-Package: beamerbasetheorems 2010/06/06  (rcs-revision 7e7cc5e53e9d)
- ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ams\math\amsmath.sty"
+(/usr/share/texmf/tex/latex/beamer/base/beamerbasetheorems.sty
+Package: beamerbasetheorems 2007/01/28  (rcs-revision 1.10)
+
+(/usr/share/texmf-texlive/tex/latex/translator/translator.sty
+Package: translator 2007/03/11 ver 1.00
+
+(/usr/share/texmf-texlive/tex/latex/translator/translator-language-mappings.tex
+)) (/usr/share/texmf-texlive/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2000/07/18 v2.13 AMS math features
-\@mathmargin=\skip51
+\@mathmargin=\skip49
 
 For additional information on amsmath, use the `?' option.
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ams\math\amstext.sty"
+(/usr/share/texmf-texlive/tex/latex/amsmath/amstext.sty
 Package: amstext 2000/06/29 v2.01
 
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ams\math\amsgen.sty"
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0
-\@emptytoks=\toks29
-\ex@=\dimen171
+\@emptytoks=\toks30
+\ex@=\dimen167
 ))
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ams\math\amsbsy.sty"
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d
-\pmbraise@=\dimen172
+\pmbraise@=\dimen168
 )
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ams\math\amsopn.sty"
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsopn.sty
 Package: amsopn 1999/12/14 v2.01 operator names
 )
-\inf@bad=\count140
+\inf@bad=\count136
 LaTeX Info: Redefining \frac on input line 211.
-\uproot@=\count141
-\leftroot@=\count142
+\uproot@=\count137
+\leftroot@=\count138
 LaTeX Info: Redefining \overline on input line 307.
-\classnum@=\count143
-\DOTSCASE@=\count144
+\classnum@=\count139
+\DOTSCASE@=\count140
 LaTeX Info: Redefining \ldots on input line 379.
 LaTeX Info: Redefining \dots on input line 382.
 LaTeX Info: Redefining \cdots on input line 467.
 \Mathstrutbox@=\box51
 \strutbox@=\box52
-\big@size=\dimen173
+\big@size=\dimen169
 LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
-\macc@depth=\count145
-\c@MaxMatrixCols=\count146
+\macc@depth=\count141
+\c@MaxMatrixCols=\count142
 \dotsspace@=\muskip11
-\c@parentequation=\count147
-\dspbrk@lvl=\count148
-\tag@help=\toks30
-\row@=\count149
-\column@=\count150
-\maxfields@=\count151
-\andhelp@=\toks31
-\eqnshift@=\dimen174
-\alignsep@=\dimen175
-\tagshift@=\dimen176
-\tagwidth@=\dimen177
-\totwidth@=\dimen178
-\lineht@=\dimen179
-\@envbody=\toks32
-\multlinegap=\skip52
-\multlinetaggap=\skip53
-\mathdisplay@stack=\toks33
+\c@parentequation=\count143
+\dspbrk@lvl=\count144
+\tag@help=\toks31
+\row@=\count145
+\column@=\count146
+\maxfields@=\count147
+\andhelp@=\toks32
+\eqnshift@=\dimen170
+\alignsep@=\dimen171
+\tagshift@=\dimen172
+\tagwidth@=\dimen173
+\totwidth@=\dimen174
+\lineht@=\dimen175
+\@envbody=\toks33
+\multlinegap=\skip50
+\multlinetaggap=\skip51
+\mathdisplay@stack=\toks34
 LaTeX Info: Redefining \[ on input line 2666.
 LaTeX Info: Redefining \] on input line 2667.
 )
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ams\classes\amsthm.sty"
+(/usr/share/texmf-texlive/tex/latex/amscls/amsthm.sty
 Package: amsthm 2004/08/06 v2.20
-\thm@style=\toks34
-\thm@bodyfont=\toks35
-\thm@headfont=\toks36
-\thm@notefont=\toks37
-\thm@headpunct=\toks38
-\thm@preskip=\skip54
-\thm@postskip=\skip55
-\thm@headsep=\skip56
-\dth@everypar=\toks39
+\thm@style=\toks35
+\thm@bodyfont=\toks36
+\thm@headfont=\toks37
+\thm@notefont=\toks38
+\thm@headpunct=\toks39
+\thm@preskip=\skip52
+\thm@postskip=\skip53
+\thm@headsep=\skip54
+\dth@everypar=\toks40
 )
-\c@theorem=\count152
+\c@theorem=\count148
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\beamerbasethem
-es.sty
-Package: beamerbasethemes 2010/05/01  (rcs-revision efa082c6111d)
-))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\themes\theme\b
-eamerthemedefault.sty
-Package: beamerthemedefault 2010/06/17  (rcs-revision d02a7cf4d8ae)
+(/usr/share/texmf/tex/latex/beamer/base/beamerbasethemes.sty
+Package: beamerbasethemes 2007/01/28  (rcs-revision 1.10)
+)
+(/usr/share/texmf/tex/latex/beamer/themes/theme/beamerthemedefault.sty
+Package: beamerthemedefault 2007/01/28  (rcs-revision 1.7)
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\themes\font\be
-amerfontthemedefault.sty
-Package: beamerfontthemedefault 2010/06/17  (rcs-revision d02a7cf4d8ae)
+(/usr/share/texmf/tex/latex/beamer/themes/font/beamerfontthemedefault.sty
+Package: beamerfontthemedefault 2007/01/28  (rcs-revision 1.13)
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\themes\color\b
-eamercolorthemedefault.sty
-Package: beamercolorthemedefault 2010/06/17  (rcs-revision d02a7cf4d8ae)
+(/usr/share/texmf/tex/latex/beamer/themes/color/beamercolorthemedefault.sty
+Package: beamercolorthemedefault 2007/01/28  (rcs-revision 1.28)
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\themes\inner\b
-eamerinnerthemedefault.sty
-Package: beamerinnerthemedefault 2010/06/17  (rcs-revision d02a7cf4d8ae)
-\beamer@dima=\dimen180
-\beamer@dimb=\dimen181
+(/usr/share/texmf/tex/latex/beamer/themes/inner/beamerinnerthemedefault.sty
+Package: beamerinnerthemedefault 2007/01/28  (rcs-revision 1.20)
+\beamer@dima=\dimen176
+\beamer@dimb=\dimen177
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\themes\outer\b
-eamerouterthemedefault.sty
-Package: beamerouterthemedefault 2010/06/17  (rcs-revision d02a7cf4d8ae)
+(/usr/share/texmf/tex/latex/beamer/themes/outer/beamerouterthemedefault.sty
+Package: beamerouterthemedefault 2007/01/28  (rcs-revision 1.14)
 )))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\themes\font\be
-amerfontthemeserif.sty
-Package: beamerfontthemeserif 2010/06/17  (rcs-revision d02a7cf4d8ae)
+(/usr/share/texmf/tex/latex/beamer/themes/font/beamerfontthemeserif.sty
+Package: beamerfontthemeserif 2007/01/28  (rcs-revision 1.4)
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\comment\comment.sty
+(/usr/share/texmf-texlive/tex/latex/comment/comment.sty
 \CommentStream=\write5
 
 Excluding comment 'comment')
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\pgf\utilities\pgfpages.sty
+(/home/bherman/texmf/tex/base/tex/latex/pgf/utilities/pgfpages.sty
 Package: pgfpages 2004/11/05 ver 0.01
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\calc.sty"
+
+(/usr/share/texmf-texlive/tex/latex/tools/calc.sty
 Package: calc 2007/08/22 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count153
-\calc@Bcount=\count154
-\calc@Adimen=\dimen182
-\calc@Bdimen=\dimen183
-\calc@Askip=\skip57
-\calc@Bskip=\skip58
+\calc@Acount=\count149
+\calc@Bcount=\count150
+\calc@Adimen=\dimen178
+\calc@Bdimen=\dimen179
+\calc@Askip=\skip55
+\calc@Bskip=\skip56
 LaTeX Info: Redefining \setlength on input line 76.
 LaTeX Info: Redefining \addtolength on input line 77.
-\calc@Ccount=\count155
-\calc@Cskip=\skip59
+\calc@Ccount=\count151
+\calc@Cskip=\skip57
 )
-\pgf@logicalpages=\count156
-\pgf@firstshipout=\count157
-\pgf@lastshipout=\count158
-\pgf@currentshipout=\count159
-\pgf@cpn=\count160
-\pgf@shipoutnextto=\count161
-\pgfphysicalheight=\dimen184
-\pgfphysicalwidth=\dimen185
+\pgf@logicalpages=\count152
+\pgf@firstshipout=\count153
+\pgf@lastshipout=\count154
+\pgf@currentshipout=\count155
+\pgf@cpn=\count156
+\pgf@shipoutnextto=\count157
+\pgfphysicalheight=\dimen180
+\pgfphysicalwidth=\dimen181
 \pgfpages@shipoutbox=\box53
 )
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\latexsym.sty"
+(/usr/share/texmf-texlive/tex/latex/base/latexsym.sty
 Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
 \symlasy=\mathgroup6
 LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
 (Font)                  U/lasy/m/n --> U/lasy/b/n on input line 47.
 )
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ifthen.sty"
+(/usr/share/texmf-texlive/tex/latex/base/ifthen.sty
 Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\animate\animate.sty
-Package: animate 2011/09/16 PDF animations from files and inline graphics
+(/usr/share/texmf-texlive/tex/latex/animate/animate.sty
+Package: animate 2009/10/08 PDF animations from files and inline graphics
 
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\ifdraft.sty"
+(/usr/share/texmf-texlive/tex/latex/oberdiek/ifdraft.sty
 Package: ifdraft 2008/08/11 v1.3 Switch for option draft (HO)
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\animate\animfp.sty
+(/usr/share/texmf-texlive/tex/latex/animate/animfp.sty
 Package: animfp 2009/07/23 fixed point addition for animate.sty
-\afp@xs=\count162
-\afp@xia=\count163
-\afp@xib=\count164
-\afp@xfa=\count165
-\afp@xfb=\count166
-\afp@rega=\count167
-\afp@regb=\count168
-\afp@regs=\count169
+\afp@xs=\count158
+\afp@xia=\count159
+\afp@xib=\count160
+\afp@xfa=\count161
+\afp@xfb=\count162
+\afp@rega=\count163
+\afp@regb=\count164
+\afp@regs=\count165
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\context\base\supp-pdf.mkii
+(/usr/share/texmf-texlive/tex/context/base/supp-pdf.tex
+(/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count170
-\scratchdimen=\dimen186
+\scratchcounter=\count166
+\scratchdimen=\dimen182
 \scratchbox=\box54
-\nofMPsegments=\count171
-\nofMParguments=\count172
-\everyMPshowfont=\toks40
-\MPscratchCnt=\count173
-\MPscratchDim=\dimen187
-\MPnumerator=\count174
-\makeMPintoPDFobject=\count175
-\everyMPtoPDFconversion=\toks41
-)
-\@anim@@fields=\count176
-\@anim@@ocgs=\count177
-\@anim@@posterocgs=\count178
+\nofMPsegments=\count167
+\nofMParguments=\count168
+\everyMPshowfont=\toks41
+\MPscratchCnt=\count169
+\MPscratchDim=\dimen183
+\MPnumerator=\count170
+\everyMPtoPDFconversion=\toks42
+))
+\@anim@@fields=\count171
+\@anim@@ocgs=\count172
+\@anim@@posterocgs=\count173
 \@anim@box=\box55
-\@anim@tmpdima=\dimen188
-\@anim@tmpdimb=\dimen189
-\@anim@num=\count179
-\@anim@curframe=\count180
-\@anim@curframe@zb=\count181
-\@anim@resize=\count182
-\@anim@skipfram=\count183
-\@anim@mulframecnt=\count184
+\@anim@tmpdima=\dimen184
+\@anim@tmpdimb=\dimen185
+\@anim@num=\count174
+\@anim@curframe=\count175
+\@anim@curframe@zb=\count176
+\@anim@resize=\count177
+\@anim@skipfram=\count178
+\@anim@mulframecnt=\count179
 \@anim@@tmlnfile=\read2
-\@anim@tmpcnt=\count185
-\c@@anim@ltxcnt=\count186
-\@anim@curlayer=\count187
-\@anim@lineno=\count188
-\@anim@begin=\toks42
-\@anim@end=\toks43
-)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\pgf\frontendlayer\tikz.sty
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\pgf\basiclayer\pgf.sty
+\@anim@tmpcnt=\count180
+\@anim@curlayer=\count181
+\@anim@lineno=\count182
+\@anim@begin=\toks43
+\@anim@end=\toks44
+) (/home/bherman/texmf/tex/base/tex/latex/pgf/frontendlayer/tikz.sty
+(/home/bherman/texmf/tex/base/tex/latex/pgf/basiclayer/pgf.sty
 Package: pgf 2008/01/15 v2.10 (rcs-revision 1.12)
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\modules\pgfmodulesha
-pes.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/modules/pgfmoduleshapes.code.tex
 File: pgfmoduleshapes.code.tex 2010/09/09  (rcs-revision 1.13)
 \pgfnodeparttextbox=\box56
-)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\modules\pgfmoduleplo
-t.code.tex
+) (/home/bherman/texmf/tex/base/tex/generic/pgf/modules/pgfmoduleplot.code.tex
 File: pgfmoduleplot.code.tex 2010/10/22  (rcs-revision 1.8)
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\pgf\compatibility\pgfcomp-
-version-0-65.sty
+(/home/bherman/texmf/tex/base/tex/latex/pgf/compatibility/pgfcomp-version-0-65.
+sty
 Package: pgfcomp-version-0-65 2007/07/03 v2.10 (rcs-revision 1.7)
-\pgf@nodesepstart=\dimen190
-\pgf@nodesepend=\dimen191
+\pgf@nodesepstart=\dimen186
+\pgf@nodesepend=\dimen187
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\pgf\compatibility\pgfcomp-
-version-1-18.sty
+(/home/bherman/texmf/tex/base/tex/latex/pgf/compatibility/pgfcomp-version-1-18.
+sty
 Package: pgfcomp-version-1-18 2007/07/23 v2.10 (rcs-revision 1.1)
-))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\pgf\utilities\pgffor.sty
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\pgf\utilities\pgfkeys.sty
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\utilities\pgfkeys.co
-de.tex))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\utilities\pgffor.cod
-e.tex
+)) (/home/bherman/texmf/tex/base/tex/latex/pgf/utilities/pgffor.sty
+(/home/bherman/texmf/tex/base/tex/latex/pgf/utilities/pgfkeys.sty
+(/home/bherman/texmf/tex/base/tex/generic/pgf/utilities/pgfkeys.code.tex))
+(/home/bherman/texmf/tex/base/tex/generic/pgf/utilities/pgffor.code.tex
 Package: pgffor 2010/03/23 v2.10 (rcs-revision 1.18)
-\pgffor@iter=\dimen192
-\pgffor@skip=\dimen193
-\pgffor@stack=\toks44
-\pgffor@toks=\toks45
+\pgffor@iter=\dimen188
+\pgffor@skip=\dimen189
+\pgffor@stack=\toks45
+\pgffor@toks=\toks46
 ))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\frontendlayer\tikz\t
-ikz.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
 Package: tikz 2010/10/13 v2.10 (rcs-revision 1.76)
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\libraries\pgflibrary
-plothandlers.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/libraries/pgflibraryplothandlers.
+code.tex
 File: pgflibraryplothandlers.code.tex 2010/05/31 v2.10 (rcs-revision 1.15)
-\pgf@plot@mark@count=\count189
-\pgfplotmarksize=\dimen194
+\pgf@plot@mark@count=\count183
+\pgfplotmarksize=\dimen190
 )
-\tikz@lastx=\dimen195
-\tikz@lasty=\dimen196
-\tikz@lastxsaved=\dimen197
-\tikz@lastysaved=\dimen198
-\tikzleveldistance=\dimen199
-\tikzsiblingdistance=\dimen200
+\tikz@lastx=\dimen191
+\tikz@lasty=\dimen192
+\tikz@lastxsaved=\dimen193
+\tikz@lastysaved=\dimen194
+\tikzleveldistance=\dimen195
+\tikzsiblingdistance=\dimen196
 \tikz@figbox=\box57
 \tikz@tempbox=\box58
-\tikztreelevel=\count190
-\tikznumberofchildren=\count191
-\tikznumberofcurrentchild=\count192
-\tikz@fig@count=\count193
+\tikztreelevel=\count184
+\tikznumberofchildren=\count185
+\tikznumberofcurrentchild=\count186
+\tikz@fig@count=\count187
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\modules\pgfmodulemat
-rix.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/modules/pgfmodulematrix.code.tex
 File: pgfmodulematrix.code.tex 2010/08/24  (rcs-revision 1.4)
-\pgfmatrixcurrentrow=\count194
-\pgfmatrixcurrentcolumn=\count195
-\pgf@matrix@numberofcolumns=\count196
+\pgfmatrixcurrentrow=\count188
+\pgfmatrixcurrentcolumn=\count189
+\pgf@matrix@numberofcolumns=\count190
 )
-\tikz@expandcount=\count197
+\tikz@expandcount=\count191
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\frontendlayer\tikz\l
-ibraries\tikzlibrarytopaths.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/frontendlayer/tikz/libraries/tikz
+librarytopaths.code.tex
 File: tikzlibrarytopaths.code.tex 2008/06/17 v2.10 (rcs-revision 1.2)
 )))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\pgfplots\pgfplots.sty
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\pgfplots.revisi
-on.tex)
+(/home/bherman/texmf/tex/pgfplots/tex/latex/pgfplots/pgfplots.sty
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/pgfplots.revision.tex)
 Package: pgfplots 2011/07/29 v1.5 (git show 1.5-1-gcc2f2d2 )
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\pgfplots.code.t
-ex
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\pgfplotscore.co
-de.tex
-\t@pgfplots@toka=\toks46
-\t@pgfplots@tokb=\toks47
-\t@pgfplots@tokc=\toks48
-\pgfplots@tmpa=\dimen201
-\c@pgfplots@coordindex=\count198
-\c@pgfplots@scanlineindex=\count199
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/pgfplots.code.tex
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/pgfplotscore.code.tex
+\t@pgfplots@toka=\toks47
+\t@pgfplots@tokb=\toks48
+\t@pgfplots@tokc=\toks49
+\pgfplots@tmpa=\dimen197
+\c@pgfplots@coordindex=\count192
+\c@pgfplots@scanlineindex=\count193
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\sys\pgfplotssys
-generic.code.tex))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\libs\pgfplotsli
-brary.code.tex)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\oldpgfcompatib\
-pgfplotsoldpgfsupp_loader.code.tex
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/sys/pgfplotssysgeneric.c
+ode.tex))
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/libs/pgfplotslibrary.cod
+e.tex)
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/oldpgfcompatib/pgfplotso
+ldpgfsupp_loader.code.tex
 Package pgfplots: loading complementary code for your PGF version...
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\oldpgfcompatib\
-pgfplotsoldpgfsupp_misc.code.tex)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\oldpgfcompatib\
-pgfplotsoldpgfsupp_pgfkeys.code.tex
-\pgfkeys@pathtoks=\toks49
-\pgfkeys@temptoks=\toks50
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/oldpgfcompatib/pgfplotso
+ldpgfsupp_misc.code.tex)
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/oldpgfcompatib/pgfplotso
+ldpgfsupp_pgfkeys.code.tex
+\pgfkeys@pathtoks=\toks50
+\pgfkeys@temptoks=\toks51
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\oldpgfcompatib\
-pgfplotsoldpgfsupp_pgfkeysfiltered.code.tex
-\pgfkeys@tmptoks=\toks51
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/oldpgfcompatib/pgfplotso
+ldpgfsupp_pgfkeysfiltered.code.tex
+\pgfkeys@tmptoks=\toks52
 ))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\oldpgfcompatib\
-pgfplotsoldpgfsupp_pgfmathfloat.code.tex
-\c@pgfmathroundto@lastzeros=\count200
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/oldpgfcompatib/pgfplotso
+ldpgfsupp_pgfmathfloat.code.tex
+\c@pgfmathroundto@lastzeros=\count194
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\oldpgfcompatib\
-pgfplotsoldpgfsupp_pgflibraryplothandlers.code.tex
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/oldpgfcompatib/pgfplotso
+ldpgfsupp_pgflibraryplothandlers.code.tex
 File: pgflibraryplothandlers.code.tex 2010/05/31 v2.10 (rcs-revision 1.15)
-\pgf@plot@mark@count=\count201
-\pgfplotmarksize=\dimen202
+\pgf@plot@mark@count=\count195
+\pgfplotmarksize=\dimen198
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\oldpgfcompatib\
-pgfplotsoldpgfsupp_pgflibraryfpu.code.tex))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\util\pgfplotsut
-il.code.tex
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\liststructure\p
-gfplotsliststructure.code.tex)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\liststructure\p
-gfplotsliststructureext.code.tex)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\liststructure\p
-gfplotsarray.code.tex
-\c@pgfplotsarray@tmp=\count202
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/oldpgfcompatib/pgfplotso
+ldpgfsupp_pgflibraryfpu.code.tex))
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/util/pgfplotsutil.code.t
+ex
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/liststructure/pgfplotsli
+ststructure.code.tex)
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/liststructure/pgfplotsli
+ststructureext.code.tex)
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/liststructure/pgfplotsar
+ray.code.tex
+\c@pgfplotsarray@tmp=\count196
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\liststructure\p
-gfplotsmatrix.code.tex)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\numtable\pgfplo
-tstableshared.code.tex
-\c@pgfplotstable@counta=\count203
-\t@pgfplotstable@a=\toks52
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/liststructure/pgfplotsma
+trix.code.tex)
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/numtable/pgfplotstablesh
+ared.code.tex
+\c@pgfplotstable@counta=\count197
+\t@pgfplotstable@a=\toks53
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\liststructure\p
-gfplotsdeque.code.tex)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\util\pgfplotsbi
-nary.code.tex)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\util\pgfplotsut
-il.verb.code.tex)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\libs\pgflibrary
-pgfplots.surfshading.code.tex
-\c@pgfplotslibrarysurf@no=\count204
-
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\sys\pgflibraryp
-gfplots.surfshading.pgfsys-pdftex.def)))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\util\pgfplotsco
-lormap.code.tex)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\pgfplotsstacked
-plots.code.tex)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\pgfplotsplothan
-dlers.code.tex
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\pgfplotsmeshplo
-thandler.code.tex))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\pgfplotscoordpr
-ocessing.code.tex)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgfplots\pgfplotsticks.c
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/liststructure/pgfplotsde
+que.code.tex)
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/util/pgfplotsbinary.code
+.tex)
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/util/pgfplotsutil.verb.c
 ode.tex)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\frontendlayer\tikz\l
-ibraries\tikzlibrarydecorations.code.tex
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\modules\pgfmoduledec
-orations.code.tex
-\pgfdecoratedcompleteddistance=\dimen203
-\pgfdecoratedremainingdistance=\dimen204
-\pgfdecoratedinputsegmentcompleteddistance=\dimen205
-\pgfdecoratedinputsegmentremainingdistance=\dimen206
-\pgf@decorate@distancetomove=\dimen207
-\pgf@decorate@repeatstate=\count205
-\pgfdecorationsegmentamplitude=\dimen208
-\pgfdecorationsegmentlength=\dimen209
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/libs/pgflibrarypgfplots.
+surfshading.code.tex
+\c@pgfplotslibrarysurf@no=\count198
+
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/sys/pgflibrarypgfplots.s
+urfshading.pgfsys-pdftex.def)))
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/util/pgfplotscolormap.co
+de.tex)
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/pgfplotsstackedplots.cod
+e.tex)
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/pgfplotsplothandlers.cod
+e.tex
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/pgfplotsmeshplothandler.
+code.tex))
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/pgfplotscoordprocessing.
+code.tex)
+(/home/bherman/texmf/tex/pgfplots/tex/generic/pgfplots/pgfplotsticks.code.tex)
+(/home/bherman/texmf/tex/base/tex/generic/pgf/frontendlayer/tikz/libraries/tikz
+librarydecorations.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/modules/pgfmoduledecorations.code
+.tex
+\pgfdecoratedcompleteddistance=\dimen199
+\pgfdecoratedremainingdistance=\dimen200
+\pgfdecoratedinputsegmentcompleteddistance=\dimen201
+\pgfdecoratedinputsegmentremainingdistance=\dimen202
+\pgf@decorate@distancetomove=\dimen203
+\pgf@decorate@repeatstate=\count199
+\pgfdecorationsegmentamplitude=\dimen204
+\pgfdecorationsegmentlength=\dimen205
 )
 \tikz@lib@dec@box=\box59
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\frontendlayer\tikz\l
-ibraries\tikzlibrarydecorations.pathmorphing.code.tex
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\libraries\decoration
-s\pgflibrarydecorations.pathmorphing.code.tex))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\frontendlayer\tikz\l
-ibraries\tikzlibrarydecorations.pathreplacing.code.tex
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\libraries\decoration
-s\pgflibrarydecorations.pathreplacing.code.tex))
-\pgfplots@numplots=\count206
-\pgfplots@xmin@reg=\dimen210
-\pgfplots@xmax@reg=\dimen211
-\pgfplots@ymin@reg=\dimen212
-\pgfplots@ymax@reg=\dimen213
-\pgfplots@zmin@reg=\dimen214
-\pgfplots@zmax@reg=\dimen215
+(/home/bherman/texmf/tex/base/tex/generic/pgf/frontendlayer/tikz/libraries/tikz
+librarydecorations.pathmorphing.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/libraries/decorations/pgflibraryd
+ecorations.pathmorphing.code.tex))
+(/home/bherman/texmf/tex/base/tex/generic/pgf/frontendlayer/tikz/libraries/tikz
+librarydecorations.pathreplacing.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/libraries/decorations/pgflibraryd
+ecorations.pathreplacing.code.tex))
+\pgfplots@numplots=\count200
+\pgfplots@xmin@reg=\dimen206
+\pgfplots@xmax@reg=\dimen207
+\pgfplots@ymin@reg=\dimen208
+\pgfplots@ymax@reg=\dimen209
+\pgfplots@zmin@reg=\dimen210
+\pgfplots@zmax@reg=\dimen211
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\frontendlayer\tikz\l
-ibraries\tikzlibraryplotmarks.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/frontendlayer/tikz/libraries/tikz
+libraryplotmarks.code.tex
 File: tikzlibraryplotmarks.code.tex 2008/01/09 v2.10 (rcs-revision 1.1)
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\libraries\pgflibrary
-plotmarks.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/libraries/pgflibraryplotmarks.cod
+e.tex
 File: pgflibraryplotmarks.code.tex 2010/10/15 v2.10 (rcs-revision 1.12)
-))) (D:\Documents\PhD\JFNK\doc\slides\mycommands.sty
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\xspace.sty"
-Package: xspace 2009/10/20 v1.13 Space after command names (DPC,MH)
+))) (./mycommands.sty (/usr/share/texmf-texlive/tex/latex/tools/xspace.sty
+Package: xspace 2006/05/08 v1.12 Space after command names (DPC,MH)
 ))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\frontendlayer\tikz\l
-ibraries\tikzlibraryshapes.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/frontendlayer/tikz/libraries/tikz
+libraryshapes.code.tex
 File: tikzlibraryshapes.code.tex 2008/01/09 v2.10 (rcs-revision 1.1)
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\frontendlayer\tikz\l
-ibraries\tikzlibraryshapes.geometric.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/frontendlayer/tikz/libraries/tikz
+libraryshapes.geometric.code.tex
 File: tikzlibraryshapes.geometric.code.tex 2008/01/09 v2.10 (rcs-revision 1.1)
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\libraries\shapes\pgf
-libraryshapes.geometric.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/libraries/shapes/pgflibraryshapes
+.geometric.code.tex
 File: pgflibraryshapes.geometric.code.tex 2008/06/26 v2.10 (rcs-revision 1.1)
 ))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\frontendlayer\tikz\l
-ibraries\tikzlibraryshapes.misc.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/frontendlayer/tikz/libraries/tikz
+libraryshapes.misc.code.tex
 File: tikzlibraryshapes.misc.code.tex 2008/01/09 v2.10 (rcs-revision 1.1)
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\libraries\shapes\pgf
-libraryshapes.misc.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/libraries/shapes/pgflibraryshapes
+.misc.code.tex
 File: pgflibraryshapes.misc.code.tex 2008/10/07 v2.10 (rcs-revision 1.3)
 ))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\frontendlayer\tikz\l
-ibraries\tikzlibraryshapes.symbols.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/frontendlayer/tikz/libraries/tikz
+libraryshapes.symbols.code.tex
 File: tikzlibraryshapes.symbols.code.tex 2008/01/09 v2.10 (rcs-revision 1.1)
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\libraries\shapes\pgf
-libraryshapes.symbols.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/libraries/shapes/pgflibraryshapes
+.symbols.code.tex
 File: pgflibraryshapes.symbols.code.tex 2009/10/27 v2.10 (rcs-revision 1.3)
 ))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\frontendlayer\tikz\l
-ibraries\tikzlibraryshapes.arrows.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/frontendlayer/tikz/libraries/tikz
+libraryshapes.arrows.code.tex
 File: tikzlibraryshapes.arrows.code.tex 2008/01/09 v2.10 (rcs-revision 1.1)
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\libraries\shapes\pgf
-libraryshapes.arrows.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/libraries/shapes/pgflibraryshapes
+.arrows.code.tex
 File: pgflibraryshapes.arrows.code.tex 2008/06/26 v2.10 (rcs-revision 1.1)
 ))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\frontendlayer\tikz\l
-ibraries\tikzlibraryshapes.callouts.code.tex
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\libraries\shapes\pgf
-libraryshapes.callouts.code.tex))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\frontendlayer\tikz\l
-ibraries\tikzlibraryshapes.multipart.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/frontendlayer/tikz/libraries/tikz
+libraryshapes.callouts.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/libraries/shapes/pgflibraryshapes
+.callouts.code.tex))
+(/home/bherman/texmf/tex/base/tex/generic/pgf/frontendlayer/tikz/libraries/tikz
+libraryshapes.multipart.code.tex
 File: tikzlibraryshapes.multipart.code.tex 2008/01/09 v2.10 (rcs-revision 1.1)
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\libraries\shapes\pgf
-libraryshapes.multipart.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/libraries/shapes/pgflibraryshapes
+.multipart.code.tex
 File: pgflibraryshapes.multipart.code.tex 2010/01/07 v2.10 (rcs-revision 1.2)
 \pgfnodepartlowerbox=\box60
 \pgfnodeparttwobox=\box61
@@ -1087,304 +996,254 @@ File: pgflibraryshapes.multipart.code.tex 2010/01/07 v2.10 (rcs-revision 1.2)
 \pgfnodepartsixbox=\box78
 \pgfnodepartfivebox=\box79
 )))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\frontendlayer\tikz\l
-ibraries\tikzlibraryarrows.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/frontendlayer/tikz/libraries/tikz
+libraryarrows.code.tex
 File: tikzlibraryarrows.code.tex 2008/01/09 v2.10 (rcs-revision 1.1)
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\libraries\pgflibrary
-arrows.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/libraries/pgflibraryarrows.code.t
+ex
 File: pgflibraryarrows.code.tex 2008/10/27 v2.10 (rcs-revision 1.9)
-\arrowsize=\dimen216
+\arrowsize=\dimen212
 ))
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\generic\pgf\frontendlayer\tikz\l
-ibraries\tikzlibrarypositioning.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/frontendlayer/tikz/libraries/tikz
+librarypositioning.code.tex
 File: tikzlibrarypositioning.code.tex 2008/10/06 v2.10 (rcs-revision 1.7)
 )
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\themes\theme\b
-eamerthemeBerlin.sty
-Package: beamerthemeBerlin 2010/06/17  (rcs-revision d02a7cf4d8ae)
+(/home/bherman/texmf/tex/base/tex/generic/pgf/frontendlayer/tikz/libraries/tikz
+librarysnakes.code.tex
+File: tikzlibrarysnakes.code.tex 2008/02/05 v2.10 (rcs-revision 1.6)
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\themes\outer\b
-eamerouterthememiniframes.sty
-Package: beamerouterthememiniframes 2010/06/17  (rcs-revision d02a7cf4d8ae)
-)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\themes\color\b
-eamercolorthemewhale.sty
-Package: beamercolorthemewhale 2010/06/17  (rcs-revision d02a7cf4d8ae)
-)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\themes\color\b
-eamercolorthemeorchid.sty
-Package: beamercolorthemeorchid 2010/06/17  (rcs-revision d02a7cf4d8ae)
-)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\themes\inner\b
-eamerinnerthemerectangles.sty
-Package: beamerinnerthemerectangles 2010/06/17  (rcs-revision d02a7cf4d8ae)
+
+Package tikz Warning: Snakes have been superseded by decorations. Please use th
+e decoration libraries instead of the snakes library on input line 14.
+
+
+(/home/bherman/texmf/tex/base/tex/generic/pgf/frontendlayer/tikz/libraries/tikz
+librarydecorations.shapes.code.tex
+(/home/bherman/texmf/tex/base/tex/generic/pgf/libraries/decorations/pgflibraryd
+ecorations.shapes.code.tex)))
+(/usr/share/texmf-texlive/tex/latex/base/inputenc.sty
+Package: inputenc 2008/03/30 v1.1d Input encoding file
+\inpenc@prehook=\toks54
+\inpenc@posthook=\toks55
+
+(/usr/share/texmf-texlive/tex/latex/base/latin1.def
+File: latin1.def 2008/03/30 v1.1d Input encoding file
 ))
-(D:\Documents\PhD\JFNK\doc\slides\beamercolorthememit.sty)
-\c@angle=\count207
-
-(D:\Documents\PhD\JFNK\doc\slides\BRH_Slides-229.aux)
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 122.
-LaTeX Font Info:    ... okay on input line 122.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 122.
-LaTeX Font Info:    ... okay on input line 122.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 122.
-LaTeX Font Info:    ... okay on input line 122.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 122.
-LaTeX Font Info:    ... okay on input line 122.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 122.
-LaTeX Font Info:    ... okay on input line 122.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 122.
-LaTeX Font Info:    ... okay on input line 122.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 122.
-LaTeX Font Info:    ... okay on input line 122.
-
-*geometry* driver: auto-detecting
-*geometry* detected driver: pdftex
-*geometry* verbose mode - [ preamble ] result:
-* driver: pdftex
-* paper: custom
-* layout: <same size as paper>
-* layoutoffset:(h,v)=(0.0pt,0.0pt)
-* modes: includehead includefoot 
-* h-part:(L,W,R)=(28.45274pt, 307.28987pt, 28.45274pt)
-* v-part:(T,H,B)=(0.0pt, 273.14662pt, 0.0pt)
-* \paperwidth=364.19536pt
-* \paperheight=273.14662pt
-* \textwidth=307.28987pt
-* \textheight=244.6939pt
-* \oddsidemargin=-43.81725pt
-* \evensidemargin=-43.81725pt
-* \topmargin=-72.26999pt
-* \headheight=14.22636pt
-* \headsep=0.0pt
-* \topskip=11.0pt
-* \footskip=14.22636pt
-* \marginparwidth=4.0pt
-* \marginparsep=10.0pt
-* \columnsep=10.0pt
-* \skip\footins=10.0pt plus 4.0pt minus 2.0pt
-* \hoffset=0.0pt
-* \voffset=0.0pt
-* \mag=1000
-* \@twocolumnfalse
-* \@twosidefalse
-* \@mparswitchfalse
-* \@reversemarginfalse
-* (1in=72.27pt=25.4mm, 1cm=28.453pt)
-
-ABD: EveryShipout initializing macros
-\AtBeginShipoutBox=\box80
-Package hyperref Info: Link coloring OFF on input line 122.
-
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
-Package: nameref 2010/04/30 v2.40 Cross-referencing by name of section
-
-("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
-Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
+(/home/bherman/texmf/tex/adjustbox/adjustbox.sty
+Package: adjustbox 2011/03/20 v0.3 Adjusting TeX boxes (trim, clip, ...)
 )
-\c@section@level=\count208
-)
-LaTeX Info: Redefining \ref on input line 122.
-LaTeX Info: Redefining \pageref on input line 122.
-LaTeX Info: Redefining \nameref on input line 122.
+(/usr/share/texmf-texlive/tex/latex/carlisle/scalefnt.sty)
+(/usr/share/texmf/tex/latex/beamer/themes/theme/beamerthemeBerlin.sty
+Package: beamerthemeBerlin 2007/01/28  (rcs-revision 1.11)
 
-(D:\Documents\PhD\JFNK\doc\slides\BRH_Slides-229.out)
-(D:\Documents\PhD\JFNK\doc\slides\BRH_Slides-229.out)
+(/usr/share/texmf/tex/latex/beamer/themes/outer/beamerouterthememiniframes.sty
+Package: beamerouterthememiniframes 2007/01/28  (rcs-revision 1.8)
+) (/usr/share/texmf/tex/latex/beamer/themes/color/beamercolorthemewhale.sty
+Package: beamercolorthemewhale 2007/01/28  (rcs-revision 1.4)
+)
+(/usr/share/texmf/tex/latex/beamer/themes/color/beamercolorthemeorchid.sty
+Package: beamercolorthemeorchid 2007/01/28  (rcs-revision 1.3)
+)
+(/usr/share/texmf/tex/latex/beamer/themes/inner/beamerinnerthemerectangles.sty
+Package: beamerinnerthemerectangles 2007/01/28  (rcs-revision 1.4)
+)) (./beamercolorthememit.sty) (./environments.tex) (./BRH_Slides-229.aux)
+\openout1 = `BRH_Slides-229.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+
+(/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count201
+\scratchdimen=\dimen213
+\scratchbox=\box80
+\nofMPsegments=\count202
+\nofMParguments=\count203
+\everyMPshowfont=\toks56
+\MPscratchCnt=\count204
+\MPscratchDim=\dimen214
+\MPnumerator=\count205
+\everyMPtoPDFconversion=\toks57
+) ABD: EveryShipout initializing macros
+*geometry auto-detecting driver*
+*geometry detected driver: pdftex*
+-------------------- Geometry parameters
+paper: user defined
+landscape: --
+twocolumn: --
+twoside: --
+asymmetric: --
+h-parts: 28.45274pt, 307.28987pt, 28.45274pt
+v-parts: 0.0pt, 273.14662pt, 0.0pt
+hmarginratio: --
+vmarginratio: --
+lines: --
+heightrounded: --
+bindingoffset: 0.0pt
+truedimen: --
+includehead: true
+includefoot: true
+includemp: --
+driver: pdftex
+-------------------- Page layout dimensions and switches
+\paperwidth  364.19536pt
+\paperheight 273.14662pt
+\textwidth  307.28987pt
+\textheight 244.6939pt
+\oddsidemargin  -43.81725pt
+\evensidemargin -43.81725pt
+\topmargin  -72.26999pt
+\headheight 14.22636pt
+\headsep    0.0pt
+\footskip   14.22636pt
+\marginparwidth 4.0pt
+\marginparsep   10.0pt
+\columnsep  10.0pt
+\skip\footins  10.0pt plus 4.0pt minus 2.0pt
+\hoffset 0.0pt
+\voffset 0.0pt
+\mag 1000
+
+(1in=72.27pt, 1cm=28.45pt)
+-----------------------
+Package hyperref Info: Link coloring OFF on input line 57.
+(/usr/share/texmf-texlive/tex/latex/hyperref/nameref.sty
+Package: nameref 2007/05/29 v2.31 Cross-referencing by name of section
+
+(/usr/share/texmf-texlive/tex/latex/oberdiek/refcount.sty
+Package: refcount 2008/08/11 v3.1 Data extraction from references (HO)
+)
+\c@section@level=\count206
+)
+LaTeX Info: Redefining \ref on input line 57.
+LaTeX Info: Redefining \pageref on input line 57.
+
+(./BRH_Slides-229.out) (./BRH_Slides-229.out)
 \@outlinefile=\write6
+\openout6 = `BRH_Slides-229.out'.
 
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\translator\dic
-ts\translator-basic-dictionary\translator-basic-dictionary-English.dict
-Dictionary: translator-basic-dictionary, Language: English 
-)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\translator\dic
-ts\translator-bibliography-dictionary\translator-bibliography-dictionary-Englis
-h.dict
-Dictionary: translator-bibliography-dictionary, Language: English 
-)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\translator\dic
-ts\translator-environment-dictionary\translator-environment-dictionary-English.
-dict
-Dictionary: translator-environment-dictionary, Language: English 
-)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\translator\dic
-ts\translator-months-dictionary\translator-months-dictionary-English.dict
-Dictionary: translator-months-dictionary, Language: English 
-)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\translator\dic
-ts\translator-numbers-dictionary\translator-numbers-dictionary-English.dict
-Dictionary: translator-numbers-dictionary, Language: English 
-)
-(C:\Users\Bryan\AppData\Roaming\MiKTeX\2.9\tex\latex\beamer\base\translator\dic
-ts\translator-theorem-dictionary\translator-theorem-dictionary-English.dict
+\AtBeginShipoutBox=\box81
+
+(/usr/share/texmf-texlive/tex/latex/translator/translator-theorem-dictionary-En
+glish.dict
 Dictionary: translator-theorem-dictionary, Language: English 
-)
-(D:\Documents\PhD\JFNK\doc\slides\BRH_Slides-229.nav)
+) (./BRH_Slides-229.nav)
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <4> not available
-(Font)              size <5> substituted on input line 124.
+(Font)              size <5> substituted on input line 61.
 
-[1{C:/Users/Bryan/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
- <D:/Documents/PhD/JFNK/doc/slides/mit-logo.pdf>]
-(D:\Documents\PhD\JFNK\doc\slides\BRH_Slides-229.toc) [2
+ <./mit-logo.pdf>]
+(./BRH_Slides-229.toc) [2
 
-]
-(D:\Documents\PhD\JFNK\doc\slides\BRH_Slides-229.toc) [3
+] (./BRH_Slides-229.toc) [3
 
 ] [4
 
-]
-(D:\Documents\PhD\JFNK\doc\slides\tikz\PARCS_marching.tikz
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-LaTeX Font Info:    Try loading font information for U+msa on input line 43.
+] (./tikz/reactor.tikz
+Overfull \hbox (3.4501pt too wide) in paragraph at lines 181--181
+[][][][]\OT1/cmss/m/n/10 Reactor 
+ []
 
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
+) [5
+
+] (./tikz/nucleus.tikz
+Missing character: There is no ; in font nullfont!
+LaTeX Font Info:    Try loading font information for U+msa on input line 13.
+ (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 43.
-
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
+LaTeX Font Info:    Try loading font information for U+msb on input line 13.
+ (/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+lasy on input line 43.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 13.
 
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ulasy.fd"
+(/usr/share/texmf-texlive/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
-)) [5
-
-]
-(D:\Documents\PhD\JFNK\doc\slides\tikz\PARCS_coupling.tikz
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-
-Overfull \hbox (2.88963pt too wide) in paragraph at lines 27--27
- \OT1/cmss/m/n/10.95 N 
- []
-
-
-Overfull \hbox (2.58543pt too wide) in paragraph at lines 27--27
- \OT1/cmss/m/n/10.95 T 
- []
-
-
-Overfull \hbox (1.67294pt too wide) in paragraph at lines 27--27
- \OT1/cmss/m/n/10.95 E 
- []
-
-
-Overfull \hbox (2.20525pt too wide) in paragraph at lines 27--27
- \OT1/cmss/m/n/10.95 R 
- []
-
-
-Overfull \hbox (1.36879pt too wide) in paragraph at lines 27--27
- \OT1/cmss/m/n/10.95 F 
- []
-
-
-Overfull \hbox (2.43336pt too wide) in paragraph at lines 27--27
- \OT1/cmss/m/n/10.95 A 
- []
-
-
-Overfull \hbox (2.1292pt too wide) in paragraph at lines 27--27
- \OT1/cmss/m/n/10.95 C 
- []
-
-
-Overfull \hbox (1.67294pt too wide) in paragraph at lines 27--27
- \OT1/cmss/m/n/10.95 E 
- []
-
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
+)
 Missing character: There is no ; in font nullfont!
 )
-Overfull \vbox (5.4134pt too high) detected at line 173
+Overfull \vbox (4.68553pt too high) detected at line 99
  []
 
 [6
 
-] (D:\Documents\PhD\JFNK\doc\slides\BRH_Slides-229.toc) [7
+] [7
 
-]
-(D:\Documents\PhD\JFNK\doc\slides\BRH_Slides-229.toc) [8
+] (./BRH_Slides-229.toc) [8
 
-]
-(D:\Documents\PhD\JFNK\doc\slides\BRH_Slides-229.toc) [9
+] [9
 
-]
-(D:\Documents\PhD\JFNK\doc\slides\tikz\flux.tikz
-Missing character: There is no ; in font nullfont!
-Missing character: There is no ; in font nullfont!
-) [10
+] [10
 
-]
-(D:\Documents\PhD\JFNK\doc\slides\tikz\Fuel_pin.tikz)
-Overfull \vbox (4.4147pt too high) detected at line 260
- []
+] [11
 
-[11
+] [12
 
-] (D:\Documents\PhD\JFNK\doc\slides\tikz\hello.tikz) [12
+] (./BRH_Slides-229.toc)
+[13
 
-]
-(D:\Documents\PhD\JFNK\doc\slides\BRH_Slides-229.toc) [13
+] [14
+
+] [15
+
+] [16
+
+] [17
+
+] [18
+
+] (./BRH_Slides-229.toc) [19
+
+] (./BRH_Slides-229.toc) [20
 
 ]
 \tf@nav=\write7
+\openout7 = `BRH_Slides-229.nav'.
+
 \tf@toc=\write8
+\openout8 = `BRH_Slides-229.toc'.
+
 \tf@snm=\write9
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 274.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 274.
+\openout9 = `BRH_Slides-229.snm'.
 
-(D:\Documents\PhD\JFNK\doc\slides\BRH_Slides-229.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 274.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 274.
-Package rerunfilecheck Info: File `BRH_Slides-229.out' has not changed.
-(rerunfilecheck)             Checksum: 390FB30B6BF8693C39DC5D8A405828E1;319.
-
+ (./BRH_Slides-229.aux)
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.0pt have occurred.
 
  ) 
 Here is how much of TeX's memory you used:
- 28042 strings out of 494045
- 642198 string characters out of 3145969
- 905219 words of memory out of 3000000
- 30643 multiletter control sequences out of 15000+200000
- 10423 words of font info for 41 fonts, out of 3000000 for 9000
- 715 hyphenation exceptions out of 8191
- 50i,19n,74p,5540b,1865s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
-<C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:
-/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Pro
-gram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss10.pfb><C:/Progr
-am Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss12.pfb><C:/Program
- Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss8.pfb><C:/Program Fi
-les (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program File
-s (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on BRH_Slides-229.pdf (13 pages, 183966 bytes).
+ 26346 strings out of 495061
+ 600554 string characters out of 1182620
+ 792368 words of memory out of 3000000
+ 28805 multiletter control sequences out of 15000+50000
+ 11024 words of font info for 43 fonts, out of 3000000 for 9000
+ 28 hyphenation exceptions out of 8191
+ 50i,15n,74p,659b,938s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/shar
+e/texmf-texlive/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texmf-tex
+live/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/share/texmf-texlive/fonts/
+type1/public/amsfonts/cm/cmss8.pfb></usr/share/texmf-texlive/fonts/type1/public
+/amsfonts/cm/cmssbx10.pfb>
+Output written on BRH_Slides-229.pdf (20 pages, 171015 bytes).
 PDF statistics:
- 326 PDF objects out of 1000 (max. 8388607)
- 34 named destinations out of 1000 (max. 500000)
- 122 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 343 PDF objects out of 1000 (max. 8388607)
+ 46 named destinations out of 1000 (max. 500000)
+ 120 words of extra memory for PDF output out of 10000 (max. 10000000)
 

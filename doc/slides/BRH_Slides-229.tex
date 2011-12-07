@@ -2,6 +2,7 @@
 
 \documentclass{beamer}
 
+% list all packages
 \usefonttheme[onlymath]{serif}
 \usepackage{comment}
 \usepackage{hyperref}
@@ -15,7 +16,17 @@
 \usepackage{tikz,pgfplots}
 \usepackage{mycommands}
 \pgfplotsset{compat=1.3}
-\usetikzlibrary{plotmarks,shapes,arrows,positioning}
+\usetikzlibrary{plotmarks,shapes,arrows,positioning,snakes}
+\usepackage[latin1]{inputenc}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage{scalefnt}
+
+\def\TTiny{\fontsize{3pt}{3pt}\selectfont}
+% slide theme
 \usetheme{Berlin}
 \usecolortheme{mit}
 
@@ -32,245 +43,115 @@
   \end{frame}
 }
 
-\setbeamertemplate{blocks}[rounded][shadow=true]
-\setbeamertemplate{navigation symbols}{} % the pdf navigation stuff
-\newcommand{\packin}{\setlength\abovedisplayskip{2pt}\setlength\belowdisplayskip{2pt}}
-\tikzstyle{refbox} = [shape = rectangle, fill = mitred, inner sep = 2pt, text=white, font=\footnotesize]
-\newcommand{\numberInBox}[2][0.9]%
-	{\scalebox{#1}{{\tikz \draw (0,0) node[refbox] {\makebox[\totalheight]{#2}};}}}
-\newcommand{\enumref}[2][0.9] {\numberInBox[#1]{\ref{#2}}}
+% Include Custom environments
+\input{environments.tex}
 
-% Small arrow pointing down and hooking right
-\newcommand{\drarrow}{\scalebox{1.5}{\reflectbox{\rotatebox[c]{180}{$\boldsymbol{\smash[b]{\Rsh}}$}}}}
-
-
-\newenvironment{prettydescript}[1]
-	{\begin{list}{}%
-		{\renewcommand\makelabel[1]{\itshape\bfseries\color{mitred} ##1:\hfill}%
-		\settowidth\labelwidth{\makelabel{#1}}%
-		\setlength\leftmargin{\labelwidth}%
-		\addtolength\leftmargin{\labelsep}}}%
-	{\end{list}}
-
-
-\newenvironment{customdescript}[1]
-	{\begin{list}{}%
-		{\renewcommand\makelabel[1]{\bfseries\color{mitred} ##1\hfill}%
-		\settowidth\labelwidth{\makelabel{#1}}%
-		\setlength\leftmargin{\labelwidth}%
-		\addtolength\leftmargin{\labelsep}}}%
-	{\end{list}}
-
-
-\makeatletter
-\newenvironment{customlist}[2]{
-  \ifnum\@itemdepth >2\relax\@toodeep\else
-      \advance\@itemdepth\@ne%
-      \beamer@computepref\@itemdepth%
-      \usebeamerfont{itemize/enumerate \beameritemnestingprefix body}%
-      \usebeamercolor[fg]{itemize/enumerate \beameritemnestingprefix body}%
-      \usebeamertemplate{itemize/enumerate \beameritemnestingprefix body begin}%
-      \begin{list}
-        {
-            \usebeamertemplate{itemize \beameritemnestingprefix item}
-        }
-        { \leftmargin=#1 \itemindent=#2
-            \def\makelabel##1{%
-              {%  
-                  \hss\llap{{%
-                    \usebeamerfont*{itemize \beameritemnestingprefix item}%
-                        \usebeamercolor[fg]{itemize \beameritemnestingprefix item}##1}}%
-              }%  
-            }%  
-        }
-  \fi
-}
-{
-  \end{list}
-  \usebeamertemplate{itemize/enumerate \beameritemnestingprefix body end}%
-}
-\makeatother
-\newenvironment<>{varblock}[2][\textwidth]{%
-  \setlength{\textwidth}{#1}
-  \begin{actionenv}#3%
-    \def\insertblocktitle{#2}%
-    \par%
-    \usebeamertemplate{block begin}}
-  {\par%
-    \usebeamertemplate{block end}%
-  \end{actionenv}}
-%% Notational commands:
-\newcommand{\params}{\ensuremath{\xi}}
-\newcommand{\vparms}{\ensuremath{\gvect{\params}}}
-\renewcommand{\thefootnote}{\ensuremath{\fnsymbol{footnote}}}
-\setcounter{footnote}{2}
-\renewcommand{\thempfootnote}{\ensuremath{\fnsymbol{mpfootnote}}}
-\newcommand{\newsubsection}[1]{\subsection{#1}\setcounter{subsection}{0}}
-
-\graphicspath{{./tikz/}}
-
-%% Title Page
-\title[JFNK Methods for Coupled Nonlinear Systems]{Jacobian-Free Newton-Krylov (JFNK) Methods for Nonlinear Neutronics/Thermal-Hydrualic Equations}
+% Title Page
+\title[JFNK Methods for Coupled Nonlinear Systems]{Jacobian-Free Newton-
+Krylov (JFNK) Methods for Nonlinear Neutronics/Thermal-Hydrualic Equations}
 \author[]{Bryan Herman}
 \institute[\insertpagenumber]{}
 \date{\today} 
 
-\newcounter{angle}
-\setcounter{angle}{0}
-
 % -----------------------------------------------------------------------------
 \begin{document}
 % -----------------------------------------------------------------------------
+
+% Inset title page
 \frame{\titlepage}
 
-\section[Outline]{}
-% -------------------------------------------------------------------------------------------------------------
+% Outline slide
 \begin{frame}{Outline}
   \tableofcontents
 \end{frame}
-% -------------------------------------------------------------------------------------------------------------
 
-%=======================================================
+%==============================================================================
 \begin{section}{Introduction}
 
-%-------------------------------------------------------------------------------------------------------------
+%------------------------------------------------------------------------------
 \begin{frame}{Motivation}
 
-	\begin{customlist}{0pt}{0pt}
+\begin{itemize}
 
-		\item Research is key
+	\item Eventually will be part of thesis work
+	\vfill\item JFNK method not currently used in nuclear reactor 
+		analysis
+	\vfill\item Incorporates a lot of ideas from 2.29 class
+	\vfill\item Coupled physics is fun!
 
-	\end{customlist}
-
-\end{frame}
-%-----------------------------------------------------------------------------------------------------------
-
-\begin{subsection}{Formulating the Nonlinear Problem}
-
-%-----------------------------------------------------------------------------------------------------------
-\begin{frame}{Common Approach to Coupling - Operator Splitting}
-
-	\begin{center}
-	\scalebox{0.65}{%
-
-		\input {./tikz/PARCS_marching.tikz}
-
-	}
-	\end{center}
+\end{itemize}
 
 \end{frame}
-%-----------------------------------------------------------------------------------------------------------
-\begin{frame}{PARCS Coupling}
-
-	\begin{center}
-	\scalebox{0.65}{%
-
-		\input {./tikz/PARCS_coupling.tikz}
-
-	}
-	\end{center}
+%------------------------------------------------------------------------------
+\begin{frame}{Nuclear Reactor Systems}
+	\scalebox{0.5}{\input{./tikz/reactor.tikz}}
+	\vfill
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}{Nuclear Feedback}
+\begin{center}
+	\scalebox{0.5}{\input{./tikz/nucleus.tikz}}
+	\begin{itemize}
+		\item Doppler Feedback
+		\item Coolant Density Feedback
+	\end{itemize}
+\end{center}
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}{1-D Slab Reactor Geometry}
 
 \end{frame}
-%-----------------------------------------------------------------------------------------------------------
-
-\end{subsection}
-
+%------------------------------------------------------------------------------
 \end{section}
-
-%======================================================
+%==============================================================================
 \begin{section}{Governing Equations}
+%------------------------------------------------------------------------------
+\begin{frame}{Neutronics}
 
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}{Neutronics to Thermal Hydraulics}
+
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}{Thermal Hydraulics}
+
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}{Thermal Hydraulics to Neutronics}
+
+\end{frame}
+%------------------------------------------------------------------------------
 \end{section}
-%======================================================
-
-%======================================================
+%==============================================================================
 \begin{section}{Solvers}
+%------------------------------------------------------------------------------
+\begin{frame}{Newton's Method}
 
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}{Krylov Subspace Methods}
+
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}{Generalized Minimal RESidual Method}
+
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}{Inexact Newton's Method}
+
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}{Jacobian-Free Approximation}
+
+\end{frame}
+%------------------------------------------------------------------------------
 \end{section}
-%======================================================
+%==============================================================================
 \begin{section}{Results}
-
-%------------------------------------------------------------------------------------------------------------
-\begin{frame}{Flux Results - Steady Solution}
-
-	\begin{block}{Flux Results}
-		\begin{center}
-			\input{./tikz/flux.tikz}
-		\end{center}	
-	\end{block}
-
-\end{frame}
-%------------------------------------------------------------------------------------------------------------
-\begin{comment}
-\begin{frame}{Animation}
-
-	\begin{center}
-
-		\begin{animateinline}[loop, poster = first, controls]{2}
-			\input{./tikz/anim/power_6.tikz}
-			\newframe
-			\input{./tikz/anim/power_12.tikz}
-			\newframe
-			\input{./tikz/anim/power_18.tikz}
-			\newframe
-			\input{./tikz/anim/power_24.tikz}
-			\newframe
-			\input{./tikz/anim/power_30.tikz}
-			\newframe
-			\input{./tikz/anim/power_36.tikz}
-			\newframe
-			\input{./tikz/anim/power_42.tikz}
-			\newframe
-			\input{./tikz/anim/power_48.tikz}
-			\newframe
-			\input{./tikz/anim/power_54.tikz}
-			\newframe
-			\input{./tikz/anim/power_60.tikz}
-			\newframe
-			\input{./tikz/anim/power_66.tikz}
-			\newframe
-			\input{./tikz/anim/power_72.tikz}
-			\newframe
-			\input{./tikz/anim/power_78.tikz}
-			\newframe
-			\input{./tikz/anim/power_84.tikz}
-			\newframe
-			\input{./tikz/anim/power_90.tikz}
-			\newframe
-			\input{./tikz/anim/power_96.tikz}
-			\newframe
-			\input{./tikz/anim/power_102.tikz}
-			\newframe
-			\input{./tikz/anim/power_108.tikz}
-			\newframe
-			\input{./tikz/anim/power_114.tikz}
-			\newframe
-			\input{./tikz/anim/power_120.tikz}
-		\end{animateinline}	
-
-	\end{center}
-
-\end{frame}
-\end{comment}
-%-----------------------------------------------------------------------------------------------------------
-\begin{frame}
-\begin{center}
-	\input{./tikz/Fuel_pin.tikz}
-\end{center}
-\end{frame}
-%-----------------------------------------------------------------------------------------------------------
-%-----------------------------------------------------------------------------------------------------------
-\begin{frame}
-\begin{center}
-	\input{./tikz/hello.tikz}
-\end{center}
-\end{frame}
 \end{section}
-%======================================================
+%==============================================================================
 \begin{section}{Conclusions}
 \end{section}
-%======================================================
-%======================================================
+%==============================================================================
 \end{document}
-
-

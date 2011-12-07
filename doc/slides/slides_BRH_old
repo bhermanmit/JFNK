@@ -1,0 +1,205 @@
+%%%%%%%%%%%%   LaTeX Preamble %%%%%%%%%%%%%%
+
+\documentclass{beamer}
+
+% list all packages
+\usefonttheme[onlymath]{serif}
+\usepackage{comment}
+\usepackage{hyperref}
+\usepackage{pgfpages}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{enumerate}
+\usepackage{color}
+\usepackage{ifthen}
+\usepackage{animate}
+\usepackage{tikz,pgfplots}
+\usepackage{mycommands}
+\pgfplotsset{compat=1.3}
+\usetikzlibrary{plotmarks,shapes,arrows,positioning}
+\usetheme{Berlin}
+\usecolortheme{mit}
+
+% Set Logo
+\pgfdeclareimage[height=0.5cm]{mit-logo}{mit-logo.pdf}
+\logo{\vspace{-0.25cm}\pgfuseimage{mit-logo}\hspace*{0.025cm}}
+
+% Show outline at beginning of each section
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{Outline}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+% Include Custom environments
+% \input{environments.tex}
+
+% Title Page
+\title[JFNK Methods for Coupled Nonlinear Systems]{Jacobian-Free Newton-
+Krylov (JFNK) Methods for Nonlinear Neutronics/Thermal-Hydrualic Equations}
+\author[]{Bryan Herman}
+\institute[\insertpagenumber]{}
+\date{\today} 
+
+% -----------------------------------------------------------------------------
+\begin{document}
+% -----------------------------------------------------------------------------
+
+% Inset title page
+\frame{\titlepage}
+
+% Outline slide
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+%==============================================================================
+\begin{section}{Introduction}
+
+%------------------------------------------------------------------------------
+\begin{frame}{Motivation}
+
+\begin{itemize}
+
+	\item Eventually will be part of thesis work
+	\vfill\item JFNK method not currently used in nuclear reactor 
+		analysis
+	\vfill\item Incorporates a lot of ideas from 2.29 class
+	\vfill\item Coupled physics is fun!
+
+\end{itemize}
+
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}{Nuclear Reactor Systems}
+\begin{center}
+	\input{./tikz/reactor.tikz}
+\end{center}
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}{Common Approach to Coupling - Operator Splitting}
+
+	\begin{center}
+	\scalebox{0.65}{%
+
+		\input {./tikz/PARCS_marching.tikz}
+
+	}
+	\end{center}
+
+\end{frame}
+%-----------------------------------------------------------------------------------------------------------
+\begin{frame}{PARCS Coupling}
+
+	\begin{center}
+	\scalebox{0.65}{%
+
+		\input {./tikz/PARCS_coupling.tikz}
+
+	}
+	\end{center}
+
+\end{frame}
+%-----------------------------------------------------------------------------------------------------------
+
+\end{section}
+
+%======================================================
+\begin{section}{Governing Equations}
+
+\end{section}
+%======================================================
+
+%======================================================
+\begin{section}{Solvers}
+
+\end{section}
+%======================================================
+\begin{section}{Results}
+
+%------------------------------------------------------------------------------------------------------------
+\begin{frame}{Flux Results - Steady Solution}
+
+	\begin{block}{Flux Results}
+		\begin{center}
+			\input{./tikz/flux.tikz}
+		\end{center}	
+	\end{block}
+
+\end{frame}
+%------------------------------------------------------------------------------------------------------------
+\begin{comment}
+\begin{frame}{Animation}
+
+	\begin{center}
+
+		\begin{animateinline}[loop, poster = first, controls]{2}
+			\input{./tikz/anim/power_6.tikz}
+			\newframe
+			\input{./tikz/anim/power_12.tikz}
+			\newframe
+			\input{./tikz/anim/power_18.tikz}
+			\newframe
+			\input{./tikz/anim/power_24.tikz}
+			\newframe
+			\input{./tikz/anim/power_30.tikz}
+			\newframe
+			\input{./tikz/anim/power_36.tikz}
+			\newframe
+			\input{./tikz/anim/power_42.tikz}
+			\newframe
+			\input{./tikz/anim/power_48.tikz}
+			\newframe
+			\input{./tikz/anim/power_54.tikz}
+			\newframe
+			\input{./tikz/anim/power_60.tikz}
+			\newframe
+			\input{./tikz/anim/power_66.tikz}
+			\newframe
+			\input{./tikz/anim/power_72.tikz}
+			\newframe
+			\input{./tikz/anim/power_78.tikz}
+			\newframe
+			\input{./tikz/anim/power_84.tikz}
+			\newframe
+			\input{./tikz/anim/power_90.tikz}
+			\newframe
+			\input{./tikz/anim/power_96.tikz}
+			\newframe
+			\input{./tikz/anim/power_102.tikz}
+			\newframe
+			\input{./tikz/anim/power_108.tikz}
+			\newframe
+			\input{./tikz/anim/power_114.tikz}
+			\newframe
+			\input{./tikz/anim/power_120.tikz}
+		\end{animateinline}	
+
+	\end{center}
+
+\end{frame}
+\end{comment}
+%-----------------------------------------------------------------------------------------------------------
+\begin{frame}
+\begin{center}
+	\input{./tikz/Fuel_pin.tikz}
+\end{center}
+\end{frame}
+%-----------------------------------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------------------------------------
+\begin{frame}
+\begin{center}
+	\input{./tikz/hello.tikz}
+\end{center}
+\end{frame}
+\end{section}
+%======================================================
+\begin{section}{Conclusions}
+\end{section}
+%======================================================
+%======================================================
+\end{document}
+
+

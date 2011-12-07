@@ -2,3 +2,6 @@
 *.bak
 *~
 *.asv
+*.log
+*.aux
+*.bk
