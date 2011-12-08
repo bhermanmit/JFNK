@@ -2909,7 +2909,6 @@ reference "eq:energy1DTrans"
 \end_inset
 
  Note that the density vector is in the denominator of the coefficient fraction.
- This should be 
 \end_layout
 
 \begin_layout Section

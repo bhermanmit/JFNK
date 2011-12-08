@@ -7,8 +7,9 @@
 % \beamerdefaultoverlayspecification{<+->}
 
 % Set color for 'alert' text
-
 \setbeamercolor{alerted text}{fg=blue}
+
+%\setbeamercolor{section in toc}
 
 % Modify some default font sizes
 \setbeamerfont{itemize/enumerate body}{size=\normalfont}
@@ -39,10 +40,10 @@
 
 \tikzstyle{refbox} = [shape = rectangle, fill = mitred, inner sep = 2pt, text=white, font=\footnotesize]
 
-\newcommand{\numberInBox}[2][0.9]%
-	{\scalebox{#1}{{\tikz \draw (0,0) node[refbox] {\makebox[\totalheight]{#2}};}}}
+%\newcommand{\numberInBox}[2][0.9]%
+%	{\scalebox{#1}{{\tikz \draw (0,0) node[refbox] {\makebox[\totalheight]{#2}};}}}
 
-\newcommand{\enumref}[2][0.9] {\numberInBox[#1]{\ref{#2}}}
+%\newcommand{\enumref}[2][0.9] {\numberInBox[#1]{\ref{#2}}}
 
 
 % Small arrow pointing down and hooking right
@@ -111,29 +112,3 @@
 \setcounter{footnote}{2}
 \renewcommand{\thempfootnote}{\ensuremath{\fnsymbol{mpfootnote}}}
 \newcommand{\newsubsection}[1]{\subsection{#1}\setcounter{subsection}{0}}
-
-\newcommand{\proton}[1]{%
-    \shade[ball color=red] (#1) circle (.25);\draw (#1) node{$+$};
-}
-
-%\neutron{xposition,yposition}
-\newcommand{\neutron}[1]{%
-    \shade[ball color=green] (#1) circle (.25);
-}
-
-%\electron{xwidth,ywidth,rotation angle}
-\newcommand{\electron}[3]{%
-    \draw[rotate = #3](0,0) ellipse (#1 and #2)[color=blue];
-    \shade[ball color=yellow] (0,#2)[rotate=#3] circle (.1);
-}
-
-\newcommand{\nucleus}{%
-    \neutron{0.1,0.3}
-    \proton{0,0}
-    \neutron{0.3,0.2}
-    \proton{-0.2,0.1}
-    \neutron{-0.1,0.3}
-    \proton{0.2,-0.15}
-    \neutron{-0.05,-0.12}
-    \proton{0.17,0.21}
-}

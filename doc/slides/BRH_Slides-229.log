@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.10.20)  6 DEC 2011 19:19
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.10.20)  7 DEC 2011 20:22
 entering extended mode
  %&-line parsing enabled.
 **BRH_Slides-229.tex
@@ -1030,10 +1030,10 @@ Package: inputenc 2008/03/30 v1.1d Input encoding file
 (/usr/share/texmf-texlive/tex/latex/base/latin1.def
 File: latin1.def 2008/03/30 v1.1d Input encoding file
 ))
-(/home/bherman/texmf/tex/adjustbox/adjustbox.sty
-Package: adjustbox 2011/03/20 v0.3 Adjusting TeX boxes (trim, clip, ...)
-)
 (/usr/share/texmf-texlive/tex/latex/carlisle/scalefnt.sty)
+(/usr/share/texmf-texlive/tex/latex/ltxmisc/relsize.sty
+Package: relsize 2003/07/04 ver 3.1
+)
 (/usr/share/texmf/tex/latex/beamer/themes/theme/beamerthemeBerlin.sty
 Package: beamerthemeBerlin 2007/01/28  (rcs-revision 1.11)
 
@@ -1150,16 +1150,14 @@ LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <4> not available
  <./mit-logo.pdf>]
 (./BRH_Slides-229.toc) [2
 
-] (./BRH_Slides-229.toc) [3
-
-] [4
+] [3
 
 ] (./tikz/reactor.tikz
 Overfull \hbox (3.4501pt too wide) in paragraph at lines 181--181
 [][][][]\OT1/cmss/m/n/10 Reactor 
  []
 
-) [5
+) [4
 
 ] (./tikz/nucleus.tikz
 Missing character: There is no ; in font nullfont!
@@ -1177,15 +1175,37 @@ LaTeX Font Info:    Try loading font information for U+lasy on input line 13.
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
 Missing character: There is no ; in font nullfont!
+) [5
+
+] (./tikz/Fuel_pin.tikz
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
 )
-Overfull \vbox (4.68553pt too high) detected at line 99
+(./tikz/Geometry.tikz)
+Overfull \hbox (2.18143pt too wide) in paragraph at lines 124--124
+ [] 
  []
 
 [6
 
-] [7
+]
+Overfull \hbox (14.10947pt too wide) detected at line 153
+[] \OT1/cmr/m/n/9 + [] + [] = []
+ []
 
-] (./BRH_Slides-229.toc) [8
+[7
+
+]
+Overfull \hbox (17.058pt too wide) detected at line 181
+ []$[]  [][] \OT1/cmr/m/n/8 + \OMS/cmsy/m/n/8 ^^@[][][] \OT1/cmr/m/n/8 + [] []\
+OMS/cmsy/m/n/8 ^^@$ 
+ []
+
+
+Overfull \vbox (2.06155pt too high) detected at line 181
+ []
+
+[8
 
 ] [9
 
@@ -1195,8 +1215,7 @@ Overfull \vbox (4.68553pt too high) detected at line 99
 
 ] [12
 
-] (./BRH_Slides-229.toc)
-[13
+] [13
 
 ] [14
 
@@ -1208,9 +1227,7 @@ Overfull \vbox (4.68553pt too high) detected at line 99
 
 ] [18
 
-] (./BRH_Slides-229.toc) [19
-
-] (./BRH_Slides-229.toc) [20
+] [19
 
 ]
 \tf@nav=\write7
@@ -1229,21 +1246,37 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 26346 strings out of 495061
- 600554 string characters out of 1182620
- 792368 words of memory out of 3000000
- 28805 multiletter control sequences out of 15000+50000
- 11024 words of font info for 43 fonts, out of 3000000 for 9000
+ 26567 strings out of 495061
+ 604769 string characters out of 1182620
+ 811425 words of memory out of 3000000
+ 29018 multiletter control sequences out of 15000+50000
+ 15278 words of font info for 60 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 50i,15n,74p,659b,938s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/shar
-e/texmf-texlive/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texmf-tex
-live/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/share/texmf-texlive/fonts/
-type1/public/amsfonts/cm/cmss8.pfb></usr/share/texmf-texlive/fonts/type1/public
-/amsfonts/cm/cmssbx10.pfb>
-Output written on BRH_Slides-229.pdf (20 pages, 171015 bytes).
+ 50i,15n,74p,659b,1123s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sha
+re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/share/texmf-tex
+live/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texmf-texlive/fonts/t
+ype1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-texlive/fonts/type1/public
+/amsfonts/cmextra/cmex8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfon
+ts/cmextra/cmex9.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/c
+mmi10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi6.pfb></
+usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/te
+xmf-texlive/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texmf-texlive/
+fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/
+public/amsfonts/cm/cmr6.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfon
+ts/cm/cmr8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr9.pf
+b></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/sha
+re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/share/texmf-te
+xlive/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texmf-texlive/fonts/
+type1/public/amsfonts/cm/cmss9.pfb></usr/share/texmf-texlive/fonts/type1/public
+/amsfonts/cm/cmssbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts
+/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy6.p
+fb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/sha
+re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texmf-tex
+live/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on BRH_Slides-229.pdf (19 pages, 369607 bytes).
 PDF statistics:
- 343 PDF objects out of 1000 (max. 8388607)
- 46 named destinations out of 1000 (max. 500000)
- 120 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 393 PDF objects out of 1000 (max. 8388607)
+ 44 named destinations out of 1000 (max. 500000)
+ 150 words of extra memory for PDF output out of 10000 (max. 10000000)
 

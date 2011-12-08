@@ -4,6 +4,7 @@
 
 % list all packages
 \usefonttheme[onlymath]{serif}
+\usepackage{amsmath}
 \usepackage{comment}
 \usepackage{hyperref}
 \usepackage{pgfpages}
@@ -22,10 +23,9 @@
 \usepackage{tikz}
 \usetikzlibrary{decorations.pathmorphing}
 \usepackage{graphicx}
-\usepackage{adjustbox}
 \usepackage{scalefnt}
+\usepackage{relsize}
 
-\def\TTiny{\fontsize{3pt}{3pt}\selectfont}
 % slide theme
 \usetheme{Berlin}
 \usecolortheme{mit}
@@ -35,13 +35,13 @@
 \logo{\vspace{-0.25cm}\pgfuseimage{mit-logo}\hspace*{0.025cm}}
 
 % Show outline at beginning of each section
-\AtBeginSection[]
-{
-  \begin{frame}<beamer>
-    \frametitle{Outline}
-    \tableofcontents[currentsection]
-  \end{frame}
-}
+%\AtBeginSection[]
+%{
+%  \begin{frame}<beamer>
+%    \frametitle{Outline}
+%    \tableofcontents[currentsection]
+%  \end{frame}
+%}
 
 % Include Custom environments
 \input{environments.tex}
@@ -62,7 +62,7 @@ Krylov (JFNK) Methods for Nonlinear Neutronics/Thermal-Hydrualic Equations}
 
 % Outline slide
 \begin{frame}{Outline}
-  \tableofcontents
+  \tableofcontents{}
 \end{frame}
 
 %==============================================================================
@@ -71,35 +71,56 @@ Krylov (JFNK) Methods for Nonlinear Neutronics/Thermal-Hydrualic Equations}
 %------------------------------------------------------------------------------
 \begin{frame}{Motivation}
 
-\begin{itemize}
+  \begin{itemize}
 
-	\item Eventually will be part of thesis work
-	\vfill\item JFNK method not currently used in nuclear reactor 
+    \item Eventually will be part of thesis work
+    \vfill\item JFNK method not currently used in nuclear reactor 
 		analysis
-	\vfill\item Incorporates a lot of ideas from 2.29 class
-	\vfill\item Coupled physics is fun!
+    \vfill\item Incorporates a lot of ideas from 2.29 class
+    \vfill\item Coupled physics is fun!
 
-\end{itemize}
+  \end{itemize}
 
 \end{frame}
 %------------------------------------------------------------------------------
-\begin{frame}{Nuclear Reactor Systems}
-	\scalebox{0.5}{\input{./tikz/reactor.tikz}}
-	\vfill
+\begin{frame}{Nuclear Reactor Plant}
+  \scalebox{0.5}{\input{./tikz/reactor.tikz}}
+  \vfill
 \end{frame}
 %------------------------------------------------------------------------------
 \begin{frame}{Nuclear Feedback}
-\begin{center}
-	\scalebox{0.5}{\input{./tikz/nucleus.tikz}}
-	\begin{itemize}
-		\item Doppler Feedback
-		\item Coolant Density Feedback
-	\end{itemize}
-\end{center}
+  \begin{center}
+    \scalebox{0.4}{\input{./tikz/nucleus.tikz}}
+    \begin{itemize}
+      \begin{footnotesize}
+	\item Fuel Temperature Feedback -  $T_{f} \uparrow$, U-238 
+	      Capture $\uparrow$, Fission Rate $\downarrow$, 
+	      Power $\downarrow$
+	\item Coolant Density Feedback - $\rho \downarrow$,
+	      $E_{n} \uparrow$, Fission Rate $\downarrow$, 
+	      Power $\downarrow$
+      \end{footnotesize}
+    \end{itemize}
+  \end{center}
 \end{frame}
 %------------------------------------------------------------------------------
 \begin{frame}{1-D Slab Reactor Geometry}
-
+\begin{columns}
+  \begin{column}{0.5\textwidth}
+  \begin{center}
+    \scalebox{0.5}{\input{./tikz/Fuel_pin.tikz}}
+    \\ Top-view
+    \\ Fuel Rod Unit-Cell
+  \end{center}
+  \end{column}
+  \begin{column}{0.5\textwidth}
+  \begin{center}
+    \scalebox{0.45}{\input{./tikz/Geometry.tikz}}
+      \\ Side-view (vertical)
+      \\ 1-D Model of Reactor
+  \end{center}
+  \end{column}
+\end{columns}
 \end{frame}
 %------------------------------------------------------------------------------
 \end{section}
@@ -107,19 +128,138 @@ Krylov (JFNK) Methods for Nonlinear Neutronics/Thermal-Hydrualic Equations}
 \begin{section}{Governing Equations}
 %------------------------------------------------------------------------------
 \begin{frame}{Neutronics}
+\relsize{-1}
+\begin{customlist}{2ex}{0pt}
 
+    \item Basic Neutron Conservation:
+    \[
+      \nonumber Change + Leakage + Interactions = Scattering + Fission
+    \]
+
+    \item Neutron Transport Equation:
+    \[
+      \nonumber {\underbrace{\frac{1}{v}\frac{\partial\varphi}{\partial t}}_{\mathrm{time-dependent}}} + {\underbrace{\mathbf{\Omega}\cdot\nabla\varphi\left(\mathbf{r},E,\mathbf{\Omega},t\right)}_{\mathrm{neutron\, leakage}}}+\underbrace{\Sigma_{t}\left(\mathbf{r},E,t\right)\varphi\left(\mathbf{r},E,\mathbf{\Omega},t\right)}_{\mathrm{interation\, of\, neutrons\, with\, medium}}=\underbrace{Q\left(\mathbf{r},E,\mathbf{\Omega},t\right)}_{\mathrm{neutron\, source}}
+    \]
+
+    \item Neutron Diffusion Equation (1-D Energy Integrated)
+    \[
+     \nonumber\frac{1}{v}\frac{\partial\phi}{\partial t}-D\left(x,t\right)\frac{\partial^{2} \phi}{\partial^{2} x}+\Sigma_{a}\left(x,t\right)\phi\left(x,t\right)=\frac{1-\beta}{k_{eff}}\nu\Sigma_{f}\left(x,t\right)\phi\left(x,t\right)+\lambda_{d}c\left(x,t\right)
+    \]
+    \[
+    \nonumber\frac{\partial c}{\partial t}=\frac{\beta}{k_{eff}}\nu\Sigma_{f}\left(x,t\right)\phi\left(x,t\right)-\lambda_{d}c\left(x,t\right)   
+    \]
+
+\end{customlist}
 \end{frame}
 %------------------------------------------------------------------------------
-\begin{frame}{Neutronics to Thermal Hydraulics}
-
+\begin{frame}{Discretization of Neutronics Equations}
+\relsize{-2}
+\begin{block}{Assumptions:}
+\begin{enumerate}
+  \item One-dimensional finite volume spatial discretization
+  \item Central difference scheme for diffusion term
+  \item No-incoming current of neutrons at boundaries
+  \item Implicit Euler time discretization
+\end{enumerate}
+\end{block}
+\begin{customlist}{2ex}{0pt}
+  \item Discretized neutronics equation for interior cell
+  \begin{multline}
+    \nonumber
+    \frac{1}{v}\frac{d\bar{\phi}_{i}}{dt}+-\frac{2}{\Delta x^{2}}\frac{D_{i}D_{i-1}}{D_{i}+D_{i-1}}\bar{\phi}_{i-1}+\left(\frac{2}{\Delta x^{2}}\frac{D_{i+1}D_{i}}{D_{i+1}+D_{i}}+\frac{2}{\Delta x^{2}}\frac{D_{i}D_{i-1}}{D_{i}+D_{i-1}}+\Sigma_{a,i}\right)\bar{\phi}_{i}-\\
+    \frac{2}{\Delta x^{2}}\frac{D_{i+1}D_{i}}{D_{i+1}+D_{i}}\bar{\phi}_{i+1}=\frac{1-\beta}{k_{eff}}\nu\Sigma_{f,i}\bar{\phi}_{i}+\lambda_{d}\bar{c}_{i}
+  \end{multline}
+  \item Matrix-form of neutronics equations
+  \[
+    \bar{\mathbf{\Phi}}^{n+1}-\bar{\mathbf{\Phi}}^{n}+v\Delta t\left(\mathbb{M}\bar{\mathbf{\Phi}}^{n+1}-\left(1-\beta\right)\lambda\mathbb{F}\bar{\mathbf{\Phi}}^{n+1}-\lambda_{d}\mathbf{\bar{c}}^{n+1}\right)=0
+  \]
+  \item Matrix-form of precursors
+  \[
+    \mathbf{\bar{c}}^{n+1}-\mathbf{\bar{c}}^{n}+\Delta t\left(\lambda_{d}\mathbf{\bar{c}}^{n+1}-\beta\lambda\mathbb{F}\bar{\mathbf{\Phi}}^{n+1}\right)=0
+  \]
+\end{customlist}
 \end{frame}
 %------------------------------------------------------------------------------
 \begin{frame}{Thermal Hydraulics}
-
+\relsize{-1}
+\begin{customlist}{2ex}{0pt}
+  \item Energy Equation - single phase fluid and inviscid fluid
+  \[
+   \frac{\partial\left(\rho h\right)}{\partial t}+\nabla\cdot\left(\rho h\mathbf{u}\right)=-\nabla\cdot\mathbf{q}^{\prime\prime}+q^{\prime\prime\prime}
+  \]
+  \vfill\item Assuming fissions are a volumetic heat source in 1-D
+  \[
+   \rho A\frac{\partial h}{\partial t}+\dot{m}\frac{\partial h}{\partial x}=q^{\prime}
+  \]
+  \vfill\item For an incompressible fluid, $dh=c_{p}dT$
+  \[
+   \rho Ac_{p}\frac{\partial T}{\partial t}+\dot{m}c_{p}\frac{\partial T}{\partial x}=q^{\prime}
+  \]
+\end{customlist}
 \end{frame}
 %------------------------------------------------------------------------------
-\begin{frame}{Thermal Hydraulics to Neutronics}
-
+\begin{frame}{Discretization of Energy Equation}
+\begin{enumerate}
+  \item One-dimensional finite volume spatial discretization
+  \item Upwind difference scheme for diffusion term
+  \item Specify inlet conditions and mass flow rate
+  \item Implicit Euler time discretization
+\end{enumerate}
+\begin{customlist}{2ex}{0pt}
+  \item spatial discretization
+  \[
+   \frac{\rho A\Delta x}{w}\frac{d\bar{T}_{i}}{dt}+\bar{T}_{i}-\bar{T}_{i-1}=\frac{1}{2wc_{p}}\left(Q_{i-1}+Q_{i}\right)
+  \]
+  \item Matrix-form with time discretization
+  \[
+   \mathbf{\bar{T}}^{n+1}-\mathbf{\bar{T}}^{n}+\frac{w\Delta t}{\mathcal{P}^{n+1}A\Delta x}\left(\mathbb{S}\mathbf{\bar{T}}^{n+1}-\mathbb{R}\mathbf{Q}^{n+1}\right)=0
+  \]
+  \alert{Note:} $\mathcal{P}$ is a vector of cell-averaged coolant densities
+\end{customlist}
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}{Physics Coupling}
+\relsize{-2}
+\begin{block}{Neutronics - Thermal Hydraulics}
+  \begin{itemize}
+    \item Neutrons cause fissions
+    \item Large portion of fission energy deposited in coolant
+    \item This is represented by
+    \[
+      \mathbf{Q}=\tilde{c}\mathbb{E}\bar{\mathbf{\Phi}}\Delta x
+    \]
+    \\where $\mathbb{E}=\mathrm{diag}\left\{\kappa\Sigma_{f}\right\}$ characterizes energy per fission and \\  $\tilde{c}$ is flux-power normalization constant
+  \end{itemize}
+\end{block}
+\begin{alertblock}{Thermal-Hydraulics to Neutroncs}
+  \begin{itemize}
+    \item Diffusion theory parameters depend on coolant density
+    \item This dependence is determined with a transport theory code
+    \item $D$, $\Sigma_{a}$, $\nu\Sigma_{f}$, $\kappa\Sigma_{f}$ are all affect by coolant density variations
+    \item Data is fitted with a linear regression of the form:
+    \[
+     \mathbf{\Sigma} = \mathbf{\Sigma}^{ref} + \frac{\partial\Sigma}{\partial\rho}\left(\mathcal{P} - \rho^{ref}\right)
+    \]
+  \end{itemize}
+\end{alertblock}
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}{The Steady-State Eigenvalue Problem}
+%\relsize{-1}
+\begin{customlist}{2ex}{0pt}
+  \item The steady state equations must be solved first
+  \vfill\item Reducing the neutronics equation to steady-state:
+  \[
+    \mathbb{M}\bar{\mathbf{\Phi}}=\lambda\mathbb{F}\bar{\mathbf{\Phi}},\qquad \lambda = \frac{1}{k_{eff}}
+  \]
+  \vfill\item Eigenvalue, $\lambda$, and eigenvector, $\mathbf{\Phi}$, must be determined
+  \vfill\item Flux-power normalization constant determined from reactor power
+  \[
+    Q_{R}=\tilde{c}\int_{0}^{L}dx\kappa\Sigma_{f}\left(x\right)\phi\left(x\right)=\tilde{c}\sum_{i}\kappa\Sigma_{f,i}\bar{\phi}_{i}\Delta x=\tilde{c}\kappa\mathbf{\Sigma}_{f}^{\mathrm{T}}\bar{\mathbf{\Phi}}\Delta x
+  \]
+  \item $\lambda$ and $\tilde{c}$ are input as constants for time-dependent calculations 
+  \vspace{0.5cm}
+\end{customlist}
 \end{frame}
 %------------------------------------------------------------------------------
 \end{section}
@@ -149,9 +289,13 @@ Krylov (JFNK) Methods for Nonlinear Neutronics/Thermal-Hydrualic Equations}
 \end{section}
 %==============================================================================
 \begin{section}{Results}
+\begin{frame}{Steady State}
+\end{frame}
 \end{section}
 %==============================================================================
 \begin{section}{Conclusions}
+\begin{frame}{Conclusions}
+\end{frame}
 \end{section}
 %==============================================================================
 \end{document}
