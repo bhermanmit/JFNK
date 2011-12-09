@@ -49,8 +49,7 @@
 \input{environments.tex}
 
 % Title Page
-\title[JFNK Methods for Coupled Nonlinear Systems]{Jacobian-Free Newton-
-Krylov (JFNK) Methods for Nonlinear Neutronics/Thermal-Hydraulic Equations}
+\title[JFNK Methods for Coupled Nonlinear Systems]{Jacobian-Free Newton-Krylov (JFNK) Methods for Nonlinear Neutronics/Thermal-Hydraulic Equations}
 \author[]{Bryan Herman}
 \institute[\insertpagenumber]{}
 \date{\today} 
@@ -153,7 +152,7 @@ Krylov (JFNK) Methods for Nonlinear Neutronics/Thermal-Hydraulic Equations}
 
     \item Neutron Transport Equation:
     \[
-      \nonumber {\underbrace{\frac{1}{v}\frac{\partial\varphi}{\partial t}}_{\mathrm{time-dependent}}} + {\underbrace{\mathbf{\Omega}\cdot\nabla\varphi\left(\mathbf{r},E,\mathbf{\Omega},t\right)}_{\mathrm{neutron\, leakage}}}+\underbrace{\Sigma_{t}\left(\mathbf{r},E,t\right)\varphi\left(\mathbf{r},E,\mathbf{\Omega},t\right)}_{\mathrm{interation\, of\, neutrons\, with\, medium}}=\underbrace{Q\left(\mathbf{r},E,\mathbf{\Omega},t\right)}_{\mathrm{neutron\, source}}
+      \nonumber {\underbrace{\frac{1}{v}\frac{\partial\varphi}{\partial t}}_{\mathrm{time-dependent}}} + {\underbrace{\mathbf{\Omega}\cdot\nabla\varphi\left(\mathbf{r},E,\mathbf{\Omega},t\right)}_{\mathrm{neutron\, leakage}}}+\underbrace{\Sigma_{t}\left(\mathbf{r},E,t\right)\varphi\left(\mathbf{r},E,\mathbf{\Omega},t\right)}_{\mathrm{interaction\, of\, neutrons\, with\, medium}}=\underbrace{Q\left(\mathbf{r},E,\mathbf{\Omega},t\right)}_{\mathrm{neutron\, source}}
     \]
 
     \item Neutron Diffusion Equation (1-D Energy Integrated)
@@ -173,7 +172,7 @@ Krylov (JFNK) Methods for Nonlinear Neutronics/Thermal-Hydraulic Equations}
 \begin{enumerate}
   \item One-dimensional finite volume spatial discretization
   \item Central difference scheme for diffusion term
-  \item No-incoming current of neutrons at boundaries
+  \item No incoming current of neutrons at boundaries
   \item Implicit Euler time discretization
 \end{enumerate}
 \end{block}
@@ -181,7 +180,7 @@ Krylov (JFNK) Methods for Nonlinear Neutronics/Thermal-Hydraulic Equations}
   \item Discretized neutronics equation for interior cell
   \begin{multline}
     \nonumber
-    \frac{1}{v}\frac{d\bar{\phi}_{i}}{dt}+-\frac{2}{\Delta x^{2}}\frac{D_{i}D_{i-1}}{D_{i}+D_{i-1}}\bar{\phi}_{i-1}+\left(\frac{2}{\Delta x^{2}}\frac{D_{i+1}D_{i}}{D_{i+1}+D_{i}}+\frac{2}{\Delta x^{2}}\frac{D_{i}D_{i-1}}{D_{i}+D_{i-1}}+\Sigma_{a,i}\right)\bar{\phi}_{i}-\\
+    \frac{1}{v}\frac{d\bar{\phi}_{i}}{dt}-\frac{2}{\Delta x^{2}}\frac{D_{i}D_{i-1}}{D_{i}+D_{i-1}}\bar{\phi}_{i-1}+\left(\frac{2}{\Delta x^{2}}\frac{D_{i+1}D_{i}}{D_{i+1}+D_{i}}+\frac{2}{\Delta x^{2}}\frac{D_{i}D_{i-1}}{D_{i}+D_{i-1}}+\Sigma_{a,i}\right)\bar{\phi}_{i}-\\
     \frac{2}{\Delta x^{2}}\frac{D_{i+1}D_{i}}{D_{i+1}+D_{i}}\bar{\phi}_{i+1}=\frac{1-\beta}{k_{eff}}\nu\Sigma_{f,i}\bar{\phi}_{i}+\lambda_{d}\bar{c}_{i}
   \end{multline}
   \item Matrix-form of neutronics equations
@@ -224,7 +223,7 @@ Krylov (JFNK) Methods for Nonlinear Neutronics/Thermal-Hydraulic Equations}
 \end{enumerate}
 \end{block}
 \begin{customlist}{2ex}{0pt}
-  \item spatial discretization
+  \item Spatial discretization
   \[
    \frac{\rho A\Delta x}{w}\frac{d\bar{T}_{i}}{dt}+\bar{T}_{i}-\bar{T}_{i-1}=\frac{1}{2wc_{p}}\left(Q_{i-1}+Q_{i}\right)
   \]
@@ -240,21 +239,21 @@ Krylov (JFNK) Methods for Nonlinear Neutronics/Thermal-Hydraulic Equations}
 \relsize{-2}
 \begin{block}{Neutronics-Thermal Hydraulics}
   \begin{itemize}
-    \item Neutrons cause fissions
+    \item Neutrons cause fission
     \item Large portion of fission energy deposited in coolant
     \item This is represented by
     \[
       \mathbf{Q}=\tilde{c}\mathbb{E}\bar{\mathbf{\Phi}}\Delta x
     \]
-    \\where $\mathbb{E}=\mathrm{diag}\left\{\kappa\Sigma_{f}\right\}$ characterizes energy per fission and \\  $\tilde{c}$ is flux-power normalization constant
+    \\where $\mathbb{E}=\mathrm{diag}\left\{\kappa\Sigma_{f}\right\}$ characterizes energy per fission and \\  $\tilde{c}$ is the flux-to-power normalization constant
   \end{itemize}
 \end{block}
 \begin{alertblock}{Thermal Hydraulics-Neutronics}
   \begin{itemize}
     \item Diffusion theory parameters depend on coolant density
     \item This dependence is determined with a transport theory code
-    \item $D$, $\Sigma_{a}$, $\nu\Sigma_{f}$, $\kappa\Sigma_{f}$ are all affect by coolant density variations
-    \item Data is fitted with a linear regression of the form:
+    \item $D$, $\Sigma_{a}$, $\nu\Sigma_{f}$, $\kappa\Sigma_{f}$ are all affected by coolant density variations
+    \item Data is correlated with a linear regression of the form:
     \[
      \mathbf{\Sigma} = \mathbf{\Sigma}^{ref} + \frac{\partial\Sigma}{\partial\rho}\left(\mathcal{P} - \rho^{ref}\right)
     \]
@@ -262,19 +261,19 @@ Krylov (JFNK) Methods for Nonlinear Neutronics/Thermal-Hydraulic Equations}
 \end{alertblock}
 \end{frame}
 %------------------------------------------------------------------------------
-\begin{frame}{The Steady-State Eigenvalue Problem}
+\begin{frame}{The Steady State Eigenvalue Problem}
 \begin{customlist}{2ex}{0pt}
   \item The steady state equations must be solved first
-  \vfill\item Reducing the neutronics equation to steady-state:
+  \vfill\item Reducing the neutronics equation to steady state form:
   \[
     \mathbb{M}\bar{\mathbf{\Phi}}=\lambda\mathbb{F}\bar{\mathbf{\Phi}},\qquad \lambda = \frac{1}{k_{eff}}
   \]
-  \vfill\item Eigenvalue, $\lambda$, and eigenvector, $\mathbf{\Phi}$, must be determined
-  \vfill\item Flux-power normalization constant determined from reactor power
+  \vfill\item Eigenvalue, $\lambda$, and eigenvector, $\bar{\mathbf{\Phi}}$, must be determined
+  \vfill\item -to-power normalization constant determined from reactor power:
   \[
     Q_{R}=\tilde{c}\int_{0}^{L}dx\kappa\Sigma_{f}\left(x\right)\phi\left(x\right)=\tilde{c}\sum_{i}\kappa\Sigma_{f,i}\bar{\phi}_{i}\Delta x=\tilde{c}\kappa\mathbf{\Sigma}_{f}^{\mathrm{T}}\bar{\mathbf{\Phi}}\Delta x
   \]
-  \item $\lambda$ and $\tilde{c}$ are input as constants for time-dependent calculations 
+  \item $\lambda$ and $\tilde{c}$ are specified as constants for time-dependent calculations 
   \vspace{0.5cm}
 \end{customlist}
 \end{frame}
@@ -326,7 +325,7 @@ Three major tasks:
     h_{21} & h_{22}\\
     & \ddots & \ddots & \vdots\\
     &  & h_{n,n-1} & h_{n,n}
-   \end{array}\right].
+   \end{array}\right]
   \]
 \end{customlist}
 \end{frame}
@@ -366,7 +365,7 @@ Three major tasks:
    \left\Vert \mathbb{J}\left(\mathbf{x}^{n}\right)\mathbf{dx}_{m}^{n}+\mathbf{F}\left(\mathbf{x}^{n}\right)\right\Vert <\eta\left\Vert \mathbf{F}\left(\mathbf{x}^{n}\right)\right\Vert
   \]
   \vfill\item At initial Newton iterations, GMRES will not be converged very tightly
-  \vfill\item For the last couple of Newton iterations, convergence may be too tight - Limit how small linear tolerance is
+  \vfill\item For the last couple of Newton iterations, convergence may be too tight \\ $\therefore$ limit how small linear tolerance can get
 \end{customlist}
 \end{frame}
 %------------------------------------------------------------------------------
@@ -374,8 +373,8 @@ Three major tasks:
 \relsize{-2}
 \begin{customlist}{2ex}{0pt}
   \item Recall a Krylov subspace: $\mathcal{K}_{n}\left(\mathbb{A},\mathbf{v}\right)=\mathrm{span}\left\{ \mathbf{v},\mathbb{A}\mathbf{v},\mathbb{A}^{2}\mathbf{v},...,\mathbb{A}^{n-1}\mathbf{v}\right\}$
-  \item The matrix $\mathbb{A}$ is always multiplying a vector, so why create $\mathbb{A}$ when it is only used to multiply a vector?
-  \item Option 1: Preform Jacobian-vector anaytically
+  \vfill\item Why create $\mathbb{A}$ when it is only used to multiply a vector?
+  \vfill\item Option 1: Perform Jacobian-vector product analytically
   \[
    \mathbb{J}\mathbf{y}=\left[\begin{array}{cc}
     \mathbb{M}-\lambda\mathbb{F} & -\mathbb{F}\bar{\mathbf{\Phi}}\\
@@ -386,15 +385,14 @@ Three major tasks:
     \end{array}\right]=\left[\begin{array}{c}
     \left(\mathbb{M}-\lambda\mathbb{F}\right)y_{\phi}-\mathbb{F}\bar{\mathbf{\Phi}}y_{\lambda}\\
     -\bar{\mathbf{\Phi}}^{\top}y_{\phi}
-    \end{array}\right].
+    \end{array}\right]
   \]
-  \item Analytic method can get very complex, but can be done!
-  \item Option 2: Approximate Jacobian-vector product with finite difference
+  \vfill\item Option 2: Approximate Jacobian-vector product with finite difference
   \[
    \mathbb{J}\mathbf{y}\approx\frac{\mathbf{F}\left(\mathbf{x}+\epsilon\mathbf{y}\right)-\mathbf{F}\left(\mathbf{x}\right)}{\epsilon}
   \]
-  \item Advantages: 2 Function calls, saves memory and possibly computational time to form Jacobian
-  \item $\epsilon$ is the perturbation parameter and is somewhat arbitrary - Mousseau\footnote{\relsize{-2}V.A. Mousseau. Implicitly balanced solution of the two-phase flow equations couple to nonlinear heat
+  \vfill\item Advantages: Saves memory and possibly computational time to form Jacobian
+  \vfill\item $\epsilon$ is the perturbation parameter and is somewhat arbitrary - Mousseau\footnote{\relsize{-2}V.A. Mousseau. Implicitly balanced solution of the two-phase flow equations couple to nonlinear heat
     conduction. Journal of Computational Physics, 200:104-132, 2004.} recommends:
   \[
    \epsilon=\frac{\sum_{i=1}^{N}bx_{i}}{N\left\Vert \mathbf{y}\right\Vert _{2}}
@@ -404,15 +402,14 @@ Three major tasks:
 %------------------------------------------------------------------------------
 \begin{frame}{Preconditioning}
 \begin{customlist}{2ex}{0pt}
-  \item Want to limit number of GMRES iterations - computational time and memory
-  \item An approx. preconditioner is formed from the Jacobian
-  \item Before a calculation, a Jacobian matrix is formed analytically and a zero-fill Incomplete LU (ILU) is performed:
+  \item Want to limit number of GMRES iterations
+  \vfill\item Before a calculation, a Jacobian matrix is formed analytically and a zero-fill Incomplete LU (ILU) is performed:
   \[
    \mathbb{R}=\mathbb{L}\mathbb{U}-\mathbb{A}
   \]
-  \item In ILU, residual matrix $\mathbb{R}$ is constrained to certain conditions
-  \item Zero-fill implies that the number and location of nonzeros is preserved
-  \item Left preconditioning is used in this project:
+  \vfill\item In ILU, residual matrix $\mathbb{R}$ is constrained to certain conditions
+  \vfill\item Zero-fill implies that the number and location of nonzeros is preserved
+  \vfill\item Left preconditioning is used in this project:
   \[
    \mathbb{U}^{-1}\mathbb{L}^{-1}\mathbb{A}\mathbf{x}=\mathbb{U}^{-1}\mathbb{L}^{-1}\mathbf{b}
   \]
@@ -444,9 +441,9 @@ Three major tasks:
     \end{column}
     \begin{column}{0.5\textwidth}
       \begin{customlist}{2ex}{0pt}
-	\item A Newton-method cannot guarantee that the fundamental eigenmode is calculated
-	\item Any mode satifies the nonlinear set of equations
-	\item Here the ratio of the first two eigenvalues is close (dominance ratio)
+	\item A Newton method cannot guarantee that the fundamental eigenmode is calculated
+	\item Any mode satisfies the nonlinear set of equations
+	\item Here the ratio of the first two eigenvalues is close to unity (dominance ratio)
 	\item Use a few power iterations to get gross flux shape
       \end{customlist}
     \end{column}
