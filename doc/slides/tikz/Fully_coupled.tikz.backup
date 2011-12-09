@@ -1,0 +1,40 @@
+\begin{tikzpicture}
+
+	% Define background color
+	\colorlet{bgcolor}{mitgray!20};
+
+	% Define Dimensions
+	\def\blockwidth{2.75cm};
+	\def\blockheight{1.5cm};
+	\def\elemheight{2.5cm};
+	\def\elemwidth{2cm};
+	\def\elemvsep{0.5cm};
+	\def\elemhsep{0.75cm};
+	
+	% Define Outer Frame
+	\tikzstyle{frame} = [rounded corners, fill=bgcolor, draw=black, double, very thick];
+	\draw[frame] (0.0,0.0) rectangle (4*\blockwidth+0.1cm,2*\blockheight+0.5cm);
+
+	% Define Elements in Frame
+	\begin{scope}
+		\tikzstyle{element} = [rectangle, rounded corners, draw = black, very thick, minimum height=\elemheight, minimum width=\elemwidth];	
+		\node[element] (time 1) at (0.5*\elemwidth+0.5*\elemhsep,0.5*\elemheight+0.5*\elemvsep) {T/H};
+		\node[element,right = \elemhsep of time 1.east] (time 2) {T/H};
+		\node[element,right = \elemhsep of time 2.east] (time 3) {T/H};
+		\node[element,right = \elemhsep of time 3.east] (time 4) {T/H};
+	\end{scope}
+		
+	% Draw connectors between elements
+	\tikzstyle{connector} = [->, >=stealth, thick, shorten >=2pt];
+	\draw[connector] (time 1) to [out=0,in=180] (time 2);
+	\draw[connector] (time 2) to [out=0,in=180] (time 3);
+	\draw[connector,dashed] (time 3) to [out=0,in=180]  (time 4);
+	
+	% Put labels in
+	\tikzstyle{labels}    = [minimum height = 1.0cm, text centered, anchor = south];
+	\node[labels,above = 0.9cm of time 1.center] {$t=0$};
+	\node[labels,above = 0.9cm of time 2.center] {$t=\Delta t$};
+	\node[labels,above = 0.9cm of time 3.center] {$t=2\Delta t$};
+	\node[labels,above = 0.9cm of time 4.center] {$t=n\Delta t$};
+
+\end{tikzpicture}

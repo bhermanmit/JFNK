@@ -1,7 +1,4 @@
 \begin{tikzpicture}[scale=0.65]
-
-	% Define background color
-	\colorlet{bgcolor1}{mitred!50};
 	
 	% Draw nucleus
 	\tikzstyle{nucleon}=[shape = circle, shading=ball, minimum size=0.25cm];
@@ -34,11 +31,11 @@
 	\draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=orange] (-4.5cm,-4.5cm) -- (-0.4,-0.4);
 
         % Draw text
-	\tikzstyle{textelem}=[shape = rectangle,color=black,minimum width=8,minimum height=5,text width=4cm,text centered, rounded corners, very thick, double];
-	\node[textelem,draw=red,  fill = red!50,        above=5cm of prot.north] (N)   {Neutrons cause fission};
-	\node[textelem,draw=blue, fill = blue!50,       below=5cm of prot.south] (T)   {Coolant extracts energy};
-	\node[textelem,draw=black,fill = red!20!blue!30,right=5cm of prot.east]  (NT)  {Fission energy deposited in coolant};
-	\node[textelem,draw=black,fill = blue!20!red!30,left=5cm of prot.west]   (TN)  {Temperature and density distributions alter neutron interactions};
+	\tikzstyle{textelem}=[shape = rectangle,color=black,minimum width=8,minimum height=5,draw=black,text width=4cm,text centered];
+	\node[textelem,above=5cm of prot.north] (N)   {Neutrons cause fission};
+	\node[textelem,below=5cm of prot.south] (T)   {Coolant extracts energy};
+	\node[textelem,right=5cm of prot.east]  (NT)  {Fission energy deposited in coolant};
+	\node[textelem,left=5cm of prot.west]   (TN)  {Temperature and density distributions alter neutron interactions};
 
 	% Draw arrows
 	\tikzstyle{connector} = [->,>=stealth, thick];
@@ -46,11 +43,5 @@
 	\draw[connector] (NT) to [out=270,in=0]   (T);
 	\draw[connector] (T)  to [out=180,in=270] (TN);
 	\draw[connector] (TN) to [out=90,in=180]  (N);
-
-	% Draw final labels
-	\node[textelem, below=0.1cm of N.south] {Neutronics};
-	\node[textelem, right=0.1cm of NT.east] {Neutronics to Thermal Hydraulics};
-	\node[textelem, above=0.1cm of T.north] {Thermal Hydraulics};
-	\node[textelem, left=0.1cm of TN.west]  {Thermal Hydraulics to Neutronics};
 
 \end{tikzpicture}

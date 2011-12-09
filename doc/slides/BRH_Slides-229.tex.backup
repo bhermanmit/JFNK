@@ -26,7 +26,6 @@
 \usepackage{relsize}
 \usepackage{algorithm}
 \usepackage{algorithmic}
-\usepackage{animate}
 
 % slide theme
 \usetheme{Berlin}
@@ -94,14 +93,14 @@ Krylov (JFNK) Methods for Nonlinear Neutronics/Thermal-Hydraulic Equations}
   \begin{center}
     \scalebox{0.4}{\input{./tikz/nucleus.tikz}}
     \begin{itemize}
-      \begin{scriptsize}
+      \begin{footnotesize}
 	\item Fuel Temperature Feedback -  $T_{f} \uparrow$, U-238 
 	      Capture $\uparrow$, Fission Rate $\downarrow$, 
 	      Power $\downarrow$
 	\item Coolant Density Feedback - $\rho \downarrow$,
 	      $E_{n} \uparrow$, Fission Rate $\downarrow$, 
 	      Power $\downarrow$
-      \end{scriptsize}
+      \end{footnotesize}
     \end{itemize}
   \end{center}
 \end{frame}
@@ -355,18 +354,18 @@ Three major tasks:
 \relsize{-1}
 \begin{customlist}{2ex}{0pt}
   \item Newton-Krylov is an inexact Newton method since the linear step is not determined \emph{exactly}
-  \vfill\item In Newton-Krylov framework, two tolerances were defined:
+  \item In Newton-Krylov framework, two tolerances were defined:
   \begin{enumerate}
     \item Nonlinear tolerance for Newton iteration
     \item Linear tolerance for GMRES iteration
   \end{enumerate}
-  \vfill\item Why have tight linear convergence when nonlinear residual is large?
-  \vfill\item Instead, a relative residual tolerance, $\eta$, is used
+  \item Why have tight linear convergence when nonlinear residual is large?
+  \item Instead, a relative residual tolerance, $\eta$, is used
   \[
    \left\Vert \mathbb{J}\left(\mathbf{x}^{n}\right)\mathbf{dx}_{m}^{n}+\mathbf{F}\left(\mathbf{x}^{n}\right)\right\Vert <\eta\left\Vert \mathbf{F}\left(\mathbf{x}^{n}\right)\right\Vert
   \]
-  \vfill\item At initial Newton iterations, GMRES will not be converged very tightly
-  \vfill\item For the last couple of Newton iterations, convergence may be too tight - Limit how small linear tolerance is
+  \item At initial Newton iterations, GMRES will not be converged very tightly
+  \item For the last couple of Newton iterations, convergence may be too tight - Limit how small linear tolerance is
 \end{customlist}
 \end{frame}
 %------------------------------------------------------------------------------
@@ -422,36 +421,7 @@ Three major tasks:
 \end{section}
 %==============================================================================
 \begin{section}{Results}
-\relsize{-1}
-\begin{frame}{Steady State - Neutronics}
-\begin{customlist}{2ex}{0pt}
-  \item Residual Equations
-  \[
-    \mathbf{F}=\left[\begin{array}{c}
-    \mathbb{M}\bar{\mathbf{\Phi}}-\lambda\mathbb{F}\bar{\mathbf{\Phi}}\\
-    -\frac{1}{2}\bar{\mathbf{\Phi}}^{\top}\bar{\mathbf{\Phi}}+\frac{1}{2}
-    \end{array}\right]
-  \]
-  \item Resulting neutron flux distribution:
-\end{customlist}
-  \begin{center}
-  \begin{columns}
-    \begin{column}{0.5\textwidth}
-      \begin{animateinline}[poster = first, controls]{2}
-	\scalebox{0.5}{\input{./tikz/highdom.tikz}}
-	\newframe \scalebox{0.5}{\input{./tikz/highdom_power.tikz}}
-      \end{animateinline}
-    \end{column}
-    \begin{column}{0.5\textwidth}
-      \begin{customlist}{2ex}{0pt}
-	\item A Newton-method cannot guarantee that the fundamental eigenmode is calculated
-	\item Any mode satifies the nonlinear set of equations
-	\item Here the ratio of the first two eigenvalues is close (dominance ratio)
-	\item Use a few power iterations to get gross flux shape
-      \end{customlist}
-    \end{column}
-  \end{columns}
-  \end{center}
+\begin{frame}{Steady State}
 \end{frame}
 \end{section}
 %==============================================================================

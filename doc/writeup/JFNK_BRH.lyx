@@ -3892,7 +3892,7 @@ reference "eq:GMRES3"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbf{x}=\mathbf{x}_{0}+\mathbb{Q}_{n}\mathbf{y},
+\mathbf{x}=\mathbb{Q}_{n}\mathbf{y},
 \end{equation}
 
 \end_inset
@@ -8092,7 +8092,7 @@ y_{\nu\Sigma_{f}}\\
 y_{D}\\
 y_{\kappa\Sigma_{f}}\\
 y_{\lambda}
-\end{array}\right]\label{eq:JacobianStatic}
+\end{array}\right].\label{eq:JacobianStatic}
 \end{equation}
 
 \end_inset
