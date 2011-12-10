@@ -27,6 +27,7 @@
 \usepackage{algorithm}
 \usepackage{algorithmic}
 \usepackage{animate}
+\usepackage[Gray]{SIunits}
 
 % slide theme
 \usetheme{Berlin}
@@ -85,7 +86,7 @@
 \end{frame}
 %------------------------------------------------------------------------------
 \begin{frame}{Nuclear Reactor Plant}
-  \scalebox{0.5}{\input{./tikz/reactor.tikz}}
+  \scalebox{0.45}{\input{./tikz/reactor.tikz}}
   \vfill
 \end{frame}
 %------------------------------------------------------------------------------
@@ -170,7 +171,7 @@
 \relsize{-2}
 \begin{block}{Assumptions:}
 \begin{enumerate}
-  \item One-dimensional finite volume spatial discretization
+  \item One-dimensional finite volume spatial discretization, uniform $\Delta x$
   \item Central difference scheme for diffusion term
   \item No incoming current of neutrons at boundaries
   \item Implicit Euler time discretization
@@ -216,7 +217,7 @@
 \relsize{-1}
 \begin{block}{Assumptions:}
 \begin{enumerate}
-  \item One-dimensional finite volume spatial discretization
+  \item One-dimensional finite volume spatial discretization, uniform $\Delta x$
   \item Upwind difference scheme for flux
   \item Specify inlet conditions and mass flow rate
   \item Implicit Euler time discretization
@@ -266,7 +267,7 @@
   \item The steady state equations must be solved first
   \vfill\item Reducing the neutronics equation to steady state form:
   \[
-    \mathbb{M}\bar{\mathbf{\Phi}}=\lambda\mathbb{F}\bar{\mathbf{\Phi}},\qquad \lambda = \frac{1}{k_{eff}}
+    \mathbb{M}\bar{\mathbf{\Phi}}=\lambda\mathbb{F}\bar{\mathbf{\Phi}},\qquad \lambda = \frac{1}{k_{e\!f\!f}}
   \]
   \vfill\item Eigenvalue, $\lambda$, and eigenvector, $\bar{\mathbf{\Phi}}$, must be determined
   \vfill\item Flux-to-power normalization constant determined from reactor power:
@@ -508,7 +509,7 @@ Three major tasks:
     \begin{customlist}{2ex}{0pt}
       \vfill\item 7 seconds to converged overall
       \vfill\item 6+ out of 7 seconds in X-Steam!
-      \vfill\item Solution: fit density range with polynomial - with linear fit < 0.5 seconds
+      \vfill\item Solution: fit density range with polynomial - with linear fit $<$ 0.5 seconds
     \end{customlist}
   \end{customlist}
 \end{frame}
@@ -559,7 +560,7 @@ Three major tasks:
     \end{column}
   \end{columns}
   \newcounter{ct}
-  \forloop[10]{ct}{11}{\value{ct} < 1492}
+  \forloop[10]{ct}{11}{\value{ct} < 52}
   {%
   \newframe
     \begin{columns}
@@ -649,7 +650,7 @@ Three major tasks:
 \begin{frame}{Future Work}
   \begin{customlist}{2ex}{0pt}
     \item Rewrite code in a compiled language (Fortran)
-    \vfill\item Use PetSc Nonlinear solvers
+    \vfill\item Use PETSc Nonlinear solvers
     \vfill\item Model other important nuclear feedback mechanisms
     \vfill\item Compare JFNK to Operator-splitting methods
     \vfill\item This project can be downloaded from GitHub:
