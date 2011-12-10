@@ -1,9 +1,13 @@
 function create_plots(x,pow,tave,i)
 
-global geom
+global geom info
 
+if mod(i-1,10) == 0
+    
 % get needed constants from objects
 n = geom.n;
+dt = info.dt;
+Nt = info.time/dt;
 
 % create power plot
 figure(1)
@@ -14,30 +18,38 @@ xlabel('Slab Length [cm]')
 ylabel('Power [W]')
 drawnow;
 
-% create temperature plot
-subplot(2,2,2)
-plot(x(3*n+1:4*n))
-title('Temperature')
-xlabel('Slab Length [cm]')
-ylabel('Temperature [C]')
-drawnow;
-
 % create density plot
-subplot(2,2,3)
+subplot(2,2,2)
 plot(x(4*n+1:5*n))
 title('Density')
 xlabel('Slab Length [cm]')
 ylabel('Density [g/cc]')
 drawnow;
 
-% create absorption plot
-subplot(2,2,4)
-plot(x(5*n+1:6*n))
-title('Absorption')
-xlabel('Slab Length [cm]')
-ylabel('Absorption [cm^{-1}]')
+% create power plot
+subplot(2,2,3)
+plot((0:Nt-1)*dt,pow)
+title('Reactor Power')
+xlabel('Time [s]')
+ylabel('Power [W]')
+axis([0 150 5.2e4 7e4])
 drawnow;
 
+% create tave plot
+subplot(2,2,4)
+plot((0:Nt-1)*dt,tave)
+title('Average Temperature')
+xlabel('Time [s]')
+ylabel('Temperature [C]')
+axis([0 150 304 316])
+drawnow;
+
+% matlab2tikz(horzcat('./anim/rod_trans_',num2str(i),'.tikz'))
+
+end
+
+
+%{
 % create average plots
 figure(2)
 subplot(1,2,1)
@@ -64,3 +76,4 @@ if i == 400
 end
 
 end
+%}

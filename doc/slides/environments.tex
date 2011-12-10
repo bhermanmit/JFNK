@@ -112,3 +112,18 @@
 \setcounter{footnote}{2}
 \renewcommand{\thempfootnote}{\ensuremath{\fnsymbol{mpfootnote}}}
 \newcommand{\newsubsection}[1]{\subsection{#1}\setcounter{subsection}{0}}
+
+% For Loop 
+\newcommand{\forloop}[5][1]% 
+{% 
+\setcounter{#2}{#3}% 
+\ifthenelse{#4}% 
+  {% 
+  #5% 
+  \addtocounter{#2}{#1}% 
+  \forloop[#1]{#2}{\value{#2}}{#4}{#5}% 
+  }% 
+% Else 
+  {% 
+  }% 
+}%

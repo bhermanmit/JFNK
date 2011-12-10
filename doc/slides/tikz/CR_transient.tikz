@@ -1,0 +1,6 @@
+\begin{tikzpicture}
+
+  \node[rectangle, rounded corners, draw = black, very thick, minimum height=5cm, minimum width=1cm]  (slab) at (0.0,0.0) {};
+  \node[rectangle, rounded corners, draw = black, very thick, minimum height=2cm, minimum width=0.5cm,left=0cm of slab.south west, anchor=south east] {};
+
+\end{tikzpicture}

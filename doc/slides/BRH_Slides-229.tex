@@ -205,7 +205,7 @@
   \[
    \rho A\frac{\partial h}{\partial t}+\dot{m}\frac{\partial h}{\partial x}=q^{\prime}
   \]
-  \vfill\item For an incompressible fluid, $dh=c_{p}dT$
+  \vfill\item For an incompress2cmible fluid, $dh=c_{p}dT$
   \[
    \rho Ac_{p}\frac{\partial T}{\partial t}+\dot{m}c_{p}\frac{\partial T}{\partial x}=q^{\prime}
   \]
@@ -225,11 +225,11 @@
 \begin{customlist}{2ex}{0pt}
   \item Spatial discretization
   \[
-   \frac{\rho A\Delta x}{w}\frac{d\bar{T}_{i}}{dt}+\bar{T}_{i}-\bar{T}_{i-1}=\frac{1}{2wc_{p}}\left(Q_{i-1}+Q_{i}\right)
+   \frac{\rho A\Delta x}{\dot{m}}\frac{d\bar{T}_{i}}{dt}+\bar{T}_{i}-\bar{T}_{i-1}=\frac{1}{2 \dot{m} c_{p}}\left(Q_{i-1}+Q_{i}\right)
   \]
   \item Matrix-form with time discretization
   \[
-   \mathbf{\bar{T}}^{n+1}-\mathbf{\bar{T}}^{n}+\frac{w\Delta t}{\mathcal{P}^{n+1}A\Delta x}\left(\mathbb{S}\mathbf{\bar{T}}^{n+1}-\mathbb{R}\mathbf{Q}^{n+1}\right)=0
+   \mathbf{\bar{T}}^{n+1}-\mathbf{\bar{T}}^{n}+\frac{\dot{m} \Delta t}{\mathcal{P}^{n+1}A\Delta x}\left(\mathbb{S}\mathbf{\bar{T}}^{n+1}-\mathbb{R}\mathbf{Q}^{n+1}\right)=0
   \]
   \alert{Note:} $\mathcal{P}$ is a vector of cell-averaged coolant densities
 \end{customlist}
@@ -269,7 +269,7 @@
     \mathbb{M}\bar{\mathbf{\Phi}}=\lambda\mathbb{F}\bar{\mathbf{\Phi}},\qquad \lambda = \frac{1}{k_{eff}}
   \]
   \vfill\item Eigenvalue, $\lambda$, and eigenvector, $\bar{\mathbf{\Phi}}$, must be determined
-  \vfill\item -to-power normalization constant determined from reactor power:
+  \vfill\item Flux-to-power normalization constant determined from reactor power:
   \[
     Q_{R}=\tilde{c}\int_{0}^{L}dx\kappa\Sigma_{f}\left(x\right)\phi\left(x\right)=\tilde{c}\sum_{i}\kappa\Sigma_{f,i}\bar{\phi}_{i}\Delta x=\tilde{c}\kappa\mathbf{\Sigma}_{f}^{\mathrm{T}}\bar{\mathbf{\Phi}}\Delta x
   \]
@@ -395,7 +395,7 @@ Three major tasks:
   \vfill\item $\epsilon$ is the perturbation parameter and is somewhat arbitrary - Mousseau\footnote{\relsize{-2}V.A. Mousseau. Implicitly balanced solution of the two-phase flow equations couple to nonlinear heat
     conduction. Journal of Computational Physics, 200:104-132, 2004.} recommends:
   \[
-   \epsilon=\frac{\sum_{i=1}^{N}bx_{i}}{N\left\Vert \mathbf{y}\right\Vert _{2}}
+   \epsilon=\frac{\sum_{i=1}^{N}bx_{i}}{N\left\Vert \mathbf{y}\right\Vert _{2}}\qquad b=1\times10^{-8}
   \]
 \end{customlist}
 \end{frame}
@@ -419,8 +419,9 @@ Three major tasks:
 \end{section}
 %==============================================================================
 \begin{section}{Results}
-\relsize{-1}
+%------------------------------------------------------------------------------
 \begin{frame}{Steady State - Neutronics}
+\relsize{-1}
 \begin{customlist}{2ex}{0pt}
   \item Residual Equations
   \[
@@ -450,11 +451,215 @@ Three major tasks:
   \end{columns}
   \end{center}
 \end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}{Steady State - Coupled Neutronics/Thermal Hydraulics [1/2]}
+\relsize{-2}
+  \begin{block}{Residual Equations}
+    \begin{center}
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+	\[
+	    \mathbf{F}=\left[\begin{array}{c}
+	    \mathbb{M}\mathbf{\Phi}-\lambda\mathbb{F}\mathbf{\Phi}\\
+	    Q_{R}-\tilde{c}\kappa\mathbf{\Sigma}_{f}^{\mathrm{T}}\mathbf{\Phi}\Delta x.\\
+	    \mathbf{Q}-\tilde{c}\mathbb{E}\mathbf{\Phi}\Delta x\\
+	    \mathbb{S}\mathbf{T}-\mathbb{R}\mathbf{Q}\\
+	    \mathcal{P}-\rho\left(\mathbf{T},p\right)\\
+	    \mathbf{\Sigma}_{a}-\Sigma_{a}^{ref}-\frac{\partial\Sigma_{a}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right]\\
+	    \nu\mathbf{\Sigma}_{f}-\nu\Sigma_{f}^{ref}-\frac{\partial\nu\Sigma_{f}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right]\\
+	    \mathbf{D}-D^{ref}-\frac{\partial D}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right],\\
+	    \kappa\mathbf{\Sigma}_{f}-\kappa\Sigma_{f}^{ref}-\frac{\partial\kappa\Sigma_{f}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right]\\
+	    -\frac{1}{2}\mathbf{\Phi}^{\mathrm{T}}\mathbf{\Phi}+\frac{1}{2}
+	    \end{array}\right]
+	\]
+      \end{column}
+      \begin{column}{0.4\textwidth}
+	\begin{customlist}{2ex}{0pt}
+	  \item Neutronics
+	  \item Flux normalization
+	  \item Energy deposition
+	  \item Temperature distribution
+	  \item Density distribution
+	  \item Absorption xs
+	  \item Fission xs
+	  \item Diffusion 
+	  \item Energy deposition xs
+	  \item Eigenvalue
+	\end{customlist}
+      \end{column}
+    \end{columns}
+    \end{center}
+  \end{block}
+  \begin{customlist}{2ex}{0pt}
+    \vfill\item X-Steam MATLAB tables were used to look up density as a function of temperature
+    \vfill\item An analytical Jacobian-vector product can be formed for everything except $\frac{\partial\rho}{\partial T}$
+    \vfill\item For this block a finite difference approximation must be used
+  \end{customlist}
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}{Steady State - Coupled Neutronics/Thermal Hydraulics [2/2]}
+  \begin{block}{Results}
+    \begin{center}
+      \scalebox{0.4}{\input{./tikz/Power_Density.tikz}}
+    \end{center}
+  \end{block}
+  \begin{customlist}{2ex}{0pt}
+    \vfill\item \small Timing results using MATLAB profiler:
+    \begin{customlist}{2ex}{0pt}
+      \vfill\item 7 seconds to converged overall
+      \vfill\item 6+ out of 7 seconds in X-Steam!
+      \vfill\item Solution: fit density range with polynomial - with linear fit < 0.5 seconds
+    \end{customlist}
+  \end{customlist}
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}{Transient - Coupled Neutronics/Thermal Hydraulics [1/2]}
+\relsize{-1}
+  \begin{block}{Residual Equations}
+	\[
+	    \mathbf{F}=\left[\begin{array}{c}
+	    \mathbf{\Phi}^{n+1}-\mathbf{\Phi}^{n}+v\Delta t\left[\mathbb{M}\mathbf{\Phi}^{n+1}-\left(1-\beta\right)\lambda\mathbb{F}\mathbf{\Phi}^{n+1}-\lambda_{d}\mathbf{c}^{n+1}\right]\\
+	    \mathbf{c}^{n+1}-\mathbf{c}^{n}+\Delta t\left(\lambda_{d}\mathbf{c}^{n+1}-\beta\lambda\mathbb{F}\mathbf{\Phi}^{n+1}\right)\\
+	    \mathbf{Q}-\tilde{c}\mathbb{E}\mathbf{\Phi}\Delta x\\
+	    \mathbf{T}^{n+1}-\mathbf{T}^{n}+\frac{\dot{m} \Delta t}{\mathcal{P}^{n+1}A\Delta x}\left(\mathbb{S}\mathbf{T}^{n+1}-\mathbb{R}\mathbf{Q}^{n+1}\right)\\
+	    \mathcal{P}-\rho^{ref}-\frac{\partial\rho}{\partial T}\left(\mathbf{T}-T^{ref}\right)\\
+	    \mathbf{\Sigma}_{a}-\Sigma_{a}^{ref}-\frac{\partial\Sigma_{a}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right]\\
+	    \nu\mathbf{\Sigma}_{f}-\nu\Sigma_{f}^{ref}-\frac{\partial\nu\Sigma_{f}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right]\\
+	    \mathbf{D}-D^{ref}-\frac{\partial D}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right],\\
+	    \kappa\mathbf{\Sigma}_{f}-\kappa\Sigma_{f}^{ref}-\frac{\partial\kappa\Sigma_{f}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right]
+	    \end{array}\right]
+	\]
+  \end{block}
+  \begin{customlist}{2ex}{0pt}
+    \item Code time per loop
+    \item Number of GMRES and Newton
+  \end{customlist}
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}{Transient - Coupled Neutronics/Thermal Hydraulics [2/2]}
+\def \dx{0.0135cm}
+\newcounter{cr}
+\setcounter{cr}{92}
+\begin{animateinline}[poster = first, controls]{2}
+  \begin{columns}
+    \begin{column}{0.75\textwidth}
+      \begin{center}
+      \scalebox{0.5}{\input{./tikz/anim/rod_trans_1.tikz}}
+      \end{center}
+    \end{column}
+    \begin{column}{0.25\textwidth}
+      \begin{center}
+	\begin{tikzpicture}
+	  \node[rectangle, rounded corners, draw = black, very thick, minimum height=5cm, minimum width=1cm,fill=red!50,anchor = south west]  (slab) at (0.0,0.0) {};
+	  \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.25cm,0.0cm) -- (1.25cm,5cm);
+	  \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.5cm,0.0cm) --  (1.5cm,5cm);
+	  \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.75cm,0.0cm) -- (1.75cm,5cm);
+	\end{tikzpicture}
+      \end{center}
+    \end{column}
+  \end{columns}
+  \newcounter{ct}
+  \forloop[10]{ct}{11}{\value{ct} < 1492}
+  {%
+  \newframe
+    \begin{columns}
+      \begin{column}{0.75\textwidth}
+	\begin{center}
+	  \scalebox{0.5}{\input{./tikz/anim/rod_trans_\arabic{ct}.tikz}}
+	\end{center}
+      \end{column}
+    \begin{column}{0.25\textwidth}
+      \begin{center}
+	\ifthenelse{\value{ct} > 50 \and \value{ct} < 585}
+	{
+	  \ifthenelse{\value{ct} < 56}
+	  {
+	    \begin{tikzpicture}
+	      \node[rectangle, rounded corners, draw = black, very thick, minimum height=5cm, minimum width=1cm,fill=red!50,anchor= south west]  (slab) at (0.0,0.0) {};
+	      \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.25cm,0.0cm) -- (1.25cm,5cm);
+	      \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.5cm,0.0cm) --  (1.5cm,5cm);
+	      \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.75cm,0.0cm) -- (1.75cm,5cm);
+	      \node[rectangle, rounded corners,draw = black, very thick, minimum height=2*\dx, minimum width=0.25cm,left=0cm of slab.south west, anchor=south west,fill=black] {};
+	    \end{tikzpicture}   
+	  }
+	  {
+	    \ifthenelse{\value{ct} < 97}
+	    {
+	      \begin{tikzpicture}
+		\node[rectangle, rounded corners, draw = black, very thick, minimum height=5cm, minimum width=1cm,fill=red!50,anchor= south west]  (slab) at (0.0,0.0) {};
+		\draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.25cm,0.0cm) -- (1.25cm,5cm);
+		\draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.5cm,0.0cm) --  (1.5cm,5cm);
+		\draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.75cm,0.0cm) -- (1.75cm,5cm);
+		\def \crheight{2+floor((\value{ct}-50)/10)*20}
+		\node[rectangle,rounded corners, draw = black, very thick, minimum height=\crheight*\dx, minimum width=0.25cm,left=0cm of slab.south west, anchor=south west,fill=black] {};
+	      \end{tikzpicture}   
+	    }
+	    {
+	      \ifthenelse{\value{ct} < 500}
+	      {
+		\begin{tikzpicture}
+		  \node[rectangle, rounded corners, draw = black, very thick, minimum height=5cm, minimum width=1cm,fill=red!50,anchor=south west]  (slab) at (0.0,0.0) {};
+		  \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.25cm,0.0cm) -- (1.25cm,5cm);
+		  \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.5cm,0.0cm) --  (1.5cm,5cm);
+		  \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.75cm,0.0cm) -- (1.75cm,5cm);
+		  \node[rectangle, rounded corners,draw = black, very thick, minimum height=92*\dx, minimum width=0.25cm,left=0cm of slab.south west, anchor=south west,fill=black] {};
+		\end{tikzpicture}
+	      }
+	      {
+		\begin{tikzpicture}
+		  \node[rectangle, rounded corners, draw = black, very thick, minimum height=5cm, minimum width=1cm,fill=red!50,anchor=south west]  (slab) at (0.0,0.0) {};
+		  \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.25cm,0.0cm) -- (1.25cm,5cm);
+		  \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.5cm,0.0cm) --  (1.5cm,5cm);
+		  \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.75cm,0.0cm) -- (1.75cm,5cm);
+		  \addtocounter{cr}{-10}
+		  \node[rectangle, draw = black,rounded corners, very thick, minimum height=\value{cr}*\dx, minimum width=0.25cm,left=0cm of slab.south west, anchor=south west,fill=black] {};
+		\end{tikzpicture}
+	      }
+	    }
+	  }
+	}
+	{
+	  \begin{tikzpicture}
+	    \node[rectangle, rounded corners, draw = black, very thick, minimum height=5cm, minimum width=1cm,fill=red!50,anchor= south west]  (slab) at (0.0,0.0) {};
+	    \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.25cm,0.0cm) -- (1.25cm,5cm);
+	    \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.5cm,0.0cm) --  (1.5cm,5cm);
+	    \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.75cm,0.0cm) -- (1.75cm,5cm);
+	  \end{tikzpicture}
+	}
+      \end{center}
+    \end{column}
+  \end{columns}
+  }
+\end{animateinline}
+\end{frame}
+%------------------------------------------------------------------------------
 \end{section}
 %==============================================================================
 \begin{section}{Conclusions}
+%------------------------------------------------------------------------------
 \begin{frame}{Conclusions}
+  \begin{customlist}{2ex}{0pt}
+    \item JFNK methods are well suited for solving coupled systems
+    \vfill\item Finite difference method for Jacobian-vector product works well
+    \vfill\item Write your own steam tables or fit data with polynomial
+    \vfill\item Watch out for scaling issues when coupling physics
+  \end{customlist}
 \end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}{Future Work}
+  \begin{customlist}{2ex}{0pt}
+    \item Rewrite code in a compiled language (Fortran)
+    \vfill\item Use PetSc Nonlinear solvers
+    \vfill\item Model other important nuclear feedback mechanisms
+    \vfill\item Compare JFNK to Operator-splitting methods
+    \vfill\item This project can be downloaded from GitHub:
+    \begin{center}
+      \url{www.github.com/bhermanmit/JFNK} \\
+      \tt{git clone git@github.com:bhermanmit/JFNK}
+    \end{center}
+  \end{customlist}
+\end{frame}
+%------------------------------------------------------------------------------
 \end{section}
 %==============================================================================
 \end{document}

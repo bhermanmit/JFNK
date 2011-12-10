@@ -26,6 +26,7 @@
 \usepackage{relsize}
 \usepackage{algorithm}
 \usepackage{algorithmic}
+\usepackage{animate}
 
 % slide theme
 \usetheme{Berlin}
@@ -48,8 +49,7 @@
 \input{environments.tex}
 
 % Title Page
-\title[JFNK Methods for Coupled Nonlinear Systems]{Jacobian-Free Newton-
-Krylov (JFNK) Methods for Nonlinear Neutronics/Thermal-Hydraulic Equations}
+\title[JFNK Methods for Coupled Nonlinear Systems]{Jacobian-Free Newton-Krylov (JFNK) Methods for Nonlinear Neutronics/Thermal-Hydraulic Equations}
 \author[]{Bryan Herman}
 \institute[\insertpagenumber]{}
 \date{\today} 
@@ -93,14 +93,14 @@ Krylov (JFNK) Methods for Nonlinear Neutronics/Thermal-Hydraulic Equations}
   \begin{center}
     \scalebox{0.4}{\input{./tikz/nucleus.tikz}}
     \begin{itemize}
-      \begin{footnotesize}
+      \begin{scriptsize}
 	\item Fuel Temperature Feedback -  $T_{f} \uparrow$, U-238 
 	      Capture $\uparrow$, Fission Rate $\downarrow$, 
 	      Power $\downarrow$
 	\item Coolant Density Feedback - $\rho \downarrow$,
 	      $E_{n} \uparrow$, Fission Rate $\downarrow$, 
 	      Power $\downarrow$
-      \end{footnotesize}
+      \end{scriptsize}
     \end{itemize}
   \end{center}
 \end{frame}
@@ -152,7 +152,7 @@ Krylov (JFNK) Methods for Nonlinear Neutronics/Thermal-Hydraulic Equations}
 
     \item Neutron Transport Equation:
     \[
-      \nonumber {\underbrace{\frac{1}{v}\frac{\partial\varphi}{\partial t}}_{\mathrm{time-dependent}}} + {\underbrace{\mathbf{\Omega}\cdot\nabla\varphi\left(\mathbf{r},E,\mathbf{\Omega},t\right)}_{\mathrm{neutron\, leakage}}}+\underbrace{\Sigma_{t}\left(\mathbf{r},E,t\right)\varphi\left(\mathbf{r},E,\mathbf{\Omega},t\right)}_{\mathrm{interation\, of\, neutrons\, with\, medium}}=\underbrace{Q\left(\mathbf{r},E,\mathbf{\Omega},t\right)}_{\mathrm{neutron\, source}}
+      \nonumber {\underbrace{\frac{1}{v}\frac{\partial\varphi}{\partial t}}_{\mathrm{time-dependent}}} + {\underbrace{\mathbf{\Omega}\cdot\nabla\varphi\left(\mathbf{r},E,\mathbf{\Omega},t\right)}_{\mathrm{neutron\, leakage}}}+\underbrace{\Sigma_{t}\left(\mathbf{r},E,t\right)\varphi\left(\mathbf{r},E,\mathbf{\Omega},t\right)}_{\mathrm{interaction\, of\, neutrons\, with\, medium}}=\underbrace{Q\left(\mathbf{r},E,\mathbf{\Omega},t\right)}_{\mathrm{neutron\, source}}
     \]
 
     \item Neutron Diffusion Equation (1-D Energy Integrated)
@@ -172,7 +172,7 @@ Krylov (JFNK) Methods for Nonlinear Neutronics/Thermal-Hydraulic Equations}
 \begin{enumerate}
   \item One-dimensional finite volume spatial discretization
   \item Central difference scheme for diffusion term
-  \item No-incoming current of neutrons at boundaries
+  \item No incoming current of neutrons at boundaries
   \item Implicit Euler time discretization
 \end{enumerate}
 \end{block}
@@ -180,7 +180,7 @@ Krylov (JFNK) Methods for Nonlinear Neutronics/Thermal-Hydraulic Equations}
   \item Discretized neutronics equation for interior cell
   \begin{multline}
     \nonumber
-    \frac{1}{v}\frac{d\bar{\phi}_{i}}{dt}+-\frac{2}{\Delta x^{2}}\frac{D_{i}D_{i-1}}{D_{i}+D_{i-1}}\bar{\phi}_{i-1}+\left(\frac{2}{\Delta x^{2}}\frac{D_{i+1}D_{i}}{D_{i+1}+D_{i}}+\frac{2}{\Delta x^{2}}\frac{D_{i}D_{i-1}}{D_{i}+D_{i-1}}+\Sigma_{a,i}\right)\bar{\phi}_{i}-\\
+    \frac{1}{v}\frac{d\bar{\phi}_{i}}{dt}-\frac{2}{\Delta x^{2}}\frac{D_{i}D_{i-1}}{D_{i}+D_{i-1}}\bar{\phi}_{i-1}+\left(\frac{2}{\Delta x^{2}}\frac{D_{i+1}D_{i}}{D_{i+1}+D_{i}}+\frac{2}{\Delta x^{2}}\frac{D_{i}D_{i-1}}{D_{i}+D_{i-1}}+\Sigma_{a,i}\right)\bar{\phi}_{i}-\\
     \frac{2}{\Delta x^{2}}\frac{D_{i+1}D_{i}}{D_{i+1}+D_{i}}\bar{\phi}_{i+1}=\frac{1-\beta}{k_{eff}}\nu\Sigma_{f,i}\bar{\phi}_{i}+\lambda_{d}\bar{c}_{i}
   \end{multline}
   \item Matrix-form of neutronics equations
@@ -205,7 +205,7 @@ Krylov (JFNK) Methods for Nonlinear Neutronics/Thermal-Hydraulic Equations}
   \[
    \rho A\frac{\partial h}{\partial t}+\dot{m}\frac{\partial h}{\partial x}=q^{\prime}
   \]
-  \vfill\item For an incompressible fluid, $dh=c_{p}dT$
+  \vfill\item For an incompress2cmible fluid, $dh=c_{p}dT$
   \[
    \rho Ac_{p}\frac{\partial T}{\partial t}+\dot{m}c_{p}\frac{\partial T}{\partial x}=q^{\prime}
   \]
@@ -223,13 +223,13 @@ Krylov (JFNK) Methods for Nonlinear Neutronics/Thermal-Hydraulic Equations}
 \end{enumerate}
 \end{block}
 \begin{customlist}{2ex}{0pt}
-  \item spatial discretization
+  \item Spatial discretization
   \[
-   \frac{\rho A\Delta x}{w}\frac{d\bar{T}_{i}}{dt}+\bar{T}_{i}-\bar{T}_{i-1}=\frac{1}{2wc_{p}}\left(Q_{i-1}+Q_{i}\right)
+   \frac{\rho A\Delta x}{\dot{m}}\frac{d\bar{T}_{i}}{dt}+\bar{T}_{i}-\bar{T}_{i-1}=\frac{1}{2 \dot{m} c_{p}}\left(Q_{i-1}+Q_{i}\right)
   \]
   \item Matrix-form with time discretization
   \[
-   \mathbf{\bar{T}}^{n+1}-\mathbf{\bar{T}}^{n}+\frac{w\Delta t}{\mathcal{P}^{n+1}A\Delta x}\left(\mathbb{S}\mathbf{\bar{T}}^{n+1}-\mathbb{R}\mathbf{Q}^{n+1}\right)=0
+   \mathbf{\bar{T}}^{n+1}-\mathbf{\bar{T}}^{n}+\frac{\dot{m} \Delta t}{\mathcal{P}^{n+1}A\Delta x}\left(\mathbb{S}\mathbf{\bar{T}}^{n+1}-\mathbb{R}\mathbf{Q}^{n+1}\right)=0
   \]
   \alert{Note:} $\mathcal{P}$ is a vector of cell-averaged coolant densities
 \end{customlist}
@@ -239,21 +239,21 @@ Krylov (JFNK) Methods for Nonlinear Neutronics/Thermal-Hydraulic Equations}
 \relsize{-2}
 \begin{block}{Neutronics-Thermal Hydraulics}
   \begin{itemize}
-    \item Neutrons cause fissions
+    \item Neutrons cause fission
     \item Large portion of fission energy deposited in coolant
     \item This is represented by
     \[
       \mathbf{Q}=\tilde{c}\mathbb{E}\bar{\mathbf{\Phi}}\Delta x
     \]
-    \\where $\mathbb{E}=\mathrm{diag}\left\{\kappa\Sigma_{f}\right\}$ characterizes energy per fission and \\  $\tilde{c}$ is flux-power normalization constant
+    \\where $\mathbb{E}=\mathrm{diag}\left\{\kappa\Sigma_{f}\right\}$ characterizes energy per fission and \\  $\tilde{c}$ is the flux-to-power normalization constant
   \end{itemize}
 \end{block}
 \begin{alertblock}{Thermal Hydraulics-Neutronics}
   \begin{itemize}
     \item Diffusion theory parameters depend on coolant density
     \item This dependence is determined with a transport theory code
-    \item $D$, $\Sigma_{a}$, $\nu\Sigma_{f}$, $\kappa\Sigma_{f}$ are all affect by coolant density variations
-    \item Data is fitted with a linear regression of the form:
+    \item $D$, $\Sigma_{a}$, $\nu\Sigma_{f}$, $\kappa\Sigma_{f}$ are all affected by coolant density variations
+    \item Data is correlated with a linear regression of the form:
     \[
      \mathbf{\Sigma} = \mathbf{\Sigma}^{ref} + \frac{\partial\Sigma}{\partial\rho}\left(\mathcal{P} - \rho^{ref}\right)
     \]
@@ -261,19 +261,19 @@ Krylov (JFNK) Methods for Nonlinear Neutronics/Thermal-Hydraulic Equations}
 \end{alertblock}
 \end{frame}
 %------------------------------------------------------------------------------
-\begin{frame}{The Steady-State Eigenvalue Problem}
+\begin{frame}{The Steady State Eigenvalue Problem}
 \begin{customlist}{2ex}{0pt}
   \item The steady state equations must be solved first
-  \vfill\item Reducing the neutronics equation to steady-state:
+  \vfill\item Reducing the neutronics equation to steady state form:
   \[
     \mathbb{M}\bar{\mathbf{\Phi}}=\lambda\mathbb{F}\bar{\mathbf{\Phi}},\qquad \lambda = \frac{1}{k_{eff}}
   \]
-  \vfill\item Eigenvalue, $\lambda$, and eigenvector, $\mathbf{\Phi}$, must be determined
-  \vfill\item Flux-power normalization constant determined from reactor power
+  \vfill\item Eigenvalue, $\lambda$, and eigenvector, $\bar{\mathbf{\Phi}}$, must be determined
+  \vfill\item Flux-to-power normalization constant determined from reactor power:
   \[
     Q_{R}=\tilde{c}\int_{0}^{L}dx\kappa\Sigma_{f}\left(x\right)\phi\left(x\right)=\tilde{c}\sum_{i}\kappa\Sigma_{f,i}\bar{\phi}_{i}\Delta x=\tilde{c}\kappa\mathbf{\Sigma}_{f}^{\mathrm{T}}\bar{\mathbf{\Phi}}\Delta x
   \]
-  \item $\lambda$ and $\tilde{c}$ are input as constants for time-dependent calculations 
+  \item $\lambda$ and $\tilde{c}$ are specified as constants for time-dependent calculations 
   \vspace{0.5cm}
 \end{customlist}
 \end{frame}
@@ -325,7 +325,7 @@ Three major tasks:
     h_{21} & h_{22}\\
     & \ddots & \ddots & \vdots\\
     &  & h_{n,n-1} & h_{n,n}
-   \end{array}\right].
+   \end{array}\right]
   \]
 \end{customlist}
 \end{frame}
@@ -354,18 +354,18 @@ Three major tasks:
 \relsize{-1}
 \begin{customlist}{2ex}{0pt}
   \item Newton-Krylov is an inexact Newton method since the linear step is not determined \emph{exactly}
-  \item In Newton-Krylov framework, two tolerances were defined:
+  \vfill\item In Newton-Krylov framework, two tolerances were defined:
   \begin{enumerate}
     \item Nonlinear tolerance for Newton iteration
     \item Linear tolerance for GMRES iteration
   \end{enumerate}
-  \item Why have tight linear convergence when nonlinear residual is large?
-  \item Instead, a relative residual tolerance, $\eta$, is used
+  \vfill\item Why have tight linear convergence when nonlinear residual is large?
+  \vfill\item Instead, a relative residual tolerance, $\eta$, is used
   \[
    \left\Vert \mathbb{J}\left(\mathbf{x}^{n}\right)\mathbf{dx}_{m}^{n}+\mathbf{F}\left(\mathbf{x}^{n}\right)\right\Vert <\eta\left\Vert \mathbf{F}\left(\mathbf{x}^{n}\right)\right\Vert
   \]
-  \item At initial Newton iterations, GMRES will not be converged very tightly
-  \item For the last couple of Newton iterations, convergence may be too tight - Limit how small linear tolerance is
+  \vfill\item At initial Newton iterations, GMRES will not be converged very tightly
+  \vfill\item For the last couple of Newton iterations, convergence may be too tight \\ $\therefore$ limit how small linear tolerance can get
 \end{customlist}
 \end{frame}
 %------------------------------------------------------------------------------
@@ -373,8 +373,8 @@ Three major tasks:
 \relsize{-2}
 \begin{customlist}{2ex}{0pt}
   \item Recall a Krylov subspace: $\mathcal{K}_{n}\left(\mathbb{A},\mathbf{v}\right)=\mathrm{span}\left\{ \mathbf{v},\mathbb{A}\mathbf{v},\mathbb{A}^{2}\mathbf{v},...,\mathbb{A}^{n-1}\mathbf{v}\right\}$
-  \item The matrix $\mathbb{A}$ is always multiplying a vector, so why create $\mathbb{A}$ when it is only used to multiply a vector?
-  \item Option 1: Preform Jacobian-vector anaytically
+  \vfill\item Why create $\mathbb{A}$ when it is only used to multiply a vector?
+  \vfill\item Option 1: Perform Jacobian-vector product analytically
   \[
    \mathbb{J}\mathbf{y}=\left[\begin{array}{cc}
     \mathbb{M}-\lambda\mathbb{F} & -\mathbb{F}\bar{\mathbf{\Phi}}\\
@@ -385,33 +385,31 @@ Three major tasks:
     \end{array}\right]=\left[\begin{array}{c}
     \left(\mathbb{M}-\lambda\mathbb{F}\right)y_{\phi}-\mathbb{F}\bar{\mathbf{\Phi}}y_{\lambda}\\
     -\bar{\mathbf{\Phi}}^{\top}y_{\phi}
-    \end{array}\right].
+    \end{array}\right]
   \]
-  \item Analytic method can get very complex, but can be done!
-  \item Option 2: Approximate Jacobian-vector product with finite difference
+  \vfill\item Option 2: Approximate Jacobian-vector product with finite difference
   \[
    \mathbb{J}\mathbf{y}\approx\frac{\mathbf{F}\left(\mathbf{x}+\epsilon\mathbf{y}\right)-\mathbf{F}\left(\mathbf{x}\right)}{\epsilon}
   \]
-  \item Advantages: 2 Function calls, saves memory and possibly computational time to form Jacobian
-  \item $\epsilon$ is the perturbation parameter and is somewhat arbitrary - Mousseau\footnote{\relsize{-2}V.A. Mousseau. Implicitly balanced solution of the two-phase flow equations couple to nonlinear heat
+  \vfill\item Advantages: Saves memory and possibly computational time to form Jacobian
+  \vfill\item $\epsilon$ is the perturbation parameter and is somewhat arbitrary - Mousseau\footnote{\relsize{-2}V.A. Mousseau. Implicitly balanced solution of the two-phase flow equations couple to nonlinear heat
     conduction. Journal of Computational Physics, 200:104-132, 2004.} recommends:
   \[
-   \epsilon=\frac{\sum_{i=1}^{N}bx_{i}}{N\left\Vert \mathbf{y}\right\Vert _{2}}
+   \epsilon=\frac{\sum_{i=1}^{N}bx_{i}}{N\left\Vert \mathbf{y}\right\Vert _{2}}\qquad b=1\times10^{-8}
   \]
 \end{customlist}
 \end{frame}
 %------------------------------------------------------------------------------
 \begin{frame}{Preconditioning}
 \begin{customlist}{2ex}{0pt}
-  \item Want to limit number of GMRES iterations - computational time and memory
-  \item An approx. preconditioner is formed from the Jacobian
-  \item Before a calculation, a Jacobian matrix is formed analytically and a zero-fill Incomplete LU (ILU) is performed:
+  \item Want to limit number of GMRES iterations
+  \vfill\item Before a calculation, a Jacobian matrix is formed analytically and a zero-fill Incomplete LU (ILU) is performed:
   \[
    \mathbb{R}=\mathbb{L}\mathbb{U}-\mathbb{A}
   \]
-  \item In ILU, residual matrix $\mathbb{R}$ is constrained to certain conditions
-  \item Zero-fill implies that the number and location of nonzeros is preserved
-  \item Left preconditioning is used in this project:
+  \vfill\item In ILU, residual matrix $\mathbb{R}$ is constrained to certain conditions
+  \vfill\item Zero-fill implies that the number and location of nonzeros is preserved
+  \vfill\item Left preconditioning is used in this project:
   \[
    \mathbb{U}^{-1}\mathbb{L}^{-1}\mathbb{A}\mathbf{x}=\mathbb{U}^{-1}\mathbb{L}^{-1}\mathbf{b}
   \]
@@ -421,12 +419,226 @@ Three major tasks:
 \end{section}
 %==============================================================================
 \begin{section}{Results}
-\begin{frame}{Steady State}
+%------------------------------------------------------------------------------
+\begin{frame}{Steady State - Neutronics}
+\relsize{-1}
+\begin{customlist}{2ex}{0pt}
+  \item Residual Equations
+  \[
+    \mathbf{F}=\left[\begin{array}{c}
+    \mathbb{M}\bar{\mathbf{\Phi}}-\lambda\mathbb{F}\bar{\mathbf{\Phi}}\\
+    -\frac{1}{2}\bar{\mathbf{\Phi}}^{\top}\bar{\mathbf{\Phi}}+\frac{1}{2}
+    \end{array}\right]
+  \]
+  \item Resulting neutron flux distribution:
+\end{customlist}
+  \begin{center}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{animateinline}[poster = first, controls]{2}
+	\scalebox{0.5}{\input{./tikz/highdom.tikz}}
+	\newframe \scalebox{0.5}{\input{./tikz/highdom_power.tikz}}
+      \end{animateinline}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{customlist}{2ex}{0pt}
+	\item A Newton method cannot guarantee that the fundamental eigenmode is calculated
+	\item Any mode satisfies the nonlinear set of equations
+	\item Here the ratio of the first two eigenvalues is close to unity (dominance ratio)
+	\item Use a few power iterations to get gross flux shape
+      \end{customlist}
+    \end{column}
+  \end{columns}
+  \end{center}
 \end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}{Steady State - Coupled Neutronics/Thermal Hydraulics [1/2]}
+\relsize{-2}
+  \begin{block}{Residual Equations}
+    \begin{center}
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+	\[
+	    \mathbf{F}=\left[\begin{array}{c}
+	    \mathbb{M}\mathbf{\Phi}-\lambda\mathbb{F}\mathbf{\Phi}\\
+	    Q_{R}-\tilde{c}\kappa\mathbf{\Sigma}_{f}^{\mathrm{T}}\mathbf{\Phi}\Delta x.\\
+	    \mathbf{Q}-\tilde{c}\mathbb{E}\mathbf{\Phi}\Delta x\\
+	    \mathbb{S}\mathbf{T}-\mathbb{R}\mathbf{Q}\\
+	    \mathcal{P}-\rho\left(\mathbf{T},p\right)\\
+	    \mathbf{\Sigma}_{a}-\Sigma_{a}^{ref}-\frac{\partial\Sigma_{a}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right]\\
+	    \nu\mathbf{\Sigma}_{f}-\nu\Sigma_{f}^{ref}-\frac{\partial\nu\Sigma_{f}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right]\\
+	    \mathbf{D}-D^{ref}-\frac{\partial D}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right],\\
+	    \kappa\mathbf{\Sigma}_{f}-\kappa\Sigma_{f}^{ref}-\frac{\partial\kappa\Sigma_{f}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right]\\
+	    -\frac{1}{2}\mathbf{\Phi}^{\mathrm{T}}\mathbf{\Phi}+\frac{1}{2}
+	    \end{array}\right]
+	\]
+      \end{column}
+      \begin{column}{0.4\textwidth}
+	\begin{customlist}{2ex}{0pt}
+	  \item Neutronics
+	  \item Flux normalization
+	  \item Energy deposition
+	  \item Temperature distribution
+	  \item Density distribution
+	  \item Absorption xs
+	  \item Fission xs
+	  \item Diffusion 
+	  \item Energy deposition xs
+	  \item Eigenvalue
+	\end{customlist}
+      \end{column}
+    \end{columns}
+    \end{center}
+  \end{block}
+  \begin{customlist}{2ex}{0pt}
+    \vfill\item X-Steam MATLAB tables were used to look up density as a function of temperature
+    \vfill\item An analytical Jacobian-vector product can be formed for everything except $\frac{\partial\rho}{\partial T}$
+    \vfill\item For this block a finite difference approximation must be used
+  \end{customlist}
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}{Steady State - Coupled Neutronics/Thermal Hydraulics [2/2]}
+  \begin{block}{Results}
+    \begin{center}
+      \scalebox{0.4}{\input{./tikz/Power_Density.tikz}}
+    \end{center}
+  \end{block}
+  \begin{customlist}{2ex}{0pt}
+    \vfill\item \small Timing results using MATLAB profiler:
+    \begin{customlist}{2ex}{0pt}
+      \vfill\item 7 seconds to converged overall
+      \vfill\item 6+ out of 7 seconds in X-Steam!
+      \vfill\item Solution: fit density range with polynomial - with linear fit < 0.5 seconds
+    \end{customlist}
+  \end{customlist}
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}{Transient - Coupled Neutronics/Thermal Hydraulics [1/2]}
+\relsize{-1}
+  \begin{block}{Residual Equations}
+	\[
+	    \mathbf{F}=\left[\begin{array}{c}
+	    \mathbf{\Phi}^{n+1}-\mathbf{\Phi}^{n}+v\Delta t\left[\mathbb{M}\mathbf{\Phi}^{n+1}-\left(1-\beta\right)\lambda\mathbb{F}\mathbf{\Phi}^{n+1}-\lambda_{d}\mathbf{c}^{n+1}\right]\\
+	    \mathbf{c}^{n+1}-\mathbf{c}^{n}+\Delta t\left(\lambda_{d}\mathbf{c}^{n+1}-\beta\lambda\mathbb{F}\mathbf{\Phi}^{n+1}\right)\\
+	    \mathbf{Q}-\tilde{c}\mathbb{E}\mathbf{\Phi}\Delta x\\
+	    \mathbf{T}^{n+1}-\mathbf{T}^{n}+\frac{\dot{m} \Delta t}{\mathcal{P}^{n+1}A\Delta x}\left(\mathbb{S}\mathbf{T}^{n+1}-\mathbb{R}\mathbf{Q}^{n+1}\right)\\
+	    \mathcal{P}-\rho^{ref}-\frac{\partial\rho}{\partial T}\left(\mathbf{T}-T^{ref}\right)\\
+	    \mathbf{\Sigma}_{a}-\Sigma_{a}^{ref}-\frac{\partial\Sigma_{a}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right]\\
+	    \nu\mathbf{\Sigma}_{f}-\nu\Sigma_{f}^{ref}-\frac{\partial\nu\Sigma_{f}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right]\\
+	    \mathbf{D}-D^{ref}-\frac{\partial D}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right],\\
+	    \kappa\mathbf{\Sigma}_{f}-\kappa\Sigma_{f}^{ref}-\frac{\partial\kappa\Sigma_{f}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right]
+	    \end{array}\right]
+	\]
+  \end{block}
+  \begin{customlist}{2ex}{0pt}
+    \item Code time per loop
+    \item Number of GMRES and Newton
+  \end{customlist}
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}{Transient - Coupled Neutronics/Thermal Hydraulics [2/2]}
+\def \dx{0.0135cm}
+\newcounter{cr}
+\setcounter{cr}{92}
+\begin{animateinline}[poster = first, controls]{2}
+  \begin{columns}
+    \begin{column}{0.75\textwidth}
+      \begin{center}
+      \scalebox{0.5}{\input{./tikz/anim/rod_trans_1.tikz}}
+      \end{center}
+    \end{column}
+    \begin{column}{0.25\textwidth}
+      \begin{center}
+	\begin{tikzpicture}
+	  \node[rectangle, rounded corners, draw = black, very thick, minimum height=5cm, minimum width=1cm,fill=red!50,anchor = south west]  (slab) at (0.0,0.0) {};
+	  \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.25cm,0.0cm) -- (1.25cm,5cm);
+	  \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.5cm,0.0cm) --  (1.5cm,5cm);
+	  \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.75cm,0.0cm) -- (1.75cm,5cm);
+	\end{tikzpicture}
+      \end{center}
+    \end{column}
+  \end{columns}
+  \newcounter{ct}
+  \forloop[10]{ct}{11}{\value{ct} < 1492}
+  {%
+  \newframe
+    \begin{columns}
+      \begin{column}{0.75\textwidth}
+	\begin{center}
+	  \scalebox{0.5}{\input{./tikz/anim/rod_trans_\arabic{ct}.tikz}}
+	\end{center}
+      \end{column}
+    \begin{column}{0.25\textwidth}
+      \begin{center}
+	\ifthenelse{\value{ct} > 50 \and \value{ct} < 585}
+	{
+	  \ifthenelse{\value{ct} < 56}
+	  {
+	    \begin{tikzpicture}
+	      \node[rectangle, rounded corners, draw = black, very thick, minimum height=5cm, minimum width=1cm,fill=red!50,anchor= south west]  (slab) at (0.0,0.0) {};
+	      \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.25cm,0.0cm) -- (1.25cm,5cm);
+	      \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.5cm,0.0cm) --  (1.5cm,5cm);
+	      \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.75cm,0.0cm) -- (1.75cm,5cm);
+	      \node[rectangle, draw = black, very thick, minimum height=2*\dx, minimum width=0.25cm,left=0cm of slab.south west, anchor=south west,fill=black] {};
+	    \end{tikzpicture}   
+	  }
+	  {
+	    \ifthenelse{\value{ct} < 97}
+	    {
+	      \begin{tikzpicture}
+		\node[rectangle, rounded corners, draw = black, very thick, minimum height=5cm, minimum width=1cm,fill=red!50,anchor= south west]  (slab) at (0.0,0.0) {};
+		\draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.25cm,0.0cm) -- (1.25cm,5cm);
+		\draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.5cm,0.0cm) --  (1.5cm,5cm);
+		\draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.75cm,0.0cm) -- (1.75cm,5cm);
+		\def \crheight{2+floor((\value{ct}-50)/10)*20}
+		\node[rectangle, draw = black, very thick, minimum height=\crheight*\dx, minimum width=0.25cm,left=0cm of slab.south west, anchor=south west,fill=black] {};
+	      \end{tikzpicture}   
+	    }
+	    {
+	      \ifthenelse{\value{ct} < 500}
+	      {
+		\begin{tikzpicture}
+		  \node[rectangle, rounded corners, draw = black, very thick, minimum height=5cm, minimum width=1cm,fill=red!50,anchor=south west]  (slab) at (0.0,0.0) {};
+		  \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.25cm,0.0cm) -- (1.25cm,5cm);
+		  \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.5cm,0.0cm) --  (1.5cm,5cm);
+		  \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.75cm,0.0cm) -- (1.75cm,5cm);
+		  \node[rectangle, draw = black, very thick, minimum height=92*\dx, minimum width=0.25cm,left=0cm of slab.south west, anchor=south west,fill=black] {};
+		\end{tikzpicture}
+	      }
+	      {
+		\begin{tikzpicture}
+		  \node[rectangle, rounded corners, draw = black, very thick, minimum height=5cm, minimum width=1cm,fill=red!50,anchor=south west]  (slab) at (0.0,0.0) {};
+		  \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.25cm,0.0cm) -- (1.25cm,5cm);
+		  \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.5cm,0.0cm) --  (1.5cm,5cm);
+		  \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.75cm,0.0cm) -- (1.75cm,5cm);
+		  \addtocounter{cr}{-10}
+		  \node[rectangle, draw = black, very thick, minimum height=\value{cr}*\dx, minimum width=0.5cm,left=0cm of slab.south west, anchor=south west,fill=black] {};
+		\end{tikzpicture}
+	      }
+	    }
+	  }
+	}
+	{
+	  \begin{tikzpicture}
+	    \node[rectangle, rounded corners, draw = black, very thick, minimum height=5cm, minimum width=1cm,fill=red!50,anchor= south west]  (slab) at (0.0,0.0) {};
+	    \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.25cm,0.0cm) -- (1.25cm,5cm);
+	    \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.5cm,0.0cm) --  (1.5cm,5cm);
+	    \draw[snake=coil,segment aspect=0,very thick,segment length=20pt,line after snake=1mm,->,draw=blue] (1.75cm,0.0cm) -- (1.75cm,5cm);
+	  \end{tikzpicture}
+	}
+      \end{center}
+    \end{column}
+  \end{columns}
+  }
+\end{animateinline}
+\end{frame}
+%------------------------------------------------------------------------------
 \end{section}
 %==============================================================================
 \begin{section}{Conclusions}
 \begin{frame}{Conclusions}
+\def \anumb{0.5}
+Hello my name is \typeout\anumb
 \end{frame}
 \end{section}
 %==============================================================================
