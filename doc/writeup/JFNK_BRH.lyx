@@ -211,11 +211,11 @@ Combine models and solvers into a JFNK framework.
 \begin_layout Standard
 The JFNK method for solving coupled neutronics and thermal hydraulics equations
  is not commonly performed in the nuclear community.
- As part of my PhD research, there is a potential that this method may be
- used in the coupling of neutronics and thermal hydraulics for coarsh mesh
- finite difference acceleration of Monte Carlo neutron transport codes.
- This project is therefore an introduction to this and the simplest neutronic/th
-ermal hydraulic model is used to test its implementation.
+ This method may be used in the coupling of neutronics and thermal hydraulics
+ for coarse mesh finite difference acceleration of Monte Carlo neutron transport
+ codes.
+ This project is therefore an introduction to this method.
+ A simple neutronic/thermal hydraulic model is used to test its implementation.
 \end_layout
 
 \begin_layout Section
@@ -228,8 +228,8 @@ A complete design of a nuclear reactor system is complex and involves many
  When performing reactor physics calculations, the design engineer is primarily
  concerned with the reactivity of the core, spatial power distribution and
  isotopics.
- This power distribution is usually used as a input condition for thermal
- hydraulic calculations which ensure that core is cooled adequately.
+ This power distribution is usually used as an input condition for thermal
+ hydraulic calculations which ensures that the core is cooled adequately.
  Whether performing reactor physics calculations for fuel management or
  for reactor safety, the distribution of neutrons (hence fission rate and
  power) and coolant density are highly coupled.
@@ -242,9 +242,9 @@ A complete design of a nuclear reactor system is complex and involves many
 Once example of a reactor safety calculation is the sudden ejection of a
  control rod.
  A common approach to solve this problem is to use operator or physics splitting.
- In this approach a temperature/density distribution is assumed, a power
- distribution is calculated from neutronics, and this is fed to the thermal
- hydraulic equations to get a new temperature/density distribution.
+ In this approach, a temperature/density distribution is assumed, a power
+ distribution is calculated from neutronics and is fed to the thermal hydraulic
+ equations to get a new temperature/density distribution.
  This iteration between operators continues until a steady state solution
  is found.
  A widely used core simulator that performs these transient calculations
@@ -257,8 +257,8 @@ key "Downar2009"
 
 \end_inset
 
- which is coupled to and external thermal hydraulic system code such as
- RELAP 
+ which is coupled to an external thermal hydraulic system code such as RELAP
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "RELAP5"
@@ -491,16 +491,16 @@ Neutron Diffusion Equation
 \begin_layout Standard
 In this section, the governing equations to model the neutronics will be
  presented.
- The neutron transport equation is the most detailed form to describe the
- behavior how neutrons travel and interact in a medium.
- In time-dependent form, the neutron transport equation is 
+ The neutron transport equation is the most detailed form to describe how
+ neutrons travel and interact in a medium.
+ In time-dependent form, the neutron transport equation 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Hebert2009"
 
 \end_inset
 
-
+ is 
 \end_layout
 
 \begin_layout Standard
@@ -659,17 +659,15 @@ steady
 \end_inset
 
  is unity then the neutron population is perfectly balanced.
- Therefore, when beginning a transient calculation, for example with the
- equations above, 
+ Therefore, when performing transient calculations, 
 \begin_inset Formula $k_{eff}$
 \end_inset
 
  from the steady state calculations must be used.
- 
 \end_layout
 
 \begin_layout Standard
-To model the concentration of precursors the following equation is used
+To model the concentration of precursors, the following equation is used
  for each precursor group 
 \begin_inset Formula $l$
 \end_inset
@@ -893,7 +891,7 @@ reference "eq:DiffusionPrec1d1g"
 
 \end_inset
 
- can be reduced to steady by removing the time-derivative term.
+ can be reduced to steady state form by removing the time-derivative term.
  This is shown as
 \end_layout
 
@@ -1027,7 +1025,7 @@ Q_{R}=\tilde{c}\int_{0}^{L}dx\kappa\Sigma_{f}\left(x\right)\phi\left(x\right).\l
 Note that this step only needs to be performed during the steady state analysis
  since the transient analysis is not an eigenvalue problem.
  The transient equations are given the eigenvalue and eigenvector normalization
- constant and these parameters are held constant throughout the transient.
+ constant, which are fixed throughout the transient.
  
 \end_layout
 
@@ -1281,18 +1279,19 @@ Thermal Hydraulic to Neutronic Coupling
 \begin_layout Standard
 The macroscopic cross sections and diffusion coefficient that were described
  in the neutronics formulation depend on density of the coolant.
- This is due to the fact that besides water functioning as a coolant in
- a nuclear reactor, it has the dual purpose of also slowing down neutrons.
+ This due to the fact that water has dual purposes, as it functions as a
+ coolant and slows down neutrons.
  Slow neutrons have a higher probability of causing a fission reaction.
  This process is almost analogous to billiard ball elastic collisions.
  Thus, if the density of water is low, it is less effective at slowing down
- neutrons and will have a negative effect the rate at which fissions occur.
+ neutrons and will have a negative effect on the rate at which fissions
+ occur.
  This is why nuclear reactors are somewhat self-regulating.
  If the power suddenly increases in a region of the core, the temperature
  will increase lowering the density and thus decreasing the fission rate
  and power.
  Note that this may not be the dominant effect as there are other nuclear
- process that will also have a negative effect on the fission rate such
+ processes that will also have a negative effect on the fission rate such
  as fuel temperature.
  In this paper, only the effect of density is modeled.
  
@@ -1300,7 +1299,8 @@ The macroscopic cross sections and diffusion coefficient that were described
 
 \begin_layout Standard
 Once the temperature distribution is known, the density distribution can
- be calculated from the equation of state for water as the pressure is specified.
+ be calculated from the equation of state for water at the specified system
+ pressure.
  Thus, 
 \end_layout
 
@@ -1321,9 +1321,10 @@ key "Holmgren2006"
 \end_inset
 
 .
- Since the macroscopic cross sections and diffusion coefficient are to first
- order linear with density, the following formulas can be used to describe
- the dependence of these neutronic parameters on density:
+ Since the macroscopic cross sections and diffusion coefficient are, to
+ first order, linear with density.
+ The following formulas can be used to describe the dependence of these
+ diffusion theory parameters on density:
 \end_layout
 
 \begin_layout Standard
@@ -1461,7 +1462,14 @@ name "fig:pincell"
 \end_layout
 
 \begin_layout Standard
-For the Seabrook Nuclear Reactor, the inlet temperature the core is 
+For the Seabrook nuclear reactor 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Todreas2011"
+
+\end_inset
+
+, the inlet coolant temperature of the core is 
 \begin_inset Formula $293.1\,\mathrm{^{\circ}C}$
 \end_inset
 
@@ -1487,7 +1495,7 @@ T^{ref}=310\,\mathrm{^{\circ}C}.
 \end_inset
 
  bar.
- Therefore using XSteam, the density of water at this pressure and average
+ Therefore using X-Steam, the density of water at this pressure and average
  temperature is 
 \begin_inset Formula 
 \[
@@ -1496,7 +1504,7 @@ T^{ref}=310\,\mathrm{^{\circ}C}.
 
 \end_inset
 
- The mass flow rate and flow area as set as 
+ The mass flow rate and flow area are set as 
 \begin_inset Formula $w=0.335\,\mathrm{kg/s}$
 \end_inset
 
@@ -1563,8 +1571,8 @@ Perturbations of -10%, -5%, +5% and +10% were made to the reference density
  to obtain the dependence of the above parameters on density.
  These points are then fit with a linear regression to determine the slope
  of the data.
- This regression was performed for each of the parameters above and plots
- of this regression is shown in Figs.
+ This regression was performed for each of the parameters above, as shown
+ in Figs.
  
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -1580,8 +1588,8 @@ reference "fig:kfissRHO"
 \end_inset
 
 .
- 
 \begin_inset Float figure
+placement p
 wide false
 sideways false
 status collapsed
@@ -1629,6 +1637,7 @@ name "fig:absxsRHO"
 
  
 \begin_inset Float figure
+placement p
 wide false
 sideways false
 status collapsed
@@ -1674,8 +1683,9 @@ name "fig:nfissRHO"
 
 \end_inset
 
- 
+
 \begin_inset Float figure
+placement p
 wide false
 sideways false
 status collapsed
@@ -1721,8 +1731,9 @@ name "fig:diffRHO"
 
 \end_inset
 
- 
+
 \begin_inset Float figure
+placement p
 wide false
 sideways false
 status collapsed
@@ -1805,13 +1816,13 @@ name "fig:kfissRHO"
 
 \end_inset
 
-From the results the macroscopic cross sections have a positive slope while
+From the results, the macroscopic cross sections have a positive slope while
  the diffusion coefficient has a negative slope.
- The cross section dependence makes sense since as the density increases,
- neutrons will slow down more and cause more fission.
- The opposite is true for the diffusion coefficient, if the density increases,
- neutrons are more efficiently slowed down in and therefore will not diffuse
- as much.
+ The cross section dependence makes sense because as density increases,
+ neutrons slow down more effectively and increase the rate of fission.
+ The opposite is true for the diffusion coefficient.
+ If the density increases, neutrons are more effectively slowed and do not
+ diffuse as far.
  Therefore, if the density goes down there will be a negative effect on
  producing more neutrons from fission as the cross section will go down
  and neutrons will diffuse further and have a higher probability of leaking
@@ -1839,7 +1850,7 @@ reference "sec:Governing"
 \end_layout
 
 \begin_layout Subsection
-Steady-State Equations
+Steady State Equations
 \end_layout
 
 \begin_layout Standard
@@ -1951,7 +1962,7 @@ reference "eq:DiffusionSteady"
 
 \end_inset
 
- The average flux is for cell 
+ The average flux for cell 
 \begin_inset Formula $i$
 \end_inset
 
@@ -2007,9 +2018,8 @@ J_{i+1/2}=-D_{i}\left.\frac{d\phi}{dx}\right|_{i+1/2}\qquad J_{i-1/2}=-D_{i}\lef
 
  A second order central difference scheme is applied to approximate the
  derivative of the flux at the boundary.
- Since the diffusion coefficients in adjacent cells do not necessarily need
- to be constant, the current at the interface between adjacent cells must
- be equivalent.
+ The diffusion coefficients in adjacent cells do not necessarily need to
+ be the same, however, the neutron current at the interface must be equivalent.
  For the 
 \begin_inset Formula $i+1/2$
 \end_inset
@@ -2109,8 +2119,7 @@ reference "eq:FVNeutBalance"
  This may not always be true, especially depending on how the boundaries
  are defined.
  Another neutronic parameter called an albedo is defined as the ratio of
- incoming current of neutrons at an interface to the outgoing current of
- neutrons,
+ incoming current of neutrons to outgoing current of neutrons at an interface,
 \end_layout
 
 \begin_layout Standard
@@ -2152,7 +2161,7 @@ J=J_{right}-J_{left}.\label{eq:Jleftright}
 \begin_inset Formula $x$
 \end_inset
 
- direction is directed to the right as well.
+ direction is to the right.
  Notice that depending on the boundary, the partial current to the right
  may be the same as the incoming current or the outgoing current.
  For the left boundary, the net current is 
@@ -2206,7 +2215,7 @@ J_{out}=\frac{1}{4}\phi_{1/2}-\frac{1}{2}J_{1/2}\qquad J_{in}=\frac{1}{4}\phi_{1
 
 \end_inset
 
- These partial current equations can be substituted in to Eq.
+ These partial current equations can be substituted into Eq.
  
 \begin_inset CommandInset ref
 LatexCommand eqref
@@ -2234,7 +2243,7 @@ reference "eq:Ficks1/2"
 \end_inset
 
  and taking a first order finite difference of the spatial derivative, Fick's
- law becomes
+ Law becomes
 \begin_inset Formula 
 \begin{equation}
 -\frac{1}{2}\frac{1-\beta}{1+\beta}\phi_{1/2}=-D_{1}\frac{\bar{\phi}_{1}-\phi_{1/2}}{\Delta x/2}.
@@ -2267,9 +2276,9 @@ reference "eq:Ficks1/2"
 
 \begin_layout Standard
 \begin_inset Formula 
-\[
+\begin{equation}
 J_{1/2}=-\frac{2D_{1}\left(1-\beta\right)}{4D_{1}\left(1+\beta\right)+\Delta x\left(1-\beta\right)}\bar{\phi}_{1}.
-\]
+\end{equation}
 
 \end_inset
 
@@ -2279,9 +2288,9 @@ J_{1/2}=-\frac{2D_{1}\left(1-\beta\right)}{4D_{1}\left(1+\beta\right)+\Delta x\l
 
 \begin_layout Standard
 \begin_inset Formula 
-\[
+\begin{equation}
 J_{I+1/2}=\frac{2D_{I}\left(1-\beta\right)}{4D_{I}\left(1+\beta\right)+\Delta x\left(1-\beta\right)}\bar{\phi}_{I}.
-\]
+\end{equation}
 
 \end_inset
 
@@ -2426,8 +2435,8 @@ Q_{R}=\tilde{c}\int_{0}^{L}dx\kappa\Sigma_{f}\left(x\right)\phi\left(x\right)=\t
 
 \end_inset
 
-Once the normalization constant is determined the power in each volume can
- be determined by integrating the power density,Eq.
+Once the normalization constant is determined, the power in each volume
+ can be determined by integrating the power density (see Eq.
  
 \begin_inset CommandInset ref
 LatexCommand eqref
@@ -2435,7 +2444,7 @@ reference "eq:energydep"
 
 \end_inset
 
-, over a cell volume.
+) over a cell volume.
  The resulting formula is
 \end_layout
 
@@ -2458,7 +2467,7 @@ In matrix form, the above equation is represented by
 
 \end_inset
 
- the energy deposition operator 
+where the energy deposition operator 
 \begin_inset Formula $\mathbb{E}$
 \end_inset
 
@@ -2519,7 +2528,7 @@ T_{i-1/2}=\bar{T}_{i-1}+\frac{Q_{i-1}}{2wc_{p}}
 
  since only half of the energy is deposited between the center of the cell
  and the surface.
- Similarly the right surface temperature can be related to the cell average
+ Similarly, the right surface temperature can be related to the cell average
  temperature as
 \end_layout
 
@@ -2531,7 +2540,7 @@ T_{i+1/2}=\bar{T}_{i}+\frac{Q_{i}}{2wc_{p}}.
 
 \end_inset
 
- These two approximations are known as Upwind approximations.
+These two approximations are known as Upwind approximations.
  Substituting these surface temperatures into Eq.
  
 \begin_inset CommandInset ref
@@ -2540,7 +2549,7 @@ reference "eq:FVEnergy"
 
 \end_inset
 
- to give a relation between cell average temperatures
+ gives a relation between cell average temperatures
 \begin_inset Formula 
 \begin{equation}
 \bar{T}_{i}-\bar{T}_{i-1}=\frac{1}{2wc_{p}}Q_{i-1}+\frac{1}{2wc_{p}}Q_{i}.\label{eq:EnergyDiscret}
@@ -2563,12 +2572,12 @@ reference "eq:FVEnergy"
 \begin_inset Formula $\mathbb{S}$
 \end_inset
 
- is the temperature operator and contains a diagonal and a subdiagonal and
- 
+ is the temperature operator that contains a diagonal and a subdiagonal
+ and 
 \begin_inset Formula $\mathbb{R}$
 \end_inset
 
- is the energy operator and is comprised of a diagonal and subdiagonal.
+ is the energy operator that is comprised of a diagonal and subdiagonal.
  
 \end_layout
 
@@ -2577,7 +2586,7 @@ Energy to Neutronic Coupling
 \end_layout
 
 \begin_layout Standard
-These coupling equations can very simply be converted for a whole cell.
+These coupling equations can simply be converted for a whole cell.
  The cell average density can be related to the cell average density as
 \end_layout
 
@@ -2644,7 +2653,7 @@ D_{i}=D^{ref}+\frac{\partial D}{\partial\rho}\left[\rho_{i}-\rho^{ref}\right],\l
 
 \end_inset
 
- In vector for these are written as
+ In vector form these are written as
 \begin_inset Formula 
 \begin{equation}
 \mathbf{\Sigma}_{a}=\Sigma_{a}^{ref}+\frac{\partial\Sigma_{a}}{\partial\rho}\left[\mathcal{P}-\rho^{ref}\right],\label{eq:AbsRHOCellVec}
@@ -2697,7 +2706,7 @@ In this section, the time-dependent form of the discretized equations will
  be formulated.
  Since the spatial operators have been defined in the previous subsection,
  these will also be used in the time-dependent equations.
- Note that Equs.
+ Note that Eqs.
 
 \family roman
 \series medium
@@ -2771,7 +2780,7 @@ reference "eq:KfissRHOCellVec"
 
 \end_inset
 
-
+ do not have a time-dependent term.
 \end_layout
 
 \begin_layout Subsubsection
@@ -2836,25 +2845,25 @@ reference "eq:DiffusionPrec1d1g"
 
  can be cast in finite volume form as
 \begin_inset Formula 
-\[
+\begin{equation}
 \frac{d\mathbf{\bar{c}}}{dt}=\beta\lambda\mathbb{F}\bar{\mathbf{\Phi}}-\lambda_{d}\mathbf{\bar{c}}.
-\]
+\end{equation}
 
 \end_inset
 
- Discretizing the the time derivative with implicit Euler,
+Discretizing the time derivative with implicit Euler,
 \begin_inset Formula 
-\[
+\begin{equation}
 \frac{\mathbf{\bar{c}}^{n+1}-\mathbf{\bar{c}}^{n}}{\Delta t}=\beta\lambda\mathbb{F}\bar{\mathbf{\Phi}}^{n+1}-\lambda_{d}\mathbf{\bar{c}}^{n+1}.
-\]
+\end{equation}
 
 \end_inset
 
  In residual form,
 \begin_inset Formula 
-\[
-\mathbf{\bar{c}}^{n+1}-\mathbf{\bar{c}}^{n}+\Delta t\left(\lambda_{d}\mathbf{\bar{c}}^{n+1}-\beta\lambda\mathbb{F}\bar{\mathbf{\Phi}}^{n+1}\right)=0.
-\]
+\begin{equation}
+\mathbf{\bar{c}}^{n+1}-\mathbf{\bar{c}}^{n}+\Delta t\left(\lambda_{d}\mathbf{\bar{c}}^{n+1}-\beta\lambda\mathbb{F}\bar{\mathbf{\Phi}}^{n+1}\right)=0.\label{eq:PrecursorEqTime}
+\end{equation}
 
 \end_inset
 
@@ -2878,33 +2887,33 @@ reference "eq:energy1DTrans"
 .
  Rearranging the equation,
 \begin_inset Formula 
-\[
+\begin{equation}
 \frac{\rho A\Delta x}{w}\frac{d\bar{T}_{i}}{dt}+\bar{T}_{i}-\bar{T}_{i-1}=\frac{1}{2wc_{p}}Q_{i-1}+\frac{1}{2wc_{p}}Q_{i}.
-\]
+\end{equation}
 
 \end_inset
 
  Applying the spatial operators defined for the steady state equations,
 \begin_inset Formula 
-\[
+\begin{equation}
 \frac{\mathcal{P}A\Delta x}{w}\frac{d\mathbf{\bar{T}}}{dt}+\mathbb{S}\mathbf{\bar{T}}=\mathbb{R}\mathbf{Q}.
-\]
+\end{equation}
 
 \end_inset
 
  Using implicit Euler to discretize the time derivative,
 \begin_inset Formula 
-\[
+\begin{equation}
 \frac{\mathcal{P}^{n+1}A}{w}\frac{\mathbf{\bar{T}}^{n+1}-\mathbf{\bar{T}}^{n}}{\Delta t}+\mathbb{S}\mathbf{\bar{T}}^{n+1}=\mathbb{R}\mathbf{Q}^{n+1}.
-\]
+\end{equation}
 
 \end_inset
 
  In residual form,
 \begin_inset Formula 
-\[
-\mathbf{\bar{T}}^{n+1}-\mathbf{\bar{T}}^{n}+\frac{w\Delta t}{\mathcal{P}^{n+1}A\Delta x}\left(\mathbb{S}\mathbf{\bar{T}}^{n+1}-\mathbb{R}\mathbf{Q}^{n+1}\right)=0.
-\]
+\begin{equation}
+\mathbf{\bar{T}}^{n+1}-\mathbf{\bar{T}}^{n}+\frac{w\Delta t}{\mathcal{P}^{n+1}A\Delta x}\left(\mathbb{S}\mathbf{\bar{T}}^{n+1}-\mathbb{R}\mathbf{Q}^{n+1}\right)=0.\label{eq:TempTime}
+\end{equation}
 
 \end_inset
 
@@ -2918,8 +2927,8 @@ Newton's Method
 \begin_layout Standard
 To solve the coupled neutronic/thermal hydraulic problem, a nonlinear method
  must be used.
- A common approach to solve nonlinear equations is to employ Newton's method
- 
+ A common approach for solving nonlinear equations is to employ Newton's
+ method 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Kelly2003"
@@ -2927,7 +2936,7 @@ key "Kelly2003"
 \end_inset
 
 .
- The algorithm for Newton's methods is presented in Algorithm 
+ The algorithm for Newton's method is presented in Algorithm 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "alg:NewtonEasy"
@@ -3062,7 +3071,7 @@ name "alg:NewtonEasy"
 
 \end_inset
 
- Therefore a set of residual equations must be formulated such that 
+Therefore, a set of residual equations must be formulated such that 
 \end_layout
 
 \begin_layout Standard
@@ -3098,7 +3107,7 @@ where
 
 \end_inset
 
- This nonlinear tolerance is user defined and is arbitrary.
+This nonlinear tolerance is user-defined and arbitrary.
  We only note that this value be compared to the tolerance used when solving
  the linear system equation with an iterative method (see step 5 in Algorithm
  
@@ -3118,7 +3127,7 @@ In the coupled system of neutronic and thermal hydraulic equations, an analytic
  table.
  One could fit an analytic curve to the state equation to describe the dependenc
 e of density on temperature.
- However in this application, the Jacobian will be approximated.
+ However, in this application, the Jacobian will be approximated.
  This process is discussed in Section 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -3127,8 +3136,8 @@ reference "sec:JFNK"
 \end_inset
 
 .
- Therefore, direct methods cannot be utilized with solving this linear system
- of equations in Newton's method.
+ Therefore, direct methods cannot be utilized when solving this linear system
+ of equations with Newton's method.
  Instead, an iterative GMRES Krylov subspace method is used and is described
  in detail in Section 
 \begin_inset CommandInset ref
@@ -3155,8 +3164,7 @@ name "sec:Krylov"
 \end_layout
 
 \begin_layout Standard
-In Krylov methods just like other direct and iterative numerical schemes,
- the goal is to solve 
+In Krylov methods, the goal is to solve 
 \begin_inset Formula $\mathbb{A}\mathbf{x}=\mathbf{b}$
 \end_inset
 
@@ -3170,12 +3178,12 @@ In Krylov methods just like other direct and iterative numerical schemes,
 \begin_inset Formula $\hat{\mathbf{x}}$
 \end_inset
 
- is determined from a projection of the system onto some subspace.
+, is determined from a projection of the system onto some subspace.
  In Krylov methods, a Krylov subspace, 
 \begin_inset Formula $\mathcal{K}_{n}$
 \end_inset
 
- , has the form
+, has the form
 \end_layout
 
 \begin_layout Standard
@@ -3238,7 +3246,7 @@ key "Saad2003"
 
 .
  According to Saad, this procedure was introduced as a means of reducing
- dense matrices into Hesssenberg form.
+ dense matrices into Hessenberg form.
  The power of the Arnoldi Iteration is that with a small number of steps
  to create a Hessenberg matrix, the eigenvalues of this matrix approximate
  the eigenvalues of the original matrix.
@@ -3304,11 +3312,11 @@ h_{21} & h_{22}\\
 
 \end_inset
 
-Since the matrix 
+Since matrix 
 \begin_inset Formula $\mathbb{A}$
 \end_inset
 
- may be very large and so a full reduction to Hessenberg may not be feasible.
+ may be very large, a full reduction to Hessenberg form may not be feasible.
  Rather, the first 
 \begin_inset Formula $n$
 \end_inset
@@ -3340,7 +3348,7 @@ Since the matrix
 
 \end_inset
 
-To set up the iteration Eq.
+To set up the iteration, Eq.
  
 \begin_inset CommandInset ref
 LatexCommand eqref
@@ -3470,7 +3478,7 @@ reference "eq:Arnoldi2"
 \begin_inset Formula $\left\Vert \cdot\right\Vert $
 \end_inset
 
-will indicate a 2-norm.
+ will indicate a 2-norm.
  The Arnoldi iteration is presented in Algorithm 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -3650,8 +3658,8 @@ reference "eq:Arnoldi3"
 .
  Also in the algorithm on line 2, the loop can go for an arbitrary number
  of iterations.
- This iteration parameter is specified by the user and is problem specific.
- Therefore, with each Arnoldi iteration projections are made onto successive
+ This iteration parameter is specified by the user and is problem-specific.
+ Therefore, with each Arnoldi iteration, projections are made onto successive
  Krylov subspaces.
 \end_layout
 
@@ -3662,7 +3670,7 @@ Generalized Minimal RESidual method (GMRES)
 \begin_layout Standard
 The Arnoldi iteration that was presented in the previous section is used
  to find eigenvalues of a system.
- GMRES on the other hand can be used to solve 
+ GMRES, on the other hand, can be used to solve 
 \begin_inset Formula $\mathbb{A}\mathbf{x}=\mathbf{b}.$
 \end_inset
 
@@ -3689,7 +3697,7 @@ The Arnoldi iteration that was presented in the previous section is used
 \end_inset
 
  is determined by solving a least squares problem.
- To solve this the following Krylov matrix is constructed 
+ To solve this, the following Krylov matrix is constructed 
 \end_layout
 
 \begin_layout Standard
@@ -3715,7 +3723,7 @@ The Arnoldi iteration that was presented in the previous section is used
 
 \end_inset
 
- where 
+where 
 \begin_inset Formula $c$
 \end_inset
 
@@ -3738,8 +3746,14 @@ reference "sub:LeastSq"
 \end_inset
 
 .
- According to Trefethen, this approach is numerically unstable and also
- generates a matrix 
+ According to Trefethen 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Trefethen1997"
+
+\end_inset
+
+, this approach is numerically unstable and generates a matrix 
 \begin_inset Formula $\mathbb{R}$
 \end_inset
 
@@ -3919,7 +3933,7 @@ reference "alg:GMRESbasic"
 \end_inset
 
 , where the least squares problem is listed as a high level command.
- This algorithm has a slightly different form as it is written is Saad's
+ This algorithm has a slightly different form as it is written in Saad's
  notation rather than Trefethen's described above.
  
 \begin_inset Float algorithm
@@ -4120,7 +4134,8 @@ name "alg:GMRESbasic"
 
 \end_inset
 
- The main difference is the form of the least squares problem to solve.
+ The main difference is the notation and method used to solve the least
+ squares problem.
  Saad defines the approximate solution of 
 \begin_inset Formula $x$
 \end_inset
@@ -4459,7 +4474,7 @@ key "Trefethen1997"
 \end_inset
 
 .
- One of the methods to solve a least squares problem is QR factorization.
+ One of the methods used to solve a least squares problem is QR factorization.
  This QR factorization is performed using Gram-Schmidt or Householder triangular
 ization such that 
 \begin_inset Formula $\mathbb{A}=\mathcal{Q}\mathcal{R}$
@@ -4470,11 +4485,11 @@ ization such that
 \begin_inset Formula $\mathcal{Q}\mathcal{R}$
 \end_inset
 
- is written in scripts to not conflict with 
+ is written in scripts so as to not conflict with 
 \begin_inset Formula $\mathbb{Q}$
 \end_inset
 
- from the Arnoldi iteration that is in some Krylov subspace.
+ from the Arnoldi iteration.
  To do this, the orthogonal projector 
 \begin_inset Formula $\mathbb{P}=\mathcal{Q}\mathcal{Q}^{*}$
 \end_inset
@@ -4611,14 +4626,13 @@ It is desirable to not have to perform QR factorization at every iteration
 
 , it can be progressively updated at each iteration.
  Before discussing how to formulate the GMRES algorithm with Givens rotation
- to perform this task, a general discussion about this method will be discussed.
+ to perform this task, this method will be applied to an arbitrary matrix.
  
 \end_layout
 
 \begin_layout Standard
 In general, QR factorizations can be computed with successive Givens rotations.
- With each rotation an element of a matrix that is subdiagonal is zeroed
- out.
+ With each rotation, subdiagonal matrix elements are zeroed out.
  The final matrix is the upper triangular matrix 
 \begin_inset Formula $\mathcal{R}$
 \end_inset
@@ -4629,7 +4643,7 @@ In general, QR factorizations can be computed with successive Givens rotations.
 
  is given by multiplying the conjugate transpose of all rotation matrices
  together.
- In general a rotation matrix is given by 
+ In general, a rotation matrix is given by 
 \end_layout
 
 \begin_layout Standard
@@ -4719,11 +4733,7 @@ key "Planet2011"
 
  in order to triangularize it, the element (2,1) and (3,2) must be eliminated.
  Taking element (2,1) to be rotated first, the following rotation matrix
- is constructed 
-\end_layout
-
-\begin_layout Standard
-,
+ is constructed,
 \end_layout
 
 \begin_layout Standard
@@ -4772,11 +4782,11 @@ r\\
 \begin_inset Formula $a_{21}=5.$
 \end_inset
 
- In addition to the above equation it is also known that 
+ In addition to the above equation, it is also known that 
 \begin_inset Formula $c^{2}+s^{2}=1$
 \end_inset
 
- as explained above in the definition of the rotation matrix.
+ as explained in the definition of the rotation matrix.
  Combining the following formulas:
 \begin_inset Formula 
 \begin{equation}
@@ -4801,7 +4811,7 @@ c^{2}+s^{2}=1,
 
 \end_inset
 
- gives us and expression for 
+ gives us an expression for 
 \begin_inset Formula $r$
 \end_inset
 
@@ -4920,11 +4930,11 @@ s=-0.6402.
 \end_inset
 
 A few observations can be made.
- First the rotation matrix affects only the two rows it is applied to and
- it affects all columns in those row.
+ First, the rotation matrix affects only the two rows it is applied to and
+ will subsequently affect all columns in those rows.
  The third row in this case was untouched.
  The next rotation matrix will be used to eliminate element (3,2).
- Therefore using that element and element (2,2), the rotation matrix will
+ Therefore, using this element and element (2,2), the rotation matrix will
  be of the form
 \end_layout
 
@@ -5012,8 +5022,8 @@ reference "eq:Least1"
 \end_inset
 
 ).
- Therefore, only product of the rotation matrices are needed and not the
- product of their conjugate transposes.
+ Therefore, the product of rotation matrices is needed and not the product
+ of their conjugate transposes.
 \end_layout
 
 \begin_layout Subsubsection
@@ -5057,7 +5067,7 @@ where
 \end_inset
 
 .
- The QR factorization is for the Hessenberg matrix 
+ The QR factorization for the Hessenberg matrix 
 \family roman
 \series medium
 \shape up
@@ -5163,9 +5173,17 @@ reference "eq:GMRESgiven1"
 
 .
  
-\end_layout
-
-\begin_layout Standard
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
 To summarize the above explanation, the least squares problem that is being
  solved is 
 \end_layout
@@ -5190,7 +5208,7 @@ To summarize the above explanation, the least squares problem that is being
 
 \end_inset
 
- where 
+where 
 \family default
 \series default
 \shape default
@@ -5225,8 +5243,8 @@ To summarize the above explanation, the least squares problem that is being
 \begin_inset Formula $n$
 \end_inset
 
-, one would need to compute a new Givens rotation matrix, apply it the accumulat
-ed 
+, one would need to compute a new Givens rotation matrix, apply it to the
+ accumulated 
 \begin_inset Formula $\mathbb{Q}_{n}$
 \end_inset
 
@@ -5390,7 +5408,7 @@ r_{11} & r_{12}\\
 
 \end_inset
 
- What is interesting to observe is that by doing this, the Given rotation
+What is interesting to observe is that by doing this, the Givens rotation
  applied in the previous iteration is performed again such that 
 \begin_inset Formula $g_{1}$
 \end_inset
@@ -5434,7 +5452,7 @@ g_{2}\\
 \end_inset
 
  denotes a column.
- Thus a recursive relationship can be found for an arbitrary step 
+ Thus, a recursive relationship can be found for an arbitrary step 
 \begin_inset Formula $n$
 \end_inset
 
@@ -5547,7 +5565,7 @@ reference "eq:GMRESgivens3"
 \uwave default
 \noun default
 \color inherit
- Therefore the expression can be rewritten as 
+ Therefore, the expression can be rewritten as 
 \end_layout
 
 \begin_layout Standard
@@ -5814,14 +5832,14 @@ name "alg:Givens"
 \begin_inset Formula $n$
 \end_inset
 
--th of the Hessenberg matrix computed from the Arnoldi iteration, all of
- the previous Givens rotation parameters are applied.
+-th column of the Hessenberg matrix computed from the Arnoldi iteration,
+ all the previous Givens rotation parameters are applied.
  Then, new rotation parameters are calculated and applied to the last two
  rows of the 
 \begin_inset Formula $n$
 \end_inset
 
- -th column of the Hessenberg matrix and the vector 
+-th column of the Hessenberg matrix and the vector 
 \begin_inset Formula $g$
 \end_inset
 
@@ -5830,7 +5848,7 @@ name "alg:Givens"
 \end_layout
 
 \begin_layout Standard
-The last question that has not been answered yet is when to stop the GMRES
+The last question that has not yet been answered is when to stop the GMRES
  iteration.
  After iteration 
 \begin_inset Formula $n$
@@ -6223,9 +6241,9 @@ name "sec:JFNK"
 
  The previous two sections discussed how to solve nonlinear equations with
  Newton's method, and how to solve a linear system of equations with GMRES.
- The combination of these two methods, is called Newton-Krylov or more specifica
+ The combination of these two methods is called Newton-Krylov, or more specifica
 lly Newton-GMRES.
- Since each linear system solve in Newton's iteration is not solved exactly
+ Since each linear system solved in Newton's iteration is not solved exactly
  with a direct method, the result from the iterative solver is not exact.
  This idea is known as Inexact Newton's method and can be taken advantage
  of.
@@ -6237,9 +6255,9 @@ Inexact Newton's Method
 \end_layout
 
 \begin_layout Standard
-Since there are two tolerances the user can set, the nonlinear tolerance
- in the Newton iteration and the linear tolerance in the GMRES solver, these
- can be somewhat optimized to each other.
+Since the user can set the nonlinear tolerance in the Newton iteration and
+ the linear tolerance in the GMRES solver, these tolerances can be somewhat
+ optimized to each other.
  Since at the beginning of Newton's iteration, the nonlinear residual is
  quite large, the linear system does not need to be converged very tightly
  to get a good approximation of the next nonlinear step 
@@ -6330,11 +6348,11 @@ name "sub:JFNK"
 \end_layout
 
 \begin_layout Standard
-At each Newton step the linear system, 
+At each Newton step, the linear system 
 \begin_inset Formula $\mathbb{J}d\mathbf{x}=-\mathbf{F}$
 \end_inset
 
-, is solved.
+ is solved.
  From equation 
 \begin_inset CommandInset ref
 LatexCommand eqref
@@ -6353,7 +6371,7 @@ reference "eq:KrySol"
 \begin_inset Formula $m$
 \end_inset
 
--th Krylov step the solution of the linear system is 
+-th Krylov step, the solution of the linear system is 
 \begin_inset Formula 
 \begin{equation}
 d\mathbf{x}_{m}=d\mathbf{x}_{0}+a_{0}\mathbf{r}_{0}+a_{1}\mathbb{J}\mathbf{r}_{0}+a_{2}\mathbb{J}^{2}\mathbf{r}_{0}+...+a_{m}\mathbb{J}^{m}\mathbf{r}_{0},
@@ -6361,7 +6379,7 @@ d\mathbf{x}_{m}=d\mathbf{x}_{0}+a_{0}\mathbf{r}_{0}+a_{1}\mathbb{J}\mathbf{r}_{0
 
 \end_inset
 
- where 
+where 
 \begin_inset Formula $\mathbf{r}_{0}$
 \end_inset
 
@@ -6370,9 +6388,8 @@ d\mathbf{x}_{m}=d\mathbf{x}_{0}+a_{0}\mathbf{r}_{0}+a_{1}\mathbb{J}\mathbf{r}_{0
  is always acting on a vector.
  Even if the Jacobian can be formulated analytically, why use the memory
  and form the matrix instead of writing a separate routine to perform this
- multiplication manually.
- If the Jacobian cannot be formulated analytically, the Jacobian-vector
- product can be approximated with a finite difference,
+ multiplication manually? If the Jacobian cannot be formulated analytically,
+ the Jacobian-vector product can be approximated with a finite difference,
 \end_layout
 
 \begin_layout Standard
@@ -6383,7 +6400,7 @@ d\mathbf{x}_{m}=d\mathbf{x}_{0}+a_{0}\mathbf{r}_{0}+a_{1}\mathbb{J}\mathbf{r}_{0
 
 \end_inset
 
- where 
+where 
 \begin_inset Formula $\mathbf{y}$
 \end_inset
 
@@ -6423,21 +6440,25 @@ key "Mousseau2003"
 
 \end_inset
 
- This is definition of the perturbation parameter used in this work to approxima
-te the Jacobian-vector product.
+where 
+\begin_inset Formula $b=1\times10^{-8}$
+\end_inset
+
+.
+ This is the definition of the perturbation parameter used in this work
+ to approximate the Jacobian-vector product.
  Even if the Jacobian-vector product can be evaluated analytically, it can
  also be approximated with a finite difference.
  In the system of equations solved in this work, all of the Jacobian-vector
  products can be evaluated analytically except for the density evaluation
- from the state equation, it must be calculated with a finite difference
- approximation.
+ from the state equation.
+ It must be calculated with a finite difference approximation.
  The idea of forming the Jacobian-vector products analytically or approximating
- it all with a finite difference is investigated in this work.
+ them with a finite difference is investigated in this work.
  If the finite difference approximation of the whole system can be performed
  quicker, then this extra routine to perform the analytic Jacobian-vector
  product is not needed.
- This would be fortunate since these routines can become complicated to
- write.
+ This would be ideal because these routines can become complicated to write.
  Source code for this finite difference approximation is listed in Appendix
  
 \begin_inset CommandInset ref
@@ -6458,7 +6479,7 @@ It is important to keep the number of iterations in the GMRES solver to
  a minimum.
  The first reason is that with fewer iterations, each linear step solve
  will go very quickly.
- Another important reason is that in GMRES all previous iterations' Krylov
+ Another important reason is that in GMRES, all previous iterations' Krylov
  vectors are stored in memory.
  The term preconditioner means to multiply the coefficient matrix 
 \begin_inset Formula $\mathbb{A}$
@@ -6495,9 +6516,9 @@ key "Kelly1987"
 
 \end_inset
 
- There are many methods to compute a preconditioner for a linear system.
+There are many methods to compute a preconditioner for a linear system.
  Such preconditioners are Jacobi, Incomplete LU factorization (ILU), block
- preconditioners, multigrid, physics-based etc.
+ preconditioners, multigrid, physics-based, etc.
  
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -6532,7 +6553,7 @@ In this work, ILU preconditioning is used as it is relatively easier to
 \end_inset
 
  is constrained to certain conditions.
- The simplest constraint is the the product of 
+ The simplest constraint is that the product of 
 \begin_inset Formula $\mathbb{LU}$
 \end_inset
 
@@ -6819,7 +6840,7 @@ name "alg:GMRESbasicPrec"
 \end_layout
 
 \begin_layout Section
-Solving the Steady-State Neutron Diffusion Equation
+Solving the Steady State Neutron Diffusion Equation
 \end_layout
 
 \begin_layout Standard
@@ -6861,8 +6882,8 @@ reference "sub:SteadyNeut"
 
 .
  This linear system of equations is an eigenvalue problem.
- One straight forward approach to solve linear eigenvalue problems is to
- use power iteration.
+ One straight-forward approach for solving linear eigenvalue problems is
+ to use power iteration.
  The power iteration method is outlined in Algorithm 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -7096,9 +7117,9 @@ right
 \begin_inset Quotes erd
 \end_inset
 
- answer when we compare it against a Newton's method.
+ answer when we compare it against Newton's method.
  Another important feature of power iteration is that it will always converge
- on the fundamental solution of the equation whereas, any mode can be obtained
+ on the fundamental solution of the equation whereas any mode can be obtained
  when using Newton's method.
 \end_layout
 
@@ -7194,8 +7215,8 @@ reference "app:NeutSteady"
 .
  The first case is for a reactor of 600 cm that has a high dominance ratio
  of 0.997.
- Note the dominance ratio is the ratio of two largest eigenvalues of the
- system 
+ Note the dominance ratio is the ratio of the two largest eigenvalues of
+ the system 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Wachspress1966"
@@ -7203,8 +7224,7 @@ key "Wachspress1966"
 \end_inset
 
 .
- The flux eigenvectors were compared for each of the three cases and is
- shown if Fig.
+ The flux eigenvectors as shown in Fig.
  
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -7212,7 +7232,7 @@ reference "fig:fluxmode"
 
 \end_inset
 
-.
+ were compared for each of the three cases.
  
 \begin_inset Float figure
 wide false
@@ -7260,8 +7280,8 @@ name "fig:fluxmode"
 
 \end_inset
 
- The results show that Newton-based methods do not agree with the power
- iteration even though the residual criteria is met.
+The results show that Newton-based methods do not agree with the power iteration
+ even though the residual criteria is met.
  This is because any eigenvalue/eigenvector pair satisfies the residual
  equations.
  To verify, the 
@@ -7273,7 +7293,7 @@ name "fig:fluxmode"
  To ensure that the Newton-based methods converge to the fundamental mode,
  two power iterations were computed to get the flux shape in the correct
  direction.
- After applying this, the results look better and are shown in Figs.
+ After applying this, the results are consistent and are shown in Figs.
  
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -7289,6 +7309,7 @@ reference "fig:fluxdiff600"
 \end_inset
 
 .
+ 
 \begin_inset Float figure
 wide false
 sideways false
@@ -7335,7 +7356,7 @@ name "fig:flux600"
 
 \end_inset
 
- 
+
 \begin_inset Float figure
 wide false
 sideways false
@@ -7382,14 +7403,14 @@ name "fig:fluxdiff600"
 
 \end_inset
 
- The differences in the plot with respect to power iteration are within
+The differences in the plot, with respect to power iteration, are within
  the converged nonlinear iteration tolerance of 
 \begin_inset Formula $10^{-6}$
 \end_inset
 
 .
- What is more interesting to compare is number of iterations, final residual
- and computational time.
+ It is more interesting to compare is the number of iterations, the final
+ residual and the computational time.
  These results are listed in Table 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -7624,7 +7645,7 @@ The slab width was then decreased to 370 cm which is about the length of
  the active fuel rod length producing power in a standard pressurized water
  reactor.
  The dominance ratio of this system is 0.992.
- The difference in the the flux eigenvectors is shown in Fig.
+ The difference in the flux eigenvectors is shown in Fig.
  
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -7908,11 +7929,11 @@ e approach taking slightly longer to solve.
 \end_layout
 
 \begin_layout Section
-Steady-State Coupled Physics Solution
+Steady State Coupled Physics Solution
 \end_layout
 
 \begin_layout Standard
-In this section the determination of the steady-state spatial distribution
+In this section the determination of the steady state spatial distribution
  of flux, power temperature and density will be determined.
  Equations 
 \begin_inset CommandInset ref
@@ -8251,7 +8272,7 @@ Each of these equations will be placed on the diagonal of the
 
 \end_inset
 
- The overall algorithm to solve this problem is presented in Algorithm 
+The overall algorithm to solve this problem is presented in Algorithm 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "alg:steadycoupled"
@@ -8518,7 +8539,7 @@ or.
 
  is applied in the input file.
  Therefore, the span of the magnitudes of the flux-to-power normalization
- constant and kappa-fission cross section will be smaller.
+ constant and kappa-fission cross sections will be smaller.
  This proved to be effective for this situation and was used to compute
  the results presented in this section.
  
@@ -8558,7 +8579,7 @@ status collapsed
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Profiler Results for Steady-State Case
+Profiler Results for steady state Case
 \end_layout
 
 \end_inset
@@ -8579,7 +8600,7 @@ name "fig:profileSteady"
 \end_inset
 
  From the results, it is interesting to see that approximately 88% of the
- time was spent in the lookup XSteam tables to relate density to temperature.
+ time was spent in the look-up X-Steam tables to relate density to temperature.
  Unfortunately, nothing can be done about this if the lookup tables are
  going to be used.
  An improvement on this would be to fit the density vs.
@@ -8652,7 +8673,7 @@ name "fig:profilelinear"
 \end_inset
 
  The total time to run the steady state calculation is now only 0.436 seconds
- as compared to 7 seconds with the look up table.
+ as compared to 7 seconds with the look-up table.
  Therefore, this method will be used for the transient analysis.
  Source code for these routines is listed in Appendix 
 \begin_inset CommandInset ref
@@ -8749,7 +8770,7 @@ After the steady state solution is achieved, the transient simulation can
 \size default
 As in the steady state case, a zero-fill ILU preconditioner was formed from
  this Jacobian matrix.
- The transient that will be simulated is an insertion of a control followed
+ The transient that will be simulated is an insertion of a control rod followed
  by a withdrawal of that control rod.
  At every time step, the control rod insertion length is set corresponding
  to Fig.
@@ -8807,8 +8828,8 @@ name "fig:cr"
 
 \end_inset
 
- Since the equations are solving implicitly, the JFNK solver is used at
- every time step to solve for the unknown vector above.
+ Since the equations are being solved implicitly, the JFNK solver is used
+ at every time step to solve for the unknown vector above.
  The behavior of the reactor is shown in Fig.
  
 \begin_inset CommandInset ref
@@ -8922,12 +8943,13 @@ name "fig:underTave"
 
 \end_inset
 
- When the control rod was inserted, the power immediately decreased.
- The temperature however gradually decreased.
+ When the control rod was inserted, the power immediately decreased, while
+ the temperature gradually decreased.
  This delayed effect caused the power to decrease significantly before the
- control withdrawal and thermal feedback started to increase power again.
+ control rod was withdrawn and thermal feedback started to increase power
+ again.
  The power rose very quickly until the temperature of the coolant was large
- enough so that rate of fissions was decreased.
+ enough so that the rate of fission was decreased.
  The power then started to fall rapidly until the end of the simulation.
  The effects seen here are in an out of phase nature.
  The responses will continue to oscillate until a steady state is reached
@@ -8948,17 +8970,7 @@ The response of the coolant in simulation is slow partly due to the mass
  flow area.
  This will also reduce the heat capacity.
  Therefore, the fluid will move faster through the medium and the feedback
- will occur more quickly 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-talk to smith about this
-\end_layout
-
-\end_inset
-
-.
+ will occur more quickly.
  The flow area was reduced to 
 \begin_inset Formula $A=0.867\times10^{-5}\,\mathrm{cm^{2}}$
 \end_inset
@@ -8981,7 +8993,6 @@ reference "fig:dampTave"
 \end_inset
 
 .
- 
 \begin_inset Float figure
 placement H
 wide false
@@ -9029,7 +9040,7 @@ name "fig:dampedPow"
 
 \end_inset
 
- 
+
 \begin_inset Float figure
 placement H
 wide false
@@ -9202,8 +9213,8 @@ name "fig:DensityCR"
  It can be observed that when the control rod is inserted in the reactor,
  the flux is depressed in that region, since neutrons are being absorbed
  and not causing fission.
- The flux peak is also lowered and shifted to the right from where is was
- when the rod is not inserted.
+ The flux peak is also lowered and shifted to the right from where it was
+ when the rod was not inserted.
  Since there is no power being generated in the leftmost part of the reactor,
  the density remains constant during this region.
  It can also be observed that the average density is higher when the rod
@@ -9231,21 +9242,21 @@ Conclusions and Future Work
 \begin_layout Standard
 In this work, a Jacobian-Free Newton-Krylov framework was established and
  tested for both eigenvalue and nonlinear coupled physics problems.
- The solvers seem to be robust as long as the the Jacobian-vector approximation
+ The solvers seem to be robust as long as the Jacobian-vector approximation
  is scaled appropriately.
  The only time the solvers broke down was when the original implementation
  of fission energy was employed.
  Since the magnitude of the neutron flux normalization parameter is so large
  and the energy per fission is so small, i.e.
  26 orders of magnitude between the values, scaling problems arose.
- These scaling problems were fixed by altering the magnitude of energy produce
+ These scaling problems were fixed by altering the magnitude of energy produced
  from fission such that the normalization constant is of similar magnitude.
  
 \end_layout
 
 \begin_layout Standard
-It was also observed that since the neutronics steady-state calculation
- is an eigenvalue problem, and eigenpair can satisfy the nonlinear equations.
+It was also observed that since the neutronics steady state calculation
+ is an eigenvalue problem, any eigenpair can satisfy the nonlinear equations.
  This problem of converging on a different mode was observed in reactors
  with a high dominance ratio.
  To circumvent this problem, a few number of power iterations were run to
@@ -9253,8 +9264,8 @@ It was also observed that since the neutronics steady-state calculation
  this mode in the nonlinear solver.
  For each nonlinear calculation a preconditioner was necessary to limit
  the number of iterations in the GMRES solver.
- This was preconditioner was only constructed once at the beginning of the
- nonlinear iteration loop.
+ This preconditioner was only constructed once at the beginning of the nonlinear
+ iteration loop.
  For the steady state calculations, the result from a few power iterations
  was used to construct the Jacobian, whereas in the transient case, the
  steady results were used to form the preconditioner.
@@ -9263,14 +9274,13 @@ It was also observed that since the neutronics steady-state calculation
 
 \begin_layout Standard
 It was observed that the majority of the time was spent looking up thermodynamic
- properties from XSteam.
- This is considered unacceptable and a better method must be employed in
- the future.
+ properties from X-Steam.
+ This is unacceptable and a better method must be employed in the future.
  One solution is to create separate lookup tables in the region of interest
- from XSteam and use this new routine in the code.
+ from X-Steam and use this new routine in the code.
  In this routine a faster search algorithm can be implement to ensure this
  is not the bottleneck of the calculation.
- Another solution is to fit the depend with a high order polynomial.
+ Another solution is to fit the dependence with a high order polynomial.
  In the transient calculation, only a linear dependence was used to just
  get more realistic execution times.
  
