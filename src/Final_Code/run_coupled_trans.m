@@ -50,7 +50,7 @@ for i = 1:Nt
     
     % store rod info
     rod(i+1) = sum(cr);
-                  
+
 end
 
 % set x to output

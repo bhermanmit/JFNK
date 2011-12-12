@@ -71,7 +71,7 @@
 \begin{section}{Introduction}
 
 %------------------------------------------------------------------------------
-\begin{frame}{Motivation}
+\begin{frame}{Motivation and Objective}
 
   \begin{customlist}{2ex}{0pt}
 
@@ -79,7 +79,8 @@
     \vfill\item JFNK method not currently used in nuclear reactor 
 		analysis
     \vfill\item Incorporates a lot of ideas from 2.29 class
-    \vfill\item Coupled physics is fun!
+    \vfill\item Implement JFNK framework for coupled physics
+    \vfill\item Test implementation on a simple model 
 
   \end{customlist}
 
@@ -532,8 +533,8 @@ Three major tasks:
 	\]
   \end{block}
   \begin{customlist}{2ex}{0pt}
-    \item Code time per loop
-    \item Number of GMRES and Newton
+    \item Each time step took ~0.4 seconds 
+    \item 5-8 Newton iterations per time step and 10-20 GMRES per Newton step
   \end{customlist}
 \end{frame}
 %------------------------------------------------------------------------------
