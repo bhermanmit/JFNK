@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2011.11.23)  10 DEC 2011 17:07
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2011.11.23)  13 DEC 2011 18:47
 entering extended mode
 **C:/Users/bherman/Documents/JFNK/doc/slides/BRH_Slides-229.tex
 (C:/Users/bherman/Documents/JFNK/doc/slides/BRH_Slides-229.tex
@@ -1305,8 +1305,6 @@ LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <4> not available
  <C:/Users/bherman/Documents/JFNK/doc/slides/mit-logo.pdf>]
 (C:\Users\bherman\Documents\JFNK\doc\slides\BRH_Slides-229.toc) [2
 
-] [3
-
 ]
 (C:\Users\bherman\Documents\JFNK\doc\slides\tikz\reactor.tikz
 Overfull \hbox (3.4501pt too wide) in paragraph at lines 184--184
@@ -1326,7 +1324,7 @@ LaTeX Font Info:    Try loading font information for U+lasy on input line 192.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ulasy.fd"
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
-)) [4
+)) [3
 
 ]
 (C:\Users\bherman\Documents\JFNK\doc\slides\tikz\nucleus.tikz
@@ -1335,11 +1333,11 @@ Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
 )
-Overfull \hbox (9.76598pt too wide) in paragraph at lines 107--107
+Overfull \hbox (9.76598pt too wide) in paragraph at lines 110--110
  [] 
  []
 
-[5
+[4
 
 ] (C:\Users\bherman\Documents\JFNK\doc\slides\tikz\PARCS_marching.tikz
 Missing character: There is no ; in font nullfont!
@@ -1367,7 +1365,7 @@ Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
-) [6
+) [5
 
 ]
 (C:\Users\bherman\Documents\JFNK\doc\slides\tikz\Fuel_pin.tikz
@@ -1375,38 +1373,39 @@ Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
 )
 (C:\Users\bherman\Documents\JFNK\doc\slides\tikz\Geometry.tikz)
-Overfull \hbox (2.18143pt too wide) in paragraph at lines 139--139
+Overfull \hbox (2.18143pt too wide) in paragraph at lines 142--142
  [] 
+ []
+
+[6
+
+]
+Overfull \vbox (8.99196pt too high) detected at line 171
  []
 
 [7
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+cmss on input line 168
-.
-LaTeX Font Info:    No file OMScmss.fd. on input line 168.
-
-
-LaTeX Font Warning: Font shape `OMS/cmss/m/n' undefined
-(Font)              using `OMS/cmsy/m/n' instead
-(Font)              for symbol `textperiodcentered' on input line 168.
-
-
-Overfull \hbox (16.35944pt too wide) detected at line 168
-[] \OT1/cmr/m/n/9 + [] + [] = []
- []
-
-[8
-
-]
-Overfull \hbox (10.4468pt too wide) detected at line 196
+Overfull \hbox (10.4468pt too wide) detected at line 199
  []$[]  [][] \OMS/cmsy/m/n/8   [][][] \OT1/cmr/m/n/8 + [] []\OMS/cmsy/m/n/8  $ 
 
  []
 
 
-Overfull \vbox (2.06155pt too high) detected at line 196
+Overfull \vbox (2.06155pt too high) detected at line 199
  []
+
+[8
+
+]
+LaTeX Font Info:    Try loading font information for OMS+cmss on input line 217
+.
+LaTeX Font Info:    No file OMScmss.fd. on input line 217.
+
+
+LaTeX Font Warning: Font shape `OMS/cmss/m/n' undefined
+(Font)              using `OMS/cmsy/m/n' instead
+(Font)              for symbol `textperiodcentered' on input line 217.
 
 [9
 
@@ -1420,37 +1419,35 @@ Overfull \vbox (2.06155pt too high) detected at line 196
 
 ] [14
 
-] [15
-
 ]
 
 Package relsize Warning: Size requested is too small.
-(relsize)                Using 6.0pt instead on input line 352.
+(relsize)                Using 6.0pt instead on input line 355.
 
-[16
+[15
+
+] [16
 
 ] [17
 
 ] [18
 
-] [19
-
 ]
 (C:\Users\bherman\Documents\JFNK\doc\slides\tikz\highdom.tikz) <a0,fr0>
 (C:\Users\bherman\Documents\JFNK\doc\slides\tikz\highdom_power.tikz) <a0,fr1>
-[20
+[19
 
 ]
-Overfull \hbox (8.43459pt too wide) detected at line 499
+Overfull \hbox (8.43459pt too wide) detected at line 502
 \OT1/cmr/bx/n/8 F \OT1/cmr/m/n/8 = []
  []
 
-[21
+[20
 
 ] (C:\Users\bherman\Documents\JFNK\doc\slides\tikz\Power_Density.tikz)
-[22
+[21
 
-] [23
+] [22
 
 ]
 \c@cr=\count214
@@ -1468,310 +1465,22 @@ Overfull \hbox (8.43459pt too wide) detected at line 499
 (C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_41.tikz)
 <a1,fr4>
 (C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_51.tikz)
-<a1,fr5>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_61.tikz)
-<a1,fr6>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_71.tikz)
-<a1,fr7>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_81.tikz)
-<a1,fr8>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_91.tikz)
-<a1,fr9>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_101.tikz)
-<a1,fr10>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_111.tikz)
-<a1,fr11>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_121.tikz)
-<a1,fr12>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_131.tikz)
-<a1,fr13>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_141.tikz)
-<a1,fr14>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_151.tikz)
-<a1,fr15>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_161.tikz)
-<a1,fr16>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_171.tikz)
-<a1,fr17>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_181.tikz)
-<a1,fr18>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_191.tikz)
-<a1,fr19>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_201.tikz)
-<a1,fr20>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_211.tikz)
-<a1,fr21>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_221.tikz)
-<a1,fr22>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_231.tikz)
-<a1,fr23>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_241.tikz)
-<a1,fr24>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_251.tikz)
-<a1,fr25>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_261.tikz)
-<a1,fr26>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_271.tikz)
-<a1,fr27>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_281.tikz)
-<a1,fr28>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_291.tikz)
-<a1,fr29>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_301.tikz)
-<a1,fr30>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_311.tikz)
-<a1,fr31>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_321.tikz)
-<a1,fr32>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_331.tikz)
-<a1,fr33>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_341.tikz)
-<a1,fr34>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_351.tikz)
-<a1,fr35>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_361.tikz)
-<a1,fr36>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_371.tikz)
-<a1,fr37>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_381.tikz)
-<a1,fr38>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_391.tikz)
-<a1,fr39>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_401.tikz)
-<a1,fr40>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_411.tikz)
-<a1,fr41>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_421.tikz)
-<a1,fr42>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_431.tikz)
-<a1,fr43>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_441.tikz)
-<a1,fr44>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_451.tikz)
-<a1,fr45>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_461.tikz)
-<a1,fr46>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_471.tikz)
-<a1,fr47>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_481.tikz)
-<a1,fr48>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_491.tikz)
-<a1,fr49>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_501.tikz)
-<a1,fr50>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_511.tikz)
-<a1,fr51>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_521.tikz)
-<a1,fr52>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_531.tikz)
-<a1,fr53>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_541.tikz)
-<a1,fr54>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_551.tikz)
-<a1,fr55>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_561.tikz)
-<a1,fr56>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_571.tikz)
-<a1,fr57>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_581.tikz)
-<a1,fr58>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_591.tikz)
-<a1,fr59>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_601.tikz)
-<a1,fr60>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_611.tikz)
-<a1,fr61>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_621.tikz)
-<a1,fr62>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_631.tikz)
-<a1,fr63>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_641.tikz)
-<a1,fr64>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_651.tikz)
-<a1,fr65>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_661.tikz)
-<a1,fr66>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_671.tikz)
-<a1,fr67>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_681.tikz)
-<a1,fr68>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_691.tikz)
-<a1,fr69>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_701.tikz)
-<a1,fr70>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_711.tikz)
-<a1,fr71>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_721.tikz)
-<a1,fr72>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_731.tikz)
-<a1,fr73>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_741.tikz)
-<a1,fr74>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_751.tikz)
-<a1,fr75>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_761.tikz)
-<a1,fr76>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_771.tikz)
-<a1,fr77>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_781.tikz)
-<a1,fr78>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_791.tikz)
-<a1,fr79>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_801.tikz)
-<a1,fr80>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_811.tikz)
-<a1,fr81>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_821.tikz)
-<a1,fr82>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_831.tikz)
-<a1,fr83>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_841.tikz)
-<a1,fr84>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_851.tikz)
-<a1,fr85>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_861.tikz)
-<a1,fr86>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_871.tikz)
-<a1,fr87>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_881.tikz)
-<a1,fr88>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_891.tikz)
-<a1,fr89>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_901.tikz)
-<a1,fr90>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_911.tikz)
-<a1,fr91>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_921.tikz)
-<a1,fr92>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_931.tikz)
-<a1,fr93>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_941.tikz)
-<a1,fr94>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_951.tikz)
-<a1,fr95>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_961.tikz)
-<a1,fr96>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_971.tikz)
-<a1,fr97>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_981.tikz)
-<a1,fr98>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_991.tikz)
-<a1,fr99>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1001.tikz)
-<a1,fr100>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1011.tikz)
-<a1,fr101>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1021.tikz)
-<a1,fr102>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1031.tikz)
-<a1,fr103>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1041.tikz)
-<a1,fr104>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1051.tikz)
-<a1,fr105>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1061.tikz)
-<a1,fr106>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1071.tikz)
-<a1,fr107>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1081.tikz)
-<a1,fr108>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1091.tikz)
-<a1,fr109>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1101.tikz)
-<a1,fr110>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1111.tikz)
-<a1,fr111>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1121.tikz)
-<a1,fr112>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1131.tikz)
-<a1,fr113>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1141.tikz)
-<a1,fr114>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1151.tikz)
-<a1,fr115>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1161.tikz)
-<a1,fr116>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1171.tikz)
-<a1,fr117>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1181.tikz)
-<a1,fr118>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1191.tikz)
-<a1,fr119>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1201.tikz)
-<a1,fr120>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1211.tikz)
-<a1,fr121>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1221.tikz)
-<a1,fr122>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1231.tikz)
-<a1,fr123>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1241.tikz)
-<a1,fr124>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1251.tikz)
-<a1,fr125>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1261.tikz)
-<a1,fr126>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1271.tikz)
-<a1,fr127>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1281.tikz)
-<a1,fr128>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1291.tikz)
-<a1,fr129>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1301.tikz)
-<a1,fr130>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1311.tikz)
-<a1,fr131>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1321.tikz)
-<a1,fr132>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1331.tikz)
-<a1,fr133>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1341.tikz)
-<a1,fr134>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1351.tikz)
-<a1,fr135>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1361.tikz)
-<a1,fr136>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1371.tikz)
-<a1,fr137>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1381.tikz)
-<a1,fr138>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1391.tikz)
-<a1,fr139>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1401.tikz)
-<a1,fr140>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1411.tikz)
-<a1,fr141>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1421.tikz)
-<a1,fr142>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1431.tikz)
-<a1,fr143>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1441.tikz)
-<a1,fr144>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1451.tikz)
-<a1,fr145>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1461.tikz)
-<a1,fr146>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1471.tikz)
-<a1,fr147>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1481.tikz)
-<a1,fr148>
-(C:\Users\bherman\Documents\JFNK\doc\slides\tikz\anim\rod_trans_1491.tikz)
-<a1,fr149> [24
+<a1,fr5> [23
+
+] [24
 
 ] [25
-
-] [26
 
 ]
 \tf@nav=\write7
 \tf@toc=\write8
 \tf@snm=\write9
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 666.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 666.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 669.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 669.
 
 (C:\Users\bherman\Documents\JFNK\doc\slides\BRH_Slides-229.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 666.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 666.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 669.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 669.
 Package rerunfilecheck Info: File `BRH_Slides-229.out' has not changed.
 (rerunfilecheck)             Checksum: A4895697BA315AEFCD3D753FE4CCB64F;236.
 
@@ -1784,13 +1493,13 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 68986 strings out of 494045
- 1516301 string characters out of 3145962
- 1446378 words of memory out of 3000000
- 71044 multiletter control sequences out of 15000+200000
+ 32254 strings out of 494045
+ 727247 string characters out of 3145962
+ 1118403 words of memory out of 3000000
+ 34746 multiletter control sequences out of 15000+200000
  19344 words of font info for 77 fonts, out of 3000000 for 9000
  715 hyphenation exceptions out of 8191
- 57i,24n,79p,21037b,2309s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 55i,24n,79p,9733b,2306s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb>
 <C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx8.pfb><C:
 /Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Pr
@@ -1821,9 +1530,9 @@ ts/cm/cmsy9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/
 cm/cmtt10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/sy
 mbols/msam10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts
 /symbols/msbm10.pfb>
-Output written on BRH_Slides-229.pdf (26 pages, 3691279 bytes).
+Output written on BRH_Slides-229.pdf (25 pages, 603152 bytes).
 PDF statistics:
- 1303 PDF objects out of 1440 (max. 8388607)
- 58 named destinations out of 1000 (max. 500000)
- 2074 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 572 PDF objects out of 1000 (max. 8388607)
+ 56 named destinations out of 1000 (max. 500000)
+ 346 words of extra memory for PDF output out of 10000 (max. 10000000)
 
