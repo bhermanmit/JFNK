@@ -12,18 +12,18 @@ Nt = info.time/dt;
 % create power plot
 figure(1)
 subplot(2,2,1)
-plot(x(2*n+1:3*n))
+plot(x(2*n+1:3*n),1:n)
 title('Power')
-xlabel('Slab Length [cm]')
-ylabel('Power [W]')
+ylabel('Slab Length [cm]')
+xlabel('Power [W]')
 drawnow;
 
 % create density plot
 subplot(2,2,2)
-plot(x(4*n+1:5*n))
+plot(x(4*n+1:5*n),1:n)
 title('Density')
-xlabel('Slab Length [cm]')
-ylabel('Density [g/cc]')
+ylabel('Slab Length [cm]')
+xlabel('Density [g/cc]')
 drawnow;
 
 % create power plot
@@ -32,7 +32,7 @@ plot((0:Nt-1)*dt,pow)
 title('Reactor Power')
 xlabel('Time [s]')
 ylabel('Power [W]')
-axis([0 150 5.2e4 7e4])
+axis([0 100 5.2e4 7e4])
 drawnow;
 
 % create tave plot
@@ -41,10 +41,10 @@ plot((0:Nt-1)*dt,tave)
 title('Average Temperature')
 xlabel('Time [s]')
 ylabel('Temperature [C]')
-axis([0 150 304 316])
+axis([0 100 304 316])
 drawnow;
 
-% matlab2tikz(horzcat('./anim/rod_trans_',num2str(i),'.tikz'))
+matlab2tikz(horzcat('./anim/rod_trans_',num2str(i),'.tikz'))
 
 end
 

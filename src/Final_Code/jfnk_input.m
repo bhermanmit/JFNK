@@ -7,7 +7,7 @@ global info geom th neut
 %% Control Information
 
 % maximum time
-info.time = 150.0;
+info.time = 100.0;
 
 % time step
 info.dt = 0.1;
