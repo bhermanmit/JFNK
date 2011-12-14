@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2011.11.23)  13 DEC 2011 21:35
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2011.11.23)  14 DEC 2011 10:18
 entering extended mode
 **C:/Users/bherman/Documents/JFNK/doc/slides/BRH_Slides-229.tex
 (C:/Users/bherman/Documents/JFNK/doc/slides/BRH_Slides-229.tex
@@ -1380,7 +1380,7 @@ Overfull \hbox (2.18143pt too wide) in paragraph at lines 142--142
 [6
 
 ]
-Overfull \vbox (8.99196pt too high) detected at line 171
+Overfull \vbox (5.04752pt too high) detected at line 171
  []
 
 [7
@@ -1683,7 +1683,7 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 Here is how much of TeX's memory you used:
  67850 strings out of 494045
  1490323 string characters out of 3145962
- 1255262 words of memory out of 3000000
+ 1254262 words of memory out of 3000000
  70060 multiletter control sequences out of 15000+200000
  19344 words of font info for 77 fonts, out of 3000000 for 9000
  715 hyphenation exceptions out of 8191
@@ -1718,7 +1718,7 @@ ts/cm/cmsy9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/
 cm/cmtt10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/sy
 mbols/msam10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts
 /symbols/msbm10.pfb>
-Output written on BRH_Slides-229.pdf (25 pages, 2328444 bytes).
+Output written on BRH_Slides-229.pdf (25 pages, 2328453 bytes).
 PDF statistics:
  1042 PDF objects out of 1200 (max. 8388607)
  56 named destinations out of 1000 (max. 500000)
