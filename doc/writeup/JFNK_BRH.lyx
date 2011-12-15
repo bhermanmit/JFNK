@@ -49,6 +49,15 @@ figs-within-sections
 \paperfontsize default
 \spacing single
 \use_hyperref false
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
 \papersize default
 \use_geometry true
 \use_amsmath 1
@@ -1589,10 +1598,10 @@ reference "fig:kfissRHO"
 
 .
 \begin_inset Float figure
-placement p
+placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -1603,7 +1612,9 @@ status open
 
 
 \backslash
-input{./tikz/absxs.tikz}
+scalebox{0.7}{
+\backslash
+input{./tikz/absxs.tikz}}
 \end_layout
 
 \end_inset
@@ -1637,10 +1648,10 @@ name "fig:absxsRHO"
 
  
 \begin_inset Float figure
-placement p
+placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -1651,7 +1662,9 @@ status open
 
 
 \backslash
-input{./tikz/nfiss.tikz}
+scalebox{0.7}{
+\backslash
+input{./tikz/nfiss.tikz}}
 \end_layout
 
 \end_inset
@@ -1685,10 +1698,10 @@ name "fig:nfissRHO"
 
 
 \begin_inset Float figure
-placement p
+placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -1699,7 +1712,9 @@ status open
 
 
 \backslash
-input{./tikz/diff.tikz}
+scalebox{0.7}{
+\backslash
+input{./tikz/diff.tikz}}
 \end_layout
 
 \end_inset
@@ -1733,10 +1748,10 @@ name "fig:diffRHO"
 
 
 \begin_inset Float figure
-placement p
+placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -1747,7 +1762,9 @@ status open
 
 
 \backslash
-input{./tikz/kfiss.tikz}
+scalebox{0.7}{
+\backslash
+input{./tikz/kfiss.tikz}}
 \end_layout
 
 \end_inset
@@ -5050,7 +5067,7 @@ reference "sub:LeastSq"
 
  can be defined such that it is the accumulated product of the conjugate
  transpose of rotation matrices 
-\begin_inset Formula $\left(\mathcal{Q}_{2}=\mathbb{G}_{2}^{*}\mathbb{G}_{1}^{*}\right)$
+\begin_inset Formula $\left(\mathcal{Q}_{2}=\mathbb{G}_{1}^{*}\mathbb{G}_{2}^{*}\right)$
 \end_inset
 
 .
@@ -9935,7 +9952,7 @@ begin{scriptsize}
 \align center
 \begin_inset CommandInset include
 LatexCommand verbatiminput
-filename "D:/Documents/PhD/JFNK/Serpent/0.705/pincell_705.inp"
+filename "../../Serpent/0.705/pincell_705.inp"
 
 \end_inset
 
