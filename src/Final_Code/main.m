@@ -9,7 +9,7 @@ jfnk_input
 
 % choose execution option (1-Neutronics Static, 2-Coupled Static,
 % 3-Transient)
-opt = 3;
+opt = 2;
 
 % turn on profiler
 %profile on -timer cpu

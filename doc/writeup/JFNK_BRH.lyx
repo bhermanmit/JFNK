@@ -19,6 +19,23 @@
 \usepackage{sectsty}
 \sectionfont{\centering}
 \pgfplotsset{compat=1.3}
+\usepackage{animate}
+\usepackage{ifthen}
+
+% For Loop 
+\newcommand{\forloop}[5][1]% 
+{% 
+\setcounter{#2}{#3}% 
+\ifthenelse{#4}% 
+  {% 
+  #5% 
+  \addtocounter{#2}{#1}% 
+  \forloop[#1]{#2}{\value{#2}}{#4}{#5}% 
+  }% 
+% Else 
+  {% 
+  }% 
+}%
 \end_preamble
 \use_default_options true
 \begin_modules
@@ -9249,7 +9266,50 @@ reference "app:trans"
 \end_inset
 
 .
+ An animation of this transient is shown in Fig.
+ .
  
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{./tikz/anim.tikz}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Transient Animation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section

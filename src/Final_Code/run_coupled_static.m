@@ -12,4 +12,7 @@ myJacvecmult = @(x,y) Jacobian_vec_FD(myfun,x,y);
 % run steady state
 x = inexact_newton(myfun,myJacvecmult,x,L,U);
 
+% plot results
+create_plots_static(x);
+
 end
