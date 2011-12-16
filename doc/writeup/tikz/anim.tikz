@@ -1,10 +1,9 @@
 \begin{animateinline}[poster = first, controls]{2}
+  \scalebox{1.0}{\input{./tikz/anim/rod_trans_1.tikz}}
   \newcounter{ct}
-  \forloop[10]{ct}{1}{\value{ct} < 992}
-  {%
-	\begin{center}
-	  \scalebox{0.5}{\input{./tikz/anim/rod_trans_\arabic{ct}.tikz}}
-	\end{center}
-	\newframe
+  \forloop[10]{ct}{11}{\value{ct} < 992}
+  {
+    \newframe
+    \scalebox{1.0}{\input{./tikz/anim/rod_trans_\arabic{ct}.tikz}}
    }
 \end{animateinline}

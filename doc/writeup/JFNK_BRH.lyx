@@ -121,7 +121,11 @@ Jacobian-Free Newton-Krylov Methods
 \begin_inset Newline newline
 \end_inset
 
- for Solving Coupled Physics
+ for Solving Nonlinear 
+\begin_inset Newline newline
+\end_inset
+
+Neutronics/Thermal Hydraulic Equations
 \size default
 
 \begin_inset Newline newline
@@ -141,7 +145,7 @@ Bryan Herman
 \end_layout
 
 \begin_layout Date
-12 December 2011
+14 December 2011
 \end_layout
 
 \begin_layout Standard
@@ -333,9 +337,6 @@ PARCS Coupling Structure
 \end_inset
 
 
-\end_layout
-
-\begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:PARCSCoupling"
@@ -9267,12 +9268,19 @@ reference "app:trans"
 
 .
  An animation of this transient is shown in Fig.
- .
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:anim"
+
+\end_inset
+
+.
  
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -9304,6 +9312,12 @@ Transient Animation
 \end_layout
 
 \begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:anim"
+
+\end_inset
+
 
 \end_layout
 

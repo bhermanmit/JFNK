@@ -6,6 +6,7 @@
 \usepackage{geometry}
 \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
 \setcounter{tocdepth}{2}
+\usepackage{babel}
 \usepackage{verbatim}
 \usepackage{float}
 \usepackage{booktabs}
@@ -15,6 +16,11 @@
 \usepackage{mathdots}
 \usepackage{graphicx}
 \usepackage{esint}
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
+ breaklinks=false,pdfborder={0 0 0},backref=false,colorlinks=false]
+ {hyperref}
+\usepackage{breakurl}
 
 \makeatletter
 
@@ -70,11 +76,11 @@
 
 \makeatother
 
-\usepackage{babel}
 \begin{document}
 
 \title{\textsc{\huge Jacobian-Free Newton-Krylov Methods}\\
-\textsc{\huge{} for Solving Coupled Physics}\textsc{}\\
+\textsc{\huge{} for Solving Nonlinear }\\
+\textsc{\huge Neutronics/Thermal Hydraulic Equations}\textsc{}\\
 \textsc{}\\
 2.29 Numerical Fluid Mechanics Term Project}
 
@@ -82,7 +88,7 @@
 \author{Bryan Herman}
 
 
-\date{12 December 2011}
+\date{14 December 2011}
 
 \maketitle
 \rule[0.5ex]{1\columnwidth}{1pt}
@@ -151,7 +157,7 @@ as RELAP \cite{RELAP5}. This iteration setup is shown in Fig. \ref{fig:PARCSCoup
 \begin{figure}
 \begin{centering}
 \input{./tikz/PARCS_coupling.tikz}
-\par\end{centering}
+\end{centering}
 
 \caption{PARCS Coupling Structure}
 
@@ -2704,7 +2710,7 @@ For these transient calculations, about 6-7 Newton iterations were
 required at each time step. For a given Newton iteration, about 20-30
 GMRES inner iterations were required to converge the linear step.
 Source code for these routines is listed in Appendix \ref{app:trans}.
-An animation of this transient is shown in Fig. . 
+An animation of this transient is shown in Fig. \ref{fig:anim}. 
 \begin{figure}
 \begin{centering}
 \input{./tikz/anim.tikz}
@@ -2713,6 +2719,7 @@ An animation of this transient is shown in Fig. .
 \caption{Transient Animation}
 
 
+\label{fig:anim}
 \end{figure}
 
 
